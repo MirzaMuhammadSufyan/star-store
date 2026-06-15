@@ -2,17 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
-}
+@layer base {
+  :root {
+    --bg-primary: 255, 251, 247;
+    --text-primary: 67, 20, 7;
+    color-scheme: light dark;
+  }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background-color: #030014;
-  color: #ffffff;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  .dark {
+    --bg-primary: 3, 0, 20;
+    --text-primary: 255, 255, 255;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    @apply bg-premium-surface-light dark:bg-premium-surface-dark text-gray-900 dark:text-white transition-colors duration-500;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 }
 
 /* Ambient Background Gradients */
@@ -24,43 +33,83 @@ body {
   bottom: 0;
   z-index: -1;
   background:
-    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
+    radial-gradient(circle at 20% 30%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.08) 0%, transparent 40%);
   filter: blur(80px);
 }
 
+.dark .ambient-bg {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(249, 115, 22, 0.15) 0%, transparent 40%);
+}
+
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
+  @apply rounded-[2.5rem] transition-all duration-500;
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1rem;
+}
+
+.dark .glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.light .glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(249, 115, 22, 0.1);
+  box-shadow: 0 20px 40px -15px rgba(249, 115, 22, 0.05);
 }
 
 .glass-morphism {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #030014;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  @apply bg-orange-200 dark:bg-white/10 rounded-full border-4 border-solid border-transparent bg-clip-padding;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  @apply bg-orange-300 dark:bg-white/20;
 }
 
 /* Pointer events utility for all interactive elements */
 button, a, input, select, textarea {
   touch-action: manipulation;
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 {
+  @apply tracking-tight font-black;
+}
+
+.prose h2 {
+  @apply text-3xl font-black mb-6 mt-12 dark:text-white text-orange-950;
+}
+
+.prose p {
+  @apply mb-6 leading-relaxed text-gray-600 dark:text-gray-400;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Gradient Text */
+.text-gradient {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-500;
 }
