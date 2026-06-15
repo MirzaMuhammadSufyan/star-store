@@ -54,6 +54,15 @@ const ProductForm = ({ product, onClose }) => {
     }
 
     setFetchError('');
+
+    let domain = '';
+    try {
+      domain = new URL(fetchUrl).hostname.replace('www.', '').split('.')[0];
+    } catch (e) {
+      setFetchError('Please enter a valid URL (including https://)');
+      return;
+    }
+
     setShowScraperUI(true);
     setScraperStep(1);
 
@@ -63,7 +72,6 @@ const ProductForm = ({ product, onClose }) => {
     await new Promise(r => setTimeout(r, 2000));
 
     // Original Realistic Implementation Simulation
-    const domain = new URL(fetchUrl).hostname.replace('www.', '').split('.')[0];
     const mockData = {
       amazon: {
         title: 'Sony WH-1000XM5 Wireless Noise Canceling Headphones',

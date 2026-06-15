@@ -1,37 +1,39 @@
 import { create } from 'zustand';
 
+const BLOG_POSTS = [
+  {
+    id: '1',
+    title: 'Why the Sony WH-1000XM5 is the King of ANC',
+    excerpt: 'We dive deep into the tech behind Sony’s latest flagship headphones and why they remain the top choice for travelers.',
+    content: 'The Sony WH-1000XM5 headphones rewrite the rules for distraction-free listening. Built with two processors controlling eight microphones, they offer unprecedented noise cancellation and exceptional call quality. In this review, we explore the design changes, the improved sound profile, and the battery life that lasts for days. Whether you are in a noisy office or on a long-haul flight, the WH-1000XM5 creates a personal sanctuary of sound.',
+    category: 'Reviews',
+    author: 'Audio Expert',
+    date: 'Oct 24, 2024',
+    image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '2',
+    title: 'The Future of Work: MacBook Pro M3 Max Analysis',
+    excerpt: 'How Apple’s new chips are changing the landscape for creative professionals and developers alike.',
+    content: 'The 14-inch MacBook Pro blasts forward with M3 Pro and M3 Max, incredibly sophisticated chips that bring phenomenal performance and specialized capabilities for the most demanding workflows. We tested the M3 Max with heavy 8K video rendering and large-scale software compilation, and the results were staggering. The efficiency of Apple Silicon continues to lead the industry, offering desktop-class power in a portable form factor.',
+    category: 'Technology',
+    author: 'Tech Guru',
+    date: 'Nov 12, 2024',
+    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '3',
+    title: 'Minimalist Desk Setup: Essential Accessories for 2025',
+    excerpt: 'Streamline your workflow with these hand-picked accessories designed for peak productivity and aesthetics.',
+    content: 'A clean desk is a clean mind. For 2025, the focus is on high-quality, long-lasting peripherals that reduce clutter. We highlight the Logitech MX Master 3S for its precision and the Keychron mechanical keyboards for their tactile feedback. We also discuss cable management solutions and ergonomic monitor arms that can transform your workspace into a productivity powerhouse.',
+    category: 'Lifestyle',
+    author: 'Design Enthusiast',
+    date: 'Dec 05, 2024',
+    image: 'https://images.unsplash.com/photo-1491933382434-500287f9b54b?auto=format&fit=crop&q=80&w=800'
+  }
+];
+
 export const useBlogStore = create((set) => ({
-  posts: [
-    {
-      id: '1',
-      title: 'Top 10 Tech Gadgets for 2025',
-      excerpt: 'Discover the most innovative technology trends and gadgets that will define the upcoming year.',
-      content: 'Detailed article content about technology trends...',
-      category: 'Technology',
-      author: 'Tech Expert',
-      date: 'May 15, 2024',
-      image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c'
-    },
-    {
-      id: '2',
-      title: 'The Future of Wearable Devices',
-      excerpt: 'How smartwatches and health monitors are evolving to become essential lifestyle tools.',
-      content: 'Comprehensive analysis of wearable tech...',
-      category: 'Wearables',
-      author: 'Gadget Guru',
-      date: 'June 2, 2024',
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30'
-    },
-    {
-      id: '3',
-      title: 'Why Smart Home Integration Matters',
-      excerpt: 'Learn how to create a seamless ecosystem within your home for maximum efficiency.',
-      content: 'Guide to smart home automation...',
-      category: 'Smart Home',
-      author: 'Home Specialist',
-      date: 'June 10, 2024',
-      image: 'https://images.unsplash.com/photo-1558002038-1055907df827'
-    }
-  ],
-  categories: ['All', 'Technology', 'Wearables', 'Smart Home', 'Lifestyle']
+  posts: BLOG_POSTS,
+  categories: ['All', 'Reviews', 'Technology', 'Lifestyle', 'Guides']
 }));
