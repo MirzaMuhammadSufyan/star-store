@@ -47,8 +47,9 @@ const AboutPage = () => {
          <div className="lg:w-1/2 space-y-8">
             <h2 className="text-4xl font-black dark:text-white">A New Paradigm in Affiliate Marketing.</h2>
             <div className="space-y-6 text-gray-500 dark:text-gray-400 leading-relaxed">
-               <p>In an era of digital noise and unreliable reviews, Star Store stands as a beacon of trust. We don't just list products; we build comprehensive digital ecosystems that empower users to make informed, high-value decisions.</p>
-               <p>Our sophisticated backend parsing technology ensures that you always get the latest metadata, while our premium glassy design provides a distraction-free environment for exploring high-end technology.</p>
+               <p>In an era of digital noise and unreliable reviews, Star Store stands as a beacon of trust and transparency. We don't just list products; we build comprehensive digital ecosystems that empower users to make informed, high-value decisions. Our commitment to quality means every single item in our catalog has been through a rigorous selection process, ensuring it meets our high standards for performance and reliability.</p>
+               <p>Our sophisticated backend parsing technology ensures that you always get the latest metadata, real-time pricing, and accurate availability from our official partner stores. This precision is matched by our premium glassy design, which provides a distraction-free and aesthetically pleasing environment for exploring the next generation of high-end technology.</p>
+               <p>We believe that technology should be accessible, understandable, and expertly curated. That's why we invest heavily in original content, detailed guides, and authentic reviews to help you navigate the complex world of modern gadgets with confidence and ease.</p>
             </div>
             <div className="grid grid-cols-2 gap-6">
                {['Verified Brands', '24/7 Monitoring', 'Safe Redirects', 'Expert Reviews'].map(check => (
