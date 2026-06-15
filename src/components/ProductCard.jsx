@@ -10,7 +10,7 @@ const ProductCard = ({ product }) => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="glass-card group overflow-hidden flex flex-col h-full"
+      className="glass-card group overflow-hidden flex flex-col h-full hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500"
     >
       <Link to={`/product/${product.id}`} className="block relative aspect-square overflow-hidden">
         <img
