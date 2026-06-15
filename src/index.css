@@ -2,17 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
-}
+@layer base {
+  :root {
+    --bg-primary: 255, 255, 255;
+    --text-primary: 3, 0, 20;
+    color-scheme: light dark;
+  }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background-color: #030014;
-  color: #ffffff;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  .dark {
+    --bg-primary: 3, 0, 20;
+    --text-primary: 255, 255, 255;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    @apply bg-premium-surface-light dark:bg-premium-surface-dark text-gray-900 dark:text-white transition-colors duration-300;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 }
 
 /* Ambient Background Gradients */
@@ -30,37 +39,61 @@ body {
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
+  @apply rounded-3xl transition-all duration-300;
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1rem;
+}
+
+.dark .glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.light .glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
 }
 
 .glass-morphism {
-  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #030014;
+  @apply bg-transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  @apply bg-gray-200 dark:bg-white/10 rounded-full border-4 border-solid border-transparent bg-clip-padding;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  @apply bg-gray-300 dark:bg-white/20;
 }
 
 /* Pointer events utility for all interactive elements */
 button, a, input, select, textarea {
   touch-action: manipulation;
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 {
+  @apply tracking-tight;
+}
+
+.prose h2 {
+  @apply text-3xl font-black mb-6 mt-12 dark:text-white;
+}
+
+.prose p {
+  @apply mb-6 leading-relaxed;
+}
+
+/* Inputs */
+input::placeholder {
+  @apply text-gray-400 dark:text-gray-600;
 }

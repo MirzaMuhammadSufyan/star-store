@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -16,7 +17,15 @@ export default {
         premium: {
           purple: "#6366f1",
           pink: "#a855f7",
-          dark: "#030014"
+          dark: "#030014",
+          surface: {
+            light: "#ffffff",
+            dark: "#0a0a0c"
+          },
+          border: {
+            light: "rgba(0, 0, 0, 0.08)",
+            dark: "rgba(255, 255, 255, 0.08)"
+          }
         }
       },
       backgroundImage: {

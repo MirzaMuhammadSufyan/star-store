@@ -157,12 +157,17 @@ const ProductForm = ({ product, onClose }) => {
                   />
                 </div>
 
-                <Input
-                  label="Description"
-                  {...register('description')}
-                  placeholder="Detailed product description..."
-                  error={errors.description?.message}
-                />
+                <div className="space-y-2">
+                  <label className="text-xs font-black uppercase tracking-widest text-gray-400 block ml-1">
+                    Description
+                  </label>
+                  <textarea
+                    {...register('description')}
+                    className={`w-full bg-gray-50 dark:bg-black/20 border border-gray-100 dark:border-white/10 rounded-2xl px-5 py-3.5 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-premium-purple/50 transition-all duration-300 resize-none h-32 ${errors.description ? 'border-red-500/50 focus:ring-red-500/50' : ''}`}
+                    placeholder="Detailed product description..."
+                  ></textarea>
+                  {errors.description && <p className="text-xs text-red-500 font-medium ml-1">{errors.description.message}</p>}
+                </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input
