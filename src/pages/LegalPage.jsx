@@ -51,7 +51,7 @@ const LegalPage = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-12">
       <div className="text-center space-y-4">
-         <div className="w-16 h-16 bg-premium-purple/10 text-premium-purple rounded-2xl flex items-center justify-center mx-auto">
+         <div className="w-16 h-16 bg-orange-500/10 text-orange-500 rounded-2xl flex items-center justify-center mx-auto">
             <PageIcon size={32} />
          </div>
          <h1 className="text-4xl md:text-5xl font-black dark:text-white">{page.title}</h1>
@@ -77,7 +77,7 @@ const LegalPage = () => {
         </ul>
 
         <div className="mt-12 p-8 rounded-3xl bg-gray-50 dark:bg-black/20 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-           <div className="w-12 h-12 bg-premium-purple rounded-full flex items-center justify-center text-white shrink-0">
+           <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white shrink-0">
               <Mail size={24} />
            </div>
            <div>

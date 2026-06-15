@@ -19,7 +19,7 @@ const ThemeToggle = () => {
     <div className="relative">
       <button
         onPointerUp={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-xl bg-premium-purple/10 text-premium-purple border border-premium-purple/20 hover:bg-premium-purple/20 transition-all flex items-center gap-2"
+        className="p-2 rounded-xl bg-orange-500/10 text-orange-500 border border-orange-500/20 hover:bg-orange-500/20 transition-all flex items-center gap-2"
         title="Switch Theme"
       >
         <currentOption.icon size={18} />
@@ -47,7 +47,7 @@ const ThemeToggle = () => {
                   }}
                   className={`w-full px-4 py-2 flex items-center gap-3 text-sm transition-colors ${
                     theme === opt.id
-                      ? 'text-premium-purple bg-premium-purple/10'
+                      ? 'text-orange-500 bg-orange-500/10'
                       : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
                   }`}
                 >

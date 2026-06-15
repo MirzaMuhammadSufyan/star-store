@@ -33,7 +33,7 @@ const CatalogPage = () => {
           <span>{filteredProducts.length} Products Found</span>
           <div className="h-4 w-[1px] bg-gray-200 dark:bg-white/10" />
           <div className="flex items-center gap-2">
-            <button className="p-1.5 rounded bg-premium-purple text-white"><Grid size={16} /></button>
+            <button className="p-1.5 rounded bg-orange-500 text-white"><Grid size={16} /></button>
             <button className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-white/5"><List size={16} /></button>
           </div>
         </div>
@@ -44,8 +44,8 @@ const CatalogPage = () => {
         <div className="lg:col-span-1 space-y-8">
           <div className="glass-card p-6 space-y-8 dark:bg-white/5 bg-white border-gray-100 dark:border-white/10">
             <div className="space-y-4">
-              <h3 className="font-bold dark:text-white flex items-center gap-2">
-                <Search size={18} className="text-premium-purple" /> Search
+              <h3 className="font-bold dark:text-white flex items-center gap-2 uppercase text-xs tracking-widest text-gray-400">
+                <Search size={14} className="text-orange-500" /> Search
               </h3>
               <Input
                 placeholder="Find a product..."
@@ -56,17 +56,17 @@ const CatalogPage = () => {
             </div>
 
             <div className="space-y-4">
-              <h3 className="font-bold dark:text-white flex items-center gap-2">
-                <Filter size={18} className="text-premium-purple" /> Categories
+              <h3 className="font-bold dark:text-white flex items-center gap-2 uppercase text-xs tracking-widest text-gray-400">
+                <Filter size={14} className="text-orange-500" /> Categories
               </h3>
               <div className="space-y-2">
                 {categories.map(cat => (
                   <button
                     key={cat}
                     onPointerUp={() => setSelectedCategory(cat)}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all flex items-center justify-between group ${
+                    className={`w-full text-left px-4 py-3 rounded-2xl text-sm transition-all flex items-center justify-between group ${
                       selectedCategory === cat
-                        ? 'bg-premium-purple/10 text-premium-purple font-semibold'
+                        ? 'bg-orange-500/10 text-orange-600 dark:text-orange-400 font-black'
                         : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
                     }`}
                   >
@@ -78,8 +78,8 @@ const CatalogPage = () => {
             </div>
 
             <div className="space-y-4">
-              <h3 className="font-bold dark:text-white flex items-center gap-2">
-                <SlidersHorizontal size={18} className="text-premium-purple" /> Price Range
+              <h3 className="font-bold dark:text-white flex items-center gap-2 uppercase text-xs tracking-widest text-gray-400">
+                <SlidersHorizontal size={14} className="text-orange-500" /> Price Range
               </h3>
               <div className="space-y-4">
                 <input
@@ -89,24 +89,24 @@ const CatalogPage = () => {
                   step="50"
                   value={priceRange}
                   onChange={(e) => setPriceRange(parseInt(e.target.value))}
-                  className="w-full accent-premium-purple"
+                  className="w-full accent-orange-500"
                 />
                 <div className="flex justify-between text-xs font-bold text-gray-500">
                   <span>$0</span>
-                  <span className="text-premium-purple px-2 py-1 bg-premium-purple/10 rounded">Up to ${priceRange}</span>
+                  <span className="text-orange-600 dark:text-orange-400 px-2 py-1 bg-orange-500/10 rounded-lg">Up to ${priceRange}</span>
                   <span>$1000</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="glass-card p-6 bg-premium-purple text-white overflow-hidden relative group">
+          <div className="glass-card p-8 bg-orange-500 text-white overflow-hidden relative group border-none">
             <div className="relative z-10 space-y-4">
-              <h4 className="font-bold text-xl leading-tight">Need expert help?</h4>
+              <h4 className="font-black text-2xl leading-tight">Need expert help?</h4>
               <p className="text-white/80 text-sm">Chat with our product specialists for personalized recommendations.</p>
-              <button className="px-4 py-2 bg-white text-premium-purple rounded-lg font-bold text-sm hover:scale-105 transition-transform">Contact Support</button>
+              <button className="px-6 py-3 bg-white text-orange-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-xl">Contact Support</button>
             </div>
-            <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform" />
+            <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform" />
           </div>
         </div>
 
@@ -131,7 +131,7 @@ const CatalogPage = () => {
                   setSearchQuery('');
                   setPriceRange(1000);
                 }}
-                className="mt-6 text-premium-purple font-bold hover:underline"
+                className="mt-6 text-orange-500 font-bold hover:underline uppercase text-xs tracking-widest"
               >
                 Clear all filters
               </button>

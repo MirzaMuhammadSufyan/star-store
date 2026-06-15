@@ -10,11 +10,11 @@ const AboutPage = () => {
          <motion.div
            initial={{ opacity: 0, scale: 0.9 }}
            animate={{ opacity: 1, scale: 1 }}
-           className="w-20 h-20 bg-premium-purple/10 text-premium-purple rounded-3xl flex items-center justify-center mx-auto mb-8"
+           className="w-20 h-20 bg-orange-500/10 text-orange-500 rounded-3xl flex items-center justify-center mx-auto mb-8"
          >
             <Shield size={40} />
          </motion.div>
-         <h1 className="text-5xl md:text-7xl font-black dark:text-white leading-tight">Elevating the <span className="text-premium-purple">Digital Commerce</span> Standard.</h1>
+         <h1 className="text-5xl md:text-7xl font-black dark:text-white leading-tight">Elevating the <span className="text-orange-500">Digital Commerce</span> Standard.</h1>
          <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 leading-relaxed">Star Store was founded with a single mission: to bridge the gap between premium tech manufacturers and discerning enthusiasts through verified, high-performance affiliate curation.</p>
       </section>
 
@@ -33,7 +33,7 @@ const AboutPage = () => {
              transition={{ delay: i * 0.1 }}
              className="glass-card p-8 bg-white dark:bg-white/5 border-gray-100 dark:border-white/10 space-y-4"
            >
-              <div className="w-12 h-12 rounded-xl bg-premium-purple/10 flex items-center justify-center text-premium-purple">
+              <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-500">
                  <item.icon size={24} />
               </div>
               <h3 className="text-xl font-bold dark:text-white">{item.title}</h3>
@@ -59,11 +59,11 @@ const AboutPage = () => {
             </div>
          </div>
          <div className="lg:w-1/2 relative">
-            <div className="aspect-square bg-gradient-to-br from-premium-purple/20 to-premium-pink/20 rounded-[3rem] overflow-hidden glass-card border-gray-100 dark:border-white/10">
+            <div className="aspect-square bg-gradient-to-br from-orange-500/20 to-orange-400/20 rounded-[3rem] overflow-hidden glass-card border-gray-100 dark:border-white/10">
                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c" className="w-full h-full object-cover" alt="" />
             </div>
             <div className="absolute -bottom-8 -left-8 glass-card p-8 bg-white dark:bg-premium-dark max-w-xs space-y-2 border-gray-100 dark:border-white/10 shadow-2xl">
-               <h4 className="text-4xl font-black text-premium-purple">10k+</h4>
+               <h4 className="text-4xl font-black text-orange-500">10k+</h4>
                <p className="text-sm font-bold dark:text-white">Active monthly users trust our expert recommendations.</p>
             </div>
          </div>

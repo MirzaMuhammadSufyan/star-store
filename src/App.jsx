@@ -9,6 +9,7 @@ import { ThemeProvider } from './ThemeProvider';
 // Lazy load pages
 const HomePage = lazy(() => import('./pages/HomePage'));
 const CatalogPage = lazy(() => import('./pages/CatalogPage'));
+const GiftFinder = lazy(() => import('./pages/GiftFinder'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
 const BlogArchive = lazy(() => import('./pages/BlogArchive'));
 const BlogPost = lazy(() => import('./pages/BlogPost'));
@@ -38,6 +39,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/catalog" element={<CatalogPage />} />
+                <Route path="/gift-finder" element={<GiftFinder />} />
                 <Route path="/product/:id" element={<ProductDetailPage />} />
                 <Route path="/blog" element={<BlogArchive />} />
                 <Route path="/blog/:id" element={<BlogPost />} />

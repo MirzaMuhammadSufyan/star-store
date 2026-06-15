@@ -11,41 +11,70 @@ const HomePage = () => {
   const featuredProducts = products.slice(0, 4);
 
   const categories = [
-    { name: 'Smartphones', icon: Smartphone, color: 'bg-blue-500' },
-    { name: 'Wearables', icon: Watch, color: 'bg-purple-500' },
-    { name: 'Laptops', icon: Laptop, color: 'bg-orange-500' },
-    { name: 'Audio', icon: Headphones, color: 'bg-pink-500' },
+    { name: 'Smartphones', icon: Smartphone, color: 'bg-orange-500' },
+    { name: 'Wearables', icon: Watch, color: 'bg-orange-600' },
+    { name: 'Laptops', icon: Laptop, color: 'bg-orange-700' },
+    { name: 'Audio', icon: Headphones, color: 'bg-orange-400' },
   ];
 
   return (
-    <div className="space-y-24">
+    <div className="space-y-32">
       {/* Hero Section */}
-      <section className="relative h-[80vh] flex items-center overflow-hidden rounded-[2rem] md:rounded-[3rem]">
-        <div className="absolute inset-0 bg-gradient-to-br from-premium-purple/20 to-transparent dark:from-premium-purple/10" />
+      <section className="relative h-[85vh] flex items-center overflow-hidden rounded-[4rem] border border-orange-500/10 bg-white dark:bg-black/20">
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-orange-500/5" />
+
+        {/* Floating Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
+            transition={{ duration: 5, repeat: Infinity }}
+            className="absolute top-20 left-[10%] w-12 h-12 bg-orange-500/20 rounded-2xl blur-xl"
+          />
+          <motion.div
+            animate={{ y: [0, 30, 0], rotate: [0, -15, 0] }}
+            transition={{ duration: 7, repeat: Infinity }}
+            className="absolute bottom-40 left-[20%] w-20 h-20 bg-orange-500/10 rounded-full blur-2xl"
+          />
+          <motion.div
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+            transition={{ duration: 4, repeat: Infinity }}
+            className="absolute top-1/2 right-[15%] w-64 h-64 bg-orange-500/5 rounded-full blur-[100px]"
+          />
+        </div>
+
         <div className="absolute top-0 right-0 w-1/2 h-full hidden lg:block">
            <div className="relative h-full w-full">
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 1 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-gradient-radial from-premium-purple/20 to-transparent blur-3xl"
+                transition={{ duration: 1.5 }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] aspect-square bg-orange-glow blur-3xl"
               />
-              <motion.img
-                initial={{ x: 100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                src="https://images.unsplash.com/photo-1546054454-aa26e2b734c7"
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 rounded-3xl shadow-2xl rotate-3"
-              />
+              <motion.div
+                initial={{ y: 100, opacity: 0, rotate: 10 }}
+                animate={{ y: 0, opacity: 1, rotate: -3 }}
+                transition={{ type: 'spring', damping: 15, delay: 0.2 }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] aspect-[4/5] glass-card p-4 border-white/20 bg-white/40 dark:bg-white/5 backdrop-blur-3xl shadow-2xl"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1546054454-aa26e2b734c7"
+                  className="w-full h-full object-cover rounded-[2.5rem]"
+                  alt="Feature Tech"
+                />
+                <div className="absolute -bottom-10 -right-10 glass-card p-6 bg-orange-500 text-white shadow-2xl animate-float">
+                  <p className="text-4xl font-black">4.9/5</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest opacity-80">User Satisfaction</p>
+                </div>
+              </motion.div>
            </div>
         </div>
 
-        <div className="container mx-auto px-12 relative z-10">
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
           <div className="max-w-2xl space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-premium-purple/10 text-premium-purple border border-premium-purple/20 font-bold text-xs uppercase tracking-widest"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 text-orange-600 border border-orange-500/20 font-bold text-xs uppercase tracking-widest"
             >
               <Zap size={14} /> New Season Collection
             </motion.div>
@@ -53,10 +82,10 @@ const HomePage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-6xl md:text-8xl font-black dark:text-white leading-[1.1]"
+              className="text-6xl md:text-9xl font-black dark:text-white leading-[1] tracking-tighter"
             >
               Unleash Your <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-premium-purple to-premium-pink">Digital Edge.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500">Digital Edge.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -99,7 +128,7 @@ const HomePage = () => {
             whileHover={{ y: -5 }}
             className="glass-card p-8 dark:bg-white/5 bg-white border-gray-100 dark:border-white/10 flex items-start gap-6"
           >
-            <div className="w-14 h-14 rounded-2xl bg-premium-purple/10 flex items-center justify-center text-premium-purple shrink-0">
+            <div className="w-14 h-14 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-500 shrink-0">
               <badge.icon size={28} />
             </div>
             <div className="space-y-2">
@@ -117,7 +146,7 @@ const HomePage = () => {
             <h2 className="text-4xl font-bold dark:text-white">Shop by Category</h2>
             <p className="text-gray-500 dark:text-gray-400">Discover exactly what you need for your lifestyle</p>
           </div>
-          <Link to="/catalog" className="text-premium-purple font-bold flex items-center gap-2 hover:translate-x-2 transition-transform">
+          <Link to="/catalog" className="text-orange-500 font-bold flex items-center gap-2 hover:translate-x-2 transition-transform">
             View All Catalog <ArrowRight size={18} />
           </Link>
         </div>
@@ -140,29 +169,68 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="space-y-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2">
-            <h2 className="text-4xl font-bold dark:text-white">Trending Gadgets</h2>
-            <p className="text-gray-500 dark:text-gray-400">Hand-picked premium selections for our community</p>
+      {/* Interactive Experience Teaser */}
+      <section className="relative overflow-hidden py-24 rounded-[4rem] bg-gray-950 text-white">
+        <div className="absolute inset-0 bg-orange-500/5" />
+        <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col lg:flex-row items-center gap-16">
+          <div className="lg:w-1/2 space-y-8">
+            <div className="w-16 h-16 rounded-2xl bg-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
+              <Gift size={32} />
+            </div>
+            <h2 className="text-4xl md:text-6xl font-black leading-tight">Can't decide on the <span className="text-orange-500">perfect gift?</span></h2>
+            <p className="text-xl text-gray-400 leading-relaxed">Our AI-powered gift finder understands your personality and matches you with gear that actually matters.</p>
+            <Link to="/gift-finder">
+              <Button size="lg" className="bg-white text-black hover:bg-orange-500 hover:text-white px-10 h-16 text-xl gap-3">
+                Try Gift Finder <Sparkles size={20} />
+              </Button>
+            </Link>
           </div>
-          <div className="flex gap-2">
-             <div className="px-4 py-2 bg-premium-purple text-white rounded-full text-sm font-bold">Best Sellers</div>
-             <div className="px-4 py-2 bg-gray-100 dark:bg-white/5 dark:text-white text-gray-900 rounded-full text-sm font-bold">New Arrivals</div>
+          <div className="lg:w-1/2 grid grid-cols-2 gap-4">
+            {[1,2,3,4].map(i => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -10, scale: 1.05 }}
+                className="aspect-square glass-card bg-white/5 border-white/10 flex items-center justify-center"
+              >
+                <Zap className="text-orange-500/20" size={64} />
+              </motion.div>
+            ))}
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+      </section>
+
+      {/* Featured Products */}
+      <section className="space-y-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 text-orange-500 text-xs font-black uppercase tracking-[0.3em]">
+              <TrendingUp size={14} /> Global Hotlist
+            </div>
+            <h2 className="text-4xl md:text-7xl font-black dark:text-white leading-none">Trending Gadgets</h2>
+          </div>
+          <div className="flex bg-gray-100 dark:bg-white/5 p-1.5 rounded-2xl border border-gray-200 dark:border-white/10">
+             <button className="px-6 py-2.5 bg-white dark:bg-orange-500 shadow-xl rounded-xl text-sm font-black dark:text-white text-gray-900">Best Sellers</button>
+             <button className="px-6 py-2.5 rounded-xl text-sm font-black text-gray-500 hover:text-orange-500 transition-colors">New Arrivals</button>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          {featuredProducts.map((product, index) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <ProductCard product={product} />
+            </motion.div>
           ))}
         </div>
       </section>
 
       {/* Banner */}
-      <section className="glass-card bg-premium-dark text-white p-12 md:p-24 rounded-[3rem] overflow-hidden relative">
+      <section className="glass-card bg-premium-dark text-white p-12 md:p-24 rounded-[4rem] overflow-hidden relative border-none">
         <div className="absolute top-0 right-0 w-1/3 h-full opacity-30 pointer-events-none">
-           <Zap className="w-full h-full text-premium-purple" />
+           <Zap className="w-full h-full text-orange-500" />
         </div>
         <div className="max-w-3xl relative z-10 space-y-8">
           <h2 className="text-5xl md:text-7xl font-black leading-tight">Elevate Your Tech Game Today.</h2>

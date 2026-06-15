@@ -29,7 +29,7 @@ const CartDrawer = () => {
           >
             <div className="p-6 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <ShoppingBag className="text-premium-purple" size={24} />
+                <ShoppingBag className="text-orange-500" size={24} />
                 <h2 className="text-xl font-bold dark:text-white">Your Cart</h2>
               </div>
               <button onPointerUp={closeCart} className="p-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors">
@@ -55,7 +55,7 @@ const CartDrawer = () => {
                           <Trash2 size={16} />
                         </button>
                       </div>
-                      <p className="text-premium-purple font-bold mt-1">${item.price}</p>
+                      <p className="text-orange-500 font-bold mt-1">${item.price}</p>
                       <div className="flex items-center gap-3 mt-3">
                         <div className="flex items-center border border-gray-200 dark:border-white/10 rounded-lg overflow-hidden">
                           <button onPointerUp={() => updateQuantity(item.id, item.quantity - 1)} className="p-1.5 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">

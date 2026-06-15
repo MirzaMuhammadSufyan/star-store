@@ -41,8 +41,8 @@ const AdminLogin = () => {
         className="glass-card p-8 w-full max-w-md"
       >
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-premium-purple/20 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-premium-purple/30">
-            <Lock className="text-premium-purple" size={32} />
+          <div className="w-16 h-16 bg-orange-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-orange-500/30">
+            <Lock className="text-orange-500" size={32} />
           </div>
           <h1 className="text-2xl font-bold text-white">Admin Access</h1>
           <p className="text-white/50 text-sm">Please sign in to manage your store</p>

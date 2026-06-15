@@ -14,6 +14,10 @@ const ProductDetailPage = () => {
   const [activeTab, setActiveTab] = React.useState('description');
   const [isAdded, setIsAdded] = React.useState(false);
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (!product) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] text-center">
@@ -63,7 +67,7 @@ const ProductDetailPage = () => {
           </div>
           <div className="grid grid-cols-4 gap-4">
             {[1,2,3,4].map((i) => (
-              <div key={i} className="glass-card p-1 dark:bg-white/5 bg-white border-gray-100 dark:border-white/10 cursor-pointer hover:border-premium-purple transition-colors">
+              <div key={i} className="glass-card p-1 dark:bg-white/5 bg-white border-gray-100 dark:border-white/10 cursor-pointer hover:border-orange-500 transition-colors">
                 <img src={product.image} className="aspect-square object-cover rounded-lg opacity-50 hover:opacity-100 transition-opacity" alt="" />
               </div>
             ))}
@@ -78,7 +82,7 @@ const ProductDetailPage = () => {
         >
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <span className="bg-premium-purple/10 text-premium-purple text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-premium-purple/20">
+              <span className="bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-orange-500/20">
                 {product.category || 'Premium Selection'}
               </span>
               <div className="flex items-center text-yellow-500 gap-1 text-sm font-bold">
@@ -88,8 +92,8 @@ const ProductDetailPage = () => {
             </div>
             <h1 className="text-4xl md:text-5xl font-black dark:text-white leading-tight">{product.title}</h1>
             <div className="flex items-end gap-3">
-               <span className="text-4xl font-black text-premium-purple">${product.price}</span>
-               <span className="text-xl text-gray-400 line-through mb-1">${(parseFloat(product.price) * 1.2).toFixed(2)}</span>
+               <span className="text-5xl font-black text-orange-500 tracking-tighter">${product.price}</span>
+               <span className="text-xl text-gray-400 line-through mb-2">${(parseFloat(product.price) * 1.2).toFixed(2)}</span>
             </div>
           </div>
 
@@ -108,7 +112,7 @@ const ProductDetailPage = () => {
               rel="noopener noreferrer"
               className="flex-grow sm:flex-grow-0"
             >
-              <Button variant="glass" size="lg" className="w-full h-16 px-10 text-lg border-premium-purple text-premium-purple hover:bg-premium-purple/5 gap-2">
+              <Button variant="glass" size="lg" className="w-full h-16 px-10 text-lg border-orange-500 text-orange-600 dark:text-orange-400 hover:bg-orange-500/5 gap-2">
                 Official Store <ExternalLink size={20} />
               </Button>
             </a>
@@ -122,12 +126,12 @@ const ProductDetailPage = () => {
                   key={tab}
                   onPointerUp={() => setActiveTab(tab)}
                   className={`px-6 py-4 text-sm font-bold uppercase tracking-widest transition-all relative ${
-                    activeTab === tab ? 'text-premium-purple' : 'text-gray-400 hover:text-gray-600 dark:hover:text-white'
+                    activeTab === tab ? 'text-orange-500' : 'text-gray-400 hover:text-gray-600 dark:hover:text-white'
                   }`}
                 >
                   {tab}
                   {activeTab === tab && (
-                    <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-1 bg-premium-purple" />
+                    <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-1 bg-orange-500" />
                   )}
                 </button>
               ))}
@@ -158,15 +162,15 @@ const ProductDetailPage = () => {
           {/* Trust */}
           <div className="pt-6 grid grid-cols-3 gap-4 border-t border-gray-100 dark:border-white/5">
             <div className="text-center">
-              <ShieldCheck className="mx-auto text-premium-purple mb-2" size={24} />
+              <ShieldCheck className="mx-auto text-orange-500 mb-2" size={24} />
               <span className="text-[10px] text-gray-500 dark:text-white/50 uppercase font-black">Secure Link</span>
             </div>
             <div className="text-center">
-              <Truck className="mx-auto text-premium-purple mb-2" size={24} />
+              <Truck className="mx-auto text-orange-500 mb-2" size={24} />
               <span className="text-[10px] text-gray-500 dark:text-white/50 uppercase font-black">Brand Direct</span>
             </div>
             <div className="text-center">
-              <RotateCcw className="mx-auto text-premium-purple mb-2" size={24} />
+              <RotateCcw className="mx-auto text-orange-500 mb-2" size={24} />
               <span className="text-[10px] text-gray-500 dark:text-white/50 uppercase font-black">2Y Warranty</span>
             </div>
           </div>

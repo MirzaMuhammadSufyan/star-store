@@ -17,6 +17,7 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Store', path: '/' },
     { name: 'Catalog', path: '/catalog' },
+    { name: 'Gift Finder', path: '/gift-finder' },
     { name: 'Blog', path: '/blog' },
     { name: 'About', path: '/about' },
   ];
@@ -25,11 +26,11 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 px-4 md:px-6 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between glass-morphism bg-white/70 dark:bg-black/60 px-4 md:px-6 py-3 rounded-2xl border border-white/20 dark:border-white/10 shadow-xl backdrop-blur-xl transition-colors duration-300">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 md:w-10 md:h-10 bg-premium-purple rounded-xl flex items-center justify-center shadow-lg shadow-premium-purple/30">
+          <div className="w-9 h-9 md:w-10 md:h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
             <ShoppingBag className="text-white" size={20} />
           </div>
           <span className="text-lg md:text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Star<span className="text-premium-purple">Store</span>
+            Star<span className="text-orange-500">Store</span>
           </span>
         </Link>
 
@@ -41,8 +42,8 @@ const Navbar = () => {
               to={link.path}
               className={`text-sm font-medium transition-colors ${
                 location.pathname === link.path
-                  ? 'text-premium-purple'
-                  : 'text-gray-600 dark:text-white/70 hover:text-premium-purple dark:hover:text-white'
+                  ? 'text-orange-500'
+                  : 'text-gray-600 dark:text-white/70 hover:text-orange-500 dark:hover:text-white'
               }`}
             >
               {link.name}
@@ -57,11 +58,11 @@ const Navbar = () => {
 
           <button
             onPointerUp={toggleCart}
-            className="p-2 relative rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/70 hover:text-premium-purple transition-all"
+            className="p-2 relative rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/70 hover:text-orange-500 transition-all"
           >
             <ShoppingCart size={20} />
             {getItemCount() > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-premium-purple text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                 {getItemCount()}
               </span>
             )}
@@ -70,7 +71,7 @@ const Navbar = () => {
           <div className="hidden sm:flex items-center gap-2">
             {isAuthenticated ? (
               <>
-                <Link to="/admin/dashboard" className="p-2 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/70 hover:text-premium-purple">
+                <Link to="/admin/dashboard" className="p-2 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/70 hover:text-orange-500">
                   <LayoutDashboard size={20} />
                 </Link>
                 <Button

@@ -17,7 +17,7 @@ const BlogPost = () => {
     <div className="max-w-4xl mx-auto space-y-12">
       <button
         onPointerUp={() => navigate(-1)}
-        className="flex items-center gap-2 text-gray-500 hover:text-premium-purple transition-colors font-bold uppercase text-xs tracking-widest"
+        className="flex items-center gap-2 text-gray-500 hover:text-orange-500 transition-colors font-bold uppercase text-xs tracking-widest"
       >
         <ChevronLeft size={16} /> Back to Blog
       </button>
@@ -25,7 +25,7 @@ const BlogPost = () => {
       <div className="space-y-8">
         <div className="space-y-6">
           <div className="flex items-center gap-4">
-             <span className="bg-premium-purple/10 text-premium-purple text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-premium-purple/20">
+             <span className="bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-orange-500/20">
                {post.category}
              </span>
              <div className="h-[1px] flex-grow bg-gray-100 dark:bg-white/5" />
@@ -33,7 +33,7 @@ const BlogPost = () => {
           <h1 className="text-4xl md:text-6xl font-black dark:text-white leading-[1.1]">{post.title}</h1>
           <div className="flex flex-wrap items-center gap-8 text-sm font-medium text-gray-500 dark:text-gray-400 border-y border-gray-100 dark:border-white/5 py-6">
              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-premium-purple/10 flex items-center justify-center text-premium-purple">
+                <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500">
                    <User size={20} />
                 </div>
                 <div>
@@ -42,14 +42,14 @@ const BlogPost = () => {
                 </div>
              </div>
              <div className="flex items-center gap-3">
-                <Calendar className="text-premium-purple" size={18} />
+                <Calendar className="text-orange-500" size={18} />
                 <span>Published on {post.date}</span>
              </div>
              <div className="flex-grow" />
              <div className="flex items-center gap-4">
-                <button className="text-gray-400 hover:text-premium-purple transition-colors"><Share2 size={18} /></button>
-                <button className="text-gray-400 hover:text-premium-purple transition-colors"><LinkIcon size={18} /></button>
-                <button className="text-gray-400 hover:text-premium-purple transition-colors"><Copy size={18} /></button>
+                <button className="text-gray-400 hover:text-orange-500 transition-colors"><Share2 size={18} /></button>
+                <button className="text-gray-400 hover:text-orange-500 transition-colors"><LinkIcon size={18} /></button>
+                <button className="text-gray-400 hover:text-orange-500 transition-colors"><Copy size={18} /></button>
              </div>
           </div>
         </div>
@@ -74,8 +74,8 @@ const BlogPost = () => {
 
         <div className="pt-12 border-t border-gray-100 dark:border-white/5 flex flex-wrap gap-4">
            {['Gadgets', 'Tech', 'Innovation', 'Future'].map(tag => (
-             <span key={tag} className="px-4 py-2 bg-gray-50 dark:bg-white/5 rounded-xl text-xs font-bold dark:text-white border border-gray-100 dark:border-white/10 hover:border-premium-purple/30 transition-colors cursor-pointer flex items-center gap-2">
-               <Tag size={12} className="text-premium-purple" /> {tag}
+             <span key={tag} className="px-4 py-2 bg-gray-50 dark:bg-white/5 rounded-xl text-xs font-bold dark:text-white border border-gray-100 dark:border-white/10 hover:border-orange-500/30 transition-colors cursor-pointer flex items-center gap-2">
+               <Tag size={12} className="text-orange-500" /> {tag}
              </span>
            ))}
         </div>

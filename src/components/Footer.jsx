@@ -39,17 +39,17 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-premium-purple rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">S</span>
               </div>
-              <span className="text-2xl font-bold dark:text-white">Star<span className="text-premium-purple">Store</span></span>
+              <span className="text-2xl font-bold dark:text-white">Star<span className="text-orange-500">Store</span></span>
             </div>
             <p className="text-gray-500 dark:text-gray-400 max-w-xs leading-relaxed">
               Premium affiliate marketing platform delivering top-tier gadgets and lifestyle products directly from verified official stores.
             </p>
             <div className="flex gap-4">
               {[Share2].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-premium-purple hover:border-premium-purple transition-all">
+                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-orange-500 hover:border-orange-500 transition-all">
                   <Icon size={18} />
                 </a>
               ))}
@@ -63,7 +63,7 @@ const Footer = () => {
               <ul className="space-y-4">
                 {items.map((item) => (
                   <li key={item.name}>
-                    <Link to={item.path} className="text-gray-500 dark:text-gray-400 hover:text-premium-purple dark:hover:text-white transition-colors text-sm">
+                    <Link to={item.path} className="text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-white transition-colors text-sm">
                       {item.name}
                     </Link>
                   </li>

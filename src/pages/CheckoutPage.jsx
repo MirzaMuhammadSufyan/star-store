@@ -41,16 +41,16 @@ const CheckoutPage = () => {
       <div className="flex items-center justify-center gap-4 md:gap-12">
         {steps.map((s, i) => (
           <React.Fragment key={s.id}>
-            <div className={`flex items-center gap-3 ${step >= s.id ? 'text-premium-purple' : 'text-gray-400'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${
-                step >= s.id ? 'border-premium-purple bg-premium-purple/10' : 'border-gray-200 dark:border-white/10'
+            <div className={`flex items-center gap-3 ${step >= s.id ? 'text-orange-500' : 'text-gray-400'}`}>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${
+                step >= s.id ? 'border-orange-500 bg-orange-500/10' : 'border-gray-200 dark:border-white/10'
               }`}>
                 <s.icon size={18} />
               </div>
               <span className="hidden sm:block font-bold text-sm uppercase tracking-wider">{s.name}</span>
             </div>
             {i < steps.length - 1 && (
-              <div className={`h-[2px] w-8 md:w-20 rounded-full ${step > s.id ? 'bg-premium-purple' : 'bg-gray-200 dark:bg-white/10'}`} />
+              <div className={`h-[2px] w-8 md:w-20 rounded-full ${step > s.id ? 'bg-orange-500' : 'bg-gray-200 dark:border-white/10'}`} />
             )}
           </React.Fragment>
         ))}
@@ -68,8 +68,8 @@ const CheckoutPage = () => {
                 className="space-y-8"
               >
                 <div className="space-y-6 glass-card p-8 bg-white dark:bg-white/5 border-gray-100 dark:border-white/10">
-                  <h3 className="text-2xl font-bold dark:text-white flex items-center gap-2">
-                    <Truck className="text-premium-purple" /> Shipping Information
+                  <h3 className="text-2xl font-black dark:text-white flex items-center gap-4">
+                    <Truck className="text-orange-500" /> Shipping Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Input label="First Name" placeholder="John" />
@@ -100,20 +100,20 @@ const CheckoutPage = () => {
                 className="space-y-8"
               >
                 <div className="space-y-6 glass-card p-8 bg-white dark:bg-white/5 border-gray-100 dark:border-white/10">
-                  <h3 className="text-2xl font-bold dark:text-white flex items-center gap-2">
-                    <CreditCard className="text-premium-purple" /> Payment Method
+                  <h3 className="text-2xl font-black dark:text-white flex items-center gap-4">
+                    <CreditCard className="text-orange-500" /> Payment Method
                   </h3>
-                  <div className="p-4 rounded-xl border border-premium-purple bg-premium-purple/5 flex items-center justify-between mb-6">
+                  <div className="p-6 rounded-2xl border border-orange-500 bg-orange-500/5 flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-8 bg-gray-900 rounded-md flex items-center justify-center">
                          <span className="text-white font-bold text-xs italic">VISA</span>
                       </div>
                       <div>
-                        <p className="text-sm font-bold dark:text-white">Credit / Debit Card</p>
-                        <p className="text-xs text-gray-500">Secure encrypted payment</p>
+                        <p className="text-sm font-black dark:text-white uppercase tracking-widest">Credit / Debit Card</p>
+                        <p className="text-[10px] text-gray-500 font-bold">SECURE ENCRYPTED PAYMENT</p>
                       </div>
                     </div>
-                    <CheckCircle2 className="text-premium-purple" size={20} />
+                    <CheckCircle2 className="text-orange-500" size={20} />
                   </div>
 
                   <Input label="Cardholder Name" placeholder="John Doe" />
@@ -177,7 +177,7 @@ const CheckoutPage = () => {
                 <div key={item.id} className="flex gap-4">
                   <div className="relative">
                     <img src={item.image} className="w-16 h-16 rounded-lg object-cover" alt="" />
-                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-premium-purple text-white text-[10px] rounded-full flex items-center justify-center font-bold">
+                    <span className="absolute -top-2 -right-2 w-5 h-5 bg-orange-500 text-white text-[10px] rounded-full flex items-center justify-center font-bold">
                       {item.quantity}
                     </span>
                   </div>
@@ -199,8 +199,8 @@ const CheckoutPage = () => {
                 <span className="font-bold text-green-500">FREE</span>
               </div>
               <div className="flex justify-between text-lg pt-4 border-t border-gray-200 dark:border-white/5">
-                <span className="font-bold dark:text-white">Total</span>
-                <span className="font-black text-premium-purple">${getTotal()}</span>
+                <span className="font-black dark:text-white">Total</span>
+                <span className="font-black text-orange-600 dark:text-orange-400">${getTotal()}</span>
               </div>
             </div>
 

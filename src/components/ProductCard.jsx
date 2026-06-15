@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
 
       <div className="p-5 flex flex-col flex-grow">
         <div className="flex items-center gap-2 mb-2">
-          <span className="bg-premium-purple/20 text-premium-purple text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-premium-purple/30">
+          <span className="bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border border-orange-500/20">
             {product.category || 'Featured'}
           </span>
           <div className="flex items-center text-yellow-500 ml-auto">

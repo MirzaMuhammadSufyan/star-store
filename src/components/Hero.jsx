@@ -10,7 +10,7 @@ const Hero = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-morphism text-xs font-medium text-premium-purple mb-6 border-premium-purple/20"
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-morphism text-xs font-medium text-orange-500 mb-6 border-orange-500/20"
         >
           <Sparkles size={14} />
           <span>Elite Curation for Premium Lifestyles</span>
@@ -23,7 +23,7 @@ const Hero = () => {
           className="text-5xl md:text-7xl font-bold mb-6 tracking-tight text-white leading-tight"
         >
           Discover the Future of <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-premium-purple to-premium-pink">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-400">
             Affiliate Shopping
           </span>
         </motion.h1>
@@ -54,7 +54,7 @@ const Hero = () => {
       </div>
 
       {/* Background decoration */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-premium-purple/10 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse-slow" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-500/10 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse-slow" />
     </div>
   );
 };
