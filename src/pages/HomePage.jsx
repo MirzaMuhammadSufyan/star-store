@@ -18,9 +18,9 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="space-y-16 md:space-y-20">
+    <div className="space-y-20 md:space-y-24">
       {/* Hero Section */}
-      <section className="relative h-[60vh] md:h-[70vh] flex items-center overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border border-orange-500/10 bg-white dark:bg-black/20 mx-2 md:mx-0">
+      <section className="relative h-[65vh] md:h-[75vh] flex items-center overflow-hidden rounded-[2.5rem] md:rounded-[3.5rem] border border-orange-500/10 bg-white dark:bg-black/20 mx-2 md:mx-0">
         <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-orange-500/5" />
 
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -76,10 +76,10 @@ const HomePage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-black dark:text-white leading-[1] tracking-tighter"
+              className="text-4xl md:text-7xl font-black dark:text-white leading-[1] tracking-tighter"
             >
               Unleash Your <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-amber-500">Digital Edge.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-orange-500">Digital Edge.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -200,13 +200,13 @@ const HomePage = () => {
       </section>
 
       {/* Featured Products */}
-      <section className="space-y-6 md:space-y-10 px-4 md:px-0">
+      <section className="space-y-8 md:space-y-12 px-4 md:px-0">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-1">
+          <div className="space-y-2">
             <div className="flex items-center gap-2 text-orange-500 text-[10px] md:text-xs font-black uppercase tracking-[0.3em]">
               <TrendingUp size={14} /> Global Hotlist
             </div>
-            <h2 className="text-3xl md:text-5xl font-black dark:text-white leading-none">Trending Gadgets</h2>
+            <h2 className="text-3xl md:text-6xl font-black dark:text-white leading-none">Trending Gadgets</h2>
           </div>
           <div className="flex bg-gray-100 dark:bg-white/5 p-1.5 rounded-2xl border border-gray-200 dark:border-white/10 w-fit">
              <button className="px-4 md:px-6 py-2 md:py-2.5 bg-white dark:bg-orange-500 shadow-xl rounded-xl text-xs md:text-sm font-black dark:text-white text-gray-900">Best Sellers</button>
