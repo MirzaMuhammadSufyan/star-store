@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Star, TrendingUp, ShieldCheck, Zap, ArrowRight, Smartphone, Watch, Laptop, Headphones } from 'lucide-react';
+import { ShoppingBag, Star, TrendingUp, ShieldCheck, Zap, ArrowRight, Smartphone, Watch, Laptop, Headphones, Gift, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useProductStore } from '../store/productStore';
 import ProductCard from '../components/ProductCard';
