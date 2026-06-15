@@ -30,6 +30,16 @@ const BLOG_POSTS = [
     author: 'Design Enthusiast',
     date: 'Dec 05, 2024',
     image: 'https://images.unsplash.com/photo-1491933382434-500287f9b54b?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: '4',
+    title: '5 Tips for Better Sleep with Wearable Tech',
+    excerpt: 'Optimize your recovery and wake up refreshed by leveraging the data from your smartwatch.',
+    content: 'Sleep tracking has become one of the most powerful features of modern wearables. By monitoring heart rate variability (HRV), respiratory rate, and sleep stages, devices like the Apple Watch Ultra 2 and Oura Ring provide actionable insights. We recommend setting a consistent sleep schedule, using the "Wind Down" feature, and reviewing your weekly trends rather than daily fluctuations. Understanding your deep sleep versus REM cycles can help you make better lifestyle choices during the day.',
+    category: 'Guides',
+    author: 'Health Tech Specialist',
+    date: 'Dec 12, 2024',
+    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800'
   }
 ];
 

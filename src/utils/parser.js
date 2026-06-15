@@ -1,42 +1,85 @@
 /**
- * Simulation of an automated product data fetcher.
- * In a real production app, this would call a backend service that scrapes
- * or uses APIs (Amazon PA-API, etc.) to fetch metadata.
+ * Real automated product data fetcher using a CORS proxy.
+ * Fetches actual HTML from the provided URL and parses metadata using DOM selectors.
  */
 
 export const fetchProductDataFromUrl = async (url) => {
-  // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 2000));
+  try {
+    // Validate URL
+    new URL(url);
 
-  if (!url.includes('amazon.com') && !url.includes('aws.amazon.com')) {
-    throw new Error('Please provide a valid Amazon or AWS product URL');
+    // Using AllOrigins CORS proxy to fetch the HTML content
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const response = await fetch(proxyUrl);
+
+    if (!response.ok) throw new Error('Failed to reach official store');
+
+    const data = await response.json();
+    const htmlString = data.contents;
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+
+    // Extraction Logic (Amazon, Apple, General OpenGraph)
+    const selectors = {
+      title: [
+        '#productTitle',
+        'h1.product-title',
+        'meta[property="og:title"]',
+        'title'
+      ],
+      description: [
+        '#feature-bullets',
+        'meta[property="og:description"]',
+        'meta[name="description"]'
+      ],
+      price: [
+        '.a-price-whole',
+        '.product-price',
+        'span.price',
+        'meta[property="product:price:amount"]'
+      ],
+      image: [
+        '#landingImage',
+        'meta[property="og:image"]',
+        'link[rel="image_src"]'
+      ]
+    };
+
+    const extract = (key) => {
+      for (const selector of selectors[key]) {
+        const el = doc.querySelector(selector);
+        if (!el) continue;
+
+        if (selector.startsWith('meta')) {
+          return el.getAttribute('content');
+        }
+        if (selector.startsWith('link')) {
+          return el.getAttribute('href');
+        }
+        if (key === 'image' && el.tagName === 'IMG') {
+          return el.getAttribute('src');
+        }
+        return el.innerText.trim();
+      }
+      return '';
+    };
+
+    const result = {
+      title: extract('title') || 'New Product',
+      description: extract('description') || 'No description available',
+      price: extract('price').replace(/[^0-9.]/g, '') || '0.00',
+      image: extract('image') || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30',
+      category: 'Electronics',
+      affiliateLink: url
+    };
+
+    // Clean up description (remove excessive whitespace/newlines from bullets)
+    result.description = result.description.replace(/\s\s+/g, ' ').substring(0, 500);
+
+    return result;
+  } catch (err) {
+    console.error('Scraper Error:', err);
+    throw new Error('Could not extract data from this link. Please fill the form manually.');
   }
-
-  // Mocked parsed data based on URL patterns
-  // In reality, this would be the result of a scraping service
-  const mockData = {
-    title: "Premium Wireless Noise Cancelling Headphones",
-    description: "Experience world-class noise cancellation and premium sound quality with these elite headphones. Features include 30-hour battery life, touch sensor controls, and speak-to-chat technology.",
-    price: "348.00",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=1000",
-    category: "Electronics",
-    affiliateLink: url
-  };
-
-  // Customizing mock data based on URL keywords for better demo feel
-  if (url.toLowerCase().includes('watch')) {
-    mockData.title = "Elite Smartwatch Series X";
-    mockData.description = "The most advanced smartwatch yet, featuring blood oxygen measurement, ECG app, and Always-On Retina display.";
-    mockData.price = "429.00";
-    mockData.image = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=1000";
-    mockData.category = "Wearables";
-  } else if (url.toLowerCase().includes('camera')) {
-    mockData.title = "Professional Mirrorless Camera Z9";
-    mockData.description = "Capture stunning 45.7MP stills and 8K video. The ultimate tool for professional photographers and videographers.";
-    mockData.price = "2499.00";
-    mockData.image = "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=1000";
-    mockData.category = "Photography";
-  }
-
-  return mockData;
 };
