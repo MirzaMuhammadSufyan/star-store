@@ -3,7 +3,8 @@
  * Fetches actual HTML from the provided URL and parses metadata using DOM selectors.
  */
 
-export const fetchProductDataFromUrl = async (url) => {
+export const fetchProductDataFromUrl = async (url, options = {}) => {
+  const { triedEnglish = false } = options;
   const proxies = [
     (u) => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
     (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
@@ -15,7 +16,11 @@ export const fetchProductDataFromUrl = async (url) => {
   for (const getProxyUrl of proxies) {
     try {
       const proxyUrl = getProxyUrl(url);
-      const response = await fetch(proxyUrl);
+      const response = await fetch(proxyUrl, {
+        headers: {
+          'Accept-Language': 'en-US,en;q=0.9',
+        },
+      });
       
       if (!response.ok) throw new Error(`Proxy returned status ${response.status}`);
       
@@ -38,7 +43,7 @@ export const fetchProductDataFromUrl = async (url) => {
       const redirectLink = doc.querySelector('a[href*="aliexpress.com/item/"]');
       if (redirectLink && url.includes('s.click.aliexpress.com')) {
           console.log("Found redirect link, fetching again:", redirectLink.href);
-          return fetchProductDataFromUrl(redirectLink.href);
+          return fetchProductDataFromUrl(redirectLink.href, { triedEnglish });
       }
 
       const canonical = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
@@ -102,6 +107,12 @@ export const fetchProductDataFromUrl = async (url) => {
       };
 
       result.description = result.description.replace(/\s\s+/g, ' ').substring(0, 500);
+
+      // If content appears to be Italian and we haven't retried yet, attempt English fetch again.
+      const italianHint = /(caratteristiche|prezzo|spedizione|prodotto|offerta|scegli|recensione|opzioni)/i;
+      if (!triedEnglish && italianHint.test(`${result.title} ${result.description}`)) {
+        return fetchProductDataFromUrl(url, { triedEnglish: true });
+      }
 
       if (result.price === '0.00' || !result.price) {
           const priceMatch = htmlString.match(/"formatedAmount":"([^"]+)"/);
