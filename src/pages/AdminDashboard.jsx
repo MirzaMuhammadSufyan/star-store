@@ -1,17 +1,25 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap } from 'lucide-react';
+import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap, FileText } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useAnalyticsStore } from '../store/analyticsStore';
+import { useBlogStore } from '../store/blogStore';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import ProductForm from '../components/ProductForm';
+import BlogForm from '../components/BlogForm';
 
 const AdminDashboard = () => {
   const { products, deleteProduct, loading: productsLoading } = useProductStore();
+  const { posts, deletePost, loading: blogLoading } = useBlogStore();
   const { clicks, getStats } = useAnalyticsStore();
-  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const [isProductFormOpen, setIsProductFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+
+  const [isBlogFormOpen, setIsBlogFormOpen] = useState(false);
+  const [editingPost, setEditingPost] = useState(null);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('inventory');
 
@@ -26,6 +34,14 @@ const AdminDashboard = () => {
     );
   }, [products, searchQuery]);
 
+  const filteredPosts = useMemo(() => {
+    if (!Array.isArray(posts)) return [];
+    return posts.filter(p =>
+        (p.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (p.category || '').toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [posts, searchQuery]);
+
   const topProducts = useMemo(() => {
     if (!Array.isArray(products)) return [];
     return [...products]
@@ -33,17 +49,27 @@ const AdminDashboard = () => {
         .slice(0, 5);
   }, [products, stats]);
 
-  const handleEdit = (product) => {
+  const handleEditProduct = (product) => {
     setEditingProduct(product);
-    setIsFormOpen(true);
+    setIsProductFormOpen(true);
   };
 
-  const handleAddNew = () => {
+  const handleAddNewProduct = () => {
     setEditingProduct(null);
-    setIsFormOpen(true);
+    setIsProductFormOpen(true);
   };
 
-  if (productsLoading) {
+  const handleEditPost = (post) => {
+    setEditingPost(post);
+    setIsBlogFormOpen(true);
+  };
+
+  const handleAddNewPost = () => {
+    setEditingPost(null);
+    setIsBlogFormOpen(true);
+  };
+
+  if (productsLoading || blogLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-24">
         <Zap className="text-orange-500 animate-pulse mb-4" size={48} />
@@ -57,30 +83,38 @@ const AdminDashboard = () => {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
         <div>
           <h1 className="text-4xl font-black dark:text-white text-orange-950">Command Center</h1>
-          <p className="text-gray-500 font-medium text-sm uppercase tracking-widest mt-1">Real-time Performance Metrics & Inventory</p>
+          <p className="text-gray-500 font-medium text-sm uppercase tracking-widest mt-1">Real-time Performance Metrics & Content</p>
         </div>
-        <div className="flex gap-3 md:gap-4">
-           <div className="flex bg-gray-100 dark:bg-white/5 p-1 rounded-xl md:rounded-2xl border border-gray-200 dark:border-white/10">
-              <button 
-                onClick={() => setActiveTab('inventory')}
-                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'inventory' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
-              >
-                Inventory
-              </button>
-              <button 
-                onClick={() => setActiveTab('analytics')}
-                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'analytics' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
-              >
-                Analytics
-              </button>
+        <div className="flex gap-3 md:gap-4 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+           <div className="flex bg-gray-100 dark:bg-white/5 p-1 rounded-xl md:rounded-2xl border border-gray-200 dark:border-white/10 shrink-0">
+              {[
+                  { id: 'inventory', label: 'Products', icon: Zap },
+                  { id: 'blog', label: 'Blogs', icon: FileText },
+                  { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+              ].map(tab => (
+                <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2 ${activeTab === tab.id ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
+                >
+                    <tab.icon size={14} /> {tab.label}
+                </button>
+              ))}
            </div>
-           <Button onClick={handleAddNew} className="gap-2 md:gap-3 px-6 md:px-8 h-12 md:h-14 font-black uppercase text-[10px] md:text-xs tracking-widest shadow-orange-500/40">
-            <Plus size={18} /> New Product
-          </Button>
+           {activeTab === 'inventory' && (
+               <Button onClick={handleAddNewProduct} className="gap-2 md:gap-3 px-6 md:px-8 h-12 md:h-14 font-black uppercase text-[10px] md:text-xs tracking-widest shadow-orange-500/40 shrink-0">
+                <Plus size={18} /> New Product
+              </Button>
+           )}
+           {activeTab === 'blog' && (
+               <Button onClick={handleAddNewPost} className="gap-2 md:gap-3 px-6 md:px-8 h-12 md:h-14 font-black uppercase text-[10px] md:text-xs tracking-widest shadow-orange-500/40 shrink-0">
+                <Plus size={18} /> New Blog
+              </Button>
+           )}
         </div>
       </div>
 
-      {activeTab === 'inventory' ? (
+      {activeTab === 'inventory' && (
         <div className="glass-card p-4 md:p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
           <div className="relative mb-6 md:mb-10">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={18} />
@@ -133,7 +167,7 @@ const AdminDashboard = () => {
                           variant="glass" 
                           size="sm" 
                           className="p-2 border-gray-100 dark:border-white/5"
-                          onClick={() => handleEdit(product)}
+                          onClick={() => handleEditProduct(product)}
                         >
                           <Edit2 size={16} />
                         </Button>
@@ -157,15 +191,92 @@ const AdminDashboard = () => {
             </table>
           </div>
         </div>
-      ) : (
+      )}
+
+      {activeTab === 'blog' && (
+        <div className="glass-card p-4 md:p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
+          <div className="relative mb-6 md:mb-10">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={18} />
+            <Input
+              placeholder="Search blogs..."
+              className="pl-14 h-12 md:h-14 text-base"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-gray-100 dark:border-white/10 text-gray-400 dark:text-white/40 text-[10px] font-black uppercase tracking-widest">
+                  <th className="pb-6 px-4">Blog Post Information</th>
+                  <th className="pb-6 px-4">Category</th>
+                  <th className="pb-6 px-4">Author</th>
+                  <th className="pb-6 px-4">Date</th>
+                  <th className="pb-6 px-4 text-right">Quick Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50 dark:divide-white/5">
+                {filteredPosts.map((post) => (
+                  <tr key={post.id} className="group hover:bg-orange-500/[0.02] transition-colors">
+                    <td className="py-6 px-4">
+                      <div className="flex items-center gap-4">
+                        <img src={post.image} className="w-14 h-14 rounded-2xl object-cover shadow-lg" alt="" />
+                        <div>
+                          <span className="dark:text-white text-gray-900 font-bold block">{post.title}</span>
+                          <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest line-clamp-1">{post.excerpt}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-6 px-4">
+                      <span className="bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-white/60 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">{post.category}</span>
+                    </td>
+                    <td className="py-6 px-4">
+                      <span className="text-sm font-bold text-orange-500">{post.author}</span>
+                    </td>
+                    <td className="py-6 px-4">
+                      <span className="text-xs text-gray-400 dark:text-white/40 font-bold">{post.date}</span>
+                    </td>
+                    <td className="py-6 px-4">
+                      <div className="flex items-center justify-end gap-2">
+                        <Button
+                          variant="glass"
+                          size="sm"
+                          className="p-2 border-gray-100 dark:border-white/5"
+                          onClick={() => handleEditPost(post)}
+                        >
+                          <Edit2 size={16} />
+                        </Button>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          className="p-2"
+                          onClick={() => {
+                            if(window.confirm('Are you sure you want to delete this blog post?')) {
+                              deletePost(post.id);
+                            }
+                          }}
+                        >
+                          <Trash2 size={16} />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'analytics' && (
         <div className="space-y-12 animate-fade-in">
-          {/* Analytics Overview */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
              {[
                { label: 'Total Engagement', val: totalClicks, icon: MousePointer2, color: 'text-orange-500' },
                { label: 'Unique Merchant Hits', val: new Set(clicks.map(c => c.merchant)).size, icon: TrendingUp, color: 'text-green-500' },
                { label: 'Conversion Intent', val: (totalClicks * 0.15).toFixed(0), icon: BarChart3, color: 'text-blue-500' },
-               { label: 'Active Tracking Nodes', val: filteredProducts.length, icon: Users, color: 'text-purple-500' },
+               { label: 'Active Tracking Nodes', val: products.length, icon: Users, color: 'text-purple-500' },
              ].map((stat, i) => (
                <div key={i} className="glass-card p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5">
                   <stat.icon className={`${stat.color} mb-4`} size={32} />
@@ -211,10 +322,19 @@ const AdminDashboard = () => {
       )}
 
       <AnimatePresence>
-        {isFormOpen && (
+        {isProductFormOpen && (
           <ProductForm 
             product={editingProduct} 
-            onClose={() => setIsFormOpen(false)} 
+            onClose={() => setIsProductFormOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isBlogFormOpen && (
+          <BlogForm
+            post={editingPost}
+            onClose={() => setIsBlogFormOpen(false)}
           />
         )}
       </AnimatePresence>

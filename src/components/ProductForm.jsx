@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, RefreshCcw, Link as LinkIcon, Globe, Check, AlertCircle } from 'lucide-react';
+import { X, Sparkles, RefreshCcw, Link as LinkIcon, Globe, Check, AlertCircle, Plus, Trash2 } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
-import { Skeleton } from './ui/Skeleton';
 import { fetchProductDataFromUrl } from '../utils/parser';
 
 const productSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters'),
   description: z.string().min(10, 'Description must be at least 10 characters'),
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
-  image: z.string().url('Invalid image URL'),
+  image: z.string().url('Invalid main image URL'),
+  images: z.array(z.string().url('Invalid image URL')).min(1, 'At least one image is required'),
   category: z.string().min(2, 'Category is required'),
+  tags: z.string().optional(),
   affiliateLink: z.string().url('Invalid affiliate URL'),
 });
 
@@ -25,25 +26,37 @@ const ProductForm = ({ product, onClose }) => {
   const [fetchUrl, setFetchUrl] = useState('');
   const [fetchError, setFetchError] = useState('');
   const [showScraperUI, setShowScraperUI] = useState(false);
-  const [scraperStep, setScraperStep] = useState(0); // 0: input, 1: connecting, 2: parsing, 3: success
+  const [scraperStep, setScraperStep] = useState(0);
 
-  const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } = useForm({
+  const { register, handleSubmit, reset, setValue, control, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(productSchema),
-    defaultValues: product || {
+    defaultValues: product ? { ...product, tags: product.tags?.join(', ') || '' } : {
       title: '',
       description: '',
       price: '',
       image: '',
+      images: [''],
       category: '',
+      tags: '',
       affiliateLink: '',
     }
   });
 
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "images"
+  });
+
   const onSubmit = async (data) => {
+    const formattedData = {
+        ...data,
+        tags: data.tags ? data.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '') : []
+    };
+
     if (product) {
-      await updateProduct(product.id, data);
+      await updateProduct(product.id, formattedData);
     } else {
-      await addProduct(data);
+      await addProduct(formattedData);
     }
     onClose();
   };
@@ -69,11 +82,9 @@ const ProductForm = ({ product, onClose }) => {
     setScraperStep(1);
 
     try {
-      // Connecting
       await new Promise(r => setTimeout(r, 800));
       setScraperStep(2);
       
-      // Real Fetch & Parse
       const extractedData = await fetchProductDataFromUrl(fetchUrl);
       
       setScraperStep(3);
@@ -99,7 +110,7 @@ const ProductForm = ({ product, onClose }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        onPointerUp={onClose}
+        onClick={onClose}
         className="absolute inset-0 bg-premium-dark/80 backdrop-blur-md"
       />
       
@@ -119,7 +130,7 @@ const ProductForm = ({ product, onClose }) => {
             <p className="text-xs text-gray-400 font-medium">Define your store items with high-fidelity metadata</p>
           </div>
           <button 
-            onPointerUp={onClose}
+            onClick={onClose}
             className="p-2 hover:bg-orange-500/10 hover:text-orange-500 rounded-full transition-all"
           >
             <X size={24} />
@@ -127,7 +138,6 @@ const ProductForm = ({ product, onClose }) => {
         </div>
 
         <div className="flex-grow overflow-y-auto p-6 md:p-8 space-y-6 md:space-y-8">
-          {/* Real Scraper UI Overlay - Virtual Browser Style */}
           <AnimatePresence>
             {showScraperUI && (
               <motion.div 
@@ -165,13 +175,6 @@ const ProductForm = ({ product, onClose }) => {
                       {scraperStep === 2 && "Extracting Live Data..."}
                       {scraperStep === 3 && "Verified & Synced"}
                     </h3>
-                    <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-orange-500/60 uppercase tracking-widest">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                      </span>
-                      Secure Scraper Instance Active
-                    </div>
                   </div>
 
                   <div className="w-48 h-1 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
@@ -186,7 +189,6 @@ const ProductForm = ({ product, onClose }) => {
             )}
           </AnimatePresence>
 
-          {/* Auto-Fetch Tool */}
           {!product && (
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-orange-400 rounded-3xl blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
@@ -196,7 +198,6 @@ const ProductForm = ({ product, onClose }) => {
                     <Sparkles size={18} />
                     <span>Instant Link Scraper</span>
                   </div>
-                    <span className="text-[10px] text-gray-400 font-bold">SUPPORTED: ALIEXPRESS, AMAZON, APPLE</span>
                 </div>
                 <div className="flex gap-3">
                   <div className="relative flex-grow">
@@ -211,7 +212,7 @@ const ProductForm = ({ product, onClose }) => {
                   </div>
                   <Button 
                     type="button"
-                    onPointerUp={handleRealScraping}
+                    onClick={handleRealScraping}
                     disabled={isFetching}
                     className="bg-orange-500 hover:bg-orange-600 text-white px-8 h-auto font-black uppercase text-xs tracking-widest"
                   >
@@ -234,14 +235,12 @@ const ProductForm = ({ product, onClose }) => {
                 {...register('title')}
                 placeholder="Ex: iPhone 15 Pro Max"
                 error={errors.title?.message}
-                className="focus:ring-orange-500/50"
               />
               <Input 
                 label="Category"
                 {...register('category')}
                 placeholder="Ex: Smartphones"
                 error={errors.category?.message}
-                className="focus:ring-orange-500/50"
               />
             </div>
 
@@ -263,15 +262,56 @@ const ProductForm = ({ product, onClose }) => {
                 {...register('price')}
                 placeholder="999.00"
                 error={errors.price?.message}
-                className="focus:ring-orange-500/50"
               />
               <Input 
-                label="Image Showcase URL"
+                label="Main Showcase Image"
                 {...register('image')}
                 placeholder="https://images.unsplash..."
                 error={errors.image?.message}
-                className="focus:ring-orange-500/50"
               />
+            </div>
+
+            <Input
+              label="Tags (comma separated)"
+              {...register('tags')}
+              placeholder="Ex: Gaming, RGB, Wireless"
+              error={errors.tags?.message}
+            />
+
+            {/* Multiple Images Array */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                    <label className="text-xs font-black uppercase tracking-widest text-gray-400 block ml-1">
+                        Gallery Images
+                    </label>
+                    <button
+                        type="button"
+                        onClick={() => append('')}
+                        className="text-orange-500 hover:text-orange-600 flex items-center gap-1 text-[10px] font-black uppercase tracking-widest"
+                    >
+                        <Plus size={14} /> Add Image
+                    </button>
+                </div>
+                <div className="space-y-3">
+                    {fields.map((field, index) => (
+                        <div key={field.id} className="flex gap-2">
+                            <Input
+                                {...register(`images.${index}`)}
+                                placeholder="Image URL"
+                                error={errors.images?.[index]?.message}
+                                className="flex-grow"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => remove(index)}
+                                className="p-3 bg-red-500/10 text-red-500 rounded-2xl hover:bg-red-500/20 transition-colors h-[54px] mt-1"
+                            >
+                                <Trash2 size={18} />
+                            </button>
+                        </div>
+                    ))}
+                    {errors.images?.message && <p className="text-xs text-red-500 font-medium ml-1">{errors.images.message}</p>}
+                </div>
             </div>
 
             <Input 
@@ -279,7 +319,6 @@ const ProductForm = ({ product, onClose }) => {
               {...register('affiliateLink')}
               placeholder="https://www.amazon.com/dp/..."
               error={errors.affiliateLink?.message}
-              className="focus:ring-orange-500/50"
             />
 
             <div className="flex gap-4 pt-6">
@@ -287,7 +326,7 @@ const ProductForm = ({ product, onClose }) => {
                 type="button" 
                 variant="glass" 
                 className="flex-grow py-4 border-gray-200 dark:border-white/10 dark:text-white font-bold uppercase text-xs tracking-widest"
-                onPointerUp={onClose}
+                onClick={onClose}
               >
                 Discard
               </Button>

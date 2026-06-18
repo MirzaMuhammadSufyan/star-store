@@ -33,12 +33,26 @@ export const fetchProductDataFromUrl = async (url) => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlString, 'text/html');
 
-      // If it's a short URL, it might just contain a meta redirect or a simple link
-      // AliExpress short links often lead to a page that redirects.
-      const redirectLink = doc.querySelector('a[href*="aliexpress.com/item/"]');
-      if (redirectLink && url.includes('s.click.aliexpress.com')) {
-          console.log("Found redirect link, fetching again:", redirectLink.href);
-          return fetchProductDataFromUrl(redirectLink.href);
+      // If it's a short URL, it might just contain a meta redirect, a script redirect, or a simple link
+      if (url.includes('s.click.aliexpress.com')) {
+          const redirectLink = doc.querySelector('a[href*="aliexpress.com/item/"]');
+          if (redirectLink) {
+              return fetchProductDataFromUrl(redirectLink.href);
+          }
+
+          // Try to find URL in scripts or meta tags
+          const metaRefresh = doc.querySelector('meta[http-equiv="refresh"]');
+          if (metaRefresh) {
+              const content = metaRefresh.getAttribute('content');
+              const match = content.match(/url=(.*)/i);
+              if (match && match[1]) return fetchProductDataFromUrl(match[1]);
+          }
+
+          const scriptMatch = htmlString.match(/window\.location\.replace\(['"]([^'"]+)['"]\)/) ||
+                             htmlString.match(/window\.location\.href\s*=\s*['"]([^'"]+)['"]/);
+          if (scriptMatch && scriptMatch[1]) {
+              return fetchProductDataFromUrl(scriptMatch[1]);
+          }
       }
 
       const canonical = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
@@ -70,6 +84,12 @@ export const fetchProductDataFromUrl = async (url) => {
           '#landingImage',
           'meta[property="og:image"]',
           'link[rel="image_src"]'
+        ],
+        images: [
+           '.slider--img--kD4mIg7 img',
+           '#altImages img',
+           '.imgTagWrapper img',
+           '.magnifier--image--RM17RL2'
         ]
       };
 
@@ -92,11 +112,29 @@ export const fetchProductDataFromUrl = async (url) => {
         return '';
       };
 
+      const extractImages = () => {
+        const imgs = new Set();
+        for (const selector of selectors.images) {
+          const elements = doc.querySelectorAll(selector);
+          elements.forEach(el => {
+            const src = el.getAttribute('src') || el.getAttribute('data-src') || el.getAttribute('data-old-hires');
+            if (src && src.startsWith('http')) {
+                imgs.add(src);
+            }
+          });
+        }
+        return Array.from(imgs);
+      };
+
+      const allImages = extractImages();
+      const mainImage = extract('image') || allImages[0] || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30';
+
       const result = {
         title: extract('title') || 'New Product',
         description: extract('description') || 'No description available',
         price: extract('price').replace(/[^0-9.]/g, '') || '0.00',
-        image: extract('image') || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30',
+        image: mainImage,
+        images: allImages.length > 0 ? allImages : [mainImage],
         category: 'Electronics',
         affiliateLink: ogUrl || canonical || url
       };

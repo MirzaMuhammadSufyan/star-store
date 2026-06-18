@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, ChevronLeft, ShieldCheck, Truck, RotateCcw, Star, ShoppingCart, Share2, Heart, Check, Zap } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useCartStore } from '../store/cartStore';
@@ -12,8 +12,9 @@ const ProductDetailPage = () => {
   const { products, loading } = useProductStore();
   const product = products.find((p) => p.id === id);
   const { addItem, openCart } = useCartStore();
-  const [activeTab, setActiveTab] = React.useState('description');
-  const [isAdded, setIsAdded] = React.useState(false);
+  const [activeTab, setActiveTab] = useState('description');
+  const [isAdded, setIsAdded] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -49,6 +50,9 @@ const ProductDetailPage = () => {
     ? (parseFloat(product.price) * (1 + discount / 100)).toFixed(2)
     : (parseFloat(product.price) * 1.2).toFixed(2);
 
+  const images = product.images && product.images.length > 0 ? product.images : [product.image];
+  const currentImage = selectedImage || images[0];
+
   return (
     <div className="max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-8">
@@ -74,16 +78,27 @@ const ProductDetailPage = () => {
           className="space-y-6"
         >
           <div className="glass-card p-4 overflow-hidden dark:bg-white/5 bg-white border-gray-100 dark:border-white/10">
-            <img 
-              src={product.image} 
-              alt={product.title} 
-              className="w-full aspect-square object-cover rounded-2xl"
-            />
+            <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentImage}
+                  src={currentImage}
+                  alt={product.title}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-full aspect-square object-cover rounded-2xl"
+                />
+            </AnimatePresence>
           </div>
-          <div className="grid grid-cols-4 gap-4">
-            {[1,2,3,4].map((i) => (
-              <div key={i} className="glass-card p-1 dark:bg-white/5 bg-white border-gray-100 dark:border-white/10 cursor-pointer hover:border-orange-500 transition-colors">
-                <img src={product.image} className="aspect-square object-cover rounded-lg opacity-50 hover:opacity-100 transition-opacity" alt="" />
+          <div className="grid grid-cols-5 gap-2">
+            {images.map((img, i) => (
+              <div
+                key={i}
+                onClick={() => setSelectedImage(img)}
+                className={`glass-card p-1 dark:bg-white/5 bg-white border-gray-100 dark:border-white/10 cursor-pointer transition-colors ${currentImage === img ? 'border-orange-500 ring-2 ring-orange-500/20' : 'hover:border-orange-500/50'}`}
+              >
+                <img src={img} className="aspect-square object-cover rounded-lg" alt="" />
               </div>
             ))}
           </div>

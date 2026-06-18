@@ -20,7 +20,9 @@ export const useProductStore = create((set) => ({
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const products = snapshot.docs.map(doc => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
+        // Ensure images is always an array
+        images: doc.data().images || [doc.data().image].filter(Boolean)
       }));
       set({ products, loading: false });
     });
@@ -29,7 +31,7 @@ export const useProductStore = create((set) => ({
 
   addProduct: async (product) => {
     try {
-      const slug = product.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const slug = (product.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
       await addDoc(collection(db, 'products'), {
         ...product,
         slug,
