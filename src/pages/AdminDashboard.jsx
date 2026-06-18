@@ -37,40 +37,40 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="space-y-12">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <div className="space-y-8 md:space-y-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
         <div>
           <h1 className="text-4xl font-black dark:text-white text-orange-950">Command Center</h1>
           <p className="text-gray-500 font-medium text-sm uppercase tracking-widest mt-1">Real-time Performance Metrics & Inventory</p>
         </div>
-        <div className="flex gap-4">
-           <div className="flex bg-gray-100 dark:bg-white/5 p-1 rounded-2xl border border-gray-200 dark:border-white/10">
+        <div className="flex gap-3 md:gap-4">
+           <div className="flex bg-gray-100 dark:bg-white/5 p-1 rounded-xl md:rounded-2xl border border-gray-200 dark:border-white/10">
               <button 
                 onPointerUp={() => setActiveTab('inventory')}
-                className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'inventory' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
+                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'inventory' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
               >
                 Inventory
               </button>
               <button 
                 onPointerUp={() => setActiveTab('analytics')}
-                className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'analytics' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
+                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'analytics' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
               >
                 Analytics
               </button>
            </div>
-           <Button onPointerUp={handleAddNew} className="gap-3 px-8 h-14 font-black uppercase text-xs tracking-widest shadow-orange-500/40">
-            <Plus size={20} /> New Product
+           <Button onPointerUp={handleAddNew} className="gap-2 md:gap-3 px-6 md:px-8 h-12 md:h-14 font-black uppercase text-[10px] md:text-xs tracking-widest shadow-orange-500/40">
+            <Plus size={18} /> New Product
           </Button>
         </div>
       </div>
 
       {activeTab === 'inventory' ? (
-        <div className="glass-card p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
-          <div className="relative mb-10">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={20} />
+        <div className="glass-card p-4 md:p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
+          <div className="relative mb-6 md:mb-10">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={18} />
             <Input 
-              placeholder="Search products by name or category..." 
-              className="pl-14 h-16 text-lg"
+              placeholder="Search products..." 
+              className="pl-14 h-12 md:h-14 text-base"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />

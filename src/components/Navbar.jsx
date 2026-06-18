@@ -23,13 +23,13 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-4 md:px-6 py-4">
-      <div className="max-w-7xl mx-auto flex items-center justify-between glass-morphism bg-white/70 dark:bg-black/60 px-4 md:px-6 py-3 rounded-2xl border border-white/20 dark:border-white/10 shadow-xl backdrop-blur-xl transition-colors duration-300">
+    <nav className="fixed top-0 left-0 right-0 z-50 px-4 md:px-6 py-2 md:py-3">
+      <div className="max-w-7xl mx-auto flex items-center justify-between glass-morphism bg-white/70 dark:bg-black/60 px-4 md:px-6 py-2 rounded-xl md:rounded-2xl border border-white/20 dark:border-white/10 shadow-xl backdrop-blur-xl transition-colors duration-300">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 md:w-10 md:h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
-            <ShoppingBag className="text-white" size={20} />
+          <div className="w-8 h-8 md:w-9 md:h-9 bg-orange-500 rounded-lg md:rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <ShoppingBag className="text-white" size={18} />
           </div>
-          <span className="text-lg md:text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <span className="text-base md:text-lg font-bold tracking-tight text-gray-900 dark:text-white">
             Star<span className="text-orange-500">Store</span>
           </span>
         </Link>
