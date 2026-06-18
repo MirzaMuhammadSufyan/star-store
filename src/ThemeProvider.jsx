@@ -6,7 +6,7 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     const root = window.document.documentElement;
-
+    
     const applyTheme = (themeValue) => {
       root.classList.remove('light', 'dark');
       if (themeValue === 'system') {

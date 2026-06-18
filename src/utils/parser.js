@@ -7,16 +7,16 @@ export const fetchProductDataFromUrl = async (url) => {
   try {
     // Validate URL
     new URL(url);
-
+    
     // Using AllOrigins CORS proxy to fetch the HTML content
     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
     const response = await fetch(proxyUrl);
-
+    
     if (!response.ok) throw new Error('Failed to reach official store');
-
+    
     const data = await response.json();
     const htmlString = data.contents;
-
+    
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
 
@@ -50,7 +50,7 @@ export const fetchProductDataFromUrl = async (url) => {
       for (const selector of selectors[key]) {
         const el = doc.querySelector(selector);
         if (!el) continue;
-
+        
         if (selector.startsWith('meta')) {
           return el.getAttribute('content');
         }

@@ -28,8 +28,8 @@ const ThemeToggle = () => {
       <AnimatePresence>
         {isOpen && (
           <>
-            <div
-              className="fixed inset-0 z-40"
+            <div 
+              className="fixed inset-0 z-40" 
               onPointerUp={() => setIsOpen(false)}
             />
             <motion.div
@@ -46,8 +46,8 @@ const ThemeToggle = () => {
                     setIsOpen(false);
                   }}
                   className={`w-full px-4 py-2 flex items-center gap-3 text-sm transition-colors ${
-                    theme === opt.id
-                      ? 'text-orange-500 bg-orange-500/10'
+                    theme === opt.id 
+                      ? 'text-orange-500 bg-orange-500/10' 
                       : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5'
                   }`}
                 >

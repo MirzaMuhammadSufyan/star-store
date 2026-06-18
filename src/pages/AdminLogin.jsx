@@ -35,7 +35,7 @@ const AdminLogin = () => {
 
   return (
     <div className="flex items-center justify-center py-12">
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="glass-card p-8 w-full max-w-md"
@@ -57,9 +57,9 @@ const AdminLogin = () => {
 
           <div className="relative">
             <User className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
-            <Input
+            <Input 
               {...register('username')}
-              placeholder="Username"
+              placeholder="Username" 
               className="pl-12"
               error={errors.username?.message}
             />
@@ -67,24 +67,24 @@ const AdminLogin = () => {
 
           <div className="relative">
             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
-            <Input
+            <Input 
               {...register('password')}
               type="password"
-              placeholder="Password"
+              placeholder="Password" 
               className="pl-12"
               error={errors.password?.message}
             />
           </div>
 
-          <Button
-            type="submit"
-            className="w-full py-4 text-lg"
+          <Button 
+            type="submit" 
+            className="w-full py-4 text-lg" 
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Authenticating...' : 'Sign In'}
           </Button>
         </form>
-
+        
         <p className="mt-8 text-center text-xs text-white/20">
           Secure encrypted access enabled
         </p>

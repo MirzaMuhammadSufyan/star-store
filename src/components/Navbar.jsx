@@ -17,8 +17,8 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Store', path: '/' },
     { name: 'Catalog', path: '/catalog' },
-    { name: 'Gift Finder', path: '/gift-finder' },
     { name: 'Blog', path: '/blog' },
+    { name: 'Contact', path: '/contact' },
     { name: 'About', path: '/about' },
   ];
 
@@ -37,12 +37,12 @@ const Navbar = () => {
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
+            <Link 
+              key={link.path} 
+              to={link.path} 
               className={`text-sm font-medium transition-colors ${
-                location.pathname === link.path
-                  ? 'text-orange-500'
+                location.pathname === link.path 
+                  ? 'text-orange-500' 
                   : 'text-gray-600 dark:text-white/70 hover:text-orange-500 dark:hover:text-white'
               }`}
             >
@@ -55,8 +55,8 @@ const Navbar = () => {
           <div className="hidden sm:block">
             <ThemeToggle />
           </div>
-
-          <button
+          
+          <button 
             onPointerUp={toggleCart}
             className="p-2 relative rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/70 hover:text-orange-500 transition-all"
           >
@@ -74,9 +74,9 @@ const Navbar = () => {
                 <Link to="/admin/dashboard" className="p-2 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/70 hover:text-orange-500">
                   <LayoutDashboard size={20} />
                 </Link>
-                <Button
-                  variant="glass"
-                  size="sm"
+                <Button 
+                  variant="glass" 
+                  size="sm" 
                   onPointerUp={() => { logout(); navigate('/'); }}
                   className="px-4 border-gray-200 dark:border-white/10 dark:text-white text-gray-900"
                 >
@@ -91,7 +91,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <button 
             onPointerUp={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden p-2 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/70"
           >
@@ -111,9 +111,9 @@ const Navbar = () => {
           >
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
+                <Link 
+                  key={link.path} 
+                  to={link.path} 
                   onPointerUp={() => setIsMobileMenuOpen(false)}
                   className="text-lg font-medium text-gray-900 dark:text-white border-b border-gray-50 dark:border-white/5 pb-2"
                 >

@@ -15,7 +15,7 @@ const Hero = () => {
           <Sparkles size={14} />
           <span>Elite Curation for Premium Lifestyles</span>
         </motion.div>
-
+        
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -27,17 +27,17 @@ const Hero = () => {
             Affiliate Shopping
           </span>
         </motion.h1>
-
+        
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="text-lg text-white/60 mb-10 max-w-2xl mx-auto leading-relaxed"
         >
-          Handpicked premium products from the world's leading marketplaces,
+          Handpicked premium products from the world's leading marketplaces, 
           delivered through an exquisite glassy interface. Secure, fast, and elegant.
         </motion.p>
-
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -52,7 +52,7 @@ const Hero = () => {
           </Button>
         </motion.div>
       </div>
-
+      
       {/* Background decoration */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-500/10 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse-slow" />
     </div>

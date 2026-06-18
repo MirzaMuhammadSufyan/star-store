@@ -37,9 +37,9 @@ const ProductDetailPage = () => {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <Button
-          variant="glass"
-          size="sm"
+        <Button 
+          variant="glass" 
+          size="sm" 
           onPointerUp={() => navigate(-1)}
           className="gap-2 dark:text-white border-gray-200 dark:border-white/10"
         >
@@ -53,15 +53,15 @@ const ProductDetailPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
         {/* Images */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="space-y-6"
         >
           <div className="glass-card p-4 overflow-hidden dark:bg-white/5 bg-white border-gray-100 dark:border-white/10">
-            <img
-              src={product.image}
-              alt={product.title}
+            <img 
+              src={product.image} 
+              alt={product.title} 
               className="w-full aspect-square object-cover rounded-2xl"
             />
           </div>
@@ -75,7 +75,7 @@ const ProductDetailPage = () => {
         </motion.div>
 
         {/* Details */}
-        <motion.div
+        <motion.div 
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           className="space-y-10"
@@ -98,24 +98,24 @@ const ProductDetailPage = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button
-              size="lg"
+            <Button 
+              size="lg" 
               className={`flex-grow h-16 text-lg gap-3 transition-all ${isAdded ? 'bg-green-500 hover:bg-green-600' : ''}`}
               onPointerUp={handleAddToCart}
             >
               {isAdded ? <Check size={24} /> : <ShoppingCart size={24} />}
               {isAdded ? 'Added to Cart' : 'Add to Cart'}
             </Button>
-            <a
-              href={product.affiliateLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link 
+              to={`/go/${product.slug}`}
+              target="_blank" 
+              rel="nofollow noopener"
               className="flex-grow sm:flex-grow-0"
             >
               <Button variant="glass" size="lg" className="w-full h-16 px-10 text-lg border-orange-500 text-orange-600 dark:text-orange-400 hover:bg-orange-500/5 gap-2">
-                Official Store <ExternalLink size={20} />
+                View Deal on {product.merchant} <ExternalLink size={20} />
               </Button>
-            </a>
+            </Link>
           </div>
 
           {/* Tabs */}
@@ -136,7 +136,7 @@ const ProductDetailPage = () => {
                 </button>
               ))}
             </div>
-
+            
             <div className="text-gray-500 dark:text-gray-400 leading-relaxed min-h-[100px]">
               {activeTab === 'description' && (
                 <p>{product.description} Built with industry-leading components and designed for maximum efficiency, this product represents the pinnacle of modern innovation. Every detail has been meticulously crafted to provide an unparalleled user experience.</p>

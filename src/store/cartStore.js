@@ -6,7 +6,7 @@ export const useCartStore = create(
     (set, get) => ({
       items: [],
       isOpen: false,
-
+      
       toggleCart: () => set({ isOpen: !get().isOpen }),
       openCart: () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),
@@ -15,7 +15,7 @@ export const useCartStore = create(
         const existing = state.items.find((i) => i.id === product.id);
         if (existing) {
           return {
-            items: state.items.map((i) =>
+            items: state.items.map((i) => 
               i.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
             )
           };
@@ -28,7 +28,7 @@ export const useCartStore = create(
       })),
 
       updateQuantity: (id, quantity) => set((state) => ({
-        items: state.items.map((i) =>
+        items: state.items.map((i) => 
           i.id === id ? { ...i, quantity: Math.max(1, quantity) } : i
         )
       })),

@@ -56,7 +56,7 @@ const ProductForm = ({ product, onClose }) => {
 
     setFetchError('');
     setIsFetching(true);
-
+    
     try {
       new URL(fetchUrl);
     } catch (e) {
@@ -72,10 +72,10 @@ const ProductForm = ({ product, onClose }) => {
       // Connecting
       await new Promise(r => setTimeout(r, 800));
       setScraperStep(2);
-
+      
       // Real Fetch & Parse
       const extractedData = await fetchProductDataFromUrl(fetchUrl);
-
+      
       setScraperStep(3);
       await new Promise(r => setTimeout(r, 600));
 
@@ -84,7 +84,7 @@ const ProductForm = ({ product, onClose }) => {
           setValue(key, extractedData[key]);
         }
       });
-
+      
     } catch (err) {
       setFetchError(err.message);
     } finally {
@@ -95,15 +95,15 @@ const ProductForm = ({ product, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onPointerUp={onClose}
         className="absolute inset-0 bg-premium-dark/80 backdrop-blur-md"
       />
-
-      <motion.div
+      
+      <motion.div 
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -118,7 +118,7 @@ const ProductForm = ({ product, onClose }) => {
             </h2>
             <p className="text-xs text-gray-400 font-medium">Define your store items with high-fidelity metadata</p>
           </div>
-          <button
+          <button 
             onPointerUp={onClose}
             className="p-2 hover:bg-orange-500/10 hover:text-orange-500 rounded-full transition-all"
           >
@@ -130,7 +130,7 @@ const ProductForm = ({ product, onClose }) => {
           {/* Real Scraper UI Overlay - Virtual Browser Style */}
           <AnimatePresence>
             {showScraperUI && (
-              <motion.div
+              <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
@@ -146,10 +146,10 @@ const ProductForm = ({ product, onClose }) => {
                     {fetchUrl}
                   </div>
                 </div>
-
+                
                 <div className="flex-grow flex flex-col items-center justify-center p-8 text-center space-y-8 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.05)_0%,transparent_70%)]">
                   <div className="relative">
-                    <motion.div
+                    <motion.div 
                       animate={{ rotate: 360 }}
                       transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                       className="w-20 h-20 border-t-2 border-orange-500 rounded-full"
@@ -175,7 +175,7 @@ const ProductForm = ({ product, onClose }) => {
                   </div>
 
                   <div className="w-48 h-1 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
-                    <motion.div
+                    <motion.div 
                       initial={{ width: 0 }}
                       animate={{ width: scraperStep === 1 ? '30%' : scraperStep === 2 ? '70%' : '100%' }}
                       className="h-full bg-orange-500"
@@ -201,7 +201,7 @@ const ProductForm = ({ product, onClose }) => {
                 <div className="flex gap-3">
                   <div className="relative flex-grow">
                     <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                    <input
+                    <input 
                       type="text"
                       placeholder="Paste official product link here..."
                       className="w-full bg-gray-50 dark:bg-black/20 border border-gray-100 dark:border-white/10 rounded-2xl pl-12 pr-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all"
@@ -209,7 +209,7 @@ const ProductForm = ({ product, onClose }) => {
                       onChange={(e) => setFetchUrl(e.target.value)}
                     />
                   </div>
-                  <Button
+                  <Button 
                     type="button"
                     onPointerUp={handleRealScraping}
                     disabled={isFetching}
@@ -229,14 +229,14 @@ const ProductForm = ({ product, onClose }) => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Input
+              <Input 
                 label="Product Title"
                 {...register('title')}
                 placeholder="Ex: iPhone 15 Pro Max"
                 error={errors.title?.message}
                 className="focus:ring-orange-500/50"
               />
-              <Input
+              <Input 
                 label="Category"
                 {...register('category')}
                 placeholder="Ex: Smartphones"
@@ -249,7 +249,7 @@ const ProductForm = ({ product, onClose }) => {
               <label className="text-xs font-black uppercase tracking-widest text-gray-400 block ml-1">
                 Description
               </label>
-              <textarea
+              <textarea 
                 {...register('description')}
                 className={`w-full bg-gray-50 dark:bg-black/20 border border-gray-100 dark:border-white/10 rounded-2xl px-5 py-4 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all duration-300 resize-none h-40 ${errors.description ? 'border-red-500/50 focus:ring-red-500/50' : ''}`}
                 placeholder="Write a compelling product story..."
@@ -258,14 +258,14 @@ const ProductForm = ({ product, onClose }) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Input
+              <Input 
                 label="Listing Price ($)"
                 {...register('price')}
                 placeholder="999.00"
                 error={errors.price?.message}
                 className="focus:ring-orange-500/50"
               />
-              <Input
+              <Input 
                 label="Image Showcase URL"
                 {...register('image')}
                 placeholder="https://images.unsplash..."
@@ -274,7 +274,7 @@ const ProductForm = ({ product, onClose }) => {
               />
             </div>
 
-            <Input
+            <Input 
               label="Original Store / Affiliate Link"
               {...register('affiliateLink')}
               placeholder="https://www.amazon.com/dp/..."
@@ -283,16 +283,16 @@ const ProductForm = ({ product, onClose }) => {
             />
 
             <div className="flex gap-4 pt-6">
-              <Button
-                type="button"
-                variant="glass"
+              <Button 
+                type="button" 
+                variant="glass" 
                 className="flex-grow py-4 border-gray-200 dark:border-white/10 dark:text-white font-bold uppercase text-xs tracking-widest"
                 onPointerUp={onClose}
               >
                 Discard
               </Button>
-              <Button
-                type="submit"
+              <Button 
+                type="submit" 
                 className="flex-grow py-4 bg-gray-900 dark:bg-orange-500 text-white dark:text-white font-black uppercase text-xs tracking-widest hover:scale-[1.02] transition-transform"
                 disabled={isSubmitting || isFetching}
               >

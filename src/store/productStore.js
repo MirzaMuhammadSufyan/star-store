@@ -1,75 +1,60 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-const DEFAULT_PRODUCTS = [
-  {
-    id: '1',
-    title: 'Sony WH-1000XM5 Wireless Headphones',
-    description: 'The Sony WH-1000XM5 headphones rewrite the rules for distraction-free listening. 2 processors control 8 microphones for unprecedented noise cancellation and exceptional call quality.',
-    price: '398.00',
-    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=800',
-    category: 'Audio',
-    affiliateLink: 'https://www.amazon.com/Sony-WH-1000XM5-Canceling-Headphones-Hands-Free/dp/B09XS7JWHH',
-    rating: '4.9'
-  },
-  {
-    id: '2',
-    title: 'MacBook Pro 14-inch (M3 Pro)',
-    description: 'The 14-inch MacBook Pro blasts forward with M3 Pro and M3 Max, incredibly sophisticated chips that bring phenomenal performance and specialized capabilities for the most demanding workflows.',
-    price: '1999.00',
-    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800',
-    category: 'Laptops',
-    affiliateLink: 'https://www.apple.com/macbook-pro/',
-    rating: '4.8'
-  },
-  {
-    id: '3',
-    title: 'Apple Watch Ultra 2',
-    description: 'The most rugged and capable Apple Watch. Designed for outdoor adventures and supercharged workouts with a lightweight titanium case, extra-long battery life, and the brightest-ever display.',
-    price: '799.00',
-    image: 'https://images.unsplash.com/photo-1434493907317-a46b53b81882?auto=format&fit=crop&q=80&w=800',
-    category: 'Wearables',
-    affiliateLink: 'https://www.apple.com/apple-watch-ultra-2/',
-    rating: '4.9'
-  },
-  {
-    id: '4',
-    title: 'Logitech MX Master 3S',
-    description: 'An icon remastered. Feel every moment of your workflow with even more precision, tactility, and performance, thanks to Quiet Clicks and an 8,000 DPI track-on-glass sensor.',
-    price: '99.00',
-    image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&q=80&w=800',
-    category: 'Accessories',
-    affiliateLink: 'https://www.logitech.com/en-us/products/mice/mx-master-3s.910-006557.html',
-    rating: '4.7'
-  },
-  {
-    id: '5',
-    title: 'DJI Mini 4 Pro',
-    description: 'The ultimate mini camera drone for high-quality content creation. Featuring 4K/60fps HDR, 20km video transmission, and omnidirectional obstacle sensing.',
-    price: '759.00',
-    image: 'https://images.unsplash.com/photo-1473963342623-0c36087f92e8?auto=format&fit=crop&q=80&w=800',
-    category: 'Electronics',
-    affiliateLink: 'https://www.dji.com/mini-4-pro',
-    rating: '4.9'
-  },
-  {
-    id: '6',
-    title: 'Keychron Q6 Max QMK/VIA',
-    description: 'A full-size wireless custom mechanical keyboard with double-gasket design, full aluminum body, and premium switches for an unparalleled typing experience.',
-    price: '219.00',
-    image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&q=80&w=800',
-    category: 'Accessories',
-    affiliateLink: 'https://www.keychron.com/',
-    rating: '4.8'
+const MERCHANTS = ['Amazon', 'Walmart', 'Apple', 'Best Buy', 'B&H Photo'];
+
+const generateProducts = () => {
+  const categories = ['Audio', 'Laptops', 'Wearables', 'Accessories', 'Photography', 'Gaming'];
+  const items = [];
+  
+  const baseItems = [
+    { title: 'Sony WH-1000XM5', merchant: 'Amazon', price: '398.00', category: 'Audio' },
+    { title: 'MacBook Pro 14"', merchant: 'Apple', price: '1999.00', category: 'Laptops' },
+    { title: 'Apple Watch Ultra 2', merchant: 'Apple', price: '799.00', category: 'Wearables' },
+    { title: 'Logitech MX Master 3S', merchant: 'Best Buy', price: '99.00', category: 'Accessories' },
+    { title: 'DJI Mini 4 Pro', merchant: 'Amazon', price: '759.00', category: 'Photography' },
+    { title: 'Keychron Q6 Max', merchant: 'Amazon', price: '219.00', category: 'Accessories' },
+    { title: 'PS5 Slim Console', merchant: 'Walmart', price: '449.00', category: 'Gaming' },
+    { title: 'Nintendo Switch OLED', merchant: 'Best Buy', price: '349.00', category: 'Gaming' },
+    { title: 'Canon EOS R5', merchant: 'B&H Photo', price: '2999.00', category: 'Photography' },
+    { title: 'iPad Pro M4', merchant: 'Apple', price: '999.00', category: 'Laptops' },
+  ];
+
+  for (let i = 0; i < 40; i++) {
+    const base = baseItems[i % baseItems.length];
+    const id = (i + 1).toString();
+    const discount = i % 3 === 0 ? Math.floor(Math.random() * 20 + 10) : 0;
+    
+    items.push({
+      id,
+      slug: `${base.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${id}`,
+      title: `${base.title} ${i > 9 ? `(Gen ${Math.floor(i/10) + 1})` : ''}`,
+      description: `Premium ${base.category} equipment designed for high performance and reliability. Featuring the latest technology and sleek design, the ${base.title} is a top choice for professionals and enthusiasts alike. Includes full warranty and verified merchant support.`,
+      price: base.price,
+      image: `https://images.unsplash.com/photo-${1500000000000 + i}?auto=format&fit=crop&q=80&w=800`,
+      category: base.category,
+      merchant: base.merchant,
+      affiliateLink: `https://www.${base.merchant.toLowerCase().replace(' ', '')}.com/ref-id-${id}`,
+      rating: (Math.random() * (5 - 4) + 4).toFixed(1),
+      discount,
+      isNew: i < 5,
+      tags: [base.category, 'Tech', 'Premium']
+    });
   }
-];
+  return items;
+};
 
 export const useProductStore = create(
   persist(
     (set) => ({
-      products: DEFAULT_PRODUCTS,
-      addProduct: (product) => set((state) => ({
-        products: [...state.products, { ...product, id: crypto.randomUUID(), createdAt: new Date().toISOString() }]
+      products: generateProducts(),
+      addProduct: (product) => set((state) => ({ 
+        products: [...state.products, { 
+          ...product, 
+          id: crypto.randomUUID(), 
+          slug: product.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          createdAt: new Date().toISOString() 
+        }] 
       })),
       updateProduct: (id, updatedProduct) => set((state) => ({
         products: state.products.map((p) => p.id === id ? { ...p, ...updatedProduct } : p)
@@ -80,7 +65,7 @@ export const useProductStore = create(
       setProducts: (products) => set({ products })
     }),
     {
-      name: 'star-store-products-v2',
+      name: 'star-store-products-v3',
     }
   )
 );

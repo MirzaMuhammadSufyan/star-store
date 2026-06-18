@@ -41,7 +41,7 @@ const UserProfilePage = () => {
 
           <div className="glass-card overflow-hidden bg-white dark:bg-white/5 border-gray-100 dark:border-white/10">
             {menuItems.map((item, i) => (
-              <button
+              <button 
                 key={i}
                 className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors border-b last:border-0 border-gray-100 dark:border-white/5 group"
               >
@@ -56,8 +56,8 @@ const UserProfilePage = () => {
             ))}
           </div>
 
-          <Button
-            variant="glass"
+          <Button 
+            variant="glass" 
             className="w-full border-red-500/20 text-red-500 hover:bg-red-500/5 py-4 gap-2"
             onPointerUp={() => logout()}
           >

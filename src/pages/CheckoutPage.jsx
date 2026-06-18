@@ -171,7 +171,7 @@ const CheckoutPage = () => {
         <div className="lg:col-span-1">
           <div className="glass-card p-8 bg-gray-50 dark:bg-white/5 border-gray-100 dark:border-white/10 space-y-8 sticky top-24">
             <h4 className="text-xl font-bold dark:text-white">Order Summary</h4>
-
+            
             <div className="space-y-4">
               {items.map(item => (
                 <div key={item.id} className="flex gap-4">

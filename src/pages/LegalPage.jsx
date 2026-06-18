@@ -58,17 +58,17 @@ const LegalPage = () => {
          <p className="text-gray-500 font-medium">Last updated: {page.updated}</p>
       </div>
 
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="glass-card p-8 md:p-12 bg-white dark:bg-white/5 border-gray-100 dark:border-white/10 prose prose-lg dark:prose-invert max-w-none"
       >
         <h2>Overview</h2>
         <p>{page.text}</p>
-
+        
         <h2>Detailed Guidelines</h2>
         <p>This is a placeholder for detailed legal text that would be specifically tailored to your business operations. For Google AdSense approval, it is essential that your Privacy Policy specifically mentions the use of cookies and data tracking for advertising purposes.</p>
-
+        
         <ul>
           <li>Data Collection Methods</li>
           <li>Third-party sharing policies</li>

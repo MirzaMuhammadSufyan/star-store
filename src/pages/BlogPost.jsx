@@ -15,7 +15,7 @@ const BlogPost = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-12">
-      <button
+      <button 
         onPointerUp={() => navigate(-1)}
         className="flex items-center gap-2 text-gray-500 hover:text-orange-500 transition-colors font-bold uppercase text-xs tracking-widest"
       >

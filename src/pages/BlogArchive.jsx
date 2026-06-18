@@ -8,7 +8,7 @@ const BlogArchive = () => {
   const { posts, categories } = useBlogStore();
   const [selectedCategory, setSelectedCategory] = React.useState('All');
 
-  const filteredPosts = posts.filter(post =>
+  const filteredPosts = posts.filter(post => 
     selectedCategory === 'All' || post.category === selectedCategory
   );
 
@@ -27,8 +27,8 @@ const BlogArchive = () => {
             key={cat}
             onPointerUp={() => setSelectedCategory(cat)}
             className={`px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all border ${
-              selectedCategory === cat
-                ? 'bg-orange-500 text-white border-orange-500 shadow-xl shadow-orange-500/20'
+              selectedCategory === cat 
+                ? 'bg-orange-500 text-white border-orange-500 shadow-xl shadow-orange-500/20' 
                 : 'bg-white dark:bg-white/5 text-gray-500 dark:text-gray-400 border-gray-100 dark:border-white/10 hover:border-orange-500/30'
             }`}
           >
@@ -40,7 +40,7 @@ const BlogArchive = () => {
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
         {filteredPosts.map((post, i) => (
-          <motion.article
+          <motion.article 
             key={post.id}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -48,10 +48,10 @@ const BlogArchive = () => {
             className="group flex flex-col space-y-6"
           >
             <Link to={`/blog/${post.id}`} className="block relative aspect-[16/10] overflow-hidden rounded-[3rem] glass-card border-gray-100 dark:border-white/10">
-              <img
-                src={post.image}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                alt=""
+              <img 
+                src={post.image} 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                alt="" 
               />
               <div className="absolute top-6 left-6">
                  <span className="bg-white/90 dark:bg-black/80 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest dark:text-white flex items-center gap-2 shadow-lg">

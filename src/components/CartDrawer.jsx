@@ -79,7 +79,7 @@ const CartDrawer = () => {
                   <span className="text-gray-500 dark:text-gray-400">Total</span>
                   <span className="font-bold text-gray-900 dark:text-white">${getTotal()}</span>
                 </div>
-                <Button
+                <Button 
                   className="w-full py-4 gap-3 text-lg"
                   onPointerUp={() => {
                     closeCart();
