@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
     "description": product.description,
     "brand": {
       "@type": "Brand",
-      "name": product.merchant
+      "name": product.merchant || "Partner"
     },
     "offers": {
       "@type": "Offer",
@@ -32,10 +32,14 @@ const ProductCard = ({ product }) => {
     },
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": product.rating,
+      "ratingValue": product.rating || "4.9",
       "reviewCount": "85"
     }
   };
+
+  const originalPrice = product.discount > 0
+    ? (parseFloat(product.price) * (1 + product.discount / 100)).toFixed(2)
+    : (parseFloat(product.price) * 1.2).toFixed(2);
 
   return (
     <>
@@ -74,11 +78,11 @@ const ProductCard = ({ product }) => {
         <div className="p-4 flex flex-col flex-grow">
           <div className="flex items-center gap-2 mb-2">
             <span className="bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[9px] font-black uppercase tracking-[0.1em] px-2 py-0.5 rounded-full border border-orange-500/20">
-              {product.merchant}
+              {product.merchant || "Partner"}
             </span>
             <div className="flex items-center text-yellow-500 ml-auto">
               <Star size={10} fill="currentColor" />
-              <span className="text-[10px] ml-1 font-bold">{product.rating}</span>
+              <span className="text-[10px] ml-1 font-bold">{product.rating || "4.9"}</span>
             </div>
           </div>
           
@@ -92,16 +96,16 @@ const ProductCard = ({ product }) => {
           <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100 dark:border-white/5">
             <div className="flex flex-col">
               <span className="text-xs text-gray-400 line-through leading-none mb-0.5">
-                ${(parseFloat(product.price) * (1 + (product.discount || 0)/100)).toFixed(2)}
+                ${originalPrice}
               </span>
               <span className="text-base font-black text-gray-900 dark:text-white">${product.price}</span>
             </div>
             
-            <Link to={`/go/${product.slug}`} target="_blank" rel="nofollow noopener">
+            <a href={`/go/${product.slug}`} target="_blank" rel="nofollow noopener">
               <Button size="sm" className="h-9 px-4 text-[10px] font-black uppercase tracking-widest gap-2 bg-gray-900 dark:bg-orange-500">
-                View on {product.merchant} <ExternalLink size={12} />
+                View on {product.merchant || "Partner"} <ExternalLink size={12} />
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </motion.div>

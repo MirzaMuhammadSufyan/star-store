@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Edit2, Package, Search, BarChart3, TrendingUp, MousePointer2, Users } from 'lucide-react';
+import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useAnalyticsStore } from '../store/analyticsStore';
 import { Button } from '../components/ui/Button';
@@ -8,7 +8,7 @@ import { Input } from '../components/ui/Input';
 import ProductForm from '../components/ProductForm';
 
 const AdminDashboard = () => {
-  const { products, deleteProduct } = useProductStore();
+  const { products, deleteProduct, loading: productsLoading } = useProductStore();
   const { clicks, getStats } = useAnalyticsStore();
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
@@ -17,14 +17,21 @@ const AdminDashboard = () => {
 
   const stats = getStats();
   const totalClicks = clicks.length;
-  const filteredProducts = products.filter(p => 
-    p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.category?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
-  const topProducts = [...products]
-    .sort((a, b) => (stats[b.id] || 0) - (stats[a.id] || 0))
-    .slice(0, 5);
+  const filteredProducts = useMemo(() => {
+    if (!Array.isArray(products)) return [];
+    return products.filter(p =>
+        (p.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (p.category || '').toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [products, searchQuery]);
+
+  const topProducts = useMemo(() => {
+    if (!Array.isArray(products)) return [];
+    return [...products]
+        .sort((a, b) => (stats[b.id] || 0) - (stats[a.id] || 0))
+        .slice(0, 5);
+  }, [products, stats]);
 
   const handleEdit = (product) => {
     setEditingProduct(product);
@@ -36,6 +43,15 @@ const AdminDashboard = () => {
     setIsFormOpen(true);
   };
 
+  if (productsLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24">
+        <Zap className="text-orange-500 animate-pulse mb-4" size={48} />
+        <h2 className="text-xl font-bold dark:text-white">Loading Command Center...</h2>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 md:space-y-10">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
@@ -46,19 +62,19 @@ const AdminDashboard = () => {
         <div className="flex gap-3 md:gap-4">
            <div className="flex bg-gray-100 dark:bg-white/5 p-1 rounded-xl md:rounded-2xl border border-gray-200 dark:border-white/10">
               <button 
-                onPointerUp={() => setActiveTab('inventory')}
+                onClick={() => setActiveTab('inventory')}
                 className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'inventory' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
               >
                 Inventory
               </button>
               <button 
-                onPointerUp={() => setActiveTab('analytics')}
+                onClick={() => setActiveTab('analytics')}
                 className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'analytics' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
               >
                 Analytics
               </button>
            </div>
-           <Button onPointerUp={handleAddNew} className="gap-2 md:gap-3 px-6 md:px-8 h-12 md:h-14 font-black uppercase text-[10px] md:text-xs tracking-widest shadow-orange-500/40">
+           <Button onClick={handleAddNew} className="gap-2 md:gap-3 px-6 md:px-8 h-12 md:h-14 font-black uppercase text-[10px] md:text-xs tracking-widest shadow-orange-500/40">
             <Plus size={18} /> New Product
           </Button>
         </div>
@@ -103,7 +119,7 @@ const AdminDashboard = () => {
                       <span className="bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-white/60 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">{product.category}</span>
                     </td>
                     <td className="py-6 px-4">
-                      <span className="text-sm font-bold text-orange-500">{product.merchant}</span>
+                      <span className="text-sm font-bold text-orange-500">{product.merchant || 'Partner'}</span>
                     </td>
                     <td className="py-6 px-4">
                       <div className="flex items-center gap-2">
@@ -117,7 +133,7 @@ const AdminDashboard = () => {
                           variant="glass" 
                           size="sm" 
                           className="p-2 border-gray-100 dark:border-white/5"
-                          onPointerUp={() => handleEdit(product)}
+                          onClick={() => handleEdit(product)}
                         >
                           <Edit2 size={16} />
                         </Button>
@@ -125,7 +141,7 @@ const AdminDashboard = () => {
                           variant="danger" 
                           size="sm" 
                           className="p-2"
-                          onPointerUp={() => {
+                          onClick={() => {
                             if(window.confirm('Are you sure you want to delete this product?')) {
                               deleteProduct(product.id);
                             }
@@ -171,7 +187,7 @@ const AdminDashboard = () => {
                        <img src={p.image} className="w-12 h-12 rounded-xl object-cover" alt="" />
                        <div className="flex-grow">
                           <p className="font-bold dark:text-white text-gray-900 line-clamp-1">{p.title}</p>
-                          <p className="text-[10px] font-black text-orange-500 uppercase">{p.merchant}</p>
+                          <p className="text-[10px] font-black text-orange-500 uppercase">{p.merchant || 'Partner'}</p>
                        </div>
                        <div className="text-right">
                           <p className="text-xl font-black dark:text-white text-gray-900">{stats[p.id] || 0}</p>

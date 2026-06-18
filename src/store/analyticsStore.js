@@ -1,27 +1,50 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { db } from '../firebase';
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  serverTimestamp
+} from 'firebase/firestore';
 
-export const useAnalyticsStore = create(
-  persist(
-    (set, get) => ({
-      clicks: [],
-      logClick: (productId, merchant) => set((state) => ({
-        clicks: [...state.clicks, {
-          productId,
-          merchant,
-          timestamp: new Date().toISOString()
-        }]
-      })),
-      getStats: () => {
-        const stats = {};
-        get().clicks.forEach(click => {
-          stats[click.productId] = (stats[click.productId] || 0) + 1;
-        });
-        return stats;
-      }
-    }),
-    {
-      name: 'star-store-analytics',
+export const useAnalyticsStore = create((set, get) => ({
+  clicks: [],
+
+  fetchClicks: () => {
+    const q = query(collection(db, 'analytics'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const clicks = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      set({ clicks });
+    });
+    return unsubscribe;
+  },
+
+  logClick: async (productId, merchant) => {
+    try {
+      await addDoc(collection(db, 'analytics'), {
+        productId,
+        merchant,
+        timestamp: serverTimestamp()
+      });
+    } catch (error) {
+      console.error("Error logging click:", error);
     }
-  )
-);
+  },
+
+  getStats: () => {
+    const stats = {};
+    get().clicks.forEach(click => {
+      if (click.productId) {
+        stats[click.productId] = (stats[click.productId] || 0) + 1;
+      }
+    });
+    return stats;
+  }
+}));
+
+// Initialize the listener
+useAnalyticsStore.getState().fetchClicks();
