@@ -3,13 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useAnalyticsStore } from '../store/analyticsStore';
+import { useAuthStore } from '../store/authStore';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import ProductForm from '../components/ProductForm';
 
 const AdminDashboard = () => {
   const { products, deleteProduct, loading: productsLoading } = useProductStore();
-  const { clicks, getStats } = useAnalyticsStore();
+  const { clicks, getStats, fetchClicks } = useAnalyticsStore();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -25,6 +27,14 @@ const AdminDashboard = () => {
         (p.category || '').toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [products, searchQuery]);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const unsubscribe = fetchClicks();
+    return () => {
+      if (typeof unsubscribe === 'function') unsubscribe();
+    };
+  }, [fetchClicks, isAuthenticated]);
 
   const topProducts = useMemo(() => {
     if (!Array.isArray(products)) return [];

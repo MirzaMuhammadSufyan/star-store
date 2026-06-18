@@ -160,11 +160,15 @@ const HomePage = () => {
       </section>
 
       {/* Banner */}
-      <section className="glass-card bg-premium-dark text-white p-10 md:p-24 rounded-[2.5rem] md:rounded-[4rem] overflow-hidden relative border-none mx-2 md:mx-0">
+      <section
+        className="relative text-white p-10 md:p-24 rounded-[2.5rem] md:rounded-[4rem] overflow-hidden border-none mx-2 md:mx-0"
+        style={{ background: 'rgba(3, 0, 20, 0.95)' }}
+      >
+        <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-orange-500 via-transparent to-orange-500/0" />
         <div className="absolute top-0 right-0 w-1/3 h-full opacity-30 pointer-events-none">
            <Zap className="w-full h-full text-orange-500" />
         </div>
-        <div className="max-w-3xl relative z-10 space-y-6 md:space-y-8 text-center md:text-left">
+        <div className="relative z-10 max-w-3xl space-y-6 md:space-y-8 text-center md:text-left">
           <h2 className="text-4xl md:text-7xl font-black leading-tight">Elevate Your Tech Game Today.</h2>
           <p className="text-lg md:text-xl text-white/60">Join over 10,000+ tech enthusiasts who trust Star Store for their daily gear.</p>
           <Button size="lg" variant="glass" className="h-14 md:h-16 px-8 md:px-12 border-white/20 text-white bg-white/5 hover:bg-white/10">
