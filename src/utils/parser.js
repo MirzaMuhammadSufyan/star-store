@@ -20,9 +20,10 @@ export const fetchProductDataFromUrl = async (url) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
 
-    // Extraction Logic (Amazon, Apple, General OpenGraph)
+    // Extraction Logic (AliExpress, Amazon, Apple, General OpenGraph)
     const selectors = {
       title: [
+        'h1[data-pl="product-title"]',
         '#productTitle',
         'h1.product-title',
         'meta[property="og:title"]',
@@ -34,12 +35,15 @@ export const fetchProductDataFromUrl = async (url) => {
         'meta[name="description"]'
       ],
       price: [
+        '.price-default--current--F8OlYIo',
         '.a-price-whole',
         '.product-price',
         'span.price',
         'meta[property="product:price:amount"]'
       ],
       image: [
+        'img.magnifier--image--RM17RL2',
+        '.slider--img--kD4mIg7 img',
         '#landingImage',
         'meta[property="og:image"]',
         'link[rel="image_src"]'

@@ -126,7 +126,7 @@ const ProductForm = ({ product, onClose }) => {
           </button>
         </div>
 
-        <div className="flex-grow overflow-y-auto p-8 space-y-10">
+        <div className="flex-grow overflow-y-auto p-6 md:p-8 space-y-6 md:space-y-8">
           {/* Real Scraper UI Overlay - Virtual Browser Style */}
           <AnimatePresence>
             {showScraperUI && (
@@ -196,7 +196,7 @@ const ProductForm = ({ product, onClose }) => {
                     <Sparkles size={18} />
                     <span>Instant Link Scraper</span>
                   </div>
-                  <span className="text-[10px] text-gray-400 font-bold">SUPPORTED: AMAZON, APPLE, EBAY</span>
+                    <span className="text-[10px] text-gray-400 font-bold">SUPPORTED: ALIEXPRESS, AMAZON, APPLE</span>
                 </div>
                 <div className="flex gap-3">
                   <div className="relative flex-grow">
@@ -227,8 +227,8 @@ const ProductForm = ({ product, onClose }) => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 md:space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               <Input 
                 label="Product Title"
                 {...register('title')}
@@ -257,7 +257,7 @@ const ProductForm = ({ product, onClose }) => {
               {errors.description && <p className="text-xs text-red-500 font-medium ml-1">{errors.description.message}</p>}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               <Input 
                 label="Listing Price ($)"
                 {...register('price')}
