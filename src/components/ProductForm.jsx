@@ -39,11 +39,11 @@ const ProductForm = ({ product, onClose }) => {
     }
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (product) {
-      updateProduct(product.id, data);
+      await updateProduct(product.id, data);
     } else {
-      addProduct(data);
+      await addProduct(data);
     }
     onClose();
   };

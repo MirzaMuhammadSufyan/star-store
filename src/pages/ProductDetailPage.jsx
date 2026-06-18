@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, ChevronLeft, ShieldCheck, Truck, RotateCcw, Star, ShoppingCart, Share2, Heart, Check } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ExternalLink, ChevronLeft, ShieldCheck, Truck, RotateCcw, Star, ShoppingCart, Share2, Heart, Check, Zap } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useCartStore } from '../store/cartStore';
 import { Button } from '../components/ui/Button';
@@ -9,7 +9,8 @@ import { Button } from '../components/ui/Button';
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const product = useProductStore((state) => state.products.find((p) => p.id === id));
+  const { products, loading } = useProductStore();
+  const product = products.find((p) => p.id === id);
   const { addItem, openCart } = useCartStore();
   const [activeTab, setActiveTab] = React.useState('description');
   const [isAdded, setIsAdded] = React.useState(false);
@@ -18,11 +19,20 @@ const ProductDetailPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] text-center">
+        <Zap className="text-orange-500 animate-pulse mb-4" size={48} />
+        <h2 className="text-xl font-bold dark:text-white">Loading Product Details...</h2>
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] text-center">
         <h2 className="text-2xl font-bold mb-4 dark:text-white">Product Not Found</h2>
-        <Button onPointerUp={() => navigate('/')}>Back to Store</Button>
+        <Button onClick={() => navigate('/')}>Back to Store</Button>
       </div>
     );
   }
@@ -34,13 +44,18 @@ const ProductDetailPage = () => {
     openCart();
   };
 
+  const discount = product.discount || 0;
+  const originalPrice = discount > 0
+    ? (parseFloat(product.price) * (1 + discount / 100)).toFixed(2)
+    : (parseFloat(product.price) * 1.2).toFixed(2);
+
   return (
     <div className="max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <Button 
           variant="glass" 
           size="sm" 
-          onPointerUp={() => navigate(-1)}
+          onClick={() => navigate(-1)}
           className="gap-2 dark:text-white border-gray-200 dark:border-white/10"
         >
           <ChevronLeft size={18} /> Back
@@ -87,13 +102,13 @@ const ProductDetailPage = () => {
               </span>
               <div className="flex items-center text-yellow-500 gap-1 text-sm font-bold">
                 <Star size={14} fill="currentColor" />
-                <span>4.9 (128 Reviews)</span>
+                <span>{product.rating || '4.9'} (128 Reviews)</span>
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl font-black dark:text-white leading-tight">{product.title}</h1>
             <div className="flex items-end gap-3">
                <span className="text-5xl font-black text-orange-500 tracking-tighter">${product.price}</span>
-               <span className="text-xl text-gray-400 line-through mb-2">${(parseFloat(product.price) * 1.2).toFixed(2)}</span>
+               <span className="text-xl text-gray-400 line-through mb-2">${originalPrice}</span>
             </div>
           </div>
 
@@ -101,21 +116,21 @@ const ProductDetailPage = () => {
             <Button 
               size="lg" 
               className={`flex-grow h-16 text-lg gap-3 transition-all ${isAdded ? 'bg-green-500 hover:bg-green-600' : ''}`}
-              onPointerUp={handleAddToCart}
+              onClick={handleAddToCart}
             >
               {isAdded ? <Check size={24} /> : <ShoppingCart size={24} />}
               {isAdded ? 'Added to Cart' : 'Add to Cart'}
             </Button>
-            <Link 
-              to={`/go/${product.slug}`}
+            <a
+              href={`/go/${product.slug}`}
               target="_blank" 
               rel="nofollow noopener"
               className="flex-grow sm:flex-grow-0"
             >
               <Button variant="glass" size="lg" className="w-full h-16 px-10 text-lg border-orange-500 text-orange-600 dark:text-orange-400 hover:bg-orange-500/5 gap-2">
-                View Deal on {product.merchant} <ExternalLink size={20} />
+                View Deal on {product.merchant || 'Partner Store'} <ExternalLink size={20} />
               </Button>
-            </Link>
+            </a>
           </div>
 
           {/* Tabs */}
@@ -124,7 +139,7 @@ const ProductDetailPage = () => {
               {['description', 'specifications', 'shipping'].map((tab) => (
                 <button
                   key={tab}
-                  onPointerUp={() => setActiveTab(tab)}
+                  onClick={() => setActiveTab(tab)}
                   className={`px-6 py-4 text-sm font-bold uppercase tracking-widest transition-all relative ${
                     activeTab === tab ? 'text-orange-500' : 'text-gray-400 hover:text-gray-600 dark:hover:text-white'
                   }`}
@@ -139,12 +154,12 @@ const ProductDetailPage = () => {
             
             <div className="text-gray-500 dark:text-gray-400 leading-relaxed min-h-[100px]">
               {activeTab === 'description' && (
-                <p>{product.description} Built with industry-leading components and designed for maximum efficiency, this product represents the pinnacle of modern innovation. Every detail has been meticulously crafted to provide an unparalleled user experience.</p>
+                <p>{product.description}</p>
               )}
               {activeTab === 'specifications' && (
                 <ul className="grid grid-cols-2 gap-4">
                   {[
-                    ['Weight', '1.2 lbs'], ['Material', 'Premium Alloy'], ['Warranty', '2 Years'], ['Connectivity', 'Bluetooth 5.2']
+                    ['Merchant', product.merchant || 'Verified Vendor'], ['Category', product.category], ['Status', 'Verified Link'], ['Rating', product.rating || '4.9']
                   ].map(([label, val]) => (
                     <li key={label} className="flex flex-col p-4 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10">
                       <span className="text-[10px] font-black uppercase text-gray-400">{label}</span>
@@ -154,7 +169,7 @@ const ProductDetailPage = () => {
                 </ul>
               )}
               {activeTab === 'shipping' && (
-                <p>We offer worldwide shipping via premium carriers. Orders are typically processed within 24 hours. Standard shipping takes 3-5 business days, while express shipping arrives in 1-2 business days.</p>
+                <p>Refer to the partner store website for precise shipping details and availability in your region.</p>
               )}
             </div>
           </div>
@@ -171,7 +186,7 @@ const ProductDetailPage = () => {
             </div>
             <div className="text-center">
               <RotateCcw className="mx-auto text-orange-500 mb-2" size={24} />
-              <span className="text-[10px] text-gray-500 dark:text-white/50 uppercase font-black">2Y Warranty</span>
+              <span className="text-[10px] text-gray-500 dark:text-white/50 uppercase font-black">Verified Deal</span>
             </div>
           </div>
         </motion.div>

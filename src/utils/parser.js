@@ -5,8 +5,8 @@
 
 export const fetchProductDataFromUrl = async (url) => {
   const proxies = [
-    (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
     (u) => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
+    (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
     (u) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
   ];
 
@@ -21,7 +21,6 @@ export const fetchProductDataFromUrl = async (url) => {
       
       let htmlString = '';
       
-      // AllOrigins returns JSON, corsproxy.io returns text
       if (proxyUrl.includes('allorigins.win')) {
         const data = await response.json();
         htmlString = data.contents;
@@ -34,7 +33,17 @@ export const fetchProductDataFromUrl = async (url) => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlString, 'text/html');
 
-      // Extraction Logic (AliExpress, Amazon, Apple, General OpenGraph)
+      // If it's a short URL, it might just contain a meta redirect or a simple link
+      // AliExpress short links often lead to a page that redirects.
+      const redirectLink = doc.querySelector('a[href*="aliexpress.com/item/"]');
+      if (redirectLink && url.includes('s.click.aliexpress.com')) {
+          console.log("Found redirect link, fetching again:", redirectLink.href);
+          return fetchProductDataFromUrl(redirectLink.href);
+      }
+
+      const canonical = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
+      const ogUrl = doc.querySelector('meta[property="og:url"]')?.getAttribute('content');
+
       const selectors = {
         title: [
           'h1[data-pl="product-title"]',
@@ -89,17 +98,21 @@ export const fetchProductDataFromUrl = async (url) => {
         price: extract('price').replace(/[^0-9.]/g, '') || '0.00',
         image: extract('image') || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30',
         category: 'Electronics',
-        affiliateLink: url
+        affiliateLink: ogUrl || canonical || url
       };
 
-      // Clean up description (remove excessive whitespace/newlines from bullets)
       result.description = result.description.replace(/\s\s+/g, ' ').substring(0, 500);
+
+      if (result.price === '0.00' || !result.price) {
+          const priceMatch = htmlString.match(/"formatedAmount":"([^"]+)"/);
+          if (priceMatch) result.price = priceMatch[1].replace(/[^0-9.]/g, '');
+      }
 
       return result;
     } catch (err) {
       console.warn(`Proxy failed (${getProxyUrl(url)}):`, err);
       lastError = err;
-      continue; // Try next proxy
+      continue;
     }
   }
 

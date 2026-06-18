@@ -1,29 +1,33 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, SlidersHorizontal, ChevronRight, Grid, List, Star, TrendingUp, Zap, Sparkles } from 'lucide-react';
+import { Search, Filter, SlidersHorizontal, Grid, List, TrendingUp, Zap, Sparkles } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import ProductCard from '../components/ProductCard';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 
 const CatalogPage = () => {
-  const { products } = useProductStore();
+  const { products, loading } = useProductStore();
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [priceRange, setPriceRange] = useState(3000);
-  const [minRating, setPriceRating] = useState(0);
+  const [minRating, setMinRating] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
-  const allTags = useMemo(() => [...new Set(products.flatMap(p => p.tags || []))], [products]);
+  const allTags = useMemo(() => {
+    if (!Array.isArray(products)) return [];
+    return [...new Set(products.flatMap(p => p.tags || []))];
+  }, [products]);
 
   const filteredProducts = useMemo(() => {
+    if (!Array.isArray(products)) return [];
     return products.filter(p => {
-      const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                           p.description.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesPrice = parseFloat(p.price) <= priceRange;
-      const matchesRating = parseFloat(p.rating) >= minRating;
+      const matchesSearch = (p.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           (p.description || '').toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesPrice = parseFloat(p.price || 0) <= priceRange;
+      const matchesRating = parseFloat(p.rating || 0) >= minRating;
       const matchesTags = selectedTags.length === 0 || selectedTags.every(t => p.tags?.includes(t));
       return matchesSearch && matchesPrice && matchesRating && matchesTags;
     });
@@ -35,6 +39,15 @@ const CatalogPage = () => {
     setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
     setCurrentPage(1);
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24">
+        <Zap className="text-orange-500 animate-pulse mb-4" size={48} />
+        <h2 className="text-xl font-bold dark:text-white">Loading Catalog...</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -49,13 +62,13 @@ const CatalogPage = () => {
         <div className="flex items-center gap-4">
           <div className="flex bg-gray-100 dark:bg-white/5 p-1 rounded-xl border border-gray-200 dark:border-white/10">
             <button 
-              onPointerUp={() => setViewMode('grid')}
+              onClick={() => setViewMode('grid')}
               className={`p-2 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-white dark:bg-orange-500 shadow-lg dark:text-white text-orange-600' : 'text-gray-400'}`}
             >
               <Grid size={18} />
             </button>
             <button 
-              onPointerUp={() => setViewMode('list')}
+              onClick={() => setViewMode('list')}
               className={`p-2 rounded-lg transition-all ${viewMode === 'list' ? 'bg-white dark:bg-orange-500 shadow-lg dark:text-white text-orange-600' : 'text-gray-400'}`}
             >
               <List size={18} />
@@ -113,7 +126,7 @@ const CatalogPage = () => {
                   {allTags.map(tag => (
                     <button
                       key={tag}
-                      onPointerUp={() => toggleTag(tag)}
+                      onClick={() => toggleTag(tag)}
                       className={`px-3 py-1.5 rounded-xl text-[10px] font-black transition-all border ${
                         selectedTags.includes(tag)
                           ? 'bg-orange-500 text-white border-orange-500 shadow-lg shadow-orange-500/20'
@@ -128,11 +141,11 @@ const CatalogPage = () => {
 
               {/* Reset */}
               <button 
-                onPointerUp={() => {
+                onClick={() => {
                   setSearchQuery('');
                   setSelectedTags([]);
                   setPriceRange(3000);
-                  setPriceRating(0);
+                  setMinRating(0);
                   setCurrentPage(1);
                 }}
                 className="w-full py-3 rounded-2xl border border-dashed border-gray-200 dark:border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-orange-500 hover:border-orange-500/50 transition-all"
@@ -162,7 +175,7 @@ const CatalogPage = () => {
                       <img src={product.image} className="w-40 h-40 rounded-2xl object-cover shadow-lg" alt="" />
                       <div className="flex-grow">
                          <div className="flex items-center gap-2 mb-2">
-                           <span className="text-[10px] font-black text-orange-500 uppercase">{product.merchant}</span>
+                           <span className="text-[10px] font-black text-orange-500 uppercase">{product.merchant || 'Partner'}</span>
                            <div className="h-1 w-1 rounded-full bg-gray-300" />
                            <span className="text-[10px] font-bold text-gray-400 uppercase">{product.category}</span>
                          </div>
@@ -170,7 +183,9 @@ const CatalogPage = () => {
                          <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4">{product.description}</p>
                          <div className="flex items-center justify-between">
                             <span className="text-2xl font-black dark:text-white">${product.price}</span>
-                            <Button size="sm" className="bg-gray-900 dark:bg-orange-500 font-black uppercase text-[10px] tracking-widest">View Deal</Button>
+                            <a href={`/go/${product.slug}`} target="_blank" rel="noopener noreferrer">
+                                <Button size="sm" className="bg-gray-900 dark:bg-orange-500 font-black uppercase text-[10px] tracking-widest">View Deal</Button>
+                            </a>
                          </div>
                       </div>
                     </>
@@ -190,7 +205,7 @@ const CatalogPage = () => {
           {filteredProducts.length > paginatedProducts.length && (
             <div className="mt-12 flex justify-center">
               <Button 
-                onPointerUp={() => setCurrentPage(prev => prev + 1)}
+                onClick={() => setCurrentPage(prev => prev + 1)}
                 variant="glass"
                 className="px-12 h-14 font-black uppercase text-xs tracking-[0.2em] border-orange-500/20 text-orange-600 dark:text-orange-400"
               >

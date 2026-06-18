@@ -23,7 +23,12 @@ const AdminLogin = lazy(() => import('./pages/AdminLogin'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const { isAuthenticated, loading } = useAuthStore();
+
+  if (loading) {
+    return <div className="flex items-center justify-center h-[60vh]">Authenticating...</div>;
+  }
+
   return isAuthenticated ? children : <Navigate to="/admin/login" replace />;
 };
 
