@@ -114,55 +114,63 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50 dark:divide-white/5">
-                {filteredProducts.map((product) => (
-                  <tr key={product.id} className="group hover:bg-orange-500/[0.02] transition-colors">
-                    <td className="py-6 px-4">
-                      <div className="flex items-center gap-4">
-                        <img src={product.image} className="w-14 h-14 rounded-2xl object-cover shadow-lg" alt="" />
-                        <div>
-                          <span className="dark:text-white text-gray-900 font-bold block">{product.title}</span>
-                          <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest">${product.price}</span>
+                {filteredProducts.map((product, idx) => {
+                  const productId = product.product_id || product.id || idx;
+                  const title = product.product_title || product.title;
+                  const image = product.product_main_image_url || product.image;
+                  const price = product.target_sale_price || product.price;
+                  const merchant = product.second_level_category_name || product.merchant || "Partner";
+
+                  return (
+                    <tr key={productId} className="group hover:bg-orange-500/[0.02] transition-colors">
+                      <td className="py-6 px-4">
+                        <div className="flex items-center gap-4">
+                          <img src={image} className="w-14 h-14 rounded-2xl object-cover shadow-lg" alt="" />
+                          <div>
+                            <span className="dark:text-white text-gray-900 font-bold block">{title}</span>
+                            <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest">${price}</span>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="py-6 px-4">
-                      <span className="bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-white/60 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">{product.category}</span>
-                    </td>
-                    <td className="py-6 px-4">
-                      <span className="text-sm font-bold text-orange-500">{product.merchant || 'Partner'}</span>
-                    </td>
-                    <td className="py-6 px-4">
-                      <div className="flex items-center gap-2">
-                        <MousePointer2 size={14} className="text-orange-500" />
-                        <span className="text-lg font-black dark:text-white">{stats[product.id] || 0}</span>
-                      </div>
-                    </td>
-                    <td className="py-6 px-4">
-                      <div className="flex items-center justify-end gap-2">
-                        <Button 
-                          variant="glass" 
-                          size="sm" 
-                          className="p-2 border-gray-100 dark:border-white/5"
-                          onClick={() => handleEdit(product)}
-                        >
-                          <Edit2 size={16} />
-                        </Button>
-                        <Button 
-                          variant="danger" 
-                          size="sm" 
-                          className="p-2"
-                          onClick={() => {
-                            if(window.confirm('Are you sure you want to delete this product?')) {
-                              deleteProduct(product.id);
-                            }
-                          }}
-                        >
-                          <Trash2 size={16} />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="py-6 px-4">
+                        <span className="bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-white/60 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">{product.category || 'Deal'}</span>
+                      </td>
+                      <td className="py-6 px-4">
+                        <span className="text-sm font-bold text-orange-500">{merchant}</span>
+                      </td>
+                      <td className="py-6 px-4">
+                        <div className="flex items-center gap-2">
+                          <MousePointer2 size={14} className="text-orange-500" />
+                          <span className="text-lg font-black dark:text-white">{stats[productId] || 0}</span>
+                        </div>
+                      </td>
+                      <td className="py-6 px-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <Button
+                            variant="glass"
+                            size="sm"
+                            className="p-2 border-gray-100 dark:border-white/5"
+                            onClick={() => handleEdit(product)}
+                          >
+                            <Edit2 size={16} />
+                          </Button>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            className="p-2"
+                            onClick={() => {
+                              if(window.confirm('Are you sure you want to delete this product?')) {
+                                deleteProduct(productId);
+                              }
+                            }}
+                          >
+                            <Trash2 size={16} />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
