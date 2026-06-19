@@ -40,10 +40,16 @@ export async function onRequest(context) {
     const products = responseRoot?.resp_result?.result?.products?.product || [];
 
     const mappedProducts = products.map(product => ({
+      product_id: product.product_id,
       product_title: product.product_title,
       target_sale_price: product.target_sale_price,
       promotion_link: product.promotion_link,
-      product_main_image_url: product.product_main_image_url
+      product_main_image_url: product.product_main_image_url,
+      evaluate_rate: product.evaluate_rate,
+      original_price: product.original_price,
+      second_level_category_name: product.second_level_category_name,
+      shop_id: product.shop_id,
+      shop_url: product.shop_url
     }));
 
     return new Response(JSON.stringify({

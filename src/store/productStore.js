@@ -14,6 +14,23 @@ import {
 export const useProductStore = create((set) => ({
   products: [],
   loading: true,
+  error: null,
+
+  syncFromAliExpress: async (keywords = 'tech') => {
+    set({ loading: true, error: null });
+    try {
+      const response = await fetch(`/api/products/sync?keywords=${encodeURIComponent(keywords)}`);
+      const data = await response.json();
+
+      if (data.success) {
+        set({ products: data.products, loading: false });
+      } else {
+        set({ error: data.error || 'Failed to sync products', loading: false });
+      }
+    } catch (error) {
+      set({ error: error.message, loading: false });
+    }
+  },
 
   fetchProducts: () => {
     const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));

@@ -7,7 +7,7 @@ import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 
 const CatalogPage = () => {
-  const { products, loading } = useProductStore();
+  const { products, loading, error, syncFromAliExpress } = useProductStore();
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
@@ -16,38 +16,48 @@ const CatalogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
+  useEffect(() => {
+    syncFromAliExpress(searchQuery || 'tech');
+  }, [syncFromAliExpress]);
+
   const allTags = useMemo(() => {
     if (!Array.isArray(products)) return [];
-    return [...new Set(products.flatMap(p => p.tags || []))];
+    return [...new Set(products.flatMap(p => p.tags || [p.second_level_category_name].filter(Boolean)))];
   }, [products]);
 
   const filteredProducts = useMemo(() => {
     if (!Array.isArray(products)) return [];
     return products.filter(p => {
-      const matchesSearch = (p.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           (p.description || '').toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesPrice = parseFloat(p.price || 0) <= priceRange;
-      const matchesRating = parseFloat(p.rating || 0) >= minRating;
-      const matchesTags = selectedTags.length === 0 || selectedTags.every(t => p.tags?.includes(t));
+      const title = p.product_title || p.title || '';
+      const description = p.description || '';
+      const price = parseFloat(p.target_sale_price || p.price || 0);
+      const rating = parseFloat(p.evaluate_rate || p.rating || 0);
+      const category = p.second_level_category_name || '';
+
+      const matchesSearch = title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesPrice = price <= priceRange;
+      const matchesRating = rating >= minRating;
+      const matchesTags = selectedTags.length === 0 || selectedTags.every(t => (p.tags || []).includes(t) || category === t);
       return matchesSearch && matchesPrice && matchesRating && matchesTags;
     });
   }, [products, searchQuery, priceRange, minRating, selectedTags]);
 
   const paginatedProducts = filteredProducts.slice(0, currentPage * itemsPerPage);
 
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    setCurrentPage(1);
+    if (query.length > 2) {
+      syncFromAliExpress(query);
+    }
+  };
+
   const toggleTag = (tag) => {
     setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
     setCurrentPage(1);
   };
-
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center py-24">
-        <Zap className="text-orange-500 animate-pulse mb-4" size={48} />
-        <h2 className="text-xl font-bold dark:text-white">Loading Catalog...</h2>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-8">
@@ -90,7 +100,7 @@ const CatalogPage = () => {
                 <Input 
                   placeholder="Ex: Pro Max..." 
                   value={searchQuery}
-                  onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                  onChange={handleSearch}
                   className="bg-gray-50 dark:bg-black/20 h-12"
                 />
               </div>
@@ -158,40 +168,63 @@ const CatalogPage = () => {
 
         {/* Product Grid */}
         <main className="lg:col-span-3">
-          {paginatedProducts.length > 0 ? (
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4 mb-8 text-red-500 text-sm font-bold text-center">
+              {error}
+            </div>
+          )}
+
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-24 glass-card bg-gray-50 dark:bg-white/2 border-dashed border-gray-200 dark:border-white/10">
+              <Zap className="text-orange-500 animate-pulse mb-4" size={48} />
+              <h3 className="text-xl font-bold dark:text-white uppercase tracking-widest">Syncing Global Deals...</h3>
+              <p className="text-gray-500 text-sm">Fetching the latest prices from AliExpress Gateway</p>
+            </div>
+          ) : paginatedProducts.length > 0 ? (
             <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3' : 'grid-cols-1'}`}>
-              {paginatedProducts.map((product, idx) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: (idx % 12) * 0.05 }}
-                  className={viewMode === 'list' ? 'flex gap-6 glass-card p-4 items-center' : ''}
-                >
-                  {viewMode === 'grid' ? (
-                    <ProductCard product={product} />
-                  ) : (
-                    <>
-                      <img src={product.image} className="w-40 h-40 rounded-2xl object-cover shadow-lg" alt="" />
-                      <div className="flex-grow">
-                         <div className="flex items-center gap-2 mb-2">
-                           <span className="text-[10px] font-black text-orange-500 uppercase">{product.merchant || 'Partner'}</span>
-                           <div className="h-1 w-1 rounded-full bg-gray-300" />
-                           <span className="text-[10px] font-bold text-gray-400 uppercase">{product.category}</span>
-                         </div>
-                         <h3 className="text-xl font-black dark:text-white mb-2">{product.title}</h3>
-                         <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4">{product.description}</p>
-                         <div className="flex items-center justify-between">
-                            <span className="text-2xl font-black dark:text-white">${product.price}</span>
-                            <a href={`/go/${product.slug}`} target="_blank" rel="noopener noreferrer">
-                                <Button size="sm" className="bg-gray-900 dark:bg-orange-500 font-black uppercase text-[10px] tracking-widest">View Deal</Button>
-                            </a>
-                         </div>
-                      </div>
-                    </>
-                  )}
-                </motion.div>
-              ))}
+              {paginatedProducts.map((product, idx) => {
+                const productId = product.product_id || product.id || idx;
+                const title = product.product_title || product.title;
+                const image = product.product_main_image_url || product.image;
+                const price = product.target_sale_price || product.price;
+                const merchant = product.second_level_category_name || product.merchant || "Partner";
+                const buyLink = product.promotion_link || (product.slug ? `/go/${product.slug}` : '#');
+
+                return (
+                  <motion.div
+                    key={productId}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: (idx % 12) * 0.05 }}
+                    className={viewMode === 'list' ? 'flex gap-6 glass-card p-4 items-center' : ''}
+                  >
+                    {viewMode === 'grid' ? (
+                      <ProductCard product={product} />
+                    ) : (
+                      <>
+                        <img src={image} className="w-40 h-40 rounded-2xl object-cover shadow-lg" alt="" />
+                        <div className="flex-grow">
+                           <div className="flex items-center gap-2 mb-2">
+                             <span className="text-[10px] font-black text-orange-500 uppercase">{merchant}</span>
+                             <div className="h-1 w-1 rounded-full bg-gray-300" />
+                             <span className="text-[10px] font-bold text-gray-400 uppercase">{product.category || 'Deal'}</span>
+                           </div>
+                           <h3 className="text-xl font-black dark:text-white mb-2 line-clamp-1">{title}</h3>
+                           {product.description && (
+                             <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4">{product.description}</p>
+                           )}
+                           <div className="flex items-center justify-between">
+                              <span className="text-2xl font-black dark:text-white">${price}</span>
+                              <a href={buyLink} target="_blank" rel="noopener noreferrer">
+                                  <Button size="sm" className="bg-gray-900 dark:bg-orange-500 font-black uppercase text-[10px] tracking-widest">View Deal</Button>
+                              </a>
+                           </div>
+                        </div>
+                      </>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-24 glass-card bg-gray-50 dark:bg-white/2 border-dashed border-gray-200 dark:border-white/10">
