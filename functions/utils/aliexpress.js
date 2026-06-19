@@ -49,19 +49,30 @@ export async function callAliExpressApi(method, apiParams, env) {
 
   const sign = generateSignature(allParams, appSecret);
 
-  const queryParams = new URLSearchParams();
+  const bodyParams = new URLSearchParams();
   for (const [key, value] of Object.entries(allParams)) {
-    queryParams.append(key, value);
+    bodyParams.append(key, value);
   }
-  queryParams.append('sign', sign);
+  bodyParams.append('sign', sign);
 
-  const url = `${BASE_URL}?${queryParams.toString()}`;
+  const response = await fetch(BASE_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+    },
+    body: bodyParams.toString()
+  });
 
-  const response = await fetch(url);
+  const contentType = response.headers.get('content-type') || '';
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`AliExpress API error (${response.status}): ${errorText}`);
+    throw new Error(`AliExpress API error (${response.status}): ${errorText.substring(0, 100)}${errorText.length > 100 ? '...' : ''}`);
+  }
+
+  if (!contentType.includes('application/json')) {
+    const text = await response.text();
+    throw new Error(`Expected JSON response from AliExpress, but got ${contentType}. Response: ${text.substring(0, 100)}${text.length > 100 ? '...' : ''}`);
   }
 
   return await response.json();
