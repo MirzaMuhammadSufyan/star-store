@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
@@ -16,6 +16,9 @@ const AdminDashboard = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('inventory');
+  const [syncKeywords, setSyncKeywords] = useState('');
+  const [syncResults, setSyncResults] = useState([]);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   const stats = getStats();
   const totalClicks = clicks.length;
@@ -53,6 +56,19 @@ const AdminDashboard = () => {
     setIsFormOpen(true);
   };
 
+  const handleAliExpressSync = async () => {
+    if (!syncKeywords) return;
+    setIsSyncing(true);
+    try {
+      const results = await useProductStore.getState().syncFromAliExpress(syncKeywords);
+      setSyncResults(results || []);
+    } catch (error) {
+      console.error("Sync error:", error);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
   if (productsLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-24">
@@ -82,6 +98,12 @@ const AdminDashboard = () => {
                 className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'analytics' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
               >
                 Analytics
+              </button>
+              <button
+                onClick={() => setActiveTab('sync')}
+                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'sync' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
+              >
+                Sync
               </button>
            </div>
            <Button onClick={handleAddNew} className="gap-2 md:gap-3 px-6 md:px-8 h-12 md:h-14 font-black uppercase text-[10px] md:text-xs tracking-widest shadow-orange-500/40">
@@ -171,6 +193,93 @@ const AdminDashboard = () => {
                     </tr>
                   );
                 })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : activeTab === 'sync' ? (
+        <div className="glass-card p-4 md:p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
+          <div className="flex flex-col md:flex-row gap-4 mb-10">
+            <div className="relative flex-grow">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={18} />
+              <Input
+                placeholder="Keywords to sync (e.g. 'gaming mouse')..."
+                className="pl-14 h-12 md:h-14 text-base"
+                value={syncKeywords}
+                onChange={(e) => setSyncKeywords(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAliExpressSync()}
+              />
+            </div>
+            <Button
+              onClick={handleAliExpressSync}
+              disabled={isSyncing}
+              className="h-12 md:h-14 px-8 font-black uppercase tracking-widest"
+            >
+              {isSyncing ? <Zap className="animate-spin" size={18} /> : 'Search AliExpress'}
+            </Button>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-gray-100 dark:border-white/10 text-gray-400 dark:text-white/40 text-[10px] font-black uppercase tracking-widest">
+                  <th className="pb-6 px-4">Product Info</th>
+                  <th className="pb-6 px-4">Merchant/Category</th>
+                  <th className="pb-6 px-4">Price</th>
+                  <th className="pb-6 px-4 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50 dark:divide-white/5">
+                {syncResults.map((product, idx) => (
+                  <tr key={product.product_id || idx} className="group hover:bg-orange-500/[0.02] transition-colors">
+                    <td className="py-6 px-4">
+                      <div className="flex items-center gap-4">
+                        <img src={product.product_main_image_url} className="w-14 h-14 rounded-2xl object-cover shadow-lg" alt="" />
+                        <div>
+                          <span className="dark:text-white text-gray-900 font-bold block line-clamp-1">{product.product_title}</span>
+                          <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest">ID: {product.product_id}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-6 px-4">
+                      <span className="text-sm font-bold text-orange-500 block">{product.second_level_category_name}</span>
+                      <span className="text-[10px] text-gray-400 uppercase font-black">{product.first_level_category_name || 'Electronics'}</span>
+                    </td>
+                    <td className="py-6 px-4">
+                      <span className="text-lg font-black dark:text-white">${product.target_sale_price}</span>
+                    </td>
+                    <td className="py-6 px-4 text-right">
+                      <Button
+                        size="sm"
+                        className="font-black uppercase text-[10px] tracking-widest"
+                        onClick={() => {
+                          const { addProduct } = useProductStore.getState();
+                          addProduct({
+                            title: product.product_title,
+                            price: product.target_sale_price,
+                            image: product.product_main_image_url,
+                            merchant: product.second_level_category_name,
+                            promotion_link: product.promotion_link,
+                            product_id: product.product_id,
+                            category: product.second_level_category_name,
+                            original_price: product.original_price,
+                            evaluate_rate: product.evaluate_rate
+                          });
+                          alert('Product imported successfully!');
+                        }}
+                      >
+                        Import
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+                {syncResults.length === 0 && !isSyncing && (
+                  <tr>
+                    <td colSpan="4" className="py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs">
+                      No results yet. Enter keywords and search.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

@@ -20,15 +20,34 @@ export const useProductStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const response = await fetch(`/api/products/sync?keywords=${encodeURIComponent(keywords)}`);
-      const data = await response.json();
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('AliExpress Sync Error Response:', errorText);
+        set({ error: `Sync failed: ${response.status} ${response.statusText}`, loading: false });
+        return [];
+      }
+
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (jsonError) {
+        console.error('Failed to parse JSON response:', jsonError, 'Raw response:', text);
+        set({ error: 'Invalid response from server', loading: false });
+        return [];
+      }
 
       if (data.success) {
         set({ products: data.products, loading: false });
+        return data.products;
       } else {
         set({ error: data.error || 'Failed to sync products', loading: false });
+        return [];
       }
     } catch (error) {
       set({ error: error.message, loading: false });
+      return [];
     }
   },
 
