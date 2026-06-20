@@ -1,19 +1,24 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap } from 'lucide-react';
+import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap, FileText } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
+import { useBlogStore } from '../store/blogStore';
 import { useAnalyticsStore } from '../store/analyticsStore';
 import { useAuthStore } from '../store/authStore';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import ProductForm from '../components/ProductForm';
+import BlogForm from '../components/BlogForm';
 
 const AdminDashboard = () => {
-  const { products, deleteProduct, loading: productsLoading } = useProductStore();
+  const { dbProducts, deleteProduct, loading: productsLoading } = useProductStore();
+  const { posts: blogPosts, deletePost: deleteBlogPost, loading: blogsLoading } = useBlogStore();
   const { clicks, getStats, fetchClicks } = useAnalyticsStore();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [editingBlog, setEditingBlog] = useState(null);
+  const [isBlogFormOpen, setIsBlogFormOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('inventory');
   const [syncKeywords, setSyncKeywords] = useState('');
@@ -24,12 +29,12 @@ const AdminDashboard = () => {
   const totalClicks = clicks.length;
 
   const filteredProducts = useMemo(() => {
-    if (!Array.isArray(products)) return [];
-    return products.filter(p =>
+    if (!Array.isArray(dbProducts)) return [];
+    return dbProducts.filter(p =>
         (p.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
         (p.category || '').toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [products, searchQuery]);
+  }, [dbProducts, searchQuery]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -40,11 +45,11 @@ const AdminDashboard = () => {
   }, [fetchClicks, isAuthenticated]);
 
   const topProducts = useMemo(() => {
-    if (!Array.isArray(products)) return [];
-    return [...products]
+    if (!Array.isArray(dbProducts)) return [];
+    return [...dbProducts]
         .sort((a, b) => (stats[b.id] || 0) - (stats[a.id] || 0))
         .slice(0, 5);
-  }, [products, stats]);
+  }, [dbProducts, stats]);
 
   const handleEdit = (product) => {
     setEditingProduct(product);
@@ -100,19 +105,90 @@ const AdminDashboard = () => {
                 Analytics
               </button>
               <button
+                onClick={() => setActiveTab('blogs')}
+                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'blogs' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
+              >
+                Blogs
+              </button>
+              <button
                 onClick={() => setActiveTab('sync')}
                 className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'sync' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
               >
                 Sync
               </button>
            </div>
-           <Button onClick={handleAddNew} className="gap-2 md:gap-3 px-6 md:px-8 h-12 md:h-14 font-black uppercase text-[10px] md:text-xs tracking-widest shadow-orange-500/40">
-            <Plus size={18} /> New Product
+           <Button
+            onClick={activeTab === 'blogs' ? () => { setEditingBlog(null); setIsBlogFormOpen(true); } : handleAddNew}
+            className="gap-2 md:gap-3 px-6 md:px-8 h-12 md:h-14 font-black uppercase text-[10px] md:text-xs tracking-widest shadow-orange-500/40"
+          >
+            <Plus size={18} /> {activeTab === 'blogs' ? 'New Blog' : 'New Product'}
           </Button>
         </div>
       </div>
 
-      {activeTab === 'inventory' ? (
+      {activeTab === 'blogs' ? (
+        <div className="glass-card p-4 md:p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
+           <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-gray-100 dark:border-white/10 text-gray-400 dark:text-white/40 text-[10px] font-black uppercase tracking-widest">
+                  <th className="pb-6 px-4">Article</th>
+                  <th className="pb-6 px-4">Category</th>
+                  <th className="pb-6 px-4">Author</th>
+                  <th className="pb-6 px-4">Date</th>
+                  <th className="pb-6 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50 dark:divide-white/5">
+                {blogPosts.map((post) => (
+                  <tr key={post.id} className="group hover:bg-orange-500/[0.02] transition-colors">
+                    <td className="py-6 px-4">
+                      <div className="flex items-center gap-4">
+                        <img src={post.image} className="w-14 h-14 rounded-2xl object-cover shadow-lg" alt="" />
+                        <div>
+                          <span className="dark:text-white text-gray-900 font-bold block">{post.title}</span>
+                          <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest truncate max-w-[200px] block">{post.excerpt}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-6 px-4">
+                       <span className="bg-orange-500/10 text-orange-600 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">{post.category}</span>
+                    </td>
+                    <td className="py-6 px-4">
+                       <span className="text-sm font-bold dark:text-white">{post.author}</span>
+                    </td>
+                    <td className="py-6 px-4 text-sm text-gray-400">{post.date}</td>
+                    <td className="py-6 px-4">
+                      <div className="flex items-center justify-end gap-2">
+                        <Button
+                          variant="glass"
+                          size="sm"
+                          className="p-2 border-gray-100 dark:border-white/5"
+                          onClick={() => { setEditingBlog(post); setIsBlogFormOpen(true); }}
+                        >
+                          <Edit2 size={16} />
+                        </Button>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          className="p-2"
+                          onClick={() => {
+                            if(window.confirm('Are you sure you want to delete this blog post?')) {
+                              deleteBlogPost(post.id);
+                            }
+                          }}
+                        >
+                          <Trash2 size={16} />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : activeTab === 'inventory' ? (
         <div className="glass-card p-4 md:p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
           <div className="relative mb-6 md:mb-10">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={18} />
@@ -342,6 +418,12 @@ const AdminDashboard = () => {
           <ProductForm 
             product={editingProduct} 
             onClose={() => setIsFormOpen(false)} 
+          />
+        )}
+        {isBlogFormOpen && (
+          <BlogForm
+            post={editingBlog}
+            onClose={() => setIsBlogFormOpen(false)}
           />
         )}
       </AnimatePresence>

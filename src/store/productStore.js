@@ -11,8 +11,10 @@ import {
   orderBy
 } from 'firebase/firestore';
 
-export const useProductStore = create((set) => ({
+export const useProductStore = create((set, get) => ({
   products: [],
+  dbProducts: [],
+  apiProducts: [],
   loading: true,
   error: null,
 
@@ -39,8 +41,13 @@ export const useProductStore = create((set) => ({
       }
 
       if (data.success) {
-        set({ products: data.products, loading: false });
-        return data.products;
+        const apiProducts = data.products || [];
+        set({
+          apiProducts,
+          products: [...get().dbProducts, ...apiProducts],
+          loading: false
+        });
+        return apiProducts;
       } else {
         set({ error: data.error || 'Failed to sync products', loading: false });
         return [];
@@ -54,11 +61,15 @@ export const useProductStore = create((set) => ({
   fetchProducts: () => {
     const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const products = snapshot.docs.map(doc => ({
+      const dbProducts = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       }));
-      set({ products, loading: false });
+      set({
+        dbProducts,
+        products: [...dbProducts, ...get().apiProducts],
+        loading: false
+      });
     });
     return unsubscribe;
   },
