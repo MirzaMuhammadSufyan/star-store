@@ -22,7 +22,7 @@ const CatalogPage = () => {
 
   const allTags = useMemo(() => {
     if (!Array.isArray(products)) return [];
-    return [...new Set(products.flatMap(p => p.tags || [p.second_level_category_name].filter(Boolean)))];
+    return [...new Set(products.flatMap(p => p.tags || [p.second_level_category_name, p.category].filter(Boolean)))];
   }, [products]);
 
   const filteredProducts = useMemo(() => {
@@ -32,7 +32,7 @@ const CatalogPage = () => {
       const description = p.description || '';
       const price = parseFloat(p.target_sale_price || p.price || 0);
       const rating = parseFloat(p.evaluate_rate || p.rating || 0);
-      const category = p.second_level_category_name || '';
+      const category = p.second_level_category_name || p.category || '';
 
       const matchesSearch = title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            description.toLowerCase().includes(searchQuery.toLowerCase());

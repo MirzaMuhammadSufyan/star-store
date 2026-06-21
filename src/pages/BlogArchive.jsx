@@ -5,12 +5,21 @@ import { Link } from 'react-router-dom';
 import { useBlogStore } from '../store/blogStore';
 
 const BlogArchive = () => {
-  const { posts, categories } = useBlogStore();
+  const { posts, categories, loading } = useBlogStore();
   const [selectedCategory, setSelectedCategory] = React.useState('All');
 
   const filteredPosts = posts.filter(post => 
     selectedCategory === 'All' || post.category === selectedCategory
   );
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24">
+        <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mb-4" />
+        <h2 className="text-xl font-bold dark:text-white uppercase tracking-widest">Loading Insights...</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-16">
