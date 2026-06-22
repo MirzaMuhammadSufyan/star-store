@@ -13,7 +13,7 @@ const HomePage = () => {
   return (
     <div className="space-y-16 md:space-y-20">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] md:min-h-[70vh] py-16 md:py-0 flex items-center overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border border-orange-500/10 bg-white dark:bg-black/20 mx-2 md:mx-0">
+      <section className="relative min-h-[60vh] md:min-h-[70vh] py-16 md:py-24 flex items-center overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border border-orange-500/10 bg-white dark:bg-black/20 mx-4 md:mx-0">
         <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-orange-500/5" />
         
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -56,8 +56,8 @@ const HomePage = () => {
            </div>
         </div>
 
-        <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="max-w-2xl space-y-6 md:space-y-8">
+        <div className="container mx-auto px-6 sm:px-8 md:px-14 relative z-10">
+          <div className="max-w-2xl space-y-5 md:space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
