@@ -13,7 +13,7 @@ const HomePage = () => {
   return (
     <div className="space-y-16 md:space-y-20">
       {/* Hero Section */}
-      <section className="relative h-[60vh] md:h-[70vh] flex items-center overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border border-orange-500/10 bg-white dark:bg-black/20 mx-2 md:mx-0">
+      <section className="relative min-h-[60vh] md:min-h-[70vh] py-16 md:py-0 flex items-center overflow-hidden rounded-[2.5rem] md:rounded-[3rem] border border-orange-500/10 bg-white dark:bg-black/20 mx-2 md:mx-0">
         <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-orange-500/5" />
         
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
