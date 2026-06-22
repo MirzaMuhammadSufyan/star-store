@@ -8,19 +8,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Muted clay accent — desaturated from the old neon orange, used sparingly
+        // Royal indigo brand accent. Kept the key name "orange" so every
+        // existing orange-* class across the app picks this up without
+        // touching every component.
         orange: {
-          50: '#fbf8f5',
-          100: '#f3ebe2',
-          200: '#e6d3bf',
-          300: '#d2b08c',
-          400: '#bd8c61',
-          500: '#a96f43',
-          600: '#925a35',
-          700: '#75472a',
-          800: '#5c3922',
-          900: '#4a2e1c',
-          950: '#2c1c11',
+          50: '#eef2ff',
+          100: '#e0e7ff',
+          200: '#c7d2fe',
+          300: '#a5b4fc',
+          400: '#818cf8',
+          500: '#6366f1',
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+          950: '#1e1b4b',
         },
         glass: {
           light: "rgba(255, 255, 255, 0.6)",
@@ -29,10 +31,10 @@ export default {
           border: "rgba(0, 0, 0, 0.06)",
         },
         premium: {
-          primary: "#a96f43",
-          purple: "#6b7280",
-          pink: "#a96f43",
-          orange: "#a96f43",
+          primary: "#4f46e5",
+          purple: "#4f46e5",
+          pink: "#4f46e5",
+          orange: "#4f46e5",
           dark: "#0c0c0d",
           surface: {
             light: "#fafaf9",
@@ -47,7 +49,7 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
-        'orange-glow': 'radial-gradient(circle at center, rgba(169, 111, 67, 0.08) 0%, transparent 70%)',
+        'orange-glow': 'radial-gradient(circle at center, rgba(79, 70, 229, 0.10) 0%, transparent 70%)',
       },
       backdropBlur: {
         xs: '2px',

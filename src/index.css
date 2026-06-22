@@ -24,7 +24,7 @@
   }
 }
 
-/* Ambient Background — a single quiet wash instead of competing neon glows */
+/* Ambient Background — one warm, confident glow instead of competing neon colors */
 .ambient-bg {
   position: fixed;
   top: 0;
@@ -32,12 +32,16 @@
   right: 0;
   bottom: 0;
   z-index: -1;
-  background: radial-gradient(circle at 50% 0%, rgba(169, 111, 67, 0.05) 0%, transparent 50%);
-  filter: blur(100px);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(79, 70, 229, 0.10) 0%, transparent 45%),
+    radial-gradient(circle at 85% 70%, rgba(79, 70, 229, 0.06) 0%, transparent 50%);
+  filter: blur(90px);
 }
 
 .dark .ambient-bg {
-  background: radial-gradient(circle at 50% 0%, rgba(169, 111, 67, 0.07) 0%, transparent 50%);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(99, 102, 241, 0.20) 0%, transparent 45%),
+    radial-gradient(circle at 85% 70%, rgba(99, 102, 241, 0.12) 0%, transparent 50%);
 }
 
 .glass-card {
@@ -130,8 +134,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(169, 111, 67, 0); }
-  50% { box-shadow: 0 0 16px 4px rgba(169, 111, 67, 0.12); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+  50% { box-shadow: 0 0 16px 4px rgba(79, 70, 229, 0.18); }
 }
 
 .hover-glow:hover {

@@ -69,12 +69,12 @@ const ProductCard = ({ product }) => {
         {JSON.stringify(jsonLd)}
       </script>
       <motion.div
-        className="glass-card group overflow-hidden flex flex-col h-full hover:border-gray-200 dark:hover:border-white/15 transition-all duration-300 relative"
+        className="glass-card group overflow-hidden flex flex-col h-full hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/5 transition-all duration-300 relative"
       >
         {/* Discount Badge */}
         {discountPercent > 0 && (
           <div className="absolute top-3 left-3 z-10">
-            <div className="bg-white/95 dark:bg-black/70 text-gray-800 dark:text-white/90 text-[11px] font-medium px-2.5 py-1 rounded-md flex items-center gap-1 border border-gray-100 dark:border-white/10">
+            <div className="bg-orange-600 text-white text-[11px] font-semibold px-2.5 py-1 rounded-md flex items-center gap-1 shadow-sm">
               −{discountPercent}%
             </div>
           </div>
@@ -98,16 +98,16 @@ const ProductCard = ({ product }) => {
 
         <div className="p-4 flex flex-col flex-grow">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-gray-400 dark:text-white/40 text-[11px] uppercase tracking-wide">
+            <span className="text-orange-600 dark:text-orange-400 text-[11px] uppercase tracking-wide font-medium">
               {merchant}
             </span>
-            <div className="flex items-center text-gray-400 dark:text-white/40 ml-auto">
+            <div className="flex items-center text-amber-500 ml-auto">
               <Star size={11} fill="currentColor" />
-              <span className="text-[11px] ml-1">{rating}</span>
+              <span className="text-[11px] ml-1 text-gray-500 dark:text-white/50">{rating}</span>
             </div>
           </div>
 
-          <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 line-clamp-1">
+          <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 line-clamp-1 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
             {title}
           </h3>
           {product.description && (
@@ -125,7 +125,7 @@ const ProductCard = ({ product }) => {
             </div>
 
             <a href={buyLink} target="_blank" rel="nofollow noopener" onClick={handleDealClick}>
-              <Button size="sm" className="h-9 px-4 text-xs font-medium gap-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100">
+              <Button size="sm" className="h-9 px-4 text-xs font-medium gap-2 bg-orange-600 text-white hover:bg-orange-700">
                 View Deal <ExternalLink size={12} />
               </Button>
             </a>

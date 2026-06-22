@@ -26,8 +26,8 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-[#0c0c0d]/80 backdrop-blur-md border-b border-gray-100 dark:border-white/[0.06] transition-colors duration-300">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 h-16">
         <Link to="/" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-md bg-gray-900 dark:bg-white flex items-center justify-center">
-            <ShoppingBag className="text-white dark:text-gray-900" size={15} />
+          <div className="w-7 h-7 rounded-md bg-orange-600 flex items-center justify-center">
+            <ShoppingBag className="text-white" size={15} />
           </div>
           <span className="text-[15px] font-medium tracking-tight text-gray-900 dark:text-white">
             Star Store
@@ -42,7 +42,7 @@ const Navbar = () => {
               to={link.path}
               className={`text-sm transition-colors ${
                 location.pathname === link.path
-                  ? 'text-gray-900 dark:text-white font-medium'
+                  ? 'text-orange-600 dark:text-orange-400 font-medium'
                   : 'text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
@@ -58,11 +58,11 @@ const Navbar = () => {
 
           <button
             onPointerUp={toggleCart}
-            className="p-2 relative rounded-lg text-gray-500 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
+            className="p-2 relative rounded-lg text-gray-500 dark:text-white/60 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-500/10 transition-all"
           >
             <ShoppingCart size={19} />
             {getItemCount() > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-[10px] font-medium rounded-full flex items-center justify-center">
+              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-orange-600 text-white text-[10px] font-medium rounded-full flex items-center justify-center">
                 {getItemCount()}
               </span>
             )}
