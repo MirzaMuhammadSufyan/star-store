@@ -24,6 +24,11 @@
   }
 }
 
+/* Two-font system: Plus Jakarta Sans for bold headings, Inter for everything else */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+}
+
 /* Ambient Background — one warm, confident glow instead of competing neon colors */
 .ambient-bg {
   position: fixed;
@@ -46,16 +51,17 @@
 
 .glass-card {
   @apply rounded-2xl transition-all duration-300;
+  backdrop-filter: blur(16px);
 }
 
 .dark .glass-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
 }
 
 .light .glass-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
 }

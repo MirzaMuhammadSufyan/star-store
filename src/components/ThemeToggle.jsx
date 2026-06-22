@@ -10,7 +10,7 @@ const ThemeToggle = () => {
   return (
     <button
       onPointerUp={() => setTheme(isDark ? 'light' : 'dark')}
-      className="p-2 rounded-lg text-orange-600 dark:text-orange-400 hover:bg-orange-500/10 transition-all overflow-hidden"
+      className="w-11 h-11 flex items-center justify-center rounded-lg text-orange-600 dark:text-orange-400 hover:bg-orange-500/10 transition-all overflow-hidden"
       title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       <AnimatePresence mode="wait" initial={false}>

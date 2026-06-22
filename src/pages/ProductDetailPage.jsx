@@ -107,7 +107,7 @@ const ProductDetailPage = () => {
           <div className="grid grid-cols-4 gap-4">
             {[1,2,3,4].map((i) => (
               <div key={i} className="glass-card p-1 dark:bg-white/5 bg-white border-gray-100 dark:border-white/10 cursor-pointer hover:border-orange-500 transition-colors">
-                <img src={product.image} className="aspect-square object-cover rounded-lg opacity-50 hover:opacity-100 transition-opacity" alt="" />
+                <img src={product.image} className="aspect-square object-cover rounded-lg opacity-50 hover:opacity-100 transition-opacity" alt={`${product.title} thumbnail ${i}`} />
               </div>
             ))}
           </div>

@@ -112,7 +112,7 @@ const ContactPage = () => {
                       ></textarea>
                     </div>
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-4">
-                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest max-w-[240px]">
+                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest max-w-[15rem]">
                          By submitting, you agree to our <span className="text-orange-500 underline">Privacy Guidelines</span>.
                        </p>
                        <Button 

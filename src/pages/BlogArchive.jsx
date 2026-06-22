@@ -57,10 +57,10 @@ const BlogArchive = () => {
             className="group flex flex-col space-y-6"
           >
             <Link to={`/blog/${post.id}`} className="block relative aspect-[16/10] overflow-hidden rounded-[3rem] glass-card border-gray-100 dark:border-white/10">
-              <img 
-                src={post.image} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                alt="" 
+              <img
+                src={post.image}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                alt={post.title}
               />
               <div className="absolute top-6 left-6">
                  <span className="bg-white/90 dark:bg-black/80 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest dark:text-white flex items-center gap-2 shadow-lg">

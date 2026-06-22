@@ -58,7 +58,7 @@ const Navbar = () => {
 
           <button
             onPointerUp={toggleCart}
-            className="p-2 relative rounded-lg text-gray-500 dark:text-white/60 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-500/10 transition-all"
+            className="w-11 h-11 flex items-center justify-center relative rounded-lg text-gray-500 dark:text-white/60 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-500/10 transition-all"
           >
             <ShoppingCart size={19} />
             {getItemCount() > 0 && (
@@ -71,7 +71,7 @@ const Navbar = () => {
           <div className="hidden sm:flex items-center gap-2 ml-1">
             {isAuthenticated ? (
               <>
-                <Link to="/admin/dashboard" className="p-2 rounded-lg text-gray-500 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
+                <Link to="/admin/dashboard" className="w-11 h-11 flex items-center justify-center rounded-lg text-gray-500 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
                   <LayoutDashboard size={19} />
                 </Link>
                 <Button
@@ -93,7 +93,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onPointerUp={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg text-gray-500 dark:text-white/60 hover:bg-gray-100 dark:hover:bg-white/5"
+            className="lg:hidden w-11 h-11 flex items-center justify-center rounded-lg text-gray-500 dark:text-white/60 hover:bg-gray-100 dark:hover:bg-white/5"
           >
             {isMobileMenuOpen ? <X size={19} /> : <Menu size={19} />}
           </button>

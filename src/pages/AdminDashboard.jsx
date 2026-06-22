@@ -147,7 +147,7 @@ const AdminDashboard = () => {
                         <img src={post.image} className="w-14 h-14 rounded-2xl object-cover shadow-lg" alt="" />
                         <div>
                           <span className="dark:text-white text-gray-900 font-bold block">{post.title}</span>
-                          <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest truncate max-w-[200px] block">{post.excerpt}</span>
+                          <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest truncate max-w-[12.5rem] block">{post.excerpt}</span>
                         </div>
                       </div>
                     </td>
@@ -365,13 +365,13 @@ const AdminDashboard = () => {
           {/* Analytics Overview */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
              {[
-               { label: 'Total Engagement', val: totalClicks, icon: MousePointer2, color: 'text-orange-500' },
-               { label: 'Unique Merchant Hits', val: new Set(clicks.map(c => c.merchant)).size, icon: TrendingUp, color: 'text-green-500' },
-               { label: 'Conversion Intent', val: (totalClicks * 0.15).toFixed(0), icon: BarChart3, color: 'text-blue-500' },
-               { label: 'Active Tracking Nodes', val: filteredProducts.length, icon: Users, color: 'text-purple-500' },
+               { label: 'Total Engagement', val: totalClicks, icon: MousePointer2 },
+               { label: 'Unique Merchant Hits', val: new Set(clicks.map(c => c.merchant)).size, icon: TrendingUp },
+               { label: 'Conversion Intent', val: (totalClicks * 0.15).toFixed(0), icon: BarChart3 },
+               { label: 'Active Tracking Nodes', val: filteredProducts.length, icon: Users },
              ].map((stat, i) => (
                <div key={i} className="glass-card p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5">
-                  <stat.icon className={`${stat.color} mb-4`} size={32} />
+                  <stat.icon className="text-orange-500 mb-4" size={32} />
                   <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{stat.label}</h4>
                   <p className="text-4xl font-black dark:text-white text-gray-900">{stat.val}</p>
                </div>
