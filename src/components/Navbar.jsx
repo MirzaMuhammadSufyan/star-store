@@ -23,7 +23,8 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-[#0c0c0d]/80 backdrop-blur-md border-b border-gray-100 dark:border-white/[0.06] transition-colors duration-300">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-orange-50/60 dark:bg-[#0c0c0d]/80 backdrop-blur-md border-b border-gray-100 dark:border-white/[0.06] transition-colors duration-300">
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/40 to-transparent" />
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 h-16">
         <Link to="/" className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-md bg-orange-600 flex items-center justify-center">

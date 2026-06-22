@@ -52,9 +52,11 @@ export async function onRequest(context) {
       target_sale_price: product.target_sale_price,
       promotion_link: product.promotion_link,
       product_main_image_url: product.product_main_image_url,
+      product_small_image_urls: product.product_small_image_urls?.string || [],
       evaluate_rate: product.evaluate_rate,
       original_price: product.original_price,
       second_level_category_name: product.second_level_category_name,
+      first_level_category_name: product.first_level_category_name,
       shop_id: product.shop_id,
       shop_url: product.shop_url
     }));
