@@ -1,8 +1,16 @@
-import { APP_KEY, APP_SECRET, getAliExpressTimestamp, generateAliExpressSign, corsHeaders } from './_utils.js';
+import { APP_KEY, getAliExpressTimestamp, generateAliExpressSign, corsHeaders } from './_utils.js';
 
 export async function onRequestGet(context) {
-  const { request } = context;
+  const { request, env } = context;
   const url = new URL(request.url);
+
+  const appSecret = env.ALIEXPRESS_APP_SECRET;
+  if (!appSecret) {
+    return new Response(JSON.stringify({ error: 'ALIEXPRESS_APP_SECRET is not configured' }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" }
+    });
+  }
 
   const keywords = url.searchParams.get("keywords") || "gadgets";
   const pageNo = url.searchParams.get("page_no") || "1";
@@ -20,7 +28,7 @@ export async function onRequestGet(context) {
     page_size: pageSize
   };
 
-  params.sign = await generateAliExpressSign(params, APP_SECRET);
+  params.sign = generateAliExpressSign(params, appSecret);
 
   const targetUrl = new URL("https://eco.aliexpress.com/router/rest");
   Object.keys(params).forEach(k => targetUrl.searchParams.append(k, params[k]));

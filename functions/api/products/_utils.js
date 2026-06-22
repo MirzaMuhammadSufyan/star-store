@@ -1,5 +1,6 @@
+import crypto from 'node:crypto';
+
 export const APP_KEY = "537400";
-export const APP_SECRET = "2Fvp5xp40Nl0Hg0vZWlHsulkm2VMcwfs";
 
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -17,9 +18,10 @@ export const getAliExpressTimestamp = () => {
 };
 
 /**
- * Helper to compute MD5 Signature using Web Crypto API
+ * Helper to compute MD5 Signature. Web Crypto's digest() does not support MD5,
+ * so this uses node:crypto (available via the nodejs_compat flag).
  */
-export const generateAliExpressSign = async (params, secret) => {
+export const generateAliExpressSign = (params, secret) => {
   const sortedKeys = Object.keys(params).sort();
   let signString = secret;
   for (const key of sortedKeys) {
@@ -27,9 +29,5 @@ export const generateAliExpressSign = async (params, secret) => {
   }
   signString += secret;
 
-  const encoder = new TextEncoder();
-  const data = encoder.encode(signString);
-  const hashBuffer = await crypto.subtle.digest("MD5", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+  return crypto.createHash('md5').update(signString, 'utf8').digest('hex').toUpperCase();
 };
