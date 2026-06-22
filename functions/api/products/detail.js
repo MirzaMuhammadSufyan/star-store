@@ -32,7 +32,7 @@ export async function onRequestGet(context) {
 
   params.sign = generateAliExpressSign(params, appSecret);
 
-  const targetUrl = new URL("https://eco.aliexpress.com/router/rest");
+  const targetUrl = new URL("https://api-sg.aliexpress.com/sync");
   Object.keys(params).forEach(k => targetUrl.searchParams.append(k, params[k]));
 
   try {

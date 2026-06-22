@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 
 const APP_KEY = '537400';
-const BASE_URL = 'https://api.aliexpress.com/sync';
+const BASE_URL = 'https://api-sg.aliexpress.com/sync';
 
 /**
  * Generates the AliExpress API signature.
