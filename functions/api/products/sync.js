@@ -5,6 +5,8 @@ export async function onRequest(context) {
   const url = new URL(request.url);
   const categoryId = url.searchParams.get('category_id');
   const keywords = url.searchParams.get('keywords');
+  const pageNo = url.searchParams.get('page_no') || '1';
+  const pageSize = url.searchParams.get('page_size') || '20';
 
   if (!categoryId && !keywords) {
     return new Response(JSON.stringify({ error: 'Missing category_id or keywords parameter' }), {
@@ -14,7 +16,11 @@ export async function onRequest(context) {
   }
 
   const apiParams = {
-    method: 'aliexpress.affiliate.product.query'
+    page_no: pageNo,
+    page_size: pageSize,
+    target_currency: 'USD',
+    target_language: 'EN',
+    tracking_id: env.ALIEXPRESS_TRACKING_ID || 'default'
   };
 
   if (categoryId) apiParams.category_ids = categoryId;
@@ -40,10 +46,13 @@ export async function onRequest(context) {
     const products = responseRoot?.resp_result?.result?.products?.product || [];
 
     const mappedProducts = products.map(product => ({
-      product_title: product.product_title,
-      target_sale_price: product.target_sale_price,
-      promotion_link: product.promotion_link,
-      product_main_image_url: product.product_main_image_url
+      title: product.product_title,
+      price: product.target_sale_price,
+      affiliateLink: product.promotion_link,
+      image: product.product_main_image_url,
+      category: product.first_level_category_name || product.second_level_category_name || 'General',
+      description: product.product_title,
+      merchant: 'AliExpress'
     }));
 
     return new Response(JSON.stringify({

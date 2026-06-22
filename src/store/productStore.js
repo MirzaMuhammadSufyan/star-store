@@ -40,6 +40,25 @@ export const useProductStore = create((set) => ({
     }
   },
 
+  bulkAddProducts: async (products) => {
+    let added = 0;
+    for (const product of products) {
+      if (!product.title) continue;
+      try {
+        const slug = product.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        await addDoc(collection(db, 'products'), {
+          ...product,
+          slug,
+          createdAt: new Date().toISOString()
+        });
+        added++;
+      } catch (error) {
+        console.error("Error adding product:", error);
+      }
+    }
+    return added;
+  },
+
   updateProduct: async (id, updatedProduct) => {
     try {
       const productRef = doc(db, 'products', id);

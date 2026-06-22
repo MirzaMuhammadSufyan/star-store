@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap } from 'lucide-react';
+import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap, RefreshCcw, AlertCircle } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useAnalyticsStore } from '../store/analyticsStore';
 import { useAuthStore } from '../store/authStore';
@@ -9,13 +9,41 @@ import { Input } from '../components/ui/Input';
 import ProductForm from '../components/ProductForm';
 
 const AdminDashboard = () => {
-  const { products, deleteProduct, loading: productsLoading } = useProductStore();
+  const { products, deleteProduct, loading: productsLoading, bulkAddProducts } = useProductStore();
   const { clicks, getStats, fetchClicks } = useAnalyticsStore();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('inventory');
+  const [syncKeywords, setSyncKeywords] = useState('');
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncError, setSyncError] = useState('');
+  const [syncSuccess, setSyncSuccess] = useState('');
+
+  const handleSync = async () => {
+    if (!syncKeywords.trim()) {
+      setSyncError('Enter keywords to search AliExpress for');
+      return;
+    }
+    setSyncError('');
+    setSyncSuccess('');
+    setIsSyncing(true);
+    try {
+      const res = await fetch(`/api/products/sync?keywords=${encodeURIComponent(syncKeywords.trim())}`);
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Sync failed');
+      }
+      const added = await bulkAddProducts(data.products);
+      setSyncSuccess(`Imported ${added} of ${data.count} products from AliExpress.`);
+      setSyncKeywords('');
+    } catch (err) {
+      setSyncError(err.message);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   const stats = getStats();
   const totalClicks = clicks.length;
@@ -92,6 +120,34 @@ const AdminDashboard = () => {
 
       {activeTab === 'inventory' ? (
         <div className="glass-card p-4 md:p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
+          <div className="relative mb-6 md:mb-10 p-6 bg-orange-500/5 border border-orange-500/20 rounded-2xl">
+            <div className="flex items-center gap-2 text-orange-500 font-black text-sm uppercase tracking-widest mb-4">
+              <RefreshCcw size={18} /> Sync from AliExpress
+            </div>
+            <div className="flex gap-3">
+              <Input
+                placeholder="Search keywords, e.g. wireless earbuds"
+                value={syncKeywords}
+                onChange={(e) => setSyncKeywords(e.target.value)}
+                className="bg-white dark:bg-black/20 h-12"
+                disabled={isSyncing}
+              />
+              <Button onClick={handleSync} disabled={isSyncing} className="px-8 h-12 font-black uppercase text-[10px] tracking-widest whitespace-nowrap">
+                {isSyncing ? 'Syncing...' : 'Import Products'}
+              </Button>
+            </div>
+            {syncError && (
+              <div className="flex items-center gap-2 text-xs text-red-500 font-bold bg-red-500/10 p-3 rounded-xl mt-4">
+                <AlertCircle size={14} /> {syncError}
+              </div>
+            )}
+            {syncSuccess && (
+              <div className="text-xs text-green-600 font-bold bg-green-500/10 p-3 rounded-xl mt-4">
+                {syncSuccess}
+              </div>
+            )}
+          </div>
+
           <div className="relative mb-6 md:mb-10">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={18} />
             <Input 
