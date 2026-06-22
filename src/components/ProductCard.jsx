@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ExternalLink, Star, Share2, Flame } from 'lucide-react';
+import { ExternalLink, Star, Share2 } from 'lucide-react';
 import { Button } from './ui/Button';
 import { useAnalyticsStore } from '../store/analyticsStore';
 
@@ -69,64 +69,63 @@ const ProductCard = ({ product }) => {
         {JSON.stringify(jsonLd)}
       </script>
       <motion.div
-        className="glass-card group overflow-hidden flex flex-col h-full hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 relative"
+        className="glass-card group overflow-hidden flex flex-col h-full hover:border-gray-200 dark:hover:border-white/15 transition-all duration-300 relative"
       >
         {/* Discount Badge */}
         {discountPercent > 0 && (
-          <div className="absolute top-4 left-4 z-10 animate-bounce">
-            <div className="bg-orange-500 text-white text-[10px] font-black px-3 py-1 rounded-full flex items-center gap-1 shadow-lg shadow-orange-500/30 uppercase tracking-tighter">
-              <Flame size={10} /> Save {discountPercent}%
+          <div className="absolute top-3 left-3 z-10">
+            <div className="bg-white/95 dark:bg-black/70 text-gray-800 dark:text-white/90 text-[11px] font-medium px-2.5 py-1 rounded-md flex items-center gap-1 border border-gray-100 dark:border-white/10">
+              −{discountPercent}%
             </div>
           </div>
         )}
 
         {/* Share Button */}
-        <button 
+        <button
           onPointerUp={copyToClipboard}
-          className="absolute top-4 right-4 z-10 p-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all hover:bg-orange-500"
+          className="absolute top-3 right-3 z-10 p-2 bg-white/90 dark:bg-black/60 border border-gray-100 dark:border-white/10 rounded-full text-gray-600 dark:text-white/80 opacity-0 group-hover:opacity-100 transition-all hover:text-gray-900 dark:hover:text-white"
         >
-          <Share2 size={14} />
+          <Share2 size={13} />
         </button>
 
         <Link to={`/product/${productId}`} className="block relative aspect-[4/3] overflow-hidden">
-          <img 
+          <img
             src={image}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         </Link>
-        
+
         <div className="p-4 flex flex-col flex-grow">
           <div className="flex items-center gap-2 mb-2">
-            <span className="bg-orange-500/10 text-orange-600 dark:text-orange-400 text-[9px] font-black uppercase tracking-[0.1em] px-2 py-0.5 rounded-full border border-orange-500/20">
+            <span className="text-gray-400 dark:text-white/40 text-[11px] uppercase tracking-wide">
               {merchant}
             </span>
-            <div className="flex items-center text-yellow-500 ml-auto">
-              <Star size={10} fill="currentColor" />
-              <span className="text-[10px] ml-1 font-bold">{rating}</span>
+            <div className="flex items-center text-gray-400 dark:text-white/40 ml-auto">
+              <Star size={11} fill="currentColor" />
+              <span className="text-[11px] ml-1">{rating}</span>
             </div>
           </div>
-          
-          <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 group-hover:text-orange-500 transition-colors">
+
+          <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1 line-clamp-1">
             {title}
           </h3>
           {product.description && (
-            <p className="text-gray-500 dark:text-white/50 text-[11px] mb-4 line-clamp-2 leading-relaxed">
+            <p className="text-gray-500 dark:text-white/50 text-[12px] mb-4 line-clamp-2 leading-relaxed">
               {product.description}
             </p>
           )}
-          
+
           <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100 dark:border-white/5">
             <div className="flex flex-col">
               <span className="text-xs text-gray-400 line-through leading-none mb-0.5">
                 ${originalPriceRaw}
               </span>
-              <span className="text-base font-black text-gray-900 dark:text-white">${price}</span>
+              <span className="text-base font-semibold text-gray-900 dark:text-white">${price}</span>
             </div>
-            
+
             <a href={buyLink} target="_blank" rel="nofollow noopener" onClick={handleDealClick}>
-              <Button size="sm" className="h-9 px-4 text-[10px] font-black uppercase tracking-widest gap-2 bg-gray-900 dark:bg-orange-500">
+              <Button size="sm" className="h-9 px-4 text-xs font-medium gap-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100">
                 View Deal <ExternalLink size={12} />
               </Button>
             </a>

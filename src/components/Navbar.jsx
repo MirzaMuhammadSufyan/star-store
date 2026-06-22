@@ -23,27 +23,27 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-4 md:px-6 py-2 md:py-3">
-      <div className="max-w-7xl mx-auto flex items-center justify-between glass-morphism bg-white/70 dark:bg-black/60 px-4 md:px-6 py-2 rounded-xl md:rounded-2xl border border-white/20 dark:border-white/10 shadow-xl backdrop-blur-xl transition-colors duration-300">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 md:w-9 md:h-9 bg-orange-500 rounded-lg md:rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30">
-            <ShoppingBag className="text-white" size={18} />
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-[#0c0c0d]/80 backdrop-blur-md border-b border-gray-100 dark:border-white/[0.06] transition-colors duration-300">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 h-16">
+        <Link to="/" className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-md bg-gray-900 dark:bg-white flex items-center justify-center">
+            <ShoppingBag className="text-white dark:text-gray-900" size={15} />
           </div>
-          <span className="text-base md:text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-            Star<span className="text-orange-500">Store</span>
+          <span className="text-[15px] font-medium tracking-tight text-gray-900 dark:text-white">
+            Star Store
           </span>
         </Link>
 
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
-            <Link 
-              key={link.path} 
-              to={link.path} 
-              className={`text-sm font-medium transition-colors ${
-                location.pathname === link.path 
-                  ? 'text-orange-500' 
-                  : 'text-gray-600 dark:text-white/70 hover:text-orange-500 dark:hover:text-white'
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`text-sm transition-colors ${
+                location.pathname === link.path
+                  ? 'text-gray-900 dark:text-white font-medium'
+                  : 'text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               {link.name}
@@ -51,32 +51,32 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex items-center gap-1 md:gap-2">
           <div className="hidden sm:block">
             <ThemeToggle />
           </div>
-          
-          <button 
+
+          <button
             onPointerUp={toggleCart}
-            className="p-2 relative rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/70 hover:text-orange-500 transition-all"
+            className="p-2 relative rounded-lg text-gray-500 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
           >
-            <ShoppingCart size={20} />
+            <ShoppingCart size={19} />
             {getItemCount() > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-[10px] font-medium rounded-full flex items-center justify-center">
                 {getItemCount()}
               </span>
             )}
           </button>
 
-          <div className="hidden sm:flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-2 ml-1">
             {isAuthenticated ? (
               <>
-                <Link to="/admin/dashboard" className="p-2 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/70 hover:text-orange-500">
-                  <LayoutDashboard size={20} />
+                <Link to="/admin/dashboard" className="p-2 rounded-lg text-gray-500 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
+                  <LayoutDashboard size={19} />
                 </Link>
-                <Button 
-                  variant="glass" 
-                  size="sm" 
+                <Button
+                  variant="glass"
+                  size="sm"
                   onPointerUp={() => { logout(); navigate('/'); }}
                   className="px-4 border-gray-200 dark:border-white/10 dark:text-white text-gray-900"
                 >
@@ -91,11 +91,11 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             onPointerUp={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 rounded-xl bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/70"
+            className="lg:hidden p-2 rounded-lg text-gray-500 dark:text-white/60 hover:bg-gray-100 dark:hover:bg-white/5"
           >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {isMobileMenuOpen ? <X size={19} /> : <Menu size={19} />}
           </button>
         </div>
       </div>
@@ -104,24 +104,24 @@ const Navbar = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="lg:hidden absolute top-24 left-4 right-4 bg-white dark:bg-premium-dark rounded-2xl p-6 border border-gray-100 dark:border-white/10 shadow-2xl z-40"
+            exit={{ opacity: 0, y: -10 }}
+            className="lg:hidden absolute top-16 left-0 right-0 bg-white dark:bg-[#0c0c0d] p-6 border-b border-gray-100 dark:border-white/[0.06] shadow-lg z-40"
           >
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
-                <Link 
-                  key={link.path} 
-                  to={link.path} 
+                <Link
+                  key={link.path}
+                  to={link.path}
                   onPointerUp={() => setIsMobileMenuOpen(false)}
-                  className="text-lg font-medium text-gray-900 dark:text-white border-b border-gray-50 dark:border-white/5 pb-2"
+                  className="text-base text-gray-700 dark:text-white/80 border-b border-gray-50 dark:border-white/5 pb-3"
                 >
                   {link.name}
                 </Link>
               ))}
               <div className="flex items-center justify-between pt-2">
-                <span className="text-gray-500 dark:text-gray-400">Theme</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">Theme</span>
                 <ThemeToggle />
               </div>
               <div className="pt-4">
