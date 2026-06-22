@@ -5,6 +5,8 @@ export async function onRequest(context) {
   const url = new URL(request.url);
   const categoryId = url.searchParams.get('category_id');
   const keywords = url.searchParams.get('keywords');
+  const pageNo = url.searchParams.get('page_no') || '1';
+  const pageSize = url.searchParams.get('page_size') || '20';
 
   if (!categoryId && !keywords) {
     return new Response(JSON.stringify({ error: 'Missing category_id or keywords parameter' }), {
@@ -14,7 +16,12 @@ export async function onRequest(context) {
   }
 
   const apiParams = {
-    method: 'aliexpress.affiliate.product.query'
+    method: 'aliexpress.affiliate.product.query',
+    page_no: pageNo,
+    page_size: pageSize,
+    target_currency: 'USD',
+    target_language: 'EN',
+    tracking_id: env.ALIEXPRESS_TRACKING_ID || 'default'
   };
 
   if (categoryId) apiParams.category_ids = categoryId;

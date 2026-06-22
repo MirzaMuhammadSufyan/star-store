@@ -11,7 +11,7 @@ const CatalogPage = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
-  const [priceRange, setPriceRange] = useState(3000);
+  const [priceRange, setPriceRange] = useState(null);
   const [minRating, setMinRating] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
@@ -19,6 +19,12 @@ const CatalogPage = () => {
   useEffect(() => {
     syncFromAliExpress(searchQuery || 'tech');
   }, [syncFromAliExpress]);
+
+  const maxPrice = useMemo(() => {
+    if (!Array.isArray(products) || products.length === 0) return 3000;
+    const highest = Math.max(...products.map(p => parseFloat(p.target_sale_price || p.price) || 0));
+    return Math.max(Math.ceil(highest / 100) * 100, 100);
+  }, [products]);
 
   const allTags = useMemo(() => {
     if (!Array.isArray(products)) return [];
@@ -36,7 +42,7 @@ const CatalogPage = () => {
 
       const matchesSearch = title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            description.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesPrice = price <= priceRange;
+      const matchesPrice = priceRange == null || price <= priceRange;
       const matchesRating = rating >= minRating;
       const matchesTags = selectedTags.length === 0 || selectedTags.every(t => (p.tags || []).includes(t) || category === t);
       return matchesSearch && matchesPrice && matchesRating && matchesTags;
@@ -111,18 +117,18 @@ const CatalogPage = () => {
                   <SlidersHorizontal size={14} className="text-orange-500" /> Price Cap
                 </h3>
                 <div className="space-y-4">
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="3000" 
+                  <input
+                    type="range"
+                    min="0"
+                    max={maxPrice}
                     step="100"
-                    value={priceRange}
+                    value={priceRange ?? maxPrice}
                     onChange={(e) => { setPriceRange(parseInt(e.target.value)); setCurrentPage(1); }}
                     className="w-full accent-orange-500"
                   />
                   <div className="flex justify-between text-[10px] font-black text-gray-500">
                     <span>$0</span>
-                    <span className="bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded">UP TO ${priceRange}</span>
+                    <span className="bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded">UP TO ${priceRange ?? maxPrice}</span>
                   </div>
                 </div>
               </div>
@@ -154,7 +160,7 @@ const CatalogPage = () => {
                 onClick={() => {
                   setSearchQuery('');
                   setSelectedTags([]);
-                  setPriceRange(3000);
+                  setPriceRange(maxPrice);
                   setMinRating(0);
                   setCurrentPage(1);
                 }}
