@@ -3,8 +3,11 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ExternalLink, Star, Share2, Flame } from 'lucide-react';
 import { Button } from './ui/Button';
+import { useAnalyticsStore } from '../store/analyticsStore';
 
 const ProductCard = ({ product }) => {
+  const logClick = useAnalyticsStore((state) => state.logClick);
+
   // Map AliExpress API fields to component needs
   const title = product.product_title || product.title;
   const image = product.product_main_image_url || product.image;
@@ -14,6 +17,11 @@ const ProductCard = ({ product }) => {
   const merchant = product.second_level_category_name || product.merchant || "Partner";
   const buyLink = product.promotion_link || (product.slug ? `/go/${product.slug}` : '#');
   const productId = product.product_id || product.id;
+
+  // /go/:slug links log their own click in RedirectPage; only log here for direct promotion links
+  const handleDealClick = () => {
+    if (product.promotion_link) logClick(productId, merchant);
+  };
 
   const discountPercent = useMemo(() => {
     if (!product.original_price || !price) return 0;
@@ -117,7 +125,7 @@ const ProductCard = ({ product }) => {
               <span className="text-base font-black text-gray-900 dark:text-white">${price}</span>
             </div>
             
-            <a href={buyLink} target="_blank" rel="nofollow noopener">
+            <a href={buyLink} target="_blank" rel="nofollow noopener" onClick={handleDealClick}>
               <Button size="sm" className="h-9 px-4 text-[10px] font-black uppercase tracking-widest gap-2 bg-gray-900 dark:bg-orange-500">
                 View Deal <ExternalLink size={12} />
               </Button>

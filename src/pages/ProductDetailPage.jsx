@@ -4,14 +4,16 @@ import { motion } from 'framer-motion';
 import { ExternalLink, ChevronLeft, ShieldCheck, Truck, RotateCcw, Star, ShoppingCart, Share2, Heart, Check, Zap } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useCartStore } from '../store/cartStore';
+import { useAnalyticsStore } from '../store/analyticsStore';
 import { Button } from '../components/ui/Button';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { products, loading } = useProductStore();
-  const product = products.find((p) => p.id === id);
+  const rawProduct = products.find((p) => p.id === id || String(p.product_id) === id);
   const { addItem, openCart } = useCartStore();
+  const logClick = useAnalyticsStore((state) => state.logClick);
   const [activeTab, setActiveTab] = React.useState('description');
   const [isAdded, setIsAdded] = React.useState(false);
 
@@ -28,7 +30,7 @@ const ProductDetailPage = () => {
     );
   }
 
-  if (!product) {
+  if (!rawProduct) {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] text-center">
         <h2 className="text-2xl font-bold mb-4 dark:text-white">Product Not Found</h2>
@@ -37,6 +39,22 @@ const ProductDetailPage = () => {
     );
   }
 
+  // Normalize fields across Firestore-stored products and live AliExpress API results
+  const product = {
+    id: rawProduct.id || rawProduct.product_id,
+    title: rawProduct.product_title || rawProduct.title,
+    image: rawProduct.product_main_image_url || rawProduct.image,
+    price: rawProduct.target_sale_price || rawProduct.price,
+    originalPrice: rawProduct.original_price,
+    rating: rawProduct.evaluate_rate || rawProduct.rating,
+    merchant: rawProduct.second_level_category_name || rawProduct.merchant,
+    category: rawProduct.first_level_category_name || rawProduct.category,
+    description: rawProduct.description,
+    discount: rawProduct.discount || 0,
+    slug: rawProduct.slug,
+    buyLink: rawProduct.promotion_link || (rawProduct.slug ? `/go/${rawProduct.slug}` : '#')
+  };
+
   const handleAddToCart = () => {
     addItem(product);
     setIsAdded(true);
@@ -44,10 +62,16 @@ const ProductDetailPage = () => {
     openCart();
   };
 
-  const discount = product.discount || 0;
-  const originalPrice = discount > 0
-    ? (parseFloat(product.price) * (1 + discount / 100)).toFixed(2)
-    : (parseFloat(product.price) * 1.2).toFixed(2);
+  // /go/:slug links log their own click in RedirectPage; only log here for direct promotion links
+  const handleDealClick = () => {
+    if (rawProduct.promotion_link) logClick(product.id, product.merchant);
+  };
+
+  const originalPrice = product.originalPrice
+    ? parseFloat(product.originalPrice).toFixed(2)
+    : product.discount > 0
+      ? (parseFloat(product.price) * (1 + product.discount / 100)).toFixed(2)
+      : (parseFloat(product.price) * 1.2).toFixed(2);
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -122,9 +146,10 @@ const ProductDetailPage = () => {
               {isAdded ? 'Added to Cart' : 'Add to Cart'}
             </Button>
             <a
-              href={`/go/${product.slug}`}
-              target="_blank" 
+              href={product.buyLink}
+              target="_blank"
               rel="nofollow noopener"
+              onClick={handleDealClick}
               className="flex-grow sm:flex-grow-0"
             >
               <Button variant="glass" size="lg" className="w-full h-16 px-10 text-lg border-orange-500 text-orange-600 dark:text-orange-400 hover:bg-orange-500/5 gap-2">
@@ -154,7 +179,7 @@ const ProductDetailPage = () => {
             
             <div className="text-gray-500 dark:text-gray-400 leading-relaxed min-h-[100px]">
               {activeTab === 'description' && (
-                <p>{product.description}</p>
+                <p>{product.description || `${product.title} — sourced from our verified partner network.`}</p>
               )}
               {activeTab === 'specifications' && (
                 <ul className="grid grid-cols-2 gap-4">
