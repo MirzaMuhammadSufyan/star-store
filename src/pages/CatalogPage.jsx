@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { Search, SlidersHorizontal, Grid, List, X, ChevronDown, Loader2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, SlidersHorizontal, Grid, List, X, ChevronDown, Loader2, ArrowUp } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { useProductStore } from '../store/productStore';
 import ProductCard from '../components/ProductCard';
@@ -13,30 +13,10 @@ const SORT_OPTIONS = [
   { label: 'Top Rated',         value: 'rating'     },
 ];
 
-// Sidebar is defined OUTSIDE the page so its identity is stable across renders.
-// If it were inside CatalogPage, every keystroke would recreate the function →
-// React unmounts + remounts it → input loses focus.
-function Sidebar({ search, setSearch, setPage, categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset, syncLoading }) {
+// Defined OUTSIDE the page — stable identity prevents remount on every keystroke.
+function Sidebar({ categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset }) {
   return (
     <div className="space-y-6">
-      {/* Search */}
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">Search</p>
-        <div className="relative">
-          {syncLoading
-            ? <Loader2 size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-500 animate-spin" />
-            : <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          }
-          <input
-            type="text"
-            value={search}
-            onChange={e => { setSearch(e.target.value); setPage(1); }}
-            placeholder="Search products…"
-            className="w-full pl-9 pr-3 py-3 text-[15px] border border-gray-200 rounded bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
-          />
-        </div>
-      </div>
-
       {/* Categories */}
       {categories.length > 0 && (
         <div>
@@ -69,7 +49,7 @@ function Sidebar({ search, setSearch, setPage, categories, selectedCats, toggleC
           max={priceMax}
           step={50}
           value={maxPrice ?? priceMax}
-          onChange={e => { setMaxPrice(parseInt(e.target.value)); setPage(1); }}
+          onChange={e => setMaxPrice(parseInt(e.target.value))}
           className="w-full accent-amber-600"
         />
         <div className="flex justify-between text-xs text-gray-400 mt-1"><span>$0</span><span>${priceMax}</span></div>
@@ -94,6 +74,7 @@ export default function CatalogPage() {
   const [view, setView]                 = useState('grid');
   const [page, setPage]                 = useState(1);
   const [sidebarOpen, setSidebarOpen]   = useState(false);
+  const [showTop, setShowTop]           = useState(false);
   const PER_PAGE = 12;
 
   const initialCat = searchParams.get('cat');
@@ -106,6 +87,13 @@ export default function CatalogPage() {
     const t = setTimeout(() => syncFromAliExpress(q), 600);
     return () => clearTimeout(t);
   }, [search]);
+
+  // Show scroll-to-top button after 400px
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const priceMax = useMemo(() => {
     if (!products?.length) return 2000;
@@ -124,10 +112,7 @@ export default function CatalogPage() {
       list = list.filter(p => (p.product_title || p.title || '').toLowerCase().includes(q));
     }
     if (selectedCats.length) {
-      list = list.filter(p => {
-        const cat = p.second_level_category_name || p.category || p.merchant || '';
-        return selectedCats.includes(cat);
-      });
+      list = list.filter(p => selectedCats.includes(p.second_level_category_name || p.category || p.merchant || ''));
     }
     if (maxPrice) list = list.filter(p => parseFloat(p.target_sale_price || p.price || 0) <= maxPrice);
     if (sort === 'price_asc')  list.sort((a, b) => parseFloat(a.target_sale_price || a.price) - parseFloat(b.target_sale_price || b.price));
@@ -146,30 +131,53 @@ export default function CatalogPage() {
   const reset = useCallback(() => { setSearch(''); setSelectedCats([]); setMaxPrice(null); setSort('default'); setPage(1); }, []);
   const hasFilters = !!(search || selectedCats.length || maxPrice || sort !== 'default');
 
-  const sidebarProps = {
-    search, setSearch, setPage, categories, selectedCats, toggleCat,
-    maxPrice, setMaxPrice, priceMax, hasFilters, reset, syncLoading,
-  };
+  const sidebarProps = { categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset };
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Page header */}
+
+      {/* Page header — title left, search right */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-1">All Products</p>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Product Catalog
-          </h1>
-          <p className="mt-2 text-gray-500 text-sm">{filtered.length} products found</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-1">All Products</p>
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+                Product Catalog
+              </h1>
+              <p className="mt-1 text-gray-500 text-sm">{filtered.length} products found</p>
+            </div>
+
+            {/* Search box — visible right beside the heading */}
+            <div className="relative w-full sm:w-72 shrink-0">
+              {syncLoading
+                ? <Loader2 size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-500 animate-spin" />
+                : <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              }
+              <input
+                type="text"
+                value={search}
+                onChange={e => { setSearch(e.target.value); setPage(1); }}
+                placeholder="Search products…"
+                className="w-full pl-10 pr-4 py-2.5 text-[15px] border border-gray-200 rounded-lg bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:bg-white transition-colors"
+              />
+              {search && (
+                <button onClick={() => { setSearch(''); setPage(1); }} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex gap-8">
 
-          {/* Desktop Sidebar */}
-          <aside className="hidden lg:block w-60 shrink-0">
+          {/* Desktop Sidebar — filters only, no search */}
+          <aside className="hidden lg:block w-56 shrink-0">
             <div className="bg-white border border-gray-200 rounded-lg p-5 sticky top-20">
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-4">Filters</p>
               <Sidebar {...sidebarProps} />
             </div>
           </aside>
@@ -194,7 +202,6 @@ export default function CatalogPage() {
               </div>
 
               <div className="flex items-center gap-3 ml-auto">
-                {/* Sort */}
                 <div className="relative">
                   <select
                     value={sort}
@@ -205,7 +212,6 @@ export default function CatalogPage() {
                   </select>
                   <ChevronDown size={13} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                 </div>
-                {/* View toggle */}
                 <div className="flex border border-gray-200 rounded overflow-hidden bg-white">
                   <button onClick={() => setView('grid')} className={`p-2 ${view === 'grid' ? 'bg-gray-900 text-white' : 'text-gray-400 hover:bg-gray-50'}`}><Grid size={16} /></button>
                   <button onClick={() => setView('list')} className={`p-2 ${view === 'list' ? 'bg-gray-900 text-white' : 'text-gray-400 hover:bg-gray-50'}`}><List size={16} /></button>
@@ -217,7 +223,7 @@ export default function CatalogPage() {
             {syncLoading && (
               <div className="flex items-center gap-3 mb-5 px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
                 <Loader2 size={16} className="animate-spin shrink-0" />
-                Fetching live results from AliExpress…
+                Fetching live results…
               </div>
             )}
 
@@ -243,7 +249,7 @@ export default function CatalogPage() {
               <div className="flex flex-col items-center justify-center py-24 bg-white border border-gray-200 rounded-lg">
                 <p className="text-2xl mb-2">🔍</p>
                 <p className="text-gray-900 font-semibold">No products found</p>
-                <p className="text-sm text-gray-500 mt-1">Try adjusting your filters or search AliExpress.</p>
+                <p className="text-sm text-gray-500 mt-1">Try different keywords or adjust your filters.</p>
                 <button onClick={reset} className="mt-4 text-sm text-amber-700 hover:underline font-medium">Clear filters</button>
               </div>
             ) : view === 'grid' ? (
@@ -336,6 +342,23 @@ export default function CatalogPage() {
           </div>
         </div>
       )}
+
+      {/* Scroll-to-top button */}
+      <AnimatePresence>
+        {showTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-gray-900 text-white shadow-lg flex items-center justify-center hover:bg-amber-600 transition-colors"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp size={18} />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
