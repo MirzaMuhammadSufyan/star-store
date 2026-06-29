@@ -102,6 +102,43 @@ export const useProductStore = create((set, get) => ({
     } catch (error) {
       console.error("Error deleting product:", error);
     }
+  },
+
+  // Fetch a single product by ID — checks Firestore first, then AliExpress API.
+  // Used by ProductDetailPage so shared links always resolve.
+  fetchProductById: async (id) => {
+    // 1. Already in memory?
+    const existing = get().products.find(
+      p => p.id === id || String(p.product_id) === id
+    );
+    if (existing) return existing;
+
+    // 2. Try Firestore (manually-added products have a Firestore doc ID)
+    try {
+      const { getDoc } = await import('firebase/firestore');
+      const snap = await getDoc(doc(db, 'products', String(id)));
+      if (snap.exists()) {
+        const product = { id: snap.id, ...snap.data() };
+        // Merge into store so it's available for related products etc.
+        set(s => ({ products: [...s.products.filter(p => p.id !== product.id), product] }));
+        return product;
+      }
+    } catch (_) {}
+
+    // 3. Try AliExpress detail API (numeric product_id)
+    try {
+      const res  = await fetch(`/api/products/detail?product_ids=${encodeURIComponent(id)}`);
+      const data = await res.json();
+      const list =
+        data?.aliexpress_affiliate_product_detail_get_response?.resp_result?.result?.products?.product || [];
+      if (list.length > 0) {
+        const product = list[0];
+        set(s => ({ products: [...s.products, product] }));
+        return product;
+      }
+    } catch (_) {}
+
+    return null;
   }
 }));
 

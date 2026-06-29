@@ -14,28 +14,46 @@ import ProductCard from '../components/ProductCard';
 export default function ProductDetailPage() {
   const { id }   = useParams();
   const navigate = useNavigate();
-  const { products, loading } = useProductStore();
+  const { products, loading: storeLoading, fetchProductById } = useProductStore();
   const logClick = useAnalyticsStore(s => s.logClick);
   const { toggle, isFavourite } = useFavouriteStore();
-  const raw      = products.find(p => p.id === id || String(p.product_id) === id);
 
-  const [activeImg,  setActiveImg]  = React.useState(0);
-  const [lightbox,   setLightbox]   = React.useState(false);
-  const [copied,     setCopied]     = React.useState(false);
-  const [activeTab,  setActiveTab]  = React.useState('description');
+  const [raw,       setRaw]       = React.useState(() => products.find(p => p.id === id || String(p.product_id) === id) || null);
+  const [fetching,  setFetching]  = React.useState(!raw);
+  const [notFound,  setNotFound]  = React.useState(false);
+  const [activeImg, setActiveImg] = React.useState(0);
+  const [lightbox,  setLightbox]  = React.useState(false);
+  const [copied,    setCopied]    = React.useState(false);
+  const [activeTab, setActiveTab] = React.useState('description');
 
-  React.useEffect(() => { window.scrollTo(0, 0); }, [id]);
+  // When arriving via shared link the store may not have the product yet —
+  // check memory first, then fall back to Firestore → AliExpress API.
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+    const fromMemory = products.find(p => p.id === id || String(p.product_id) === id);
+    if (fromMemory) { setRaw(fromMemory); setFetching(false); return; }
 
-  if (loading) return (
-    <div className="flex items-center justify-center min-h-[60vh]">
+    setFetching(true);
+    fetchProductById(id).then(result => {
+      if (result) setRaw(result);
+      else setNotFound(true);
+      setFetching(false);
+    });
+  }, [id]);
+
+  if (storeLoading || fetching) return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
       <div className="w-8 h-8 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" />
+      <p className="text-sm text-gray-400">Loading product…</p>
     </div>
   );
 
-  if (!raw) return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+  if (notFound || !raw) return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center px-4">
+      <p className="text-2xl">😕</p>
       <p className="text-gray-900 font-semibold">Product not found</p>
-      <Button onClick={() => navigate('/')}>Back to Store</Button>
+      <p className="text-sm text-gray-500 max-w-xs">This product may have been removed or the link may be incorrect.</p>
+      <Button variant="accent" onClick={() => navigate('/catalog')}>Browse Catalog</Button>
     </div>
   );
 
