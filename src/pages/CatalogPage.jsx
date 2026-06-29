@@ -347,7 +347,7 @@ export default function CatalogPage() {
               <button onClick={reset} className="mt-4 text-sm text-amber-700 hover:underline font-medium">Clear filters</button>
             </div>
           ) : view === 'grid' ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2">
               {visible.map((p, i) => (
                 <motion.div key={p.product_id || p.id || i}
                   initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
