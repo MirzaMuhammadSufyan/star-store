@@ -98,7 +98,7 @@ export const useProductStore = create((set, get) => ({
 
   deleteProduct: async (id) => {
     try {
-      await deleteDoc(doc(db, 'products', id));
+      await deleteDoc(doc(db, 'products', String(id)));
     } catch (error) {
       console.error("Error deleting product:", error);
     }
