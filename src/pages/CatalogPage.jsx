@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Search, SlidersHorizontal, Grid, List, X, ChevronDown, Loader2 } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 import { useProductStore } from '../store/productStore';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/Button';
@@ -85,7 +86,8 @@ function Sidebar({ search, setSearch, setPage, categories, selectedCats, toggleC
 
 export default function CatalogPage() {
   const { products, loading, syncLoading, syncFromAliExpress } = useProductStore();
-  const [search, setSearch]             = useState('');
+  const [searchParams] = useSearchParams();
+  const [search, setSearch]             = useState(() => searchParams.get('cat') || '');
   const [selectedCats, setSelectedCats] = useState([]);
   const [maxPrice, setMaxPrice]         = useState(null);
   const [sort, setSort]                 = useState('default');
@@ -94,7 +96,8 @@ export default function CatalogPage() {
   const [sidebarOpen, setSidebarOpen]   = useState(false);
   const PER_PAGE = 12;
 
-  useEffect(() => { syncFromAliExpress('tech'); }, []);
+  const initialCat = searchParams.get('cat');
+  useEffect(() => { syncFromAliExpress(initialCat || 'tech'); }, []);
 
   // Auto-search AliExpress 600ms after the user stops typing
   useEffect(() => {
