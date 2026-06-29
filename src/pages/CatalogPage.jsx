@@ -15,32 +15,25 @@ const SORT_OPTIONS = [
 // Sidebar is defined OUTSIDE the page so its identity is stable across renders.
 // If it were inside CatalogPage, every keystroke would recreate the function →
 // React unmounts + remounts it → input loses focus.
-function Sidebar({ search, setSearch, setPage, categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset, syncLoading, onAliSearch }) {
+function Sidebar({ search, setSearch, setPage, categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset, syncLoading }) {
   return (
     <div className="space-y-6">
-      {/* Search + AliExpress fetch */}
+      {/* Search */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">Search Products</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">Search</p>
         <div className="relative">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          {syncLoading
+            ? <Loader2 size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-500 animate-spin" />
+            : <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          }
           <input
             type="text"
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1); }}
-            onKeyDown={e => { if (e.key === 'Enter' && search.trim()) onAliSearch(search.trim()); }}
             placeholder="Search products…"
             className="w-full pl-9 pr-3 py-3 text-[15px] border border-gray-200 rounded bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
           />
         </div>
-        <button
-          onClick={() => search.trim() && onAliSearch(search.trim())}
-          disabled={syncLoading || !search.trim()}
-          className="mt-2 w-full flex items-center justify-center gap-2 py-2.5 text-sm font-semibold bg-amber-600 hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
-        >
-          {syncLoading ? <Loader2 size={14} className="animate-spin" /> : <Search size={14} />}
-          {syncLoading ? 'Searching AliExpress…' : 'Search on AliExpress'}
-        </button>
-        <p className="text-[11px] text-gray-400 mt-1.5 text-center">Fetches live results from AliExpress</p>
       </div>
 
       {/* Categories */}
@@ -103,10 +96,13 @@ export default function CatalogPage() {
 
   useEffect(() => { syncFromAliExpress('tech'); }, []);
 
-  const onAliSearch = useCallback((query) => {
-    syncFromAliExpress(query);
-    setPage(1);
-  }, [syncFromAliExpress]);
+  // Auto-search AliExpress 600ms after the user stops typing
+  useEffect(() => {
+    const q = search.trim();
+    if (!q) return;
+    const t = setTimeout(() => syncFromAliExpress(q), 600);
+    return () => clearTimeout(t);
+  }, [search]);
 
   const priceMax = useMemo(() => {
     if (!products?.length) return 2000;
@@ -149,7 +145,7 @@ export default function CatalogPage() {
 
   const sidebarProps = {
     search, setSearch, setPage, categories, selectedCats, toggleCat,
-    maxPrice, setMaxPrice, priceMax, hasFilters, reset, syncLoading, onAliSearch,
+    maxPrice, setMaxPrice, priceMax, hasFilters, reset, syncLoading,
   };
 
   return (
