@@ -159,49 +159,59 @@ export default function CatalogPage() {
 
   const visible = useMemo(() => filtered.slice(0, page * PER_PAGE), [filtered, page]);
 
-  // Update refs so the observer callback can read latest values without stale closure
+  // Update refs so callbacks read latest values without stale closures
   filteredLen.current = filtered.length;
   visibleLen.current  = visible.length;
 
-  // ── IntersectionObserver — runs once, reads latest via refs ─────────────────
+  // Core load function — called by both observer and the products-change effect
+  const loadNext = useCallback(async () => {
+    if (fetchingRef.current || noMoreRef.current || syncRef.current) return;
+    fetchingRef.current = true;
+
+    if (visibleLen.current < filteredLen.current) {
+      setPage(p => p + 1);
+      fetchingRef.current = false;
+    } else if (filteredLen.current > 0) {
+      const nextPage    = aliPageRef.current + 1;
+      const newProducts = await syncFromAliExpress(aliKwRef.current || 'tech', nextPage);
+      fetchingRef.current = false;
+      if (!newProducts || newProducts.length === 0) {
+        setNoMorePages(true);
+        noMoreRef.current = true;
+      } else {
+        aliPageRef.current = nextPage;
+        setAliPage(nextPage);
+        setPage(p => p + 1);
+      }
+    } else {
+      fetchingRef.current = false;
+    }
+  }, []); // eslint-disable-line
+
+  // ── IntersectionObserver ─────────────────────────────────────────────────────
   useEffect(() => {
     const sentinel  = sentinelRef.current;
     const container = productsRef.current;
     if (!sentinel || !container) return;
-
-    const loadNext = async () => {
-      if (fetchingRef.current || noMoreRef.current || syncRef.current) return;
-      fetchingRef.current = true;
-
-      if (visibleLen.current < filteredLen.current) {
-        // More local results to reveal
-        setPage(p => p + 1);
-        fetchingRef.current = false;
-      } else if (filteredLen.current > 0) {
-        // All local results shown — fetch next AliExpress page
-        const nextPage   = aliPageRef.current + 1;
-        const newProducts = await syncFromAliExpress(aliKwRef.current || 'tech', nextPage);
-        fetchingRef.current = false;
-        if (!newProducts || newProducts.length === 0) {
-          setNoMorePages(true);
-          noMoreRef.current = true;
-        } else {
-          aliPageRef.current = nextPage;
-          setAliPage(nextPage);
-          setPage(p => p + 1);
-        }
-      } else {
-        fetchingRef.current = false;
-      }
-    };
-
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) loadNext(); },
-      { root: container, rootMargin: '400px' },
+      { root: container, rootMargin: '500px' },
     );
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, []); // eslint-disable-line — reads everything via refs
+  }, [loadNext]);
+
+  // ── Re-trigger when products arrive (sentinel may already be in view) ────────
+  useEffect(() => {
+    if (filtered.length === 0) return;
+    const sentinel  = sentinelRef.current;
+    const container = productsRef.current;
+    if (!sentinel || !container) return;
+    const rect      = sentinel.getBoundingClientRect();
+    const conRect   = container.getBoundingClientRect();
+    // If sentinel is within or near the visible area of the container, load
+    if (rect.top < conRect.bottom + 500) loadNext();
+  }, [filtered.length]); // eslint-disable-line
 
   const toggleCat = useCallback((cat) => {
     setSelectedCats(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
@@ -215,39 +225,41 @@ export default function CatalogPage() {
   const hasFilters = !!(search || selectedCats.length || maxPrice || sort !== 'default');
   const sidebarProps = { categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset };
 
-  const COLS_H = 'calc(100vh - 64px - 108px)';
+  const COLS_H = 'calc(100vh - 64px - 58px)';
 
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col">
 
       {/* ── Sticky header ───────────────────────────────────────────────────── */}
       <div className="bg-white border-b border-gray-200 sticky top-16 z-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-0.5">All Products</p>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex items-center justify-between gap-4">
+            {/* Title + count */}
+            <div className="flex items-center gap-3 min-w-0">
+              <h1 className="text-lg font-bold text-gray-900 shrink-0" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Product Catalog
               </h1>
-              <p className="mt-0.5 text-gray-500 text-sm">{filtered.length} products found</p>
+              <span className="hidden sm:inline text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
+                {filtered.length} products
+              </span>
             </div>
 
             {/* Search */}
-            <div className="relative w-full sm:w-72 shrink-0">
+            <div className="relative w-48 sm:w-64 shrink-0">
               {syncLoading
-                ? <Loader2 size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-500 animate-spin" />
-                : <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                ? <Loader2 size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-500 animate-spin" />
+                : <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               }
               <input
                 type="text" value={search}
                 onChange={e => { setSearch(e.target.value); setPage(1); }}
-                placeholder="Search products…"
-                className="w-full pl-10 pr-8 py-2.5 text-[15px] border border-gray-200 rounded-lg bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:bg-white transition-colors"
+                placeholder="Search…"
+                className="w-full pl-9 pr-7 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:bg-white transition-colors"
               />
               {search && (
                 <button onClick={() => { setSearch(''); setPage(1); }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
-                  <X size={14} />
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
+                  <X size={13} />
                 </button>
               )}
             </div>
