@@ -21,36 +21,36 @@ export const useProductStore = create((set, get) => ({
   loading:    true,   // legacy alias — kept so existing components don't break
   error: null,
 
-  syncFromAliExpress: async (keywords = 'tech') => {
+  syncFromAliExpress: async (keywords = 'tech', pageNo = 1, pageSize = 50) => {
     set({ syncLoading: true, error: null });
     try {
-      const response = await fetch(`/api/products/sync?keywords=${encodeURIComponent(keywords)}`);
+      const url = `/api/products/sync?keywords=${encodeURIComponent(keywords)}&page_no=${pageNo}&page_size=${pageSize}`;
+      const response = await fetch(url);
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('AliExpress Sync Error Response:', errorText);
         set({ error: `Sync failed: ${response.status} ${response.statusText}`, syncLoading: false });
         return [];
       }
 
-      const text = await response.text();
       let data;
-      try {
-        data = JSON.parse(text);
-      } catch (jsonError) {
-        console.error('Failed to parse JSON response:', jsonError, 'Raw response:', text);
-        set({ error: 'Invalid response from server', syncLoading: false });
-        return [];
-      }
+      try { data = JSON.parse(await response.text()); }
+      catch { set({ error: 'Invalid response from server', syncLoading: false }); return []; }
 
       if (data.success) {
-        const apiProducts = data.products || [];
+        const newProducts = data.products || [];
+        // Page 1 (or new keyword search) replaces; subsequent pages append
+        const existing = pageNo === 1 ? [] : get().apiProducts;
+        // Deduplicate by product_id
+        const merged = [...existing];
+        for (const p of newProducts) {
+          if (!merged.some(e => String(e.product_id) === String(p.product_id))) merged.push(p);
+        }
         set({
-          apiProducts,
-          products: [...get().dbProducts, ...apiProducts],
+          apiProducts: merged,
+          products: [...get().dbProducts, ...merged],
           syncLoading: false,
         });
-        return apiProducts;
+        return newProducts;
       } else {
         set({ error: data.error || 'Failed to sync products', syncLoading: false });
         return [];

@@ -75,16 +75,30 @@ export default function CatalogPage() {
   const [page, setPage]                 = useState(1);
   const [sidebarOpen, setSidebarOpen]   = useState(false);
   const [showTop, setShowTop]           = useState(false);
+  const [aliPage, setAliPage]           = useState(1);
+  const [aliKeyword, setAliKeyword]     = useState('');
+  const [noMorePages, setNoMorePages]   = useState(false);
   const PER_PAGE = 12;
 
   const initialCat = searchParams.get('cat');
-  useEffect(() => { syncFromAliExpress(initialCat || 'tech'); }, []);
+  useEffect(() => {
+    const kw = initialCat || 'tech';
+    setAliKeyword(kw);
+    setAliPage(1);
+    setNoMorePages(false);
+    syncFromAliExpress(kw, 1);
+  }, []);
 
   // Auto-search AliExpress 600ms after the user stops typing
   useEffect(() => {
     const q = search.trim();
     if (!q) return;
-    const t = setTimeout(() => syncFromAliExpress(q), 600);
+    const t = setTimeout(() => {
+      setAliKeyword(q);
+      setAliPage(1);
+      setNoMorePages(false);
+      syncFromAliExpress(q, 1);
+    }, 600);
     return () => clearTimeout(t);
   }, [search]);
 
@@ -306,15 +320,43 @@ export default function CatalogPage() {
             )}
 
             {/* Load more */}
-            {visible.length < filtered.length && (
+            {(visible.length < filtered.length || (!noMorePages && !syncLoading && filtered.length > 0)) && (
               <div className="mt-10 text-center">
-                <Button variant="secondary" size="lg" onClick={() => setPage(p => p + 1)}>
-                  Load More ({filtered.length - visible.length} remaining)
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  disabled={syncLoading}
+                  onClick={async () => {
+                    if (visible.length < filtered.length) {
+                      // Still have local results to show
+                      setPage(p => p + 1);
+                    } else {
+                      // Fetch next AliExpress page
+                      const nextPage = aliPage + 1;
+                      const newProducts = await syncFromAliExpress(aliKeyword || 'tech', nextPage);
+                      if (!newProducts || newProducts.length === 0) {
+                        setNoMorePages(true);
+                      } else {
+                        setAliPage(nextPage);
+                        setPage(p => p + 1);
+                      }
+                    }
+                  }}
+                >
+                  {syncLoading
+                    ? <span className="flex items-center gap-2"><Loader2 size={15} className="animate-spin" /> Loading…</span>
+                    : visible.length < filtered.length
+                      ? `Load More (${filtered.length - visible.length} remaining)`
+                      : 'Load More from AliExpress'
+                  }
                 </Button>
               </div>
             )}
+            {noMorePages && (
+              <p className="text-center text-sm text-gray-400 mt-10">All products loaded.</p>
+            )}
             {visible.length > 0 && (
-              <p className="text-center text-xs text-gray-400 mt-6">
+              <p className="text-center text-xs text-gray-400 mt-3">
                 Showing {visible.length} of {filtered.length} products
               </p>
             )}
