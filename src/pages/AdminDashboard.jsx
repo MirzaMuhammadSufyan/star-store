@@ -141,13 +141,14 @@ const AdminDashboard = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-50">
                   {filteredProducts.map((product, idx) => {
-                    const pid      = product.product_id || product.id || idx;
+                    const firestoreId = product.id; // Firestore doc ID — always use for delete/edit
+                    const pid         = product.product_id || product.id || idx; // display / analytics key
                     const title    = product.product_title || product.title;
                     const image    = product.product_main_image_url || product.image;
                     const price    = product.target_sale_price || product.price;
                     const merchant = product.second_level_category_name || product.merchant || 'Partner';
                     return (
-                      <tr key={pid} className="hover:bg-amber-50/40 transition-colors">
+                      <tr key={firestoreId || idx} className="hover:bg-amber-50/40 transition-colors">
                         <td className={tdCls}>
                           <div className="flex items-center gap-3">
                             <img src={image} alt="" className="w-12 h-12 rounded-lg object-cover bg-gray-50 shrink-0" />
@@ -174,7 +175,7 @@ const AdminDashboard = () => {
                             <button onClick={() => handleEdit(product)} className="p-2 rounded hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors">
                               <Edit2 size={15} />
                             </button>
-                            <button onClick={() => { if (window.confirm('Delete this product?')) deleteProduct(pid); }}
+                            <button onClick={() => { if (window.confirm('Delete this product?')) deleteProduct(firestoreId); }}
                               className="p-2 rounded hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors">
                               <Trash2 size={15} />
                             </button>
