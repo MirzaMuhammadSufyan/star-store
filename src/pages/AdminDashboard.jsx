@@ -13,7 +13,7 @@ import BlogForm from '../components/BlogForm';
 const TAB_BTN = 'px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-md transition-all';
 
 const AdminDashboard = () => {
-  const { dbProducts, deleteProduct, loading: productsLoading } = useProductStore();
+  const { dbProducts, deleteProduct, dbLoading: productsLoading } = useProductStore();
   const { posts: blogPosts, deletePost: deleteBlogPost } = useBlogStore();
   const { clicks, getStats, fetchClicks } = useAnalyticsStore();
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
@@ -146,7 +146,7 @@ const AdminDashboard = () => {
                     const title    = product.product_title || product.title;
                     const image    = product.product_main_image_url || product.image;
                     const price    = product.target_sale_price || product.price;
-                    const merchant = product.second_level_category_name || product.merchant || 'Partner';
+                    const merchant = product.merchant || 'AliExpress';
                     return (
                       <tr key={firestoreId || idx} className="hover:bg-amber-50/40 transition-colors">
                         <td className={tdCls}>

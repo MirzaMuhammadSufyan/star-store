@@ -14,7 +14,8 @@ const ProductCard = ({ product }) => {
   const price     = product.target_sale_price || product.price;
   const origPrice = product.original_price;
   const rating    = product.evaluate_rate || product.rating || '4.8';
-  const merchant  = product.second_level_category_name || product.merchant || 'Partner';
+  const category  = product.second_level_category_name || product.category || product.merchant || 'General';
+  const merchant  = product.merchant || 'AliExpress';
   const buyLink   = product.promotion_link || (product.slug ? `/go/${product.slug}` : '#');
   const pid       = product.product_id || product.id;
   const fav       = isFavourite(product);
@@ -53,7 +54,7 @@ const ProductCard = ({ product }) => {
         <div className="p-4 flex flex-col flex-grow gap-3">
           {/* Merchant + rating row */}
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs text-amber-700 font-semibold uppercase tracking-wide truncate">{merchant}</span>
+            <span className="text-xs text-amber-700 font-semibold uppercase tracking-wide truncate">{category}</span>
             <span className="flex items-center gap-1 shrink-0">
               <Star size={13} className="fill-amber-400 text-amber-400" />
               <span className="text-xs font-medium text-gray-500">{rating}</span>

@@ -64,8 +64,8 @@ export default function ProductDetailPage() {
     price:       parseFloat(raw.target_sale_price || raw.price || 0),
     origPrice:   parseFloat(raw.original_price || 0),
     rating:      raw.evaluate_rate || raw.rating || '4.8',
-    merchant:    raw.second_level_category_name || raw.merchant || 'Partner',
-    category:    raw.first_level_category_name || raw.category || '',
+    merchant:    raw.merchant || 'AliExpress',
+    category:    raw.first_level_category_name || raw.second_level_category_name || raw.category || '',
     description: raw.description || '',
     buyLink:     raw.promotion_link || (raw.slug ? `/go/${raw.slug}` : '#'),
   };

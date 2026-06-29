@@ -6,27 +6,30 @@ import {
   updateDoc,
   deleteDoc,
   doc,
+  getDoc,
   onSnapshot,
   query,
   orderBy
 } from 'firebase/firestore';
 
 export const useProductStore = create((set, get) => ({
-  products: [],
+  products:   [],
   dbProducts: [],
   apiProducts: [],
-  loading: true,
+  dbLoading:  true,   // true until Firestore first snapshot arrives
+  syncLoading: false, // true only during AliExpress sync
+  loading:    true,   // legacy alias — kept so existing components don't break
   error: null,
 
   syncFromAliExpress: async (keywords = 'tech') => {
-    set({ loading: true, error: null });
+    set({ syncLoading: true, error: null });
     try {
       const response = await fetch(`/api/products/sync?keywords=${encodeURIComponent(keywords)}`);
 
       if (!response.ok) {
         const errorText = await response.text();
         console.error('AliExpress Sync Error Response:', errorText);
-        set({ error: `Sync failed: ${response.status} ${response.statusText}`, loading: false });
+        set({ error: `Sync failed: ${response.status} ${response.statusText}`, syncLoading: false });
         return [];
       }
 
@@ -36,7 +39,7 @@ export const useProductStore = create((set, get) => ({
         data = JSON.parse(text);
       } catch (jsonError) {
         console.error('Failed to parse JSON response:', jsonError, 'Raw response:', text);
-        set({ error: 'Invalid response from server', loading: false });
+        set({ error: 'Invalid response from server', syncLoading: false });
         return [];
       }
 
@@ -45,54 +48,55 @@ export const useProductStore = create((set, get) => ({
         set({
           apiProducts,
           products: [...get().dbProducts, ...apiProducts],
-          loading: false
+          syncLoading: false,
         });
         return apiProducts;
       } else {
-        set({ error: data.error || 'Failed to sync products', loading: false });
+        set({ error: data.error || 'Failed to sync products', syncLoading: false });
         return [];
       }
     } catch (error) {
-      set({ error: error.message, loading: false });
+      set({ error: error.message, syncLoading: false });
       return [];
     }
   },
 
   fetchProducts: () => {
+    set({ dbLoading: true, loading: true });
     const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const dbProducts = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      const dbProducts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
       set({
         dbProducts,
         products: [...dbProducts, ...get().apiProducts],
-        loading: false
+        dbLoading: false,
+        loading: false,
       });
+    }, (err) => {
+      console.error('Firestore snapshot error:', err);
+      set({ dbLoading: false, loading: false });
     });
     return unsubscribe;
   },
 
   addProduct: async (product) => {
     try {
-      const slug = product.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const slug = (product.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
       await addDoc(collection(db, 'products'), {
         ...product,
         slug,
         createdAt: new Date().toISOString()
       });
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error('Error adding product:', error);
     }
   },
 
   updateProduct: async (id, updatedProduct) => {
     try {
-      const productRef = doc(db, 'products', id);
-      await updateDoc(productRef, updatedProduct);
+      await updateDoc(doc(db, 'products', String(id)), updatedProduct);
     } catch (error) {
-      console.error("Error updating product:", error);
+      console.error('Error updating product:', error);
     }
   },
 
@@ -100,37 +104,39 @@ export const useProductStore = create((set, get) => ({
     try {
       await deleteDoc(doc(db, 'products', String(id)));
     } catch (error) {
-      console.error("Error deleting product:", error);
+      console.error('Error deleting product:', error);
     }
   },
 
-  // Fetch a single product by ID — checks Firestore first, then AliExpress API.
+  // Fetch a single product by Firestore doc ID or AliExpress product_id.
   // Used by ProductDetailPage so shared links always resolve.
   fetchProductById: async (id) => {
     // 1. Already in memory?
     const existing = get().products.find(
-      p => p.id === id || String(p.product_id) === id
+      p => p.id === id || String(p.product_id) === String(id)
     );
     if (existing) return existing;
 
-    // 2. Try Firestore (manually-added products have a Firestore doc ID)
+    // 2. Try Firestore — works for manually added products (doc ID is alphanumeric)
     try {
-      const { getDoc } = await import('firebase/firestore');
       const snap = await getDoc(doc(db, 'products', String(id)));
       if (snap.exists()) {
         const product = { id: snap.id, ...snap.data() };
-        // Merge into store so it's available for related products etc.
-        set(s => ({ products: [...s.products.filter(p => p.id !== product.id), product] }));
+        set(s => ({
+          dbProducts: [...s.dbProducts.filter(p => p.id !== product.id), product],
+          products:   [...s.products.filter(p => p.id !== product.id), product],
+        }));
         return product;
       }
     } catch (_) {}
 
-    // 3. Try AliExpress detail API (numeric product_id)
+    // 3. Try AliExpress detail API — works for numeric product_id from shared links
     try {
       const res  = await fetch(`/api/products/detail?product_ids=${encodeURIComponent(id)}`);
       const data = await res.json();
       const list =
-        data?.aliexpress_affiliate_product_detail_get_response?.resp_result?.result?.products?.product || [];
+        data?.aliexpress_affiliate_product_detail_get_response
+            ?.resp_result?.result?.products?.product || [];
       if (list.length > 0) {
         const product = list[0];
         set(s => ({ products: [...s.products, product] }));
@@ -139,8 +145,8 @@ export const useProductStore = create((set, get) => ({
     } catch (_) {}
 
     return null;
-  }
+  },
 }));
 
-// Initialize the listener
+// Start Firestore real-time listener immediately
 useProductStore.getState().fetchProducts();

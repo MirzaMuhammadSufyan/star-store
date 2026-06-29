@@ -234,7 +234,7 @@ export default function CatalogPage() {
                   const image   = p.product_main_image_url || p.image;
                   const price   = p.target_sale_price || p.price;
                   const origPrice = p.original_price;
-                  const merchant  = p.second_level_category_name || p.merchant || 'Partner';
+                  const merchant  = p.merchant || 'AliExpress'; const category = p.second_level_category_name || p.category || merchant;
                   const buyLink   = p.promotion_link || (p.slug ? `/go/${p.slug}` : '#');
                   return (
                     <motion.div
