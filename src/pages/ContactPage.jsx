@@ -1,137 +1,132 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, MessageSquare, Globe, CheckCircle2, Loader2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, Loader2 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
 
-const ContactPage = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+const CONTACT_INFO = [
+  { icon: Mail,   title: 'Email',    value: 'support@starstore.com',  desc: 'Response within 2 hours' },
+  { icon: Phone,  title: 'Phone',    value: '+1 (555) 000-1111',       desc: 'Mon–Fri, 9am to 6pm' },
+  { icon: MapPin, title: 'Location', value: '77 Silicon Valley Blvd', desc: 'San Jose, CA 95112' },
+];
+
+export default function ContactPage() {
+  const [submitting, setSubmitting] = useState(false);
+  const [success,    setSuccess]    = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate real backend processing
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      
-      const submission = {
-        id: Date.now(),
-        type: 'contact',
-        timestamp: new Date().toISOString()
-      };
-      const existing = JSON.parse(localStorage.getItem('form_submissions') || '[]');
-      localStorage.setItem('form_submissions', JSON.stringify([...existing, submission]));
-    }, 2000);
+    setSubmitting(true);
+    setTimeout(() => { setSubmitting(false); setSuccess(true); }, 1800);
   };
 
+  const inputCls = 'w-full px-4 py-3 text-[15px] border border-gray-200 rounded bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition-all';
+
   return (
-    <div className="max-w-7xl mx-auto space-y-16">
-      <div className="text-center max-w-2xl mx-auto space-y-6">
-         <h1 className="text-4xl md:text-7xl font-black dark:text-white text-orange-950 tracking-tighter">Get in <span className="text-orange-500">Touch</span></h1>
-         <p className="text-lg text-gray-500 dark:text-gray-400">Have questions about a product or partnership? Our elite support team is standing by to assist you 24/7.</p>
+    <div className="bg-gray-50 min-h-screen">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 text-center">
+          <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-3">Get in Touch</p>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+            We'd Love to Hear From You
+          </h1>
+          <p className="mt-4 text-gray-600 text-base max-w-xl mx-auto">
+            Questions about a product, partnership inquiry, or just want to say hello — our team is here to help.
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        {/* Contact Info */}
-        <div className="lg:col-span-1 space-y-8">
-           {[
-             { icon: Mail, title: 'Email Support', val: 'concierge@starstore.com', desc: 'Direct response within 2 hours' },
-             { icon: Phone, title: 'Call Us', val: '+1 (555) STAR-ELITE', desc: 'Mon-Fri from 9am to 6pm' },
-             { icon: MapPin, title: 'Global Office', val: '77 Silicon Valley Blvd', desc: 'San Jose, CA 95112' },
-           ].map((item, i) => (
-             <motion.div 
-               key={i} 
-               initial={{ opacity: 0, x: -20 }}
-               animate={{ opacity: 1, x: 0 }}
-               transition={{ delay: i * 0.1 }}
-               className="glass-card p-8 bg-white dark:bg-white/5 border-gray-100 dark:border-white/10 flex items-start gap-6 hover:border-orange-500/30 transition-colors"
-             >
-               <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center text-orange-500 shrink-0">
-                  <item.icon size={24} />
-               </div>
-               <div className="space-y-1">
-                  <h3 className="text-lg font-bold dark:text-white">{item.title}</h3>
-                  <p className="text-orange-600 dark:text-orange-400 font-black">{item.val}</p>
-                  <p className="text-xs text-gray-400 font-medium uppercase tracking-widest">{item.desc}</p>
-               </div>
-             </motion.div>
-           ))}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-           <div className="glass-card p-10 bg-orange-500 text-white relative overflow-hidden border-none shadow-2xl shadow-orange-500/20">
-              <div className="relative z-10 space-y-4">
-                 <h4 className="text-2xl font-black">24/7 Live Chat</h4>
-                 <p className="text-white/70 text-sm">Need immediate assistance? Our AI-driven support bot can handle most inquiries instantly.</p>
-                 <Button variant="glass" className="border-white/20 text-white bg-white/10 w-full h-14 font-black uppercase text-[10px] tracking-[0.2em] gap-2">
-                    <MessageSquare size={16} /> Start Chatting
-                 </Button>
-              </div>
-              <Globe className="absolute -right-4 -bottom-4 w-32 h-32 opacity-10" />
-           </div>
-        </div>
+          {/* Contact info */}
+          <div className="space-y-4">
+            {CONTACT_INFO.map(({ icon: Icon, title, value, desc }, i) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.08 }}
+                className="bg-white border border-gray-200 rounded-lg p-5 flex items-start gap-4 hover:border-amber-300 transition-colors"
+              >
+                <div className="w-10 h-10 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center shrink-0">
+                  <Icon size={18} className="text-amber-700" strokeWidth={1.75} />
+                </div>
+                <div>
+                  <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-0.5">{title}</p>
+                  <p className="text-sm font-semibold text-gray-900">{value}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{desc}</p>
+                </div>
+              </motion.div>
+            ))}
 
-        {/* Form */}
-        <div className="lg:col-span-2">
-           <motion.div 
-             initial={{ opacity: 0, scale: 0.95 }}
-             animate={{ opacity: 1, scale: 1 }}
-             className="glass-card p-8 md:p-12 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 space-y-8 relative overflow-hidden"
-           >
+            {/* Note */}
+            <div className="bg-amber-600 rounded-lg p-6 text-white">
+              <h4 className="font-semibold text-lg mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>Partnership Inquiries</h4>
+              <p className="text-amber-100 text-base leading-relaxed">Interested in featuring your products or collaborating with us? Send us a message and we'll respond within 24 hours.</p>
+            </div>
+          </div>
+
+          {/* Form */}
+          <div className="lg:col-span-2">
+            <div className="bg-white border border-gray-200 rounded-lg p-6 md:p-8">
               <AnimatePresence mode="wait">
-                {isSuccess ? (
-                  <motion.div 
+                {success ? (
+                  <motion.div
                     key="success"
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex flex-col items-center justify-center py-20 text-center space-y-6"
+                    className="flex flex-col items-center justify-center py-16 text-center gap-5"
                   >
-                    <div className="w-20 h-20 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center">
-                       <CheckCircle2 size={48} />
+                    <div className="w-16 h-16 bg-green-50 border border-green-100 rounded-full flex items-center justify-center">
+                      <CheckCircle2 size={32} className="text-green-500" />
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="text-3xl font-black dark:text-white">Message Dispatched</h3>
-                      <p className="text-gray-500">Your inquiry has been encrypted and sent to our team. We'll be in touch shortly.</p>
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>Message Sent!</h3>
+                      <p className="text-gray-500 text-sm">We'll get back to you within 2 hours.</p>
                     </div>
-                    <Button onPointerUp={() => setIsSuccess(false)} variant="glass" className="text-orange-500 border-orange-500/20">Send Another</Button>
+                    <Button variant="secondary" onClick={() => setSuccess(false)}>Send Another</Button>
                   </motion.div>
                 ) : (
-                  <form key="form" onSubmit={handleSubmit} className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                       <Input label="Full Name" placeholder="Jane Doe" required />
-                       <Input label="Email Address" placeholder="jane@example.com" type="email" required />
+                  <motion.form key="form" onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 block mb-1.5">Full Name *</label>
+                        <input type="text" required placeholder="Jane Doe" className={inputCls} />
+                      </div>
+                      <div>
+                        <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 block mb-1.5">Email Address *</label>
+                        <input type="email" required placeholder="jane@example.com" className={inputCls} />
+                      </div>
                     </div>
-                    <Input label="Inquiry Subject" placeholder="Ex: Partnership Opportunity" required />
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 block ml-1">Your Message</label>
-                      <textarea 
+                    <div>
+                      <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 block mb-1.5">Subject *</label>
+                      <input type="text" required placeholder="e.g. Partnership Opportunity" className={inputCls} />
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 block mb-1.5">Message *</label>
+                      <textarea
                         required
-                        className="w-full h-48 bg-gray-50 dark:bg-black/20 border border-gray-100 dark:border-white/10 rounded-2xl p-6 focus:outline-none focus:ring-2 focus:ring-orange-500/50 text-gray-900 dark:text-white transition-all resize-none font-medium"
-                        placeholder="Detail your request or feedback here..."
-                      ></textarea>
+                        rows={6}
+                        placeholder="Tell us how we can help…"
+                        className={`${inputCls} resize-none`}
+                      />
                     </div>
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-4">
-                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest max-w-[15rem]">
-                         By submitting, you agree to our <span className="text-orange-500 underline">Privacy Guidelines</span>.
-                       </p>
-                       <Button 
-                         type="submit" 
-                         disabled={isSubmitting}
-                         className="w-full sm:w-auto px-12 h-16 gap-3 text-sm font-black uppercase tracking-[0.2em] shadow-xl shadow-orange-500/20"
-                       >
-                          {isSubmitting ? <Loader2 className="animate-spin" /> : "Transmit Message"}
-                          {!isSubmitting && <Send size={18} />}
-                       </Button>
+                    <div className="flex items-center justify-between pt-2">
+                      <p className="text-xs text-gray-400 max-w-[16rem]">
+                        By submitting you agree to our <a href="/legal/privacy" className="text-amber-700 hover:underline">Privacy Policy</a>.
+                      </p>
+                      <Button type="submit" variant="accent" size="lg" disabled={submitting} className="gap-2 min-w-[140px]">
+                        {submitting ? <><Loader2 size={16} className="animate-spin" /> Sending…</> : <><Send size={16} /> Send Message</>}
+                      </Button>
                     </div>
-                  </form>
+                  </motion.form>
                 )}
               </AnimatePresence>
-           </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default ContactPage;
+}

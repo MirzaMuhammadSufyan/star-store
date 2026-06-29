@@ -1,39 +1,32 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-export function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
+export function cn(...inputs) { return twMerge(clsx(inputs)); }
 
 const Button = React.forwardRef(({ className, variant = 'primary', size = 'md', ...props }, ref) => {
+  const base = 'inline-flex items-center justify-center font-medium rounded transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 disabled:opacity-40 disabled:pointer-events-none cursor-pointer select-none';
+
   const variants = {
-    primary: 'bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-500/20',
-    glass: 'glass-morphism hover:bg-white/10 text-gray-900 dark:text-white border-white/20',
-    outline: 'border-2 border-orange-500/50 hover:border-orange-500 text-gray-900 dark:text-white',
-    danger: 'bg-red-500/20 hover:bg-red-500/30 text-red-500 border border-red-500/20'
+    primary:   'bg-gray-900 text-white hover:bg-gray-800',
+    secondary: 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:border-gray-300',
+    accent:    'bg-amber-600 text-white hover:bg-amber-700',
+    ghost:     'bg-transparent text-gray-700 border border-gray-200 hover:bg-gray-50',
+    danger:    'bg-red-50 text-red-600 border border-red-200 hover:bg-red-100',
+    /* compat aliases */
+    glass:     'bg-transparent text-gray-700 border border-gray-200 hover:bg-gray-50',
+    outline:   'bg-transparent text-gray-700 border border-gray-200 hover:bg-gray-50',
   };
 
   const sizes = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-6 py-2.5 min-h-[2.75rem]',
-    lg: 'px-8 py-3.5 text-lg min-h-[3rem]'
+    xs: 'px-3 py-1.5 text-xs gap-1',
+    sm: 'px-4 py-2.5 text-[13px] gap-1.5',
+    md: 'px-5 py-2.5 text-[14px] gap-2',
+    lg: 'px-7 py-3.5 text-[15px] gap-2',
   };
 
   return (
-    <motion.button
-      ref={ref}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className={cn(
-        'inline-flex items-center justify-center rounded-xl font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/50 disabled:opacity-50 disabled:pointer-events-none',
-        variants[variant],
-        sizes[size],
-        className
-      )}
-      {...props}
-    />
+    <button ref={ref} className={cn(base, variants[variant], sizes[size], className)} {...props} />
   );
 });
 

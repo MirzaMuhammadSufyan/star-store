@@ -13,108 +13,114 @@ const UserProfilePage = () => {
   ];
 
   const menuItems = [
-    { name: 'Order History', icon: Package },
-    { name: 'Shipping Addresses', icon: MapPin },
-    { name: 'Account Settings', icon: Settings },
-    { name: 'Product Reviews', icon: Star },
+    { name: 'Order History',       icon: Package },
+    { name: 'Shipping Addresses',  icon: MapPin   },
+    { name: 'Account Settings',    icon: Settings },
+    { name: 'Product Reviews',     icon: Star     },
   ];
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12">
-      <div className="flex flex-col md:flex-row gap-12">
-        {/* Sidebar */}
-        <div className="md:w-1/3 space-y-8">
-          <div className="glass-card p-8 bg-white dark:bg-white/5 border-gray-100 dark:border-white/10 text-center">
-            <div className="relative inline-block mb-4">
-              <div className="w-24 h-24 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 border-2 border-orange-500/20 overflow-hidden">
-                <User size={48} />
-              </div>
-              <div className="absolute bottom-0 right-0 w-6 h-6 bg-green-500 border-4 border-white dark:border-premium-dark rounded-full" />
-            </div>
-            <h2 className="text-2xl font-bold dark:text-white">Alex Johnson</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Premium Member since 2023</p>
-            <div className="mt-6 flex justify-center gap-2">
-               <span className="px-3 py-1 bg-orange-500/10 text-orange-500 text-[10px] font-bold rounded-full uppercase tracking-widest border border-orange-500/20">Explorer</span>
-               <span className="px-3 py-1 bg-yellow-500/10 text-yellow-500 text-[10px] font-bold rounded-full uppercase tracking-widest border border-yellow-500/20">Pro Reviewer</span>
-            </div>
-          </div>
-
-          <div className="glass-card overflow-hidden bg-white dark:bg-white/5 border-gray-100 dark:border-white/10">
-            {menuItems.map((item, i) => (
-              <button 
-                key={i}
-                className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors border-b last:border-0 border-gray-100 dark:border-white/5 group"
-              >
-                <div className="flex items-center gap-4">
-                   <div className="text-gray-400 group-hover:text-orange-500 transition-colors">
-                      <item.icon size={18} />
-                   </div>
-                   <span className="font-medium text-gray-700 dark:text-gray-300">{item.name}</span>
-                </div>
-                <ChevronRight size={16} className="text-gray-300" />
-              </button>
-            ))}
-          </div>
-
-          <Button 
-            variant="glass" 
-            className="w-full border-red-500/20 text-red-500 hover:bg-red-500/5 py-4 gap-2"
-            onPointerUp={() => logout()}
-          >
-            <LogOut size={18} /> Logout Session
-          </Button>
+    <div className="bg-gray-50 min-h-screen">
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-1">My Account</p>
+          <h1 className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>User Profile</h1>
         </div>
+      </div>
 
-        {/* Content */}
-        <div className="md:w-2/3 space-y-12">
-          {/* Dashboard Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="glass-card p-6 bg-orange-500 text-white relative overflow-hidden">
-               <Package className="absolute -right-4 -bottom-4 w-24 h-24 opacity-10" />
-               <p className="text-white/60 text-sm font-bold uppercase tracking-widest mb-1">Active Orders</p>
-               <h4 className="text-4xl font-black">2</h4>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Sidebar */}
+          <div className="md:w-72 shrink-0 space-y-4">
+            {/* Avatar card */}
+            <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
+              <div className="w-20 h-20 rounded-full bg-amber-50 border-2 border-amber-200 flex items-center justify-center text-amber-600 mx-auto mb-4">
+                <User size={40} strokeWidth={1.5} />
+              </div>
+              <h2 className="text-lg font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>Alex Johnson</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Premium Member since 2023</p>
+              <div className="flex justify-center gap-2 mt-4">
+                <span className="px-2.5 py-1 bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-bold rounded-full uppercase tracking-widest">Explorer</span>
+                <span className="px-2.5 py-1 bg-yellow-50 border border-yellow-200 text-yellow-700 text-[10px] font-bold rounded-full uppercase tracking-widest">Pro Reviewer</span>
+              </div>
             </div>
-            <div className="glass-card p-6 bg-white dark:bg-white/5 border-gray-100 dark:border-white/10">
-               <Clock className="text-orange-500 mb-4" size={24} />
-               <p className="text-gray-500 dark:text-gray-400 text-sm font-bold uppercase tracking-widest mb-1">Estimated Delivery</p>
-               <h4 className="text-2xl font-bold dark:text-white">Oct 18, 2024</h4>
+
+            {/* Nav */}
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              {menuItems.map((item, i) => (
+                <button key={i} className="w-full flex items-center justify-between px-4 py-3.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-amber-700 transition-colors border-b last:border-0 border-gray-100 group">
+                  <div className="flex items-center gap-3">
+                    <item.icon size={16} className="text-gray-400 group-hover:text-amber-600 transition-colors" />
+                    <span className="font-medium">{item.name}</span>
+                  </div>
+                  <ChevronRight size={14} className="text-gray-300" />
+                </button>
+              ))}
             </div>
+
+            <button
+              onClick={() => logout()}
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 text-sm font-semibold text-red-500 border border-red-200 rounded-lg hover:bg-red-50 transition-colors"
+            >
+              <LogOut size={15} /> Sign Out
+            </button>
           </div>
 
-          {/* Recent Orders */}
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-2xl font-bold dark:text-white">Recent Purchases</h3>
-              <button className="text-orange-500 text-sm font-bold hover:underline">View All</button>
+          {/* Main */}
+          <div className="flex-grow space-y-8">
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-amber-600 rounded-lg p-6 text-white relative overflow-hidden">
+                <Package className="absolute -right-3 -bottom-3 w-20 h-20 opacity-10" />
+                <p className="text-amber-100 text-xs font-semibold uppercase tracking-widest mb-1">Active Orders</p>
+                <h4 className="text-4xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>2</h4>
+              </div>
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <Clock size={20} className="text-amber-600 mb-3" strokeWidth={1.75} />
+                <p className="text-xs text-gray-400 font-semibold uppercase tracking-widest mb-1">Est. Delivery</p>
+                <h4 className="text-lg font-bold text-gray-900">Oct 18, 2024</h4>
+              </div>
             </div>
 
-            <div className="space-y-4">
-              {orders.map(order => (
-                <div key={order.id} className="glass-card p-6 bg-white dark:bg-white/5 border-gray-100 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:border-orange-500/30 transition-colors">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gray-100 dark:bg-white/5 rounded-xl flex items-center justify-center text-orange-500">
-                      <Package size={24} />
+            {/* Recent orders */}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>Recent Purchases</h3>
+                <button className="text-sm text-amber-700 font-medium hover:underline">View All</button>
+              </div>
+              <div className="space-y-3">
+                {orders.map(order => (
+                  <motion.div
+                    key={order.id}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white border border-gray-200 rounded-lg p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-amber-300 transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-11 h-11 bg-gray-50 border border-gray-200 rounded-lg flex items-center justify-center">
+                        <Package size={20} className="text-amber-600" strokeWidth={1.75} />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">{order.id}</p>
+                        <p className="text-xs text-gray-400">{order.date} · {order.items} items</p>
+                      </div>
                     </div>
-                    <div>
-                      <h5 className="font-bold dark:text-white">{order.id}</h5>
-                      <p className="text-xs text-gray-500">{order.date} • {order.items} Items</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-8">
-                     <div className="text-right">
-                        <p className="text-sm font-bold dark:text-white">{order.total}</p>
-                        <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
-                          order.status === 'Delivered' ? 'bg-green-500/10 text-green-500' : 'bg-blue-500/10 text-blue-500'
+                    <div className="flex items-center gap-6">
+                      <div className="text-right">
+                        <p className="font-semibold text-gray-900">{order.total}</p>
+                        <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
+                          order.status === 'Delivered' ? 'bg-green-50 text-green-600 border border-green-200' : 'bg-blue-50 text-blue-600 border border-blue-200'
                         }`}>
                           {order.status}
                         </span>
-                     </div>
-                     <Button variant="glass" size="sm" className="p-2 border-gray-200 dark:border-white/10 dark:text-white">
-                        <ChevronRight size={16} />
-                     </Button>
-                  </div>
-                </div>
-              ))}
+                      </div>
+                      <button className="w-9 h-9 flex items-center justify-center border border-gray-200 rounded hover:bg-gray-50 transition-colors">
+                        <ChevronRight size={15} className="text-gray-500" />
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

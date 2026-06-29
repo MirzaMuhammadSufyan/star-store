@@ -10,422 +10,369 @@ import { Input } from '../components/ui/Input';
 import ProductForm from '../components/ProductForm';
 import BlogForm from '../components/BlogForm';
 
+const TAB_BTN = 'px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-md transition-all';
+
 const AdminDashboard = () => {
   const { dbProducts, deleteProduct, loading: productsLoading } = useProductStore();
-  const { posts: blogPosts, deletePost: deleteBlogPost, loading: blogsLoading } = useBlogStore();
+  const { posts: blogPosts, deletePost: deleteBlogPost } = useBlogStore();
   const { clicks, getStats, fetchClicks } = useAnalyticsStore();
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const isAuthenticated = useAuthStore(s => s.isAuthenticated);
+
+  const [isFormOpen,     setIsFormOpen]     = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
-  const [editingBlog, setEditingBlog] = useState(null);
+  const [editingBlog,    setEditingBlog]    = useState(null);
   const [isBlogFormOpen, setIsBlogFormOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('inventory');
-  const [syncKeywords, setSyncKeywords] = useState('');
-  const [syncResults, setSyncResults] = useState([]);
-  const [isSyncing, setIsSyncing] = useState(false);
+  const [searchQuery,    setSearchQuery]    = useState('');
+  const [activeTab,      setActiveTab]      = useState('inventory');
+  const [syncKeywords,   setSyncKeywords]   = useState('');
+  const [syncResults,    setSyncResults]    = useState([]);
+  const [isSyncing,      setIsSyncing]      = useState(false);
 
   const stats = getStats();
   const totalClicks = clicks.length;
 
   const filteredProducts = useMemo(() => {
     if (!Array.isArray(dbProducts)) return [];
+    const q = searchQuery.toLowerCase();
     return dbProducts.filter(p =>
-        (p.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.category || '').toLowerCase().includes(searchQuery.toLowerCase())
+      (p.title || '').toLowerCase().includes(q) ||
+      (p.category || '').toLowerCase().includes(q)
     );
   }, [dbProducts, searchQuery]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
-    const unsubscribe = fetchClicks();
-    return () => {
-      if (typeof unsubscribe === 'function') unsubscribe();
-    };
+    const unsub = fetchClicks();
+    return () => { if (typeof unsub === 'function') unsub(); };
   }, [fetchClicks, isAuthenticated]);
 
   const topProducts = useMemo(() => {
     if (!Array.isArray(dbProducts)) return [];
-    return [...dbProducts]
-        .sort((a, b) => (stats[b.id] || 0) - (stats[a.id] || 0))
-        .slice(0, 5);
+    return [...dbProducts].sort((a, b) => (stats[b.id] || 0) - (stats[a.id] || 0)).slice(0, 5);
   }, [dbProducts, stats]);
 
-  const handleEdit = (product) => {
-    setEditingProduct(product);
-    setIsFormOpen(true);
-  };
+  const handleEdit   = (p) => { setEditingProduct(p); setIsFormOpen(true); };
+  const handleAddNew = ()  => { setEditingProduct(null); setIsFormOpen(true); };
 
-  const handleAddNew = () => {
-    setEditingProduct(null);
-    setIsFormOpen(true);
-  };
-
-  const handleAliExpressSync = async () => {
+  const handleSync = async () => {
     if (!syncKeywords) return;
     setIsSyncing(true);
     try {
       const results = await useProductStore.getState().syncFromAliExpress(syncKeywords);
       setSyncResults(results || []);
-    } catch (error) {
-      console.error("Sync error:", error);
-    } finally {
-      setIsSyncing(false);
-    }
+    } catch (e) { console.error(e); }
+    finally { setIsSyncing(false); }
   };
 
   if (productsLoading) {
     return (
-      <div className="flex flex-col items-center justify-center py-24">
-        <Zap className="text-orange-500 animate-pulse mb-4" size={48} />
-        <h2 className="text-xl font-bold dark:text-white">Loading Command Center...</h2>
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-10 h-10 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-500 text-sm">Loading Dashboard…</p>
+        </div>
       </div>
     );
   }
 
+  const TABS = ['inventory', 'analytics', 'blogs', 'sync'];
+
+  const thCls = 'py-3.5 px-4 text-xs font-semibold uppercase tracking-wider text-gray-500 text-left';
+  const tdCls = 'py-4 px-4 text-[15px]';
+
   return (
-    <div className="space-y-8 md:space-y-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
-        <div>
-          <h1 className="text-4xl font-black dark:text-white text-orange-950">Command Center</h1>
-          <p className="text-gray-500 font-medium text-sm uppercase tracking-widest mt-1">Real-time Performance Metrics & Inventory</p>
-        </div>
-        <div className="flex gap-3 md:gap-4">
-           <div className="flex bg-gray-100 dark:bg-white/5 p-1 rounded-xl md:rounded-2xl border border-gray-200 dark:border-white/10">
-              <button 
-                onClick={() => setActiveTab('inventory')}
-                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'inventory' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
-              >
-                Inventory
-              </button>
-              <button 
-                onClick={() => setActiveTab('analytics')}
-                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'analytics' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
-              >
-                Analytics
-              </button>
-              <button
-                onClick={() => setActiveTab('blogs')}
-                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'blogs' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
-              >
-                Blogs
-              </button>
-              <button
-                onClick={() => setActiveTab('sync')}
-                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'sync' ? 'bg-white dark:bg-orange-500 shadow-xl dark:text-white text-gray-900' : 'text-gray-400'}`}
-              >
-                Sync
-              </button>
-           </div>
-           <Button
-            onClick={activeTab === 'blogs' ? () => { setEditingBlog(null); setIsBlogFormOpen(true); } : handleAddNew}
-            className="gap-2 md:gap-3 px-6 md:px-8 h-12 md:h-14 font-black uppercase text-[10px] md:text-xs tracking-widest shadow-orange-500/40"
-          >
-            <Plus size={18} /> {activeTab === 'blogs' ? 'New Blog' : 'New Product'}
-          </Button>
+    <div className="bg-gray-50 min-h-screen">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-1">Management</p>
+            <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>Admin Dashboard</h1>
+          </div>
+          <div className="flex items-center gap-3">
+            {/* Tab switcher */}
+            <div className="flex bg-gray-100 border border-gray-200 p-1 rounded-lg gap-0.5">
+              {TABS.map(t => (
+                <button key={t} onClick={() => setActiveTab(t)}
+                  className={`${TAB_BTN} ${activeTab === t ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+            <Button
+              variant="accent"
+              size="md"
+              className="gap-2"
+              onClick={activeTab === 'blogs' ? () => { setEditingBlog(null); setIsBlogFormOpen(true); } : handleAddNew}
+            >
+              <Plus size={16} /> {activeTab === 'blogs' ? 'New Blog' : 'New Product'}
+            </Button>
+          </div>
         </div>
       </div>
 
-      {activeTab === 'blogs' ? (
-        <div className="glass-card p-4 md:p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
-           <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-gray-100 dark:border-white/10 text-gray-400 dark:text-white/40 text-[10px] font-black uppercase tracking-widest">
-                  <th className="pb-6 px-4">Article</th>
-                  <th className="pb-6 px-4">Category</th>
-                  <th className="pb-6 px-4">Author</th>
-                  <th className="pb-6 px-4">Date</th>
-                  <th className="pb-6 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50 dark:divide-white/5">
-                {blogPosts.map((post) => (
-                  <tr key={post.id} className="group hover:bg-orange-500/[0.02] transition-colors">
-                    <td className="py-6 px-4">
-                      <div className="flex items-center gap-4">
-                        <img src={post.image} className="w-14 h-14 rounded-2xl object-cover shadow-lg" alt="" />
-                        <div>
-                          <span className="dark:text-white text-gray-900 font-bold block">{post.title}</span>
-                          <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest truncate max-w-[12.5rem] block">{post.excerpt}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-6 px-4">
-                       <span className="bg-orange-500/10 text-orange-600 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">{post.category}</span>
-                    </td>
-                    <td className="py-6 px-4">
-                       <span className="text-sm font-bold dark:text-white">{post.author}</span>
-                    </td>
-                    <td className="py-6 px-4 text-sm text-gray-400">{post.date}</td>
-                    <td className="py-6 px-4">
-                      <div className="flex items-center justify-end gap-2">
-                        <Button
-                          variant="glass"
-                          size="sm"
-                          className="p-2 border-gray-100 dark:border-white/5"
-                          onClick={() => { setEditingBlog(post); setIsBlogFormOpen(true); }}
-                        >
-                          <Edit2 size={16} />
-                        </Button>
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          className="p-2"
-                          onClick={() => {
-                            if(window.confirm('Are you sure you want to delete this blog post?')) {
-                              deleteBlogPost(post.id);
-                            }
-                          }}
-                        >
-                          <Trash2 size={16} />
-                        </Button>
-                      </div>
-                    </td>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        {/* ── Inventory ── */}
+        {activeTab === 'inventory' && (
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <div className="p-5 border-b border-gray-100">
+              <div className="relative max-w-sm">
+                <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  placeholder="Search products…"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-200 rounded bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                />
+              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="border-b border-gray-100 bg-gray-50">
+                  <tr>
+                    <th className={thCls}>Product</th>
+                    <th className={thCls}>Category</th>
+                    <th className={thCls}>Merchant</th>
+                    <th className={thCls}>Clicks</th>
+                    <th className={`${thCls} text-right`}>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {filteredProducts.map((product, idx) => {
+                    const pid      = product.product_id || product.id || idx;
+                    const title    = product.product_title || product.title;
+                    const image    = product.product_main_image_url || product.image;
+                    const price    = product.target_sale_price || product.price;
+                    const merchant = product.second_level_category_name || product.merchant || 'Partner';
+                    return (
+                      <tr key={pid} className="hover:bg-amber-50/40 transition-colors">
+                        <td className={tdCls}>
+                          <div className="flex items-center gap-3">
+                            <img src={image} alt="" className="w-12 h-12 rounded-lg object-cover bg-gray-50 shrink-0" />
+                            <div>
+                              <p className="text-sm font-semibold text-gray-900 line-clamp-1">{title}</p>
+                              <p className="text-xs text-gray-400">${price}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className={tdCls}>
+                          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded font-medium">{product.category || 'Deal'}</span>
+                        </td>
+                        <td className={tdCls}>
+                          <span className="text-sm font-semibold text-amber-700">{merchant}</span>
+                        </td>
+                        <td className={tdCls}>
+                          <div className="flex items-center gap-1.5">
+                            <MousePointer2 size={13} className="text-amber-600" />
+                            <span className="font-bold text-gray-900">{stats[pid] || 0}</span>
+                          </div>
+                        </td>
+                        <td className={`${tdCls} text-right`}>
+                          <div className="flex items-center justify-end gap-2">
+                            <button onClick={() => handleEdit(product)} className="p-2 rounded hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors">
+                              <Edit2 size={15} />
+                            </button>
+                            <button onClick={() => { if (window.confirm('Delete this product?')) deleteProduct(pid); }}
+                              className="p-2 rounded hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors">
+                              <Trash2 size={15} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {filteredProducts.length === 0 && (
+                    <tr><td colSpan="5" className="py-16 text-center text-gray-400 text-sm">No products found.</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      ) : activeTab === 'inventory' ? (
-        <div className="glass-card p-4 md:p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
-          <div className="relative mb-6 md:mb-10">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={18} />
-            <Input 
-              placeholder="Search products..." 
-              className="pl-14 h-12 md:h-14 text-base"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+        )}
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-gray-100 dark:border-white/10 text-gray-400 dark:text-white/40 text-[10px] font-black uppercase tracking-widest">
-                  <th className="pb-6 px-4">Product Information</th>
-                  <th className="pb-6 px-4">Category</th>
-                  <th className="pb-6 px-4">Merchant</th>
-                  <th className="pb-6 px-4">Performance</th>
-                  <th className="pb-6 px-4 text-right">Quick Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50 dark:divide-white/5">
-                {filteredProducts.map((product, idx) => {
-                  const productId = product.product_id || product.id || idx;
-                  const title = product.product_title || product.title;
-                  const image = product.product_main_image_url || product.image;
-                  const price = product.target_sale_price || product.price;
-                  const merchant = product.second_level_category_name || product.merchant || "Partner";
-
-                  return (
-                    <tr key={productId} className="group hover:bg-orange-500/[0.02] transition-colors">
-                      <td className="py-6 px-4">
-                        <div className="flex items-center gap-4">
-                          <img src={image} className="w-14 h-14 rounded-2xl object-cover shadow-lg" alt="" />
+        {/* ── Blogs ── */}
+        {activeTab === 'blogs' && (
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="border-b border-gray-100 bg-gray-50">
+                  <tr>
+                    <th className={thCls}>Article</th>
+                    <th className={thCls}>Category</th>
+                    <th className={thCls}>Author</th>
+                    <th className={thCls}>Date</th>
+                    <th className={`${thCls} text-right`}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {blogPosts.map(post => (
+                    <tr key={post.id} className="hover:bg-amber-50/40 transition-colors">
+                      <td className={tdCls}>
+                        <div className="flex items-center gap-3">
+                          <img src={post.image} alt="" className="w-12 h-12 rounded-lg object-cover shrink-0" />
                           <div>
-                            <span className="dark:text-white text-gray-900 font-bold block">{title}</span>
-                            <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest">${price}</span>
+                            <p className="text-sm font-semibold text-gray-900 line-clamp-1">{post.title}</p>
+                            <p className="text-xs text-gray-400 line-clamp-1 max-w-[200px]">{post.excerpt}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="py-6 px-4">
-                        <span className="bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-white/60 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">{product.category || 'Deal'}</span>
+                      <td className={tdCls}>
+                        <span className="text-xs bg-amber-50 border border-amber-200 text-amber-700 px-2 py-1 rounded font-semibold">{post.category}</span>
                       </td>
-                      <td className="py-6 px-4">
-                        <span className="text-sm font-bold text-orange-500">{merchant}</span>
-                      </td>
-                      <td className="py-6 px-4">
-                        <div className="flex items-center gap-2">
-                          <MousePointer2 size={14} className="text-orange-500" />
-                          <span className="text-lg font-black dark:text-white">{stats[productId] || 0}</span>
-                        </div>
-                      </td>
-                      <td className="py-6 px-4">
+                      <td className={tdCls}><span className="text-sm text-gray-700">{post.author}</span></td>
+                      <td className={tdCls}><span className="text-sm text-gray-400">{post.date}</span></td>
+                      <td className={`${tdCls} text-right`}>
                         <div className="flex items-center justify-end gap-2">
-                          <Button
-                            variant="glass"
-                            size="sm"
-                            className="p-2 border-gray-100 dark:border-white/5"
-                            onClick={() => handleEdit(product)}
-                          >
-                            <Edit2 size={16} />
-                          </Button>
-                          <Button
-                            variant="danger"
-                            size="sm"
-                            className="p-2"
-                            onClick={() => {
-                              if(window.confirm('Are you sure you want to delete this product?')) {
-                                deleteProduct(productId);
-                              }
-                            }}
-                          >
-                            <Trash2 size={16} />
-                          </Button>
+                          <button onClick={() => { setEditingBlog(post); setIsBlogFormOpen(true); }} className="p-2 rounded hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors">
+                            <Edit2 size={15} />
+                          </button>
+                          <button onClick={() => { if (window.confirm('Delete this post?')) deleteBlogPost(post.id); }} className="p-2 rounded hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors">
+                            <Trash2 size={15} />
+                          </button>
                         </div>
                       </td>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : activeTab === 'sync' ? (
-        <div className="glass-card p-4 md:p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5 animate-fade-in">
-          <div className="flex flex-col md:flex-row gap-4 mb-10">
-            <div className="relative flex-grow">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-orange-500" size={18} />
-              <Input
-                placeholder="Keywords to sync (e.g. 'gaming mouse')..."
-                className="pl-14 h-12 md:h-14 text-base"
-                value={syncKeywords}
-                onChange={(e) => setSyncKeywords(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleAliExpressSync()}
-              />
+                  ))}
+                  {blogPosts.length === 0 && (
+                    <tr><td colSpan="5" className="py-16 text-center text-gray-400 text-sm">No blog posts yet.</td></tr>
+                  )}
+                </tbody>
+              </table>
             </div>
-            <Button
-              onClick={handleAliExpressSync}
-              disabled={isSyncing}
-              className="h-12 md:h-14 px-8 font-black uppercase tracking-widest"
-            >
-              {isSyncing ? <Zap className="animate-spin" size={18} /> : 'Search AliExpress'}
-            </Button>
           </div>
+        )}
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-gray-100 dark:border-white/10 text-gray-400 dark:text-white/40 text-[10px] font-black uppercase tracking-widest">
-                  <th className="pb-6 px-4">Product Info</th>
-                  <th className="pb-6 px-4">Merchant/Category</th>
-                  <th className="pb-6 px-4">Price</th>
-                  <th className="pb-6 px-4 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50 dark:divide-white/5">
-                {syncResults.map((product, idx) => (
-                  <tr key={product.product_id || idx} className="group hover:bg-orange-500/[0.02] transition-colors">
-                    <td className="py-6 px-4">
-                      <div className="flex items-center gap-4">
-                        <img src={product.product_main_image_url} className="w-14 h-14 rounded-2xl object-cover shadow-lg" alt="" />
-                        <div>
-                          <span className="dark:text-white text-gray-900 font-bold block line-clamp-1">{product.product_title}</span>
-                          <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest">ID: {product.product_id}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-6 px-4">
-                      <span className="text-sm font-bold text-orange-500 block">{product.second_level_category_name}</span>
-                      <span className="text-[10px] text-gray-400 uppercase font-black">{product.first_level_category_name || 'Electronics'}</span>
-                    </td>
-                    <td className="py-6 px-4">
-                      <span className="text-lg font-black dark:text-white">${product.target_sale_price}</span>
-                    </td>
-                    <td className="py-6 px-4 text-right">
-                      <Button
-                        size="sm"
-                        className="font-black uppercase text-[10px] tracking-widest"
-                        onClick={() => {
-                          const { addProduct } = useProductStore.getState();
-                          addProduct({
-                            title: product.product_title,
-                            price: product.target_sale_price,
-                            image: product.product_main_image_url,
-                            merchant: product.second_level_category_name,
-                            promotion_link: product.promotion_link,
-                            product_id: product.product_id,
-                            category: product.second_level_category_name,
-                            original_price: product.original_price,
-                            evaluate_rate: product.evaluate_rate
-                          });
-                          alert('Product imported successfully!');
-                        }}
-                      >
-                        Import
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-                {syncResults.length === 0 && !isSyncing && (
-                  <tr>
-                    <td colSpan="4" className="py-20 text-center text-gray-400 font-bold uppercase tracking-widest text-xs">
-                      No results yet. Enter keywords and search.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-12 animate-fade-in">
-          {/* Analytics Overview */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-             {[
-               { label: 'Total Engagement', val: totalClicks, icon: MousePointer2 },
-               { label: 'Unique Merchant Hits', val: new Set(clicks.map(c => c.merchant)).size, icon: TrendingUp },
-               { label: 'Conversion Intent', val: (totalClicks * 0.15).toFixed(0), icon: BarChart3 },
-               { label: 'Active Tracking Nodes', val: filteredProducts.length, icon: Users },
-             ].map((stat, i) => (
-               <div key={i} className="glass-card p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5">
-                  <stat.icon className="text-orange-500 mb-4" size={32} />
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{stat.label}</h4>
-                  <p className="text-4xl font-black dark:text-white text-gray-900">{stat.val}</p>
-               </div>
-             ))}
-          </div>
+        {/* ── Analytics ── */}
+        {activeTab === 'analytics' && (
+          <div className="space-y-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { label: 'Total Clicks',       val: totalClicks,                                      icon: MousePointer2 },
+                { label: 'Unique Merchants',   val: new Set(clicks.map(c => c.merchant)).size,        icon: TrendingUp    },
+                { label: 'Conv. Intent',       val: (totalClicks * 0.15).toFixed(0),                  icon: BarChart3     },
+                { label: 'Products Tracked',   val: filteredProducts.length,                           icon: Users         },
+              ].map((s, i) => (
+                <div key={i} className="bg-white border border-gray-200 rounded-lg p-5">
+                  <div className="w-9 h-9 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center mb-3">
+                    <s.icon size={17} className="text-amber-700" strokeWidth={1.75} />
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">{s.val}</p>
+                  <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider mt-1">{s.label}</p>
+                </div>
+              ))}
+            </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="glass-card p-8 bg-white dark:bg-white/2 border-gray-100 dark:border-white/5">
-               <h3 className="text-xl font-black dark:text-white mb-8 uppercase tracking-tighter flex items-center gap-3">
-                 <TrendingUp className="text-orange-500" /> Highest Interaction Products
-               </h3>
-               <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 className="font-bold text-gray-900 mb-5 flex items-center gap-2" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <TrendingUp size={18} className="text-amber-600" /> Top Products by Clicks
+                </h3>
+                <div className="space-y-4">
                   {topProducts.map((p, i) => (
-                    <div key={p.id} className="flex items-center gap-6 group">
-                       <span className="text-2xl font-black text-gray-200 dark:text-white/10 group-hover:text-orange-500 transition-colors">0{i+1}</span>
-                       <img src={p.image} className="w-12 h-12 rounded-xl object-cover" alt="" />
-                       <div className="flex-grow">
-                          <p className="font-bold dark:text-white text-gray-900 line-clamp-1">{p.title}</p>
-                          <p className="text-[10px] font-black text-orange-500 uppercase">{p.merchant || 'Partner'}</p>
-                       </div>
-                       <div className="text-right">
-                          <p className="text-xl font-black dark:text-white text-gray-900">{stats[p.id] || 0}</p>
-                          <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest">CLICKS</p>
-                       </div>
+                    <div key={p.id} className="flex items-center gap-4">
+                      <span className="text-xl font-bold text-gray-200 w-7 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                      <img src={p.image} alt="" className="w-10 h-10 rounded object-cover shrink-0" />
+                      <div className="flex-grow min-w-0">
+                        <p className="text-sm font-semibold text-gray-900 line-clamp-1">{p.title}</p>
+                        <p className="text-xs text-amber-700">{p.merchant || 'Partner'}</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="font-bold text-gray-900">{stats[p.id] || 0}</p>
+                        <p className="text-[9px] text-gray-400 uppercase tracking-wider">clicks</p>
+                      </div>
                     </div>
                   ))}
-               </div>
-            </div>
+                  {topProducts.length === 0 && <p className="text-gray-400 text-sm text-center py-8">No analytics data yet.</p>}
+                </div>
+              </div>
 
-            <div className="glass-card p-8 bg-orange-500 text-white relative overflow-hidden border-none flex flex-col justify-center">
-               <div className="relative z-10 space-y-6">
-                  <h3 className="text-4xl font-black leading-tight">Optimization Report Ready.</h3>
-                  <p className="text-white/80 leading-relaxed">Based on the last 30 days of affiliate interaction, we recommend increasing coverage for <span className="font-bold underline">Photography</span> and <span className="font-bold underline">Wearables</span> to boost conversion rates by 24%.</p>
-                  <Button variant="glass" className="bg-white/10 border-white/20 text-white h-14 font-black uppercase text-xs tracking-widest w-fit px-8">Generate Strategy PDF</Button>
-               </div>
-               <BarChart3 className="absolute -right-10 -bottom-10 w-64 h-64 opacity-10" />
+              <div className="bg-amber-600 rounded-lg p-8 text-white relative overflow-hidden flex flex-col justify-center">
+                <div className="relative z-10 space-y-4">
+                  <h3 className="text-2xl font-bold leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>Optimization Report Ready.</h3>
+                  <p className="text-amber-100 text-base leading-relaxed">Based on the last 30 days, we recommend increasing coverage for <strong>Photography</strong> and <strong>Wearables</strong> to boost conversions by 24%.</p>
+                  <Button variant="secondary" className="w-fit text-gray-900">Generate Strategy PDF</Button>
+                </div>
+                <BarChart3 className="absolute -right-8 -bottom-8 w-48 h-48 opacity-10" />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* ── Sync ── */}
+        {activeTab === 'sync' && (
+          <div className="bg-white border border-gray-200 rounded-lg">
+            <div className="p-5 border-b border-gray-100">
+              <h3 className="font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>AliExpress Product Sync</h3>
+              <div className="flex gap-3">
+                <div className="relative flex-grow">
+                  <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    placeholder="Keywords to search (e.g. 'gaming mouse')…"
+                    value={syncKeywords}
+                    onChange={e => setSyncKeywords(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleSync()}
+                    className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-200 rounded bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                  />
+                </div>
+                <Button variant="accent" onClick={handleSync} disabled={isSyncing} className="gap-2 shrink-0">
+                  {isSyncing ? <><Zap size={14} className="animate-spin" /> Syncing…</> : 'Search AliExpress'}
+                </Button>
+              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="border-b border-gray-100 bg-gray-50">
+                  <tr>
+                    <th className={thCls}>Product</th>
+                    <th className={thCls}>Category</th>
+                    <th className={thCls}>Price</th>
+                    <th className={`${thCls} text-right`}>Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {syncResults.map((product, idx) => (
+                    <tr key={product.product_id || idx} className="hover:bg-amber-50/40 transition-colors">
+                      <td className={tdCls}>
+                        <div className="flex items-center gap-3">
+                          <img src={product.product_main_image_url} alt="" className="w-12 h-12 rounded-lg object-cover shrink-0" />
+                          <div>
+                            <p className="text-sm font-semibold text-gray-900 line-clamp-1">{product.product_title}</p>
+                            <p className="text-xs text-gray-400">ID: {product.product_id}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className={tdCls}><span className="text-sm text-amber-700 font-semibold">{product.second_level_category_name}</span></td>
+                      <td className={tdCls}><span className="font-bold text-gray-900">${product.target_sale_price}</span></td>
+                      <td className={`${tdCls} text-right`}>
+                        <Button size="sm" variant="secondary" onClick={() => {
+                          const { addProduct } = useProductStore.getState();
+                          addProduct({
+                            title: product.product_title, price: product.target_sale_price,
+                            image: product.product_main_image_url, merchant: product.second_level_category_name,
+                            promotion_link: product.promotion_link, product_id: product.product_id,
+                            category: product.second_level_category_name, original_price: product.original_price,
+                            evaluate_rate: product.evaluate_rate
+                          });
+                          alert('Product imported!');
+                        }}>Import</Button>
+                      </td>
+                    </tr>
+                  ))}
+                  {syncResults.length === 0 && !isSyncing && (
+                    <tr><td colSpan="4" className="py-16 text-center text-gray-400 text-sm">No results yet. Enter keywords and search.</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
 
       <AnimatePresence>
-        {isFormOpen && (
-          <ProductForm 
-            product={editingProduct} 
-            onClose={() => setIsFormOpen(false)} 
-          />
-        )}
-        {isBlogFormOpen && (
-          <BlogForm
-            post={editingBlog}
-            onClose={() => setIsBlogFormOpen(false)}
-          />
-        )}
+        {isFormOpen && <ProductForm product={editingProduct} onClose={() => setIsFormOpen(false)} />}
+        {isBlogFormOpen && <BlogForm post={editingBlog} onClose={() => setIsBlogFormOpen(false)} />}
       </AnimatePresence>
     </div>
   );

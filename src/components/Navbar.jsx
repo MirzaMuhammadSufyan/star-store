@@ -1,144 +1,144 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, ShoppingCart, LayoutDashboard, LogOut, Menu, X, Newspaper } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Heart, LayoutDashboard, Menu, X } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
-import { useCartStore } from '../store/cartStore';
+import { useFavouriteStore } from '../store/favouriteStore';
 import { Button } from './ui/Button';
-import ThemeToggle from './ThemeToggle';
 
-const Navbar = () => {
+const Navbar = ({ onFavOpen }) => {
   const { isAuthenticated, logout } = useAuthStore();
-  const { toggleCart, getItemCount } = useCartStore();
+  const count = useFavouriteStore(s => s.count());
   const navigate = useNavigate();
   const location = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
-  const navLinks = [
-    { name: 'Store', path: '/' },
-    { name: 'Catalog', path: '/catalog' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'Contact', path: '/contact' },
-    { name: 'About', path: '/about' },
+  const links = [
+    { label: 'Home',    path: '/' },
+    { label: 'Shop',    path: '/catalog' },
+    { label: 'Journal', path: '/blog' },
+    { label: 'About',   path: '/about' },
+    { label: 'Contact', path: '/contact' },
   ];
 
+  const isActive = (path) =>
+    path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-orange-50/60 dark:bg-[#0c0c0d]/80 backdrop-blur-md border-b border-gray-100 dark:border-white/[0.06] transition-colors duration-300">
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/40 to-transparent" />
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 h-16">
-        <Link to="/" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-md bg-orange-600 flex items-center justify-center">
-            <ShoppingBag className="text-white" size={15} />
-          </div>
-          <span className="text-[15px] font-medium tracking-tight text-gray-900 dark:text-white">
-            Star Store
-          </span>
+    <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+
+        {/* Logo */}
+        <Link to="/" className="text-[22px] font-bold text-gray-900 shrink-0" style={{ fontFamily: "'Playfair Display', serif" }}>
+          Star<span className="text-amber-600">Store</span>
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
+        {/* Desktop nav */}
+        <nav className="hidden lg:flex items-center gap-8">
+          {links.map(({ label, path }) => (
             <Link
-              key={link.path}
-              to={link.path}
-              className={`text-sm transition-colors ${
-                location.pathname === link.path
-                  ? 'text-orange-600 dark:text-orange-400 font-medium'
-                  : 'text-gray-500 dark:text-white/50 hover:text-gray-900 dark:hover:text-white'
+              key={path}
+              to={path}
+              className={`text-[15px] transition-colors ${
+                isActive(path)
+                  ? 'text-gray-900 font-semibold'
+                  : 'text-gray-500 hover:text-gray-900'
               }`}
             >
-              {link.name}
+              {label}
             </Link>
           ))}
-        </div>
+        </nav>
 
-        <div className="flex items-center gap-1 md:gap-2">
-          <div className="hidden sm:block">
-            <ThemeToggle />
-          </div>
-
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          {/* Favourites button */}
           <button
-            onPointerUp={toggleCart}
-            className="w-11 h-11 flex items-center justify-center relative rounded-lg text-gray-500 dark:text-white/60 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-500/10 transition-all"
+            onClick={onFavOpen}
+            className="relative w-10 h-10 flex items-center justify-center text-gray-500 hover:text-rose-500 transition-colors"
+            aria-label="Saved items"
           >
-            <ShoppingCart size={19} />
-            {getItemCount() > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-orange-600 text-white text-[10px] font-medium rounded-full flex items-center justify-center">
-                {getItemCount()}
+            <Heart size={21} strokeWidth={1.75} />
+            {count > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-rose-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                {count}
               </span>
             )}
           </button>
 
-          <div className="hidden sm:flex items-center gap-2 ml-1">
+          <div className="hidden sm:flex items-center gap-1 pl-2 border-l border-gray-200">
             {isAuthenticated ? (
               <>
-                <Link to="/admin/dashboard" className="w-11 h-11 flex items-center justify-center rounded-lg text-gray-500 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
-                  <LayoutDashboard size={19} />
+                <Link to="/admin/dashboard" className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900 transition-colors" title="Dashboard">
+                  <LayoutDashboard size={18} strokeWidth={1.75} />
                 </Link>
-                <Button
-                  variant="glass"
-                  size="sm"
-                  onPointerUp={() => { logout(); navigate('/'); }}
-                  className="px-4 border-gray-200 dark:border-white/10 dark:text-white text-gray-900"
-                >
-                  Logout
+                <Button variant="ghost" size="sm" onPointerUp={() => { logout(); navigate('/'); }}>
+                  Sign out
                 </Button>
               </>
             ) : (
               <Link to="/admin/login">
-                <Button variant="glass" size="sm" className="px-4 border-gray-200 dark:border-white/10 dark:text-white text-gray-900">Admin</Button>
+                <Button variant="ghost" size="sm">Admin</Button>
               </Link>
             )}
           </div>
 
-          {/* Mobile Menu Button */}
           <button
-            onPointerUp={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden w-11 h-11 flex items-center justify-center rounded-lg text-gray-500 dark:text-white/60 hover:bg-gray-100 dark:hover:bg-white/5"
+            onPointerUp={() => setOpen(!open)}
+            className="lg:hidden w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900"
           >
-            {isMobileMenuOpen ? <X size={19} /> : <Menu size={19} />}
+            {open ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
+        {open && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="lg:hidden absolute top-16 left-0 right-0 bg-white dark:bg-[#0c0c0d] p-6 border-b border-gray-100 dark:border-white/[0.06] shadow-lg z-40"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="lg:hidden overflow-hidden bg-white border-b border-gray-200"
           >
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
+            <nav className="px-4 py-3 flex flex-col gap-1">
+              {links.map(({ label, path }) => (
                 <Link
-                  key={link.path}
-                  to={link.path}
-                  onPointerUp={() => setIsMobileMenuOpen(false)}
-                  className="text-base text-gray-700 dark:text-white/80 border-b border-gray-50 dark:border-white/5 pb-3"
+                  key={path}
+                  to={path}
+                  onPointerUp={() => setOpen(false)}
+                  className={`px-3 py-2.5 rounded text-[15px] transition-colors ${
+                    isActive(path)
+                      ? 'bg-gray-100 text-gray-900 font-medium'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
                 >
-                  {link.name}
+                  {label}
                 </Link>
               ))}
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-sm text-gray-500 dark:text-gray-400">Theme</span>
-                <ThemeToggle />
-              </div>
-              <div className="pt-4">
+              {/* Saved items in mobile menu */}
+              <button
+                onClick={() => { setOpen(false); onFavOpen(); }}
+                className="flex items-center gap-2.5 px-3 py-2.5 rounded text-[15px] text-gray-600 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+              >
+                <Heart size={16} /> Saved Items {count > 0 && <span className="ml-auto text-xs bg-rose-500 text-white px-1.5 py-0.5 rounded-full font-bold">{count}</span>}
+              </button>
+              <div className="mt-2 pt-3 border-t border-gray-100 flex justify-end">
                 {isAuthenticated ? (
-                  <Button className="w-full" onPointerUp={() => { logout(); navigate('/'); setIsMobileMenuOpen(false); }}>Logout</Button>
+                  <Button variant="ghost" size="sm" onPointerUp={() => { logout(); navigate('/'); setOpen(false); }}>
+                    Sign out
+                  </Button>
                 ) : (
-                  <Link to="/admin/login" onPointerUp={() => setIsMobileMenuOpen(false)}>
-                    <Button className="w-full">Admin Login</Button>
+                  <Link to="/admin/login" onPointerUp={() => setOpen(false)}>
+                    <Button variant="ghost" size="sm">Admin Login</Button>
                   </Link>
                 )}
               </div>
-            </div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
 };
 

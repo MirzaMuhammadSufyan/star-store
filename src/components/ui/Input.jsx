@@ -8,22 +8,22 @@ export function cn(...inputs) {
 
 const Input = React.forwardRef(({ label, error, className, ...props }, ref) => {
   return (
-    <div className="space-y-2 w-full">
+    <div className="space-y-1.5 w-full">
       {label && (
-        <label className="text-xs font-black uppercase tracking-widest text-gray-400 block ml-1">
+        <label className="text-xs font-semibold uppercase tracking-widest text-gray-500 block">
           {label}
         </label>
       )}
       <input
         ref={ref}
         className={cn(
-          'w-full bg-gray-50 dark:bg-black/20 border border-gray-100 dark:border-white/10 rounded-2xl px-5 py-3.5 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all duration-300',
-          error && 'border-red-500/50 focus:ring-red-500/50',
+          'w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-[15px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-400 transition-all',
+          error && 'border-red-400 focus:ring-red-400/40',
           className
         )}
         {...props}
       />
-      {error && <p className="text-xs text-red-500 font-medium ml-1">{error}</p>}
+      {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
     </div>
   );
 });
