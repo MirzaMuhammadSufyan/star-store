@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState } from 'react';
+import React, { Suspense, lazy, useState, Component } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
@@ -18,6 +18,35 @@ const LegalPage         = lazy(() => import('./pages/LegalPage'));
 const RedirectPage      = lazy(() => import('./pages/RedirectPage'));
 const AdminLogin        = lazy(() => import('./pages/AdminLogin'));
 const AdminDashboard    = lazy(() => import('./pages/AdminDashboard'));
+
+// Catches "Failed to fetch dynamically imported module" errors (stale deploy / network blip)
+// and reloads the page once to fetch the fresh chunk.
+class ChunkErrorBoundary extends Component {
+  constructor(props) { super(props); this.state = { errored: false }; }
+  static getDerivedStateFromError(err) {
+    const isChunkError = err?.message?.includes('Failed to fetch dynamically imported module')
+      || err?.message?.includes('Importing a module script failed')
+      || err?.name === 'ChunkLoadError';
+    if (isChunkError && !sessionStorage.getItem('chunk_reload')) {
+      sessionStorage.setItem('chunk_reload', '1');
+      window.location.reload();
+    }
+    return { errored: true };
+  }
+  render() {
+    if (this.state.errored) {
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen gap-4 text-center px-4">
+          <p className="text-lg font-semibold text-gray-900">Something went wrong loading this page.</p>
+          <button onClick={() => window.location.reload()} className="px-5 py-2.5 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700 transition-colors">
+            Reload page
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuthStore();
@@ -71,9 +100,11 @@ function App() {
         <Navbar onFavOpen={() => setFavOpen(true)} />
         <FavouritesDrawer open={favOpen} onClose={() => setFavOpen(false)} />
         <main className="flex-grow pt-16">
-          <Suspense fallback={<div className="flex items-center justify-center h-[60vh] text-sm text-gray-400">Loading…</div>}>
-            <AnimatedRoutes />
-          </Suspense>
+          <ChunkErrorBoundary>
+            <Suspense fallback={<div className="flex items-center justify-center h-[60vh]"><div className="w-7 h-7 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" /></div>}>
+              <AnimatedRoutes />
+            </Suspense>
+          </ChunkErrorBoundary>
         </main>
         <Footer />
       </div>
