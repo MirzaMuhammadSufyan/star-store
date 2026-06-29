@@ -1,84 +1,46 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Search, SlidersHorizontal, Grid, List, X, ChevronDown } from 'lucide-react';
+import { Search, SlidersHorizontal, Grid, List, X, ChevronDown, Loader2 } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/Button';
 
 const SORT_OPTIONS = [
-  { label: 'Default',        value: 'default' },
-  { label: 'Price: Low → High', value: 'price_asc' },
+  { label: 'Default',           value: 'default'    },
+  { label: 'Price: Low → High', value: 'price_asc'  },
   { label: 'Price: High → Low', value: 'price_desc' },
-  { label: 'Top Rated',     value: 'rating' },
+  { label: 'Top Rated',         value: 'rating'     },
 ];
 
-export default function CatalogPage() {
-  const { products, loading, syncFromAliExpress } = useProductStore();
-  const [search, setSearch]           = useState('');
-  const [selectedCats, setSelectedCats] = useState([]);
-  const [maxPrice, setMaxPrice]       = useState(null);
-  const [sort, setSort]               = useState('default');
-  const [view, setView]               = useState('grid');
-  const [page, setPage]               = useState(1);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const PER_PAGE = 12;
-
-  useEffect(() => { syncFromAliExpress('tech'); }, []);
-
-  const priceMax = useMemo(() => {
-    if (!products?.length) return 2000;
-    return Math.max(200, Math.ceil(Math.max(...products.map(p => parseFloat(p.target_sale_price || p.price) || 0)) / 100) * 100);
-  }, [products]);
-
-  const categories = useMemo(() => {
-    if (!products?.length) return [];
-    return [...new Set(products.map(p => p.second_level_category_name || p.category || p.merchant).filter(Boolean))];
-  }, [products]);
-
-  const filtered = useMemo(() => {
-    let list = [...(products || [])];
-    if (search) {
-      const q = search.toLowerCase();
-      list = list.filter(p => (p.product_title || p.title || '').toLowerCase().includes(q));
-    }
-    if (selectedCats.length) {
-      list = list.filter(p => {
-        const cat = p.second_level_category_name || p.category || p.merchant || '';
-        return selectedCats.includes(cat);
-      });
-    }
-    if (maxPrice) list = list.filter(p => parseFloat(p.target_sale_price || p.price || 0) <= maxPrice);
-    if (sort === 'price_asc')  list.sort((a, b) => parseFloat(a.target_sale_price || a.price) - parseFloat(b.target_sale_price || b.price));
-    if (sort === 'price_desc') list.sort((a, b) => parseFloat(b.target_sale_price || b.price) - parseFloat(a.target_sale_price || a.price));
-    if (sort === 'rating')     list.sort((a, b) => parseFloat(b.evaluate_rate || b.rating || 0) - parseFloat(a.evaluate_rate || a.rating || 0));
-    return list;
-  }, [products, search, selectedCats, maxPrice, sort]);
-
-  const visible = filtered.slice(0, page * PER_PAGE);
-
-  const toggleCat = (cat) => {
-    setSelectedCats(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
-    setPage(1);
-  };
-
-  const reset = () => { setSearch(''); setSelectedCats([]); setMaxPrice(null); setSort('default'); setPage(1); };
-  const hasFilters = search || selectedCats.length || maxPrice || sort !== 'default';
-
-  const Sidebar = () => (
+// Sidebar is defined OUTSIDE the page so its identity is stable across renders.
+// If it were inside CatalogPage, every keystroke would recreate the function →
+// React unmounts + remounts it → input loses focus.
+function Sidebar({ search, setSearch, setPage, categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset, syncLoading, onAliSearch }) {
+  return (
     <div className="space-y-6">
-      {/* Search */}
+      {/* Search + AliExpress fetch */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">Search</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">Search Products</p>
         <div className="relative">
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1); }}
+            onKeyDown={e => { if (e.key === 'Enter' && search.trim()) onAliSearch(search.trim()); }}
             placeholder="Search products…"
             className="w-full pl-9 pr-3 py-3 text-[15px] border border-gray-200 rounded bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
           />
         </div>
+        <button
+          onClick={() => search.trim() && onAliSearch(search.trim())}
+          disabled={syncLoading || !search.trim()}
+          className="mt-2 w-full flex items-center justify-center gap-2 py-2.5 text-sm font-semibold bg-amber-600 hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
+        >
+          {syncLoading ? <Loader2 size={14} className="animate-spin" /> : <Search size={14} />}
+          {syncLoading ? 'Searching AliExpress…' : 'Search on AliExpress'}
+        </button>
+        <p className="text-[11px] text-gray-400 mt-1.5 text-center">Fetches live results from AliExpress</p>
       </div>
 
       {/* Categories */}
@@ -126,6 +88,69 @@ export default function CatalogPage() {
       )}
     </div>
   );
+}
+
+export default function CatalogPage() {
+  const { products, loading, syncLoading, syncFromAliExpress } = useProductStore();
+  const [search, setSearch]             = useState('');
+  const [selectedCats, setSelectedCats] = useState([]);
+  const [maxPrice, setMaxPrice]         = useState(null);
+  const [sort, setSort]                 = useState('default');
+  const [view, setView]                 = useState('grid');
+  const [page, setPage]                 = useState(1);
+  const [sidebarOpen, setSidebarOpen]   = useState(false);
+  const PER_PAGE = 12;
+
+  useEffect(() => { syncFromAliExpress('tech'); }, []);
+
+  const onAliSearch = useCallback((query) => {
+    syncFromAliExpress(query);
+    setPage(1);
+  }, [syncFromAliExpress]);
+
+  const priceMax = useMemo(() => {
+    if (!products?.length) return 2000;
+    return Math.max(200, Math.ceil(Math.max(...products.map(p => parseFloat(p.target_sale_price || p.price) || 0)) / 100) * 100);
+  }, [products]);
+
+  const categories = useMemo(() => {
+    if (!products?.length) return [];
+    return [...new Set(products.map(p => p.second_level_category_name || p.category || p.merchant).filter(Boolean))];
+  }, [products]);
+
+  const filtered = useMemo(() => {
+    let list = [...(products || [])];
+    if (search) {
+      const q = search.toLowerCase();
+      list = list.filter(p => (p.product_title || p.title || '').toLowerCase().includes(q));
+    }
+    if (selectedCats.length) {
+      list = list.filter(p => {
+        const cat = p.second_level_category_name || p.category || p.merchant || '';
+        return selectedCats.includes(cat);
+      });
+    }
+    if (maxPrice) list = list.filter(p => parseFloat(p.target_sale_price || p.price || 0) <= maxPrice);
+    if (sort === 'price_asc')  list.sort((a, b) => parseFloat(a.target_sale_price || a.price) - parseFloat(b.target_sale_price || b.price));
+    if (sort === 'price_desc') list.sort((a, b) => parseFloat(b.target_sale_price || b.price) - parseFloat(a.target_sale_price || a.price));
+    if (sort === 'rating')     list.sort((a, b) => parseFloat(b.evaluate_rate || b.rating || 0) - parseFloat(a.evaluate_rate || a.rating || 0));
+    return list;
+  }, [products, search, selectedCats, maxPrice, sort]);
+
+  const visible = filtered.slice(0, page * PER_PAGE);
+
+  const toggleCat = useCallback((cat) => {
+    setSelectedCats(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
+    setPage(1);
+  }, []);
+
+  const reset = useCallback(() => { setSearch(''); setSelectedCats([]); setMaxPrice(null); setSort('default'); setPage(1); }, []);
+  const hasFilters = !!(search || selectedCats.length || maxPrice || sort !== 'default');
+
+  const sidebarProps = {
+    search, setSearch, setPage, categories, selectedCats, toggleCat,
+    maxPrice, setMaxPrice, priceMax, hasFilters, reset, syncLoading, onAliSearch,
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -144,9 +169,9 @@ export default function CatalogPage() {
         <div className="flex gap-8">
 
           {/* Desktop Sidebar */}
-          <aside className="hidden lg:block w-56 shrink-0">
+          <aside className="hidden lg:block w-60 shrink-0">
             <div className="bg-white border border-gray-200 rounded-lg p-5 sticky top-20">
-              <Sidebar />
+              <Sidebar {...sidebarProps} />
             </div>
           </aside>
 
@@ -189,6 +214,14 @@ export default function CatalogPage() {
               </div>
             </div>
 
+            {/* AliExpress sync banner */}
+            {syncLoading && (
+              <div className="flex items-center gap-3 mb-5 px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
+                <Loader2 size={16} className="animate-spin shrink-0" />
+                Fetching live results from AliExpress…
+              </div>
+            )}
+
             {/* Active filter chips */}
             {selectedCats.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-5">
@@ -211,7 +244,7 @@ export default function CatalogPage() {
               <div className="flex flex-col items-center justify-center py-24 bg-white border border-gray-200 rounded-lg">
                 <p className="text-2xl mb-2">🔍</p>
                 <p className="text-gray-900 font-semibold">No products found</p>
-                <p className="text-sm text-gray-500 mt-1">Try adjusting your filters.</p>
+                <p className="text-sm text-gray-500 mt-1">Try adjusting your filters or search AliExpress.</p>
                 <button onClick={reset} className="mt-4 text-sm text-amber-700 hover:underline font-medium">Clear filters</button>
               </div>
             ) : view === 'grid' ? (
@@ -230,11 +263,12 @@ export default function CatalogPage() {
             ) : (
               <div className="flex flex-col gap-4">
                 {visible.map((p, i) => {
-                  const title   = p.product_title || p.title;
-                  const image   = p.product_main_image_url || p.image;
-                  const price   = p.target_sale_price || p.price;
+                  const title     = p.product_title || p.title;
+                  const image     = p.product_main_image_url || p.image;
+                  const price     = p.target_sale_price || p.price;
                   const origPrice = p.original_price;
-                  const merchant  = p.merchant || 'AliExpress'; const category = p.second_level_category_name || p.category || merchant;
+                  const merchant  = p.merchant || 'AliExpress';
+                  const category  = p.second_level_category_name || p.category || merchant;
                   const buyLink   = p.promotion_link || (p.slug ? `/go/${p.slug}` : '#');
                   return (
                     <motion.div
@@ -247,7 +281,7 @@ export default function CatalogPage() {
                       <img src={image} alt={title} className="w-24 h-24 object-cover rounded shrink-0 bg-gray-50" />
                       <div className="flex-grow min-w-0 flex flex-col justify-between">
                         <div>
-                          <span className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold">{merchant}</span>
+                          <span className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold">{category}</span>
                           <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mt-0.5">{title}</h3>
                         </div>
                         <div className="flex items-center justify-between mt-3">
@@ -293,7 +327,7 @@ export default function CatalogPage() {
               <button onClick={() => setSidebarOpen(false)}><X size={20} className="text-gray-500" /></button>
             </div>
             <div className="flex-grow overflow-y-auto p-5">
-              <Sidebar />
+              <Sidebar {...sidebarProps} />
             </div>
             <div className="p-4 border-t border-gray-200">
               <Button variant="primary" className="w-full" onClick={() => setSidebarOpen(false)}>

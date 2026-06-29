@@ -147,34 +147,36 @@ function HeroSlider() {
         </AnimatePresence>
       </div>
 
-      {/* Prev / Next arrows */}
-      <button
-        onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/25 transition-colors backdrop-blur-sm"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft size={20} />
-      </button>
-      <button
-        onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/25 transition-colors backdrop-blur-sm"
-        aria-label="Next slide"
-      >
-        <ChevronRight size={20} />
-      </button>
+      {/* Bottom nav: arrows + dots */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3">
+        <button
+          onClick={prev}
+          className="w-9 h-9 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/25 transition-colors backdrop-blur-sm"
+          aria-label="Previous slide"
+        >
+          <ChevronLeft size={18} />
+        </button>
 
-      {/* Dot indicators */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-        {SLIDES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i, i > current ? 1 : -1)}
-            className={`h-2 rounded-full transition-all duration-300 ${
-              i === current ? 'bg-amber-400 w-7' : 'bg-white/40 w-2 hover:bg-white/70'
-            }`}
-            aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
+        <div className="flex gap-2">
+          {SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i, i > current ? 1 : -1)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                i === current ? 'bg-amber-400 w-7' : 'bg-white/40 w-2 hover:bg-white/70'
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={next}
+          className="w-9 h-9 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/25 transition-colors backdrop-blur-sm"
+          aria-label="Next slide"
+        >
+          <ChevronRight size={18} />
+        </button>
       </div>
 
       {/* Slide counter */}
