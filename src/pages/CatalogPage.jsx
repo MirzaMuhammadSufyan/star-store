@@ -78,6 +78,8 @@ export default function CatalogPage() {
   const [aliPage, setAliPage]           = useState(1);
   const [aliKeyword, setAliKeyword]     = useState('');
   const [noMorePages, setNoMorePages]   = useState(false);
+  const sentinelRef = React.useRef(null);
+  const loadingMore = React.useRef(false);
   const PER_PAGE = 12;
 
   const initialCat = searchParams.get('cat');
@@ -101,6 +103,49 @@ export default function CatalogPage() {
     }, 600);
     return () => clearTimeout(t);
   }, [search]);
+
+  // Infinite scroll via IntersectionObserver on sentinel div
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(async ([entry]) => {
+      if (!entry.isIntersecting || loadingMore.current || noMorePages || syncLoading) return;
+      loadingMore.current = true;
+      // Still have local filtered results to reveal
+      setPage(prev => {
+        const currentlyShowing = prev * PER_PAGE;
+        // access filtered length via a closure trick — just always increment;
+        // the visible slice will cap naturally
+        return prev + 1;
+      });
+      loadingMore.current = false;
+    }, { rootMargin: '300px' });
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [noMorePages, syncLoading]);
+
+  // When all local pages are shown, fetch next AliExpress page
+  const visible = React.useMemo(() => filtered.slice(0, page * PER_PAGE), [filtered, page]);
+  useEffect(() => {
+    if (noMorePages || syncLoading || visible.length < filtered.length) return;
+    if (filtered.length === 0) return;
+    // All local results are visible — fetch next AliExpress page automatically
+    // but only when the sentinel is in view (user actually scrolled to bottom)
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    const rect = sentinel.getBoundingClientRect();
+    if (rect.top > window.innerHeight + 400) return;
+
+    let cancelled = false;
+    (async () => {
+      const nextPage = aliPage + 1;
+      const newProducts = await syncFromAliExpress(aliKeyword || 'tech', nextPage);
+      if (cancelled) return;
+      if (!newProducts || newProducts.length === 0) setNoMorePages(true);
+      else setAliPage(nextPage);
+    })();
+    return () => { cancelled = true; };
+  }, [visible.length, filtered.length]);
 
   // Show scroll-to-top button after 400px
   useEffect(() => {
@@ -134,8 +179,6 @@ export default function CatalogPage() {
     if (sort === 'rating')     list.sort((a, b) => parseFloat(b.evaluate_rate || b.rating || 0) - parseFloat(a.evaluate_rate || a.rating || 0));
     return list;
   }, [products, search, selectedCats, maxPrice, sort]);
-
-  const visible = filtered.slice(0, page * PER_PAGE);
 
   const toggleCat = useCallback((cat) => {
     setSelectedCats(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
@@ -319,44 +362,20 @@ export default function CatalogPage() {
               </div>
             )}
 
-            {/* Load more */}
-            {(visible.length < filtered.length || (!noMorePages && !syncLoading && filtered.length > 0)) && (
-              <div className="mt-10 text-center">
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  disabled={syncLoading}
-                  onClick={async () => {
-                    if (visible.length < filtered.length) {
-                      // Still have local results to show
-                      setPage(p => p + 1);
-                    } else {
-                      // Fetch next AliExpress page
-                      const nextPage = aliPage + 1;
-                      const newProducts = await syncFromAliExpress(aliKeyword || 'tech', nextPage);
-                      if (!newProducts || newProducts.length === 0) {
-                        setNoMorePages(true);
-                      } else {
-                        setAliPage(nextPage);
-                        setPage(p => p + 1);
-                      }
-                    }
-                  }}
-                >
-                  {syncLoading
-                    ? <span className="flex items-center gap-2"><Loader2 size={15} className="animate-spin" /> Loading…</span>
-                    : visible.length < filtered.length
-                      ? `Load More (${filtered.length - visible.length} remaining)`
-                      : 'Load More from AliExpress'
-                  }
-                </Button>
-              </div>
-            )}
-            {noMorePages && (
-              <p className="text-center text-sm text-gray-400 mt-10">All products loaded.</p>
-            )}
+            {/* Infinite scroll sentinel */}
+            <div ref={sentinelRef} className="mt-10 flex justify-center">
+              {syncLoading && (
+                <div className="flex items-center gap-2 text-sm text-gray-400">
+                  <Loader2 size={16} className="animate-spin text-amber-500" />
+                  Loading more products…
+                </div>
+              )}
+              {noMorePages && (
+                <p className="text-sm text-gray-400">All products loaded.</p>
+              )}
+            </div>
             {visible.length > 0 && (
-              <p className="text-center text-xs text-gray-400 mt-3">
+              <p className="text-center text-xs text-gray-400 mt-4">
                 Showing {visible.length} of {filtered.length} products
               </p>
             )}
