@@ -82,16 +82,13 @@ export const useProductStore = create((set, get) => ({
   addProduct: async (product) => {
     try {
       const slug = (product.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-      const ref = await addDoc(collection(db, 'products'), {
+      await addDoc(collection(db, 'products'), {
         ...product,
         slug,
         createdAt: new Date().toISOString()
       });
-      const saved = { id: ref.id, ...product, slug };
-      return saved;
     } catch (error) {
       console.error('Error adding product:', error);
-      return null;
     }
   },
 
@@ -120,24 +117,28 @@ export const useProductStore = create((set, get) => ({
     );
     if (existing) return existing;
 
-    // 2. Try Firestore — works for manually added products (doc ID is alphanumeric)
-    try {
-      const snap = await getDoc(doc(db, 'products', String(id)));
-      if (snap.exists()) {
-        const product = { id: snap.id, ...snap.data() };
-        set(s => ({
-          dbProducts: [...s.dbProducts.filter(p => p.id !== product.id), product],
-          products:   [...s.products.filter(p => p.id !== product.id), product],
-        }));
-        return product;
-      }
-    } catch (_) {}
+    const isNumericId = /^\d+$/.test(String(id));
 
-    // 2b. Check dbProducts for matching product_id (already imported)
-    const byProductId = get().dbProducts.find(p => String(p.product_id) === String(id));
-    if (byProductId) return byProductId;
+    // 2. Try Firestore only for non-numeric IDs (Firestore auto-IDs are alphanumeric)
+    if (!isNumericId) {
+      try {
+        const snap = await getDoc(doc(db, 'products', String(id)));
+        if (snap.exists()) {
+          const product = { id: snap.id, ...snap.data() };
+          set(s => ({
+            dbProducts: [...s.dbProducts.filter(p => p.id !== product.id), product],
+            products:   [...s.products.filter(p => p.id !== product.id), product],
+          }));
+          return product;
+        }
+      } catch (_) {}
 
-    // 3. Try AliExpress detail API — works for numeric product_id from shared links
+      // 2b. Also check dbProducts for matching product_id
+      const byProductId = get().dbProducts.find(p => String(p.product_id) === String(id));
+      if (byProductId) return byProductId;
+    }
+
+    // 3. Fetch from AliExpress detail API using product_id
     try {
       const res  = await fetch(`/api/products/detail?product_ids=${encodeURIComponent(id)}`);
       const data = await res.json();
