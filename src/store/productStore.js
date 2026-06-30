@@ -82,13 +82,16 @@ export const useProductStore = create((set, get) => ({
   addProduct: async (product) => {
     try {
       const slug = (product.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-      await addDoc(collection(db, 'products'), {
+      const ref = await addDoc(collection(db, 'products'), {
         ...product,
         slug,
         createdAt: new Date().toISOString()
       });
+      const saved = { id: ref.id, ...product, slug };
+      return saved;
     } catch (error) {
       console.error('Error adding product:', error);
+      return null;
     }
   },
 
@@ -129,6 +132,10 @@ export const useProductStore = create((set, get) => ({
         return product;
       }
     } catch (_) {}
+
+    // 2b. Check dbProducts for matching product_id (already imported)
+    const byProductId = get().dbProducts.find(p => String(p.product_id) === String(id));
+    if (byProductId) return byProductId;
 
     // 3. Try AliExpress detail API — works for numeric product_id from shared links
     try {

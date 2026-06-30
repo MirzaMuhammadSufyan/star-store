@@ -14,7 +14,7 @@ import ProductCard from '../components/ProductCard';
 export default function ProductDetailPage() {
   const { id }   = useParams();
   const navigate = useNavigate();
-  const { products, loading: storeLoading, fetchProductById } = useProductStore();
+  const { products, loading: storeLoading, fetchProductById, addProduct } = useProductStore();
   const logClick = useAnalyticsStore(s => s.logClick);
   const { toggle, isFavourite } = useFavouriteStore();
 
@@ -35,9 +35,30 @@ export default function ProductDetailPage() {
     if (fromMemory) { setRaw(fromMemory); setFetching(false); return; }
 
     setFetching(true);
-    fetchProductById(id).then(result => {
-      if (result) setRaw(result);
-      else setNotFound(true);
+    fetchProductById(id).then(async (result) => {
+      if (result) {
+        // If this is an AliExpress-only product (no Firestore id), auto-save it
+        // so the share URL resolves reliably on fresh page loads.
+        if (!result.id && result.product_id) {
+          const saved = await addProduct({
+            title:          result.product_title || result.title,
+            price:          result.target_sale_price || result.price,
+            image:          result.product_main_image_url || result.image,
+            merchant:       'AliExpress',
+            promotion_link: result.promotion_link,
+            product_id:     result.product_id,
+            category:       result.second_level_category_name || result.first_level_category_name || '',
+            original_price: result.original_price,
+            evaluate_rate:  result.evaluate_rate,
+            description:    result.product_description || result.description || '',
+            product_small_image_urls: result.product_small_image_urls || [],
+          });
+          if (saved) { setRaw(saved); setFetching(false); return; }
+        }
+        setRaw(result);
+      } else {
+        setNotFound(true);
+      }
       setFetching(false);
     });
   }, [id]);
