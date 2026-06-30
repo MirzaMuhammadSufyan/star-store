@@ -187,9 +187,22 @@ function HeroSlider() {
   );
 }
 
+function ProductSkeleton() {
+  return (
+    <div className="bg-white border border-gray-100 rounded-lg overflow-hidden animate-pulse">
+      <div className="aspect-square bg-gray-200" />
+      <div className="p-3 space-y-2">
+        <div className="h-3 bg-gray-200 rounded w-3/4" />
+        <div className="h-3 bg-gray-200 rounded w-1/2" />
+        <div className="h-4 bg-gray-200 rounded w-1/3 mt-1" />
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage() {
-  const { products } = useProductStore();
-  const { posts }    = useBlogStore();
+  const { products, dbLoading } = useProductStore();
+  const { posts }               = useBlogStore();
 
   const featured  = products.slice(0, 8);
   const newest    = products.slice(0, 4);
@@ -243,19 +256,23 @@ export default function HomePage() {
       </section>
 
       {/* ── Featured products ── */}
-      {featured.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <p className="text-xs text-amber-700 uppercase tracking-wider font-semibold mb-1">Hand-picked</p>
-              <h2 className="text-2xl font-semibold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Featured Products
-              </h2>
-            </div>
-            <Link to="/catalog">
-              <Button variant="secondary" size="sm" className="gap-1.5">View All <ArrowRight size={14} /></Button>
-            </Link>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <p className="text-xs text-amber-700 uppercase tracking-wider font-semibold mb-1">Hand-picked</p>
+            <h2 className="text-2xl font-semibold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Featured Products
+            </h2>
           </div>
+          <Link to="/catalog">
+            <Button variant="secondary" size="sm" className="gap-1.5">View All <ArrowRight size={14} /></Button>
+          </Link>
+        </div>
+        {dbLoading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+            {Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)}
+          </div>
+        ) : featured.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
             {featured.map((p, i) => (
               <FadeUp key={p.id || p.product_id} delay={i * 0.04}>
@@ -263,8 +280,10 @@ export default function HomePage() {
               </FadeUp>
             ))}
           </div>
-        </section>
-      )}
+        ) : (
+          <p className="text-sm text-gray-400 text-center py-12">No products yet. Add some from the Admin dashboard.</p>
+        )}
+      </section>
 
       {/* ── Promo banner ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -289,17 +308,21 @@ export default function HomePage() {
       </section>
 
       {/* ── New arrivals ── */}
-      {newest.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <p className="text-xs text-amber-700 uppercase tracking-wider font-semibold mb-1">Just In</p>
-              <h2 className="text-2xl font-semibold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>New Arrivals</h2>
-            </div>
-            <Link to="/catalog">
-              <Button variant="secondary" size="sm" className="gap-1.5">See More <ArrowRight size={14} /></Button>
-            </Link>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <p className="text-xs text-amber-700 uppercase tracking-wider font-semibold mb-1">Just In</p>
+            <h2 className="text-2xl font-semibold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>New Arrivals</h2>
           </div>
+          <Link to="/catalog">
+            <Button variant="secondary" size="sm" className="gap-1.5">See More <ArrowRight size={14} /></Button>
+          </Link>
+        </div>
+        {dbLoading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-5">
+            {Array.from({ length: 4 }).map((_, i) => <ProductSkeleton key={i} />)}
+          </div>
+        ) : newest.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-5">
             {newest.map((p, i) => (
               <FadeUp key={p.id || p.product_id} delay={i * 0.04}>
@@ -307,8 +330,10 @@ export default function HomePage() {
               </FadeUp>
             ))}
           </div>
-        </section>
-      )}
+        ) : (
+          <p className="text-sm text-gray-400 text-center py-12">No new arrivals yet.</p>
+        )}
+      </section>
 
       {/* ── From the Journal ── */}
       {blogItems.length > 0 && (
