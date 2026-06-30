@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState, Component } from 'react';
+import React, { Suspense, lazy, useState, Component, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
@@ -48,6 +48,12 @@ class ChunkErrorBoundary extends Component {
   }
 }
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+};
+
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuthStore();
   if (loading) return <div className="flex items-center justify-center h-[60vh] text-sm text-gray-400">Authenticating…</div>;
@@ -57,6 +63,8 @@ const ProtectedRoute = ({ children }) => {
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
+    <>
+    <ScrollToTop />
     <AnimatePresence mode="wait">
       <motion.div
         key={location.pathname}
@@ -85,9 +93,11 @@ const AnimatedRoutes = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/adminpanel"     element={<Navigate to="/admin/login" replace />} />
         </Routes>
       </motion.div>
     </AnimatePresence>
+    </>
   );
 };
 

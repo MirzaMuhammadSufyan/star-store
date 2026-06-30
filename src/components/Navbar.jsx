@@ -76,11 +76,7 @@ const Navbar = ({ onFavOpen }) => {
                   Sign out
                 </Button>
               </>
-            ) : (
-              <Link to="/admin/login">
-                <Button variant="ghost" size="sm">Admin</Button>
-              </Link>
-            )}
+            ) : null}
           </div>
 
           <button
@@ -128,11 +124,7 @@ const Navbar = ({ onFavOpen }) => {
                   <Button variant="ghost" size="sm" onPointerUp={() => { logout(); navigate('/'); setOpen(false); }}>
                     Sign out
                   </Button>
-                ) : (
-                  <Link to="/admin/login" onPointerUp={() => setOpen(false)}>
-                    <Button variant="ghost" size="sm">Admin Login</Button>
-                  </Link>
-                )}
+                ) : null}
               </div>
             </nav>
           </motion.div>
