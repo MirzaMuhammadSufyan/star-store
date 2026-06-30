@@ -88,15 +88,19 @@ export default function CatalogPage() {
   useEffect(() => { noMoreRef.current   = noMorePages;  }, [noMorePages]);
   useEffect(() => { syncRef.current     = syncLoading;  }, [syncLoading]);
 
-  // ── Initial load ────────────────────────────────────────────────────────────
+  // ── Initial load + react to ?cat= param changes ─────────────────────────────
   useEffect(() => {
     const kw = searchParams.get('cat') || 'tech';
     aliKwRef.current = kw;
     setAliKeyword(kw);
+    setSearch(kw === 'tech' ? '' : kw);
     setAliPage(1);
+    aliPageRef.current = 1;
     setNoMorePages(false);
+    noMoreRef.current = false;
+    setPage(1);
     syncFromAliExpress(kw, 1);
-  }, []); // eslint-disable-line
+  }, [searchParams.get('cat')]); // eslint-disable-line
 
   // ── Auto-search 600 ms debounce ─────────────────────────────────────────────
   useEffect(() => {

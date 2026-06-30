@@ -50,12 +50,12 @@ const SLIDES = [
 ];
 
 const CATS = [
-  { name: 'Smartphones', icon: '📱', path: '/catalog?cat=Smartphones' },
-  { name: 'Laptops',     icon: '💻', path: '/catalog?cat=Laptops' },
-  { name: 'Audio',       icon: '🎧', path: '/catalog?cat=Audio' },
-  { name: 'Wearables',   icon: '⌚', path: '/catalog?cat=Wearables' },
-  { name: 'Cameras',     icon: '📷', path: '/catalog?cat=Cameras' },
-  { name: 'Accessories', icon: '🔌', path: '/catalog?cat=Accessories' },
+  { name: 'Smartphones', icon: '📱', path: '/catalog?cat=smartphone' },
+  { name: 'Laptops',     icon: '💻', path: '/catalog?cat=laptop' },
+  { name: 'Audio',       icon: '🎧', path: '/catalog?cat=wireless+earbuds' },
+  { name: 'Wearables',   icon: '⌚', path: '/catalog?cat=smart+watch' },
+  { name: 'Cameras',     icon: '📷', path: '/catalog?cat=camera' },
+  { name: 'Accessories', icon: '🔌', path: '/catalog?cat=phone+accessories' },
 ];
 
 const PERKS = [
@@ -201,9 +201,17 @@ function ProductSkeleton() {
 }
 
 export default function HomePage() {
-  const { products, dbLoading } = useProductStore();
-  const { posts }               = useBlogStore();
+  const { products, dbLoading, syncLoading, syncFromAliExpress } = useProductStore();
+  const { posts } = useBlogStore();
 
+  // If Firestore has no products, auto-fetch from AliExpress on mount
+  useEffect(() => {
+    if (!dbLoading && products.length === 0) {
+      syncFromAliExpress('tech gadgets', 1);
+    }
+  }, [dbLoading]); // eslint-disable-line
+
+  const loading   = dbLoading || (syncLoading && products.length === 0);
   const featured  = products.slice(0, 8);
   const newest    = products.slice(0, 4);
   const blogItems = posts.slice(0, 3);
@@ -268,7 +276,7 @@ export default function HomePage() {
             <Button variant="secondary" size="sm" className="gap-1.5">View All <ArrowRight size={14} /></Button>
           </Link>
         </div>
-        {dbLoading ? (
+        {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
             {Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)}
           </div>
@@ -318,7 +326,7 @@ export default function HomePage() {
             <Button variant="secondary" size="sm" className="gap-1.5">See More <ArrowRight size={14} /></Button>
           </Link>
         </div>
-        {dbLoading ? (
+        {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-5">
             {Array.from({ length: 4 }).map((_, i) => <ProductSkeleton key={i} />)}
           </div>
