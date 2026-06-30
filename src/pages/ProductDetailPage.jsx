@@ -62,6 +62,27 @@ export default function ProductDetailPage() {
     });
   }, [id, sharedData]);
 
+  // Once product is loaded, silently embed its data in the URL so refresh works
+  React.useEffect(() => {
+    if (!raw || sharedData) return;
+    const payload = encodeURIComponent(btoa(JSON.stringify({
+      id:          raw.id || raw.product_id,
+      product_id:  raw.product_id,
+      product_title: raw.product_title || raw.title,
+      product_main_image_url: raw.product_main_image_url || raw.image,
+      product_small_image_urls: raw.product_small_image_urls || [],
+      target_sale_price: raw.target_sale_price || raw.price,
+      original_price:    raw.original_price,
+      evaluate_rate:     raw.evaluate_rate || raw.rating,
+      promotion_link:    raw.promotion_link,
+      merchant:          raw.merchant,
+      first_level_category_name: raw.first_level_category_name || raw.category,
+      description:       raw.description,
+    })));
+    const newUrl = `${window.location.pathname}?d=${payload}`;
+    window.history.replaceState(null, '', newUrl);
+  }, [raw, sharedData]);
+
   if (storeLoading || fetching) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
       <div className="w-8 h-8 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" />
