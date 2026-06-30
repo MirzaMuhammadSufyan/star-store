@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ExternalLink, ChevronLeft, ChevronRight, ShieldCheck, Truck, RotateCcw,
@@ -11,14 +11,32 @@ import { useFavouriteStore } from '../store/favouriteStore';
 import { Button } from '../components/ui/Button';
 import ProductCard from '../components/ProductCard';
 
+function decodeProductParam(d) {
+  try {
+    return JSON.parse(atob(decodeURIComponent(d)));
+  } catch {
+    return null;
+  }
+}
+
 export default function ProductDetailPage() {
-  const { id }   = useParams();
-  const navigate = useNavigate();
+  const { id }             = useParams();
+  const navigate           = useNavigate();
+  const [searchParams]     = useSearchParams();
   const { products, loading: storeLoading, fetchProductById } = useProductStore();
   const logClick = useAnalyticsStore(s => s.logClick);
   const { toggle, isFavourite } = useFavouriteStore();
 
-  const [raw,       setRaw]       = React.useState(() => products.find(p => p.id === id || String(p.product_id) === id) || null);
+  // If arriving via share link (?d=...), decode product from URL — no API needed
+  const sharedData = React.useMemo(() => {
+    const d = searchParams.get('d');
+    return d ? decodeProductParam(d) : null;
+  }, [searchParams]);
+
+  const [raw,       setRaw]       = React.useState(() => {
+    if (sharedData) return sharedData;
+    return products.find(p => p.id === id || String(p.product_id) === id) || null;
+  });
   const [fetching,  setFetching]  = React.useState(!raw);
   const [notFound,  setNotFound]  = React.useState(false);
   const [activeImg, setActiveImg] = React.useState(0);
@@ -27,10 +45,12 @@ export default function ProductDetailPage() {
   const [shareOpen,   setShareOpen]   = React.useState(false);
   const [activeTab,   setActiveTab]   = React.useState('description');
 
-  // When arriving via shared link the store may not have the product yet —
-  // check memory first, then fall back to Firestore → AliExpress API.
   React.useEffect(() => {
     window.scrollTo(0, 0);
+
+    // Shared link with embedded data — no fetch needed
+    if (sharedData) { setRaw(sharedData); setFetching(false); return; }
+
     const fromMemory = products.find(p => p.id === id || String(p.product_id) === id);
     if (fromMemory) { setRaw(fromMemory); setFetching(false); return; }
 
@@ -40,7 +60,7 @@ export default function ProductDetailPage() {
       else setNotFound(true);
       setFetching(false);
     });
-  }, [id]);
+  }, [id, sharedData]);
 
   if (storeLoading || fetching) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
@@ -77,9 +97,21 @@ export default function ProductDetailPage() {
   const related     = products.filter(r => (r.id || r.product_id) !== p.id).slice(0, 4);
   const fav         = isFavourite(raw);
 
-  // Prefer AliExpress product_id for share URL — fetchProductById resolves it via API
-  const shareId  = raw.product_id ? String(raw.product_id) : p.id;
-  const shareUrl  = `${window.location.origin}/product/${shareId}`;
+  const sharePayload = encodeURIComponent(btoa(JSON.stringify({
+    id:          p.id,
+    product_id:  raw.product_id,
+    product_title: p.title,
+    product_main_image_url: p.image,
+    product_small_image_urls: raw.product_small_image_urls || [],
+    target_sale_price: p.price,
+    original_price:    p.origPrice || undefined,
+    evaluate_rate:     p.rating,
+    promotion_link:    p.buyLink,
+    merchant:          p.merchant,
+    first_level_category_name: p.category,
+    description:       p.description,
+  })));
+  const shareUrl = `${window.location.origin}/product/${p.id || 'shared'}?d=${sharePayload}`;
   const shareText = encodeURIComponent(`Check out this product: ${p.title}`);
 
   const handleCopyLink = () => {
