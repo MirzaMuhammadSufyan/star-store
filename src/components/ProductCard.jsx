@@ -45,7 +45,7 @@ const ProductCard = ({ product }) => {
         </Link>
 
         {/* Info */}
-        <div className="p-3 flex flex-col gap-1.5" style={{ fontFamily: "'Inter', 'DM Sans', system-ui, sans-serif" }}>
+        <div className="p-3 flex flex-col gap-1.5 flex-1" style={{ fontFamily: "'Inter', 'DM Sans', system-ui, sans-serif" }}>
 
           {/* Badges row — discount + favourite, now below the image */}
           <div className="flex items-center justify-between gap-1">
@@ -68,8 +68,8 @@ const ProductCard = ({ product }) => {
             </div>
           </div>
 
-          <Link to={`/product/${pid}`}>
-            <h3 className="text-[12px] font-medium text-gray-800 leading-snug hover:text-amber-700 transition-colors tracking-normal">
+          <Link to={`/product/${pid}`} className="flex-1">
+            <h3 className="text-[12px] font-medium text-gray-800 leading-snug hover:text-amber-700 transition-colors tracking-normal line-clamp-2 min-h-[2.5rem]">
               {title}
             </h3>
           </Link>
@@ -79,7 +79,7 @@ const ProductCard = ({ product }) => {
             <span className="text-[10px] text-gray-500 font-medium">{rating}</span>
           </div>
 
-          <div className="flex items-center justify-between gap-1 mt-0.5">
+          <div className="flex items-center justify-between gap-1 mt-auto pt-1">
             <div>
               {origPrice && (
                 <p className="text-[10px] text-gray-400 line-through leading-none">${parseFloat(origPrice).toFixed(2)}</p>
