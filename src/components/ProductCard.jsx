@@ -69,7 +69,7 @@ const ProductCard = ({ product }) => {
           </div>
 
           <Link to={`/product/${pid}`}>
-            <h3 className="text-[12px] font-medium text-gray-800 line-clamp-2 leading-snug hover:text-amber-700 transition-colors tracking-normal">
+            <h3 className="text-[12px] font-medium text-gray-800 leading-snug hover:text-amber-700 transition-colors tracking-normal">
               {title}
             </h3>
           </Link>

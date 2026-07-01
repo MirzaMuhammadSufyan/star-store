@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, SlidersHorizontal, Grid, List, X, ChevronDown, Loader2, ArrowUp,
 } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Heart, Star } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
+import { useFavouriteStore } from '../store/favouriteStore';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/Button';
 
@@ -57,6 +59,7 @@ function Sidebar({ categories, selectedCats, toggleCat, maxPrice, setMaxPrice, p
 
 export default function CatalogPage() {
   const { products, loading, syncLoading, syncFromAliExpress } = useProductStore();
+  const { toggle, isFavourite } = useFavouriteStore();
   const [searchParams] = useSearchParams();
 
   const [search,       setSearch]       = useState(() => searchParams.get('cat') || '');
@@ -361,34 +364,80 @@ export default function CatalogPage() {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               {visible.map((p, i) => {
                 const title     = p.product_title || p.title;
                 const image     = p.product_main_image_url || p.image;
                 const price     = p.target_sale_price || p.price;
                 const origPrice = p.original_price;
+                const rating    = p.evaluate_rate || p.rating || '4.8';
                 const merchant  = p.merchant || 'AliExpress';
                 const category  = p.second_level_category_name || p.category || merchant;
                 const buyLink   = p.promotion_link || (p.slug ? `/go/${p.slug}` : '#');
+                const pid       = p.product_id || p.id;
+                const fav       = isFavourite(p);
+                const discount  = (() => {
+                  if (!origPrice || !price) return 0;
+                  const orig = parseFloat(origPrice), cur = parseFloat(price);
+                  return orig > cur ? Math.round(((orig - cur) / orig) * 100) : 0;
+                })();
                 return (
-                  <motion.div key={p.product_id || p.id || i}
+                  <motion.div key={pid || i}
                     initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.02 }}
-                    className="bg-white border border-gray-200 rounded-xl flex gap-4 p-4 hover:border-amber-400 hover:shadow-sm transition-all">
-                    <img src={image} alt={title} className="w-24 h-24 object-cover rounded-lg shrink-0 bg-gray-50" />
-                    <div className="flex-grow min-w-0 flex flex-col justify-between">
-                      <div>
-                        <span className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold">{category}</span>
-                        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mt-0.5">{title}</h3>
-                      </div>
-                      <div className="flex items-center justify-between mt-3">
+                    className="bg-white border border-gray-200 rounded-xl hover:border-amber-400 hover:shadow-sm transition-all">
+                    <div className="flex gap-4 p-4">
+                      {/* Clickable image */}
+                      <Link to={`/product/${pid}`} className="relative shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-gray-50 block">
+                        <img src={image} alt={title} className="w-full h-full object-contain" />
+                      </Link>
+
+                      {/* Info */}
+                      <div className="flex-grow min-w-0 flex flex-col justify-between">
                         <div>
-                          {origPrice && <p className="text-xs text-gray-400 line-through">${parseFloat(origPrice).toFixed(2)}</p>}
-                          <p className="text-base font-semibold text-gray-900">${parseFloat(price || 0).toFixed(2)}</p>
+                          {/* Category + badges */}
+                          <div className="flex items-center justify-between gap-2 mb-0.5">
+                            <span className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold truncate">{category}</span>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              {discount > 0 && (
+                                <span className="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded leading-none">
+                                  -{discount}%
+                                </span>
+                              )}
+                              <button
+                                onClick={() => toggle(p)}
+                                className={`w-6 h-6 rounded-full flex items-center justify-center border transition-all duration-200 ${
+                                  fav ? 'bg-rose-500 border-rose-500 text-white' : 'bg-white border-gray-200 text-gray-400 hover:border-rose-400 hover:text-rose-500'
+                                }`}
+                                aria-label={fav ? 'Remove from saved' : 'Save'}
+                              >
+                                <Heart size={11} className={fav ? 'fill-white' : ''} />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Clickable title */}
+                          <Link to={`/product/${pid}`}>
+                            <h3 className="text-sm font-medium text-gray-900 leading-snug hover:text-amber-700 transition-colors mt-0.5">
+                              {title}
+                            </h3>
+                          </Link>
+
+                          <div className="flex items-center gap-1 mt-1">
+                            <Star size={11} className="fill-amber-400 text-amber-400" />
+                            <span className="text-[10px] text-gray-500 font-medium">{rating}</span>
+                          </div>
                         </div>
-                        <a href={buyLink} target="_blank" rel="nofollow noopener">
-                          <Button size="sm" variant="accent">Buy Now</Button>
-                        </a>
+
+                        <div className="flex items-center justify-between mt-3">
+                          <div>
+                            {origPrice && <p className="text-xs text-gray-400 line-through">${parseFloat(origPrice).toFixed(2)}</p>}
+                            <p className="text-base font-bold text-gray-900">${parseFloat(price || 0).toFixed(2)}</p>
+                          </div>
+                          <a href={buyLink} target="_blank" rel="nofollow noopener">
+                            <Button size="sm" variant="accent">Buy Now</Button>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
