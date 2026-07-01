@@ -325,10 +325,19 @@ export default function CatalogPage() {
             </div>
           </div>
 
-          {/* Sync banner */}
-          {syncLoading && (
-            <div className="flex items-center gap-3 mb-5 px-4 py-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-800">
-              <Loader2 size={16} className="animate-spin shrink-0" /> Fetching live results…
+          {/* Skeleton cards — shown only on first load when nothing is visible yet */}
+          {syncLoading && visible.length === 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 mb-5">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div key={i} className="bg-white border border-gray-100 rounded-xl overflow-hidden animate-pulse">
+                  <div className="aspect-square bg-gray-200" />
+                  <div className="p-2 sm:p-3 flex flex-col gap-2">
+                    <div className="h-2.5 bg-gray-200 rounded w-3/4" />
+                    <div className="h-2.5 bg-gray-200 rounded w-1/2" />
+                    <div className="h-3 bg-gray-200 rounded w-1/3 mt-1" />
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 
@@ -449,15 +458,24 @@ export default function CatalogPage() {
             </div>
           )}
 
-          {/* Sentinel */}
-          <div ref={sentinelRef} className="mt-8 flex justify-center pb-6 min-h-[40px]">
-            {syncLoading && (
-              <div className="flex items-center gap-2 text-sm text-gray-400">
-                <Loader2 size={16} className="animate-spin text-amber-500" /> Loading more…
-              </div>
+          {/* Sentinel / bottom loader */}
+          <div ref={sentinelRef} className="mt-6 flex flex-col items-center justify-center pb-8 min-h-[60px] gap-2">
+            {syncLoading && visible.length > 0 && (
+              <>
+                <div className="flex items-center gap-1.5">
+                  {[0, 1, 2].map(i => (
+                    <span key={i} className="w-2 h-2 rounded-full bg-amber-400"
+                      style={{ animation: `bounce 1s ease-in-out ${i * 0.15}s infinite` }} />
+                  ))}
+                </div>
+                <p className="text-xs text-gray-400 tracking-wide">Loading more products</p>
+              </>
             )}
-            {noMorePages && <p className="text-sm text-gray-400">All products loaded.</p>}
+            {noMorePages && (
+              <p className="text-xs text-gray-400 tracking-wide">You've seen everything ✓</p>
+            )}
           </div>
+          <style>{`@keyframes bounce{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-6px);opacity:1}}`}</style>
 
           {visible.length > 0 && (
             <p className="text-center text-xs text-gray-400 pb-4">
