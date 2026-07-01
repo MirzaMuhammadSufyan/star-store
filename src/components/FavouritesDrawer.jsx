@@ -4,6 +4,7 @@ import { Heart, X, ExternalLink, ShoppingBag, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useFavouriteStore } from '../store/favouriteStore';
 import { Button } from './ui/Button';
+import { productDetailUrl } from '../utils/productUrl';
 
 export default function FavouritesDrawer({ open, onClose }) {
   const { items, remove, clear } = useFavouriteStore();
@@ -83,7 +84,7 @@ export default function FavouritesDrawer({ open, onClose }) {
                           transition={{ duration: 0.2 }}
                           className="flex gap-3 py-3 group"
                         >
-                          <Link to={`/product/${pid}`} onClick={onClose} className="shrink-0">
+                          <Link to={productDetailUrl(product)} onClick={onClose} className="shrink-0">
                             <img
                               src={image}
                               alt={title}
@@ -93,7 +94,7 @@ export default function FavouritesDrawer({ open, onClose }) {
                           <div className="flex-grow min-w-0 flex flex-col justify-between">
                             <div>
                               <p className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold">{merchant}</p>
-                              <Link to={`/product/${pid}`} onClick={onClose}>
+                              <Link to={productDetailUrl(product)} onClick={onClose}>
                                 <p className="text-sm font-medium text-gray-900 line-clamp-2 leading-snug hover:text-amber-700 transition-colors mt-0.5">
                                   {title}
                                 </p>

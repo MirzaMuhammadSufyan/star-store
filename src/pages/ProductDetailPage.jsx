@@ -10,20 +10,7 @@ import { useAnalyticsStore } from '../store/analyticsStore';
 import { useFavouriteStore } from '../store/favouriteStore';
 import { Button } from '../components/ui/Button';
 import ProductCard from '../components/ProductCard';
-
-function encodeProductParam(obj) {
-  // btoa only handles Latin1 — encode to UTF-8 first
-  return encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(obj)))));
-}
-
-function decodeProductParam(d) {
-  try {
-    // Try new UTF-8-safe encoding first, fall back to legacy
-    return JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(d)))));
-  } catch {
-    try { return JSON.parse(atob(decodeURIComponent(d))); } catch { return null; }
-  }
-}
+import { encodeProductParam, decodeProductParam } from '../utils/productUrl';
 
 export default function ProductDetailPage() {
   const { id }             = useParams();

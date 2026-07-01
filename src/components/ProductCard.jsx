@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ShoppingCart, Star, Heart } from 'lucide-react';
 import { useAnalyticsStore } from '../store/analyticsStore';
 import { useFavouriteStore } from '../store/favouriteStore';
+import { productDetailUrl } from '../utils/productUrl';
 
 const ProductCard = ({ product }) => {
   const logClick  = useAnalyticsStore((s) => s.logClick);
@@ -47,7 +48,7 @@ const ProductCard = ({ product }) => {
       <div className="group bg-white border border-gray-100 rounded-xl overflow-hidden flex flex-col hover:shadow-lg hover:border-amber-300 transition-all duration-200 h-full">
 
         {/* Image */}
-        <Link to={`/product/${pid}`} className="relative block overflow-hidden bg-gray-50 aspect-square shrink-0">
+        <Link to={productDetailUrl(product)} className="relative block overflow-hidden bg-gray-50 aspect-square shrink-0">
           <img
             src={image} alt={title} loading="lazy"
             className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
@@ -77,7 +78,7 @@ const ProductCard = ({ product }) => {
           )}
 
           {/* Title */}
-          <Link to={`/product/${pid}`} className="flex-1">
+          <Link to={productDetailUrl(product)} className="flex-1">
             <p className="text-[11px] sm:text-[12px] text-gray-700 leading-snug line-clamp-2 hover:text-amber-700 transition-colors">
               {title}
             </p>
