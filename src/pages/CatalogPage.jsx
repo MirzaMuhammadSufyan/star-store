@@ -195,29 +195,32 @@ export default function CatalogPage() {
     }
   }, []); // eslint-disable-line
 
-  // ── IntersectionObserver ─────────────────────────────────────────────────────
+  // ── Scroll-based infinite load ───────────────────────────────────────────────
+  // IntersectionObserver only fires on state change (enter/exit) so it misses
+  // repeated triggers when sentinel stays in view after page increments.
+  // A scroll listener on the container reliably detects "near bottom" every time.
   useEffect(() => {
-    const sentinel  = sentinelRef.current;
     const container = productsRef.current;
-    if (!sentinel || !container) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) loadNext(); },
-      { root: container, rootMargin: '500px' },
-    );
-    observer.observe(sentinel);
-    return () => observer.disconnect();
+    if (!container) return;
+
+    const check = () => {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+      if (scrollHeight - scrollTop - clientHeight < 600) loadNext();
+    };
+
+    container.addEventListener('scroll', check, { passive: true });
+    // Also check immediately in case content already fills the container
+    check();
+    return () => container.removeEventListener('scroll', check);
   }, [loadNext]);
 
-  // ── Re-trigger when products arrive (sentinel may already be in view) ────────
+  // ── Re-trigger when new products arrive (may still be near bottom) ───────────
   useEffect(() => {
     if (filtered.length === 0) return;
-    const sentinel  = sentinelRef.current;
     const container = productsRef.current;
-    if (!sentinel || !container) return;
-    const rect      = sentinel.getBoundingClientRect();
-    const conRect   = container.getBoundingClientRect();
-    // If sentinel is within or near the visible area of the container, load
-    if (rect.top < conRect.bottom + 500) loadNext();
+    if (!container) return;
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    if (scrollHeight - scrollTop - clientHeight < 600) loadNext();
   }, [filtered.length]); // eslint-disable-line
 
   const toggleCat = useCallback((cat) => {
