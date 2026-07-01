@@ -11,11 +11,17 @@ import { useFavouriteStore } from '../store/favouriteStore';
 import { Button } from '../components/ui/Button';
 import ProductCard from '../components/ProductCard';
 
+function encodeProductParam(obj) {
+  // btoa only handles Latin1 — encode to UTF-8 first
+  return encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify(obj)))));
+}
+
 function decodeProductParam(d) {
   try {
-    return JSON.parse(atob(decodeURIComponent(d)));
+    // Try new UTF-8-safe encoding first, fall back to legacy
+    return JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(d)))));
   } catch {
-    return null;
+    try { return JSON.parse(atob(decodeURIComponent(d))); } catch { return null; }
   }
 }
 
@@ -65,7 +71,8 @@ export default function ProductDetailPage() {
   // Once product is loaded, silently embed its data in the URL so refresh works
   React.useEffect(() => {
     if (!raw || sharedData) return;
-    const payload = encodeURIComponent(btoa(JSON.stringify({
+    try {
+    const payload = encodeProductParam({
       id:          raw.id || raw.product_id,
       product_id:  raw.product_id,
       product_title: raw.product_title || raw.title,
@@ -78,9 +85,10 @@ export default function ProductDetailPage() {
       merchant:          raw.merchant,
       first_level_category_name: raw.first_level_category_name || raw.category,
       description:       raw.description,
-    })));
+    });
     const newUrl = `${window.location.pathname}?d=${payload}`;
     window.history.replaceState(null, '', newUrl);
+    } catch (_) { /* skip URL embed if encoding fails */ }
   }, [raw, sharedData]);
 
   if (storeLoading || fetching) return (
@@ -118,7 +126,7 @@ export default function ProductDetailPage() {
   const related     = products.filter(r => (r.id || r.product_id) !== p.id).slice(0, 4);
   const fav         = isFavourite(raw);
 
-  const sharePayload = encodeURIComponent(btoa(JSON.stringify({
+  const sharePayload = encodeProductParam({
     id:          p.id,
     product_id:  raw.product_id,
     product_title: p.title,
@@ -131,7 +139,7 @@ export default function ProductDetailPage() {
     merchant:          p.merchant,
     first_level_category_name: p.category,
     description:       p.description,
-  })));
+  });
   const shareUrl = `${window.location.origin}/product/${p.id || 'shared'}?d=${sharePayload}`;
   const shareText = encodeURIComponent(`Check out this product: ${p.title}`);
 
