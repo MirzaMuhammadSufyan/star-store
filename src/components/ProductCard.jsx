@@ -69,7 +69,7 @@ const ProductCard = ({ product }) => {
           </div>
 
           <Link to={`/product/${pid}`} className="flex-1">
-            <h3 className="text-[12px] font-medium text-gray-800 leading-snug hover:text-amber-700 transition-colors tracking-normal line-clamp-2 min-h-[2.5rem]">
+            <h3 className="text-[12px] font-medium text-gray-800 leading-snug hover:text-amber-700 transition-colors tracking-normal line-clamp-2 h-[2.75rem] overflow-hidden">
               {title}
             </h3>
           </Link>
