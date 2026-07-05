@@ -1,4 +1,5 @@
 import { callAliExpressApi } from '../../utils/aliexpress.js';
+import { filterByRelevance, categoryIdForKeyword } from '../../utils/relevance.js';
 
 export async function onRequest(context) {
   const { request, env } = context;
@@ -6,7 +7,9 @@ export async function onRequest(context) {
   const categoryId = url.searchParams.get('category_id');
   const keywords = url.searchParams.get('keywords');
   const pageNo = url.searchParams.get('page_no') || '1';
+  // Over-fetch so relevance filtering still leaves close to a full page.
   const pageSize = url.searchParams.get('page_size') || '20';
+  const fetchSize = keywords ? String(Math.min(50, Number(pageSize) * 2)) : pageSize;
 
   if (!categoryId && !keywords) {
     return new Response(JSON.stringify({ error: 'Missing category_id or keywords parameter' }), {
@@ -18,13 +21,19 @@ export async function onRequest(context) {
   const apiParams = {
     method: 'aliexpress.affiliate.product.query',
     page_no: pageNo,
-    page_size: pageSize,
+    page_size: fetchSize,
     target_currency: 'USD',
     target_language: 'EN',
-    tracking_id: env.ALIEXPRESS_TRACKING_ID || 'default'
+    tracking_id: env.ALIEXPRESS_TRACKING_ID || 'default',
+    // Best-seller ordering is a stronger relevance proxy than the API's default order.
+    sort: 'LAST_VOLUME_DESC',
   };
 
+  // A mapped category (e.g. "laptop" -> Laptops) narrows AliExpress's own
+  // matching before it ever reaches our filter below.
+  const mappedCategoryId = keywords ? categoryIdForKeyword(keywords) : undefined;
   if (categoryId) apiParams.category_ids = categoryId;
+  else if (mappedCategoryId) apiParams.category_ids = mappedCategoryId;
   if (keywords) apiParams.keywords = keywords;
 
   try {
@@ -44,7 +53,11 @@ export async function onRequest(context) {
       });
     }
 
-    const products = responseRoot?.resp_result?.result?.products?.product || [];
+    let products = responseRoot?.resp_result?.result?.products?.product || [];
+
+    if (keywords) {
+      products = filterByRelevance(products, keywords).slice(0, Number(pageSize));
+    }
 
     const mappedProducts = products.map(product => ({
       product_id: product.product_id,

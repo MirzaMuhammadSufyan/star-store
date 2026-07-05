@@ -5,6 +5,7 @@ import { Heart, LayoutDashboard, Menu, X } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useFavouriteStore } from '../store/favouriteStore';
 import { Button } from './ui/Button';
+import MegaMenu, { MegaMenuTrigger } from './MegaMenu';
 
 const Navbar = ({ onFavOpen }) => {
   const { isAuthenticated, logout } = useAuthStore();
@@ -12,6 +13,7 @@ const Navbar = ({ onFavOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = React.useState(false);
+  const [shopOpen, setShopOpen] = React.useState(false);
 
   const links = [
     { label: 'Home',    path: '/' },
@@ -35,7 +37,25 @@ const Navbar = ({ onFavOpen }) => {
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-8">
-          {links.map(({ label, path }) => (
+          <Link
+            to="/"
+            className={`text-[15px] transition-colors ${
+              location.pathname === '/' ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'
+            }`}
+          >
+            Home
+          </Link>
+
+          <MegaMenuTrigger
+            label="Shop"
+            path="/catalog"
+            isActive={isActive('/catalog')}
+            open={shopOpen}
+            onOpen={() => setShopOpen(true)}
+            onClose={() => setShopOpen(false)}
+          />
+
+          {links.filter(l => l.label !== 'Home').map(({ label, path }) => (
             <Link
               key={path}
               to={path}
@@ -87,6 +107,8 @@ const Navbar = ({ onFavOpen }) => {
           </button>
         </div>
       </div>
+
+      <MegaMenu open={shopOpen} onClose={() => setShopOpen(false)} />
 
       {/* Mobile menu */}
       <AnimatePresence>
