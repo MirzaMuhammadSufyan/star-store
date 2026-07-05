@@ -1,6 +1,8 @@
 import { APP_KEY, getAliExpressTimestamp, generateAliExpressSign, corsHeaders } from './_utils.js';
-import { applyRelevance, categoryIdForKeyword } from '../../utils/relevance.js';
 
+// Plain passthrough to the AliExpress affiliate API — no category-mapping or
+// title filtering. Returns whatever aliexpress.affiliate.product.query gives
+// back for the keyword, unmodified.
 export async function onRequestGet(context) {
   const { request, env } = context;
   const url = new URL(request.url);
@@ -17,9 +19,6 @@ export async function onRequestGet(context) {
   const pageNo = url.searchParams.get("page_no") || "1";
   const pageSize = url.searchParams.get("page_size") || "20";
 
-  const fetchSize = String(Math.min(50, Number(pageSize) * 2));
-  const mappedCategoryId = categoryIdForKeyword(keywords);
-
   const params = {
     app_key: APP_KEY,
     method: "aliexpress.affiliate.product.query",
@@ -29,9 +28,7 @@ export async function onRequestGet(context) {
     sign_method: "md5",
     keywords: keywords,
     page_no: pageNo,
-    page_size: fetchSize,
-    sort: "LAST_VOLUME_DESC",
-    ...(mappedCategoryId ? { category_ids: mappedCategoryId } : {}),
+    page_size: pageSize,
   };
 
   params.sign = generateAliExpressSign(params, appSecret);
@@ -42,12 +39,6 @@ export async function onRequestGet(context) {
   try {
     const response = await fetch(targetUrl.toString());
     const data = await response.json();
-
-    const respRoot = data.aliexpress_affiliate_product_query_response;
-    const result = respRoot?.resp_result?.result;
-    if (result?.products?.product) {
-      result.products.product = applyRelevance(result.products.product, keywords, Number(pageSize));
-    }
 
     return new Response(JSON.stringify(data), {
       status: 200,

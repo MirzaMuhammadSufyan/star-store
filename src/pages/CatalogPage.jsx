@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Search, SlidersHorizontal, Grid, List, X, ChevronDown, Loader2, ArrowUp,
+  SlidersHorizontal, Grid, List, X, ChevronDown, Loader2, ArrowUp,
 } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Heart, Star } from 'lucide-react';
@@ -11,6 +11,7 @@ import { useProductStore } from '../store/productStore';
 import { useFavouriteStore } from '../store/favouriteStore';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/Button';
+import SearchBar from '../components/SearchBar';
 
 const SORT_OPTIONS = [
   { label: 'Default',           value: 'default'    },
@@ -105,22 +106,30 @@ export default function CatalogPage() {
     syncFromAliExpress(kw, 1);
   }, [searchParams.get('cat')]); // eslint-disable-line
 
+  // ── Runs a real AliExpress search for the given term ──────────────────────
+  // Shared by the debounced as-you-type effect below and the search bar's
+  // immediate submit (Enter / button / suggestion click) so both paths fetch
+  // listings the same way — this always calls the live API, never a mock.
+  const runSearch = useCallback((term) => {
+    const q = (term || '').trim() || 'tech';
+    if (q === aliKwRef.current) return;
+    aliKwRef.current = q;
+    setAliKeyword(q);
+    setAliPage(1);
+    aliPageRef.current = 1;
+    setNoMorePages(false);
+    noMoreRef.current = false;
+    setPage(1);
+    syncFromAliExpress(q, 1);
+  }, [syncFromAliExpress]);
+
   // ── Auto-search 600 ms debounce ─────────────────────────────────────────────
   useEffect(() => {
     const q = search.trim();
     if (!q) return;
-    const t = setTimeout(() => {
-      aliKwRef.current = q;
-      setAliKeyword(q);
-      setAliPage(1);
-      aliPageRef.current = 1;
-      setNoMorePages(false);
-      noMoreRef.current = false;
-      setPage(1);
-      syncFromAliExpress(q, 1);
-    }, 600);
+    const t = setTimeout(() => runSearch(q), 600);
     return () => clearTimeout(t);
-  }, [search]); // eslint-disable-line
+  }, [search, runSearch]);
 
   // ── Scroll-to-top visibility ─────────────────────────────────────────────────
   useEffect(() => {
@@ -245,7 +254,7 @@ export default function CatalogPage() {
 
       {/* ── Sticky header ───────────────────────────────────────────────────── */}
       <div className="bg-white border-b border-gray-200 sticky top-16 z-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-4">
           <div className="flex items-center justify-between gap-4">
             {/* Title + count */}
             <div className="flex items-center gap-3 min-w-0">
@@ -255,27 +264,19 @@ export default function CatalogPage() {
               <span className="hidden sm:inline text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
                 {filtered.length} products
               </span>
-            </div>
-
-            {/* Search */}
-            <div className="relative w-48 sm:w-64 shrink-0">
-              {syncLoading
-                ? <Loader2 size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-500 animate-spin" />
-                : <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              }
-              <input
-                type="text" value={search}
-                onChange={e => { setSearch(e.target.value); setPage(1); }}
-                placeholder="Search…"
-                className="w-full pl-9 pr-7 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:bg-white transition-colors"
-              />
-              {search && (
-                <button onClick={() => { setSearch(''); setPage(1); }}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700">
-                  <X size={13} />
-                </button>
+              {syncLoading && (
+                <Loader2 size={14} className="text-amber-500 animate-spin shrink-0" />
               )}
             </div>
+          </div>
+
+          {/* Search */}
+          <div className="max-w-2xl">
+            <SearchBar
+              value={search}
+              onChange={(v) => { setSearch(v); setPage(1); }}
+              onSubmit={runSearch}
+            />
           </div>
         </div>
       </div>

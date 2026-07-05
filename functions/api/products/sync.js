@@ -1,15 +1,17 @@
 import { callAliExpressApi } from '../../utils/aliexpress.js';
-import { applyRelevance, categoryIdForKeyword } from '../../utils/relevance.js';
 
+// Plain passthrough to the AliExpress affiliate API — no category-mapping or
+// title filtering. This endpoint's only job is to fetch listings for a
+// keyword/category straight from aliexpress.affiliate.product.query and hand
+// them back; relevance tuning was pulled out per product decision to keep
+// this a direct feed of whatever AliExpress returns.
 export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
   const categoryId = url.searchParams.get('category_id');
   const keywords = url.searchParams.get('keywords');
   const pageNo = url.searchParams.get('page_no') || '1';
-  // Over-fetch so relevance filtering still leaves close to a full page.
   const pageSize = url.searchParams.get('page_size') || '20';
-  const fetchSize = keywords ? String(Math.min(50, Number(pageSize) * 2)) : pageSize;
 
   if (!categoryId && !keywords) {
     return new Response(JSON.stringify({ error: 'Missing category_id or keywords parameter' }), {
@@ -21,21 +23,13 @@ export async function onRequest(context) {
   const apiParams = {
     method: 'aliexpress.affiliate.product.query',
     page_no: pageNo,
-    page_size: fetchSize,
+    page_size: pageSize,
     target_currency: 'USD',
     target_language: 'EN',
     tracking_id: env.ALIEXPRESS_TRACKING_ID || 'default',
-    // Best-seller ordering is a stronger relevance proxy than the API's default order.
-    sort: 'LAST_VOLUME_DESC',
   };
 
-  // A mapped category (e.g. "laptop" -> Laptops, id 702) narrows AliExpress's
-  // own matching before it reaches our title-based filter below — the API's
-  // free-text keyword match alone returns accessories that merely mention the
-  // keyword (see relevance.js for the verified category IDs and reasoning).
-  const mappedCategoryId = keywords ? categoryIdForKeyword(keywords) : undefined;
   if (categoryId) apiParams.category_ids = categoryId;
-  else if (mappedCategoryId) apiParams.category_ids = mappedCategoryId;
   if (keywords) apiParams.keywords = keywords;
 
   try {
@@ -55,11 +49,7 @@ export async function onRequest(context) {
       });
     }
 
-    let products = responseRoot?.resp_result?.result?.products?.product || [];
-
-    if (keywords) {
-      products = applyRelevance(products, keywords, Number(pageSize));
-    }
+    const products = responseRoot?.resp_result?.result?.products?.product || [];
 
     const mappedProducts = products.map(product => ({
       product_id: product.product_id,
