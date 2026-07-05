@@ -133,6 +133,17 @@ export function applyRelevance(products, keywords, limit) {
         isAccessoryFree((p.product_title || '').toLowerCase(), kwWords));
       result = accessoryFreeOnly.length > 0 ? accessoryFreeOnly : products;
     }
+
+    // Backstop for the API-level min_sale_price param (sync.js sends it, but
+    // don't trust a third-party API to always honor an optional filter) —
+    // drops stray sub-floor listings that slipped through, unless doing so
+    // would empty the result set.
+    const minPrice = minSalePriceForKeyword(kw);
+    if (minPrice) {
+      const aboveFloor = result.filter((p) => parseFloat(p.target_sale_price) >= minPrice);
+      if (aboveFloor.length > 0) result = aboveFloor;
+    }
+
     result = rankByRelevance(result, keywords);
   }
 
@@ -162,6 +173,7 @@ const CATEGORY = {
   LAPTOP_BAGS: '152402',
   REMOTE_CONTROL_TOYS: '200001385',
   CYCLING: '200003500',
+  FURNITURE: '1503',
 };
 
 export const KEYWORD_CATEGORY_MAP = {
@@ -211,7 +223,56 @@ export const KEYWORD_CATEGORY_MAP = {
   cycling: CATEGORY.CYCLING,
   bicycle: CATEGORY.CYCLING,
   bike: CATEGORY.CYCLING,
+  table: CATEGORY.FURNITURE,
+  tables: CATEGORY.FURNITURE,
+  'dining table': CATEGORY.FURNITURE,
+  'coffee table': CATEGORY.FURNITURE,
+  'side table': CATEGORY.FURNITURE,
+  desk: CATEGORY.FURNITURE,
+  furniture: CATEGORY.FURNITURE,
+  chair: CATEGORY.FURNITURE,
+  chairs: CATEGORY.FURNITURE,
+  sofa: CATEGORY.FURNITURE,
 };
+
+/**
+ * A generic core-product search ("table", "laptop", "phone") returns real
+ * products AND a long tail of dirt-cheap parts/accessories that just happen
+ * to share the category (a $2 table leaf lock lives in Furniture right next
+ * to a $180 dining table). Category targeting alone doesn't separate them —
+ * price does: nobody sells an actual table, laptop, or phone for $2-$5.
+ * These floors are set below the cheapest genuine product of that kind, not
+ * at some arbitrary "quality" cutoff, so real budget items still pass.
+ */
+const KEYWORD_MIN_SALE_PRICE = {
+  table: 25,
+  tables: 25,
+  'dining table': 40,
+  'coffee table': 30,
+  'side table': 25,
+  desk: 30,
+  furniture: 25,
+  chair: 20,
+  chairs: 20,
+  sofa: 80,
+  laptop: 120,
+  laptops: 120,
+  notebook: 120,
+  notebooks: 120,
+  'gaming laptop': 300,
+  desktop: 100,
+  'desktop pc': 100,
+  tablet: 50,
+  tablets: 50,
+  smartphone: 60,
+  smartphones: 60,
+  phone: 60,
+};
+
+export function minSalePriceForKeyword(keywords) {
+  const kw = (keywords || '').trim().toLowerCase();
+  return KEYWORD_MIN_SALE_PRICE[kw];
+}
 
 // Words that are structurally part of category names but shouldn't count
 // toward a real product match (or should actively push a match down when the

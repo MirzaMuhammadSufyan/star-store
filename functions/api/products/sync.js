@@ -1,5 +1,5 @@
 import { callAliExpressApi } from '../../utils/aliexpress.js';
-import { applyRelevance, categoryIdForKeyword } from '../../utils/relevance.js';
+import { applyRelevance, categoryIdForKeyword, minSalePriceForKeyword } from '../../utils/relevance.js';
 
 export async function onRequest(context) {
   const { request, env } = context;
@@ -31,7 +31,15 @@ export async function onRequest(context) {
     const inferredCategoryId = categoryIdForKeyword(keywords);
     if (inferredCategoryId) apiParams.category_ids = inferredCategoryId;
   }
-  if (keywords) apiParams.keywords = keywords;
+  if (keywords) {
+    apiParams.keywords = keywords;
+    // Favor genuinely popular listings over rarely-ordered filler that only
+    // matches on a stray keyword — bias results toward the core product
+    // intent instead of AliExpress's default relevance ordering.
+    apiParams.sort = 'LAST_VOLUME_DESC';
+    const minSalePrice = minSalePriceForKeyword(keywords);
+    if (minSalePrice) apiParams.min_sale_price = minSalePrice;
+  }
 
   try {
     const data = await callAliExpressApi('aliexpress.affiliate.product.query', apiParams, env);

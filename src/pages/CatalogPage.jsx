@@ -107,9 +107,11 @@ export default function CatalogPage() {
   }, [searchParams.get('cat')]); // eslint-disable-line
 
   // ── Runs a real AliExpress search for the given term ──────────────────────
-  // Shared by the debounced as-you-type effect below and the search bar's
-  // immediate submit (Enter / button / suggestion click) so both paths fetch
-  // listings the same way — this always calls the live API, never a mock.
+  // Only fired by an explicit submit (Enter / Search button / picking a
+  // suggestion from the dropdown) — never by `search` changing as-you-type.
+  // Typing alone must only filter the products already loaded (see `filtered`
+  // below); it must not itself trigger a live refetch that swaps out the
+  // catalog's product list out from under the user.
   const runSearch = useCallback((term) => {
     const q = (term || '').trim() || 'tech';
     if (q === aliKwRef.current) return;
@@ -122,14 +124,6 @@ export default function CatalogPage() {
     setPage(1);
     syncFromAliExpress(q, 1);
   }, [syncFromAliExpress]);
-
-  // ── Auto-search 600 ms debounce ─────────────────────────────────────────────
-  useEffect(() => {
-    const q = search.trim();
-    if (!q) return;
-    const t = setTimeout(() => runSearch(q), 600);
-    return () => clearTimeout(t);
-  }, [search, runSearch]);
 
   // ── Scroll-to-top visibility ─────────────────────────────────────────────────
   useEffect(() => {
