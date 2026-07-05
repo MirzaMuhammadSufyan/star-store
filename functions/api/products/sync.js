@@ -1,5 +1,5 @@
 import { callAliExpressApi } from '../../utils/aliexpress.js';
-import { applyRelevance } from '../../utils/relevance.js';
+import { applyRelevance, categoryIdForKeyword } from '../../utils/relevance.js';
 
 export async function onRequest(context) {
   const { request, env } = context;
@@ -29,7 +29,13 @@ export async function onRequest(context) {
     sort: 'LAST_VOLUME_DESC',
   };
 
+  // A mapped category (e.g. "laptop" -> Laptops, id 702) narrows AliExpress's
+  // own matching before it reaches our title-based filter below — the API's
+  // free-text keyword match alone returns accessories that merely mention the
+  // keyword (see relevance.js for the verified category IDs and reasoning).
+  const mappedCategoryId = keywords ? categoryIdForKeyword(keywords) : undefined;
   if (categoryId) apiParams.category_ids = categoryId;
+  else if (mappedCategoryId) apiParams.category_ids = mappedCategoryId;
   if (keywords) apiParams.keywords = keywords;
 
   try {

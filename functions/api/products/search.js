@@ -1,5 +1,5 @@
 import { APP_KEY, getAliExpressTimestamp, generateAliExpressSign, corsHeaders } from './_utils.js';
-import { applyRelevance } from '../../utils/relevance.js';
+import { applyRelevance, categoryIdForKeyword } from '../../utils/relevance.js';
 
 export async function onRequestGet(context) {
   const { request, env } = context;
@@ -18,6 +18,7 @@ export async function onRequestGet(context) {
   const pageSize = url.searchParams.get("page_size") || "20";
 
   const fetchSize = String(Math.min(50, Number(pageSize) * 2));
+  const mappedCategoryId = categoryIdForKeyword(keywords);
 
   const params = {
     app_key: APP_KEY,
@@ -30,6 +31,7 @@ export async function onRequestGet(context) {
     page_no: pageNo,
     page_size: fetchSize,
     sort: "LAST_VOLUME_DESC",
+    ...(mappedCategoryId ? { category_ids: mappedCategoryId } : {}),
   };
 
   params.sign = generateAliExpressSign(params, appSecret);
