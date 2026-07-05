@@ -14,6 +14,8 @@
  * secondary safety net for keywords that aren't in the map.
  */
 
+import { CATEGORIES } from './categories.js';
+
 const ACCESSORY_TERMS = [
   'bag', 'case', 'sleeve', 'cover', 'skin', 'pouch', 'stand', 'strap',
   'holder', 'protector', 'sticker', 'decal', 'charm', 'organizer',
@@ -149,7 +151,63 @@ export const KEYWORD_CATEGORY_MAP = {
   bike: CATEGORY.CYCLING,
 };
 
+// Words that are structurally part of category names but shouldn't count
+// toward a real product match (or should actively push a match down when the
+// user didn't ask for them) — mirrors the accessory-avoidance logic above.
+const CATEGORY_NOISE_WORDS = new Set(['and', 'the', 'for', 'of', 'other', 'new']);
+const CATEGORY_DEPRIORITIZE_WORDS = new Set(['parts', 'accessories', 'accessory', 'supplies', 'equipment']);
+
+const stem = (w) => (w.length > 3 && w.endsWith('s') ? w.slice(0, -1) : w);
+
+const tokenize = (s) =>
+  s.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w && !CATEGORY_NOISE_WORDS.has(w)).map(stem);
+
+let categoryIndex = null;
+function getCategoryIndex() {
+  if (categoryIndex) return categoryIndex;
+  categoryIndex = CATEGORIES.map((c) => ({ ...c, tokens: tokenize(c.name) }));
+  return categoryIndex;
+}
+
+/**
+ * Matches an arbitrary, unmapped search term against AliExpress's real
+ * category names (all 565 categories pulled live via
+ * aliexpress.affiliate.category.get) instead of giving up the moment a term
+ * isn't in the curated KEYWORD_CATEGORY_MAP above. This is what makes
+ * category-narrowing work for search terms nobody has hand-picked yet — a
+ * user typing "gaming mouse" or "iphone case" still gets matched against a
+ * real category, not just the ~40 keywords someone happened to add.
+ */
+function findBestCategoryMatch(keywords) {
+  const kwWords = tokenize(keywords);
+  if (kwWords.length === 0) return undefined;
+
+  let best = null;
+  for (const cat of getCategoryIndex()) {
+    if (cat.tokens.length === 0) continue;
+    const matched = kwWords.filter((w) => cat.tokens.includes(w));
+    if (matched.length === 0) continue;
+
+    // Fraction of the category name's own words that the query accounts for —
+    // rewards precise category names ("Laptops") over broad umbrella ones
+    // ("Computer & Office") that happen to share one word.
+    const precision = matched.length / cat.tokens.length;
+    const recall = matched.length / kwWords.length;
+    let score = precision + recall;
+
+    const hasNoiseInName = cat.tokens.some((t) => CATEGORY_DEPRIORITIZE_WORDS.has(t));
+    const userAskedForNoise = kwWords.some((t) => CATEGORY_DEPRIORITIZE_WORDS.has(t));
+    if (hasNoiseInName && !userAskedForNoise) score -= 0.5;
+
+    if (!best || score > best.score) best = { id: cat.id, score };
+  }
+
+  // Require at least full recall (every query word matched somewhere in the
+  // category name) so a single shared word doesn't pin unrelated searches.
+  return best && best.score >= 1.5 ? best.id : undefined;
+}
+
 export function categoryIdForKeyword(keywords) {
   const kw = (keywords || '').trim().toLowerCase();
-  return KEYWORD_CATEGORY_MAP[kw];
+  return KEYWORD_CATEGORY_MAP[kw] || findBestCategoryMatch(kw);
 }
