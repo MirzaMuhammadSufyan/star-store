@@ -16,15 +16,36 @@
 
 import { CATEGORIES } from './categories.js';
 
-const ACCESSORY_TERMS = [
-  'bag', 'case', 'sleeve', 'cover', 'skin', 'pouch', 'stand', 'strap',
-  'holder', 'protector', 'sticker', 'decal', 'charm', 'organizer',
-  'dust plug', 'screen film', 'cleaning', 'cleaner', 'blower', 'lens cap',
-  'tripod', 'clamp', 'mount', 'dust', 'polarizer', 'microfiber',
-  'selfie stick', 'charging dock', 'charger', 'charging cable', 'dock',
-  'switch', 'mousepad', 'mouse pad', 'desk mat', 'wrist rest',
-  'receiver', 'transmitter', 'antenna', 'connector', 'servo', 'sensor module',
+// Grouped so a query word exempts every synonym in its group, not just the
+// literal string typed. Without this, searching "iphone case" still got
+// filtered out for titles ending in "...Bumper Cover" — "cover" was flagged
+// as a stray accessory term because the query said "case", not "cover", even
+// though they're the same product. This was silently destroying relevant
+// results for any accessory-type product search (cases, stands, bags), which
+// is exactly the kind of product people search for directly.
+const ACCESSORY_GROUPS = [
+  ['case', 'cover', 'shell', 'skin'],
+  ['bag', 'pouch', 'sleeve'],
+  ['stand', 'mount', 'holder', 'dock', 'cradle', 'bracket'],
+  ['charger', 'charging'],
+  ['strap', 'lanyard'],
+  ['protector', 'film'],
+  ['sticker', 'decal'],
+  ['cleaning', 'cleaner', 'blower', 'microfiber'],
+  ['tripod', 'clamp'],
+  ['dust', 'dust plug'],
+  ['polarizer'],
+  ['lens cap'],
+  ['selfie stick'],
+  ['switch'],
+  ['mousepad', 'mouse pad', 'desk mat', 'wrist rest'],
+  ['receiver', 'transmitter', 'antenna', 'connector', 'servo'],
+  ['organizer'],
 ];
+
+const ACCESSORY_TERMS = [...new Set(ACCESSORY_GROUPS.flat())];
+
+const groupFor = (term) => ACCESSORY_GROUPS.find((g) => g.includes(term));
 
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -34,7 +55,11 @@ const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const hasWord = (title, word) => new RegExp(`\\b${escapeRegex(word)}\\b`, 'i').test(title);
 
 const isAccessoryFree = (title, kwWords) =>
-  !ACCESSORY_TERMS.some((term) => hasWord(title, term) && !kwWords.includes(term));
+  !ACCESSORY_TERMS.some((term) => {
+    if (!hasWord(title, term)) return false;
+    const group = groupFor(term) || [term];
+    return !group.some((synonym) => kwWords.includes(synonym));
+  });
 
 export function filterByRelevance(products, keywords) {
   const kw = (keywords || '').trim().toLowerCase();
@@ -49,6 +74,39 @@ export function filterByRelevance(products, keywords) {
 }
 
 /**
+ * Ranks (doesn't filter) results that already passed the relevance filter, so
+ * a product whose title/category is centrally about the query outranks one
+ * that just happens to mention it. Filtering alone can't catch a case like
+ * "phone stand" returning a neck fan that has a phone stand as a bundled
+ * feature — the title genuinely contains "phone stand", so no word-match
+ * filter rejects it, but its category ("Neck Fans", not "Phone Holders &
+ * Stands") gives away that it isn't a phone stand product. Ranking pushes the
+ * genuine stands above it instead of trying to exclude the fan outright.
+ */
+export function rankByRelevance(products, keywords) {
+  const kw = (keywords || '').trim().toLowerCase();
+  if (!kw) return products;
+  const kwWords = kw.split(/\s+/).filter(Boolean);
+  const phrase = kwWords.join(' ');
+
+  const scored = products.map((p, i) => {
+    const title = (p.product_title || '').toLowerCase();
+    const category = `${p.first_level_category_name || ''} ${p.second_level_category_name || ''}`.toLowerCase();
+
+    let score = 0;
+    if (title.includes(phrase)) score += 3;
+    if (kwWords.some((w) => hasWord(category, w))) score += 2;
+    const firstIdx = title.indexOf(kwWords[0] || '');
+    if (firstIdx >= 0 && firstIdx < 15) score += 1;
+
+    return { p, i, score };
+  });
+
+  scored.sort((a, b) => b.score - a.score || a.i - b.i);
+  return scored.map((s) => s.p);
+}
+
+/**
  * Applies the relevance filter, degrading in two steps rather than switching
  * off entirely the moment the strictest pass comes up empty:
  *   1. title contains every query word AND has no stray accessory terms
@@ -57,6 +115,9 @@ export function filterByRelevance(products, keywords) {
  *      don't literally say "drone" in the title
  *   3. (last resort) the raw, unfiltered results — never turn a non-empty
  *      result set into "no products found"
+ * The surviving set is then ranked (see rankByRelevance) before trimming to
+ * `limit`, so the most on-topic items make the cut rather than whatever
+ * happened to appear first in AliExpress's own ordering.
  */
 export function applyRelevance(products, keywords, limit) {
   const kw = (keywords || '').trim().toLowerCase();
@@ -72,6 +133,7 @@ export function applyRelevance(products, keywords, limit) {
         isAccessoryFree((p.product_title || '').toLowerCase(), kwWords));
       result = accessoryFreeOnly.length > 0 ? accessoryFreeOnly : products;
     }
+    result = rankByRelevance(result, keywords);
   }
 
   return typeof limit === 'number' ? result.slice(0, limit) : result;
