@@ -149,8 +149,11 @@ export default function CatalogPage() {
   const filtered = useMemo(() => {
     let list = [...(products || [])];
     if (search) {
-      const q = search.toLowerCase();
-      list = list.filter(p => (p.product_title || p.title || '').toLowerCase().includes(q));
+      const qWords = search.toLowerCase().trim().split(/\s+/).filter(Boolean);
+      list = list.filter(p => {
+        const title = (p.product_title || p.title || '').toLowerCase();
+        return qWords.every(w => title.includes(w));
+      });
     }
     if (selectedCats.length) {
       list = list.filter(p => selectedCats.includes(
