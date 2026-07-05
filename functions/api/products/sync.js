@@ -1,10 +1,6 @@
 import { callAliExpressApi } from '../../utils/aliexpress.js';
+import { applyRelevance, categoryIdForKeyword } from '../../utils/relevance.js';
 
-// Plain passthrough to the AliExpress affiliate API — no category-mapping or
-// title filtering. This endpoint's only job is to fetch listings for a
-// keyword/category straight from aliexpress.affiliate.product.query and hand
-// them back; relevance tuning was pulled out per product decision to keep
-// this a direct feed of whatever AliExpress returns.
 export async function onRequest(context) {
   const { request, env } = context;
   const url = new URL(request.url);
@@ -29,7 +25,12 @@ export async function onRequest(context) {
     tracking_id: env.ALIEXPRESS_TRACKING_ID || 'default',
   };
 
-  if (categoryId) apiParams.category_ids = categoryId;
+  if (categoryId) {
+    apiParams.category_ids = categoryId;
+  } else if (keywords) {
+    const inferredCategoryId = categoryIdForKeyword(keywords);
+    if (inferredCategoryId) apiParams.category_ids = inferredCategoryId;
+  }
   if (keywords) apiParams.keywords = keywords;
 
   try {
@@ -49,7 +50,8 @@ export async function onRequest(context) {
       });
     }
 
-    const products = responseRoot?.resp_result?.result?.products?.product || [];
+    const rawProducts = responseRoot?.resp_result?.result?.products?.product || [];
+    const products = keywords ? applyRelevance(rawProducts, keywords, Number(pageSize)) : rawProducts;
 
     const mappedProducts = products.map(product => ({
       product_id: product.product_id,
