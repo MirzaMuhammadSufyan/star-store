@@ -24,8 +24,15 @@ const ACCESSORY_TERMS = [
   'receiver', 'transmitter', 'antenna', 'connector', 'servo', 'sensor module',
 ];
 
+const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// Whole-word containment — a plain `.includes()` would let "cycle" match
+// inside "bicycle"/"motorcycle"/"recycle", which is how a "cycle" search
+// used to surface unrelated motorcycle/recycling-bin products.
+const hasWord = (title, word) => new RegExp(`\\b${escapeRegex(word)}\\b`, 'i').test(title);
+
 const isAccessoryFree = (title, kwWords) =>
-  !ACCESSORY_TERMS.some((term) => title.includes(term) && !kwWords.includes(term));
+  !ACCESSORY_TERMS.some((term) => hasWord(title, term) && !kwWords.includes(term));
 
 export function filterByRelevance(products, keywords) {
   const kw = (keywords || '').trim().toLowerCase();
@@ -35,7 +42,7 @@ export function filterByRelevance(products, keywords) {
 
   return products.filter((p) => {
     const title = (p.product_title || '').toLowerCase();
-    return kwWords.every((w) => title.includes(w)) && isAccessoryFree(title, kwWords);
+    return kwWords.every((w) => hasWord(title, w)) && isAccessoryFree(title, kwWords);
   });
 }
 
@@ -69,9 +76,11 @@ export function applyRelevance(products, keywords, limit) {
 }
 
 // category_id -> verified via aliexpress.affiliate.category.get on 2026-07-05.
-// Some categories (e.g. Camera & Photo, Remote Control Toys) still mix real
-// products with parts/accessories in AliExpress's own taxonomy — the title
-// filter above is what catches those.
+// Some categories (e.g. Camera & Photo, Remote Control Toys, Cycling) mix real
+// products with parts/accessories in AliExpress's own taxonomy, and some
+// (drones, whole bicycles) apparently aren't stocked as finished products in
+// this affiliate catalog at all — only their accessories/parts are. The title
+// filter above is what catches the parts/accessories mixed in.
 const CATEGORY = {
   LAPTOPS: '702',
   DESKTOPS: '701',
@@ -88,6 +97,7 @@ const CATEGORY = {
   GAMES_ACCESSORIES: '100000310',
   LAPTOP_BAGS: '152402',
   REMOTE_CONTROL_TOYS: '200001385',
+  CYCLING: '200003500',
 };
 
 export const KEYWORD_CATEGORY_MAP = {
@@ -133,6 +143,10 @@ export const KEYWORD_CATEGORY_MAP = {
   'vr headset': CATEGORY.SMART_ELECTRONICS,
   'gaming headset': CATEGORY.GAMES_ACCESSORIES,
   'gaming gear': CATEGORY.GAMES_ACCESSORIES,
+  cycle: CATEGORY.CYCLING,
+  cycling: CATEGORY.CYCLING,
+  bicycle: CATEGORY.CYCLING,
+  bike: CATEGORY.CYCLING,
 };
 
 export function categoryIdForKeyword(keywords) {
