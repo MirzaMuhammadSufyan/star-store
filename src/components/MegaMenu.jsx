@@ -3,9 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 // Column data for the "Shop" mega menu. Each `path` uses the same
-// `/catalog?cat=<keyword>` convention as HomePage's category tiles, so
-// keywords here should stay aligned with functions/utils/relevance.js
-// (KEYWORD_CATEGORY_MAP) to get category-narrowed, filtered results.
+// `/catalog?cat=<keyword>` convention as HomePage's category tiles.
 const COLUMNS = [
   {
     heading: 'Laptops & Computers',

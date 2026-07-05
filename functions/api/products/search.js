@@ -1,5 +1,5 @@
 import { APP_KEY, getAliExpressTimestamp, generateAliExpressSign, corsHeaders } from './_utils.js';
-import { filterByRelevance, categoryIdForKeyword } from '../../utils/relevance.js';
+import { applyRelevance } from '../../utils/relevance.js';
 
 export async function onRequestGet(context) {
   const { request, env } = context;
@@ -17,7 +17,6 @@ export async function onRequestGet(context) {
   const pageNo = url.searchParams.get("page_no") || "1";
   const pageSize = url.searchParams.get("page_size") || "20";
 
-  const mappedCategoryId = categoryIdForKeyword(keywords);
   const fetchSize = String(Math.min(50, Number(pageSize) * 2));
 
   const params = {
@@ -31,7 +30,6 @@ export async function onRequestGet(context) {
     page_no: pageNo,
     page_size: fetchSize,
     sort: "LAST_VOLUME_DESC",
-    ...(mappedCategoryId ? { category_ids: mappedCategoryId } : {}),
   };
 
   params.sign = generateAliExpressSign(params, appSecret);
@@ -46,8 +44,7 @@ export async function onRequestGet(context) {
     const respRoot = data.aliexpress_affiliate_product_query_response;
     const result = respRoot?.resp_result?.result;
     if (result?.products?.product) {
-      result.products.product = filterByRelevance(result.products.product, keywords)
-        .slice(0, Number(pageSize));
+      result.products.product = applyRelevance(result.products.product, keywords, Number(pageSize));
     }
 
     return new Response(JSON.stringify(data), {

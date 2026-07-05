@@ -6,7 +6,9 @@
  * contain the word "laptop".
  *
  * This filter removes results that only match because of an accessory term the
- * user didn't ask for, and requires the full search phrase to appear in the title.
+ * user didn't ask for, while requiring every searched word (in any order) to
+ * appear in the title so multi-word queries like "gaming laptop" still match
+ * titles such as "Laptop for Gaming 15.6 inch".
  */
 
 const ACCESSORY_TERMS = [
@@ -19,11 +21,11 @@ export function filterByRelevance(products, keywords) {
   const kw = (keywords || '').trim().toLowerCase();
   if (!kw) return products;
 
-  const kwWords = kw.split(/\s+/);
+  const kwWords = kw.split(/\s+/).filter(Boolean);
 
   return products.filter((p) => {
     const title = (p.product_title || '').toLowerCase();
-    if (!title.includes(kw)) return false;
+    if (!kwWords.every((w) => title.includes(w))) return false;
 
     return !ACCESSORY_TERMS.some(
       (term) => title.includes(term) && !kwWords.includes(term),
@@ -32,31 +34,12 @@ export function filterByRelevance(products, keywords) {
 }
 
 /**
- * Known AliExpress category IDs for common tech search terms. Restricting the
- * query to the right category is a much stronger relevance signal than keyword
- * text alone. Verify/refresh these against your account via
- * aliexpress.affiliate.category.get — IDs can vary by account/locale.
+ * Applies the relevance filter, but falls back to the raw (unfiltered) results
+ * if filtering would leave nothing — an overly strict filter should never turn
+ * a non-empty result set into "no products found".
  */
-export const KEYWORD_CATEGORY_MAP = {
-  laptop: '100003109',
-  laptops: '100003109',
-  notebook: '100003109',
-  phone: '509',
-  smartphone: '509',
-  headphone: '6',
-  headphones: '6',
-  earbuds: '6',
-  smartwatch: '1511',
-  tablet: '200000343',
-  camera: '3',
-  drone: '200003482',
-  speaker: '6',
-  monitor: '7',
-  keyboard: '100003806',
-  mouse: '100003806',
-};
-
-export function categoryIdForKeyword(keywords) {
-  const kw = (keywords || '').trim().toLowerCase();
-  return KEYWORD_CATEGORY_MAP[kw];
+export function applyRelevance(products, keywords, limit) {
+  const filtered = filterByRelevance(products, keywords);
+  const result = filtered.length > 0 ? filtered : products;
+  return typeof limit === 'number' ? result.slice(0, limit) : result;
 }

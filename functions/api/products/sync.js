@@ -1,5 +1,5 @@
 import { callAliExpressApi } from '../../utils/aliexpress.js';
-import { filterByRelevance, categoryIdForKeyword } from '../../utils/relevance.js';
+import { applyRelevance } from '../../utils/relevance.js';
 
 export async function onRequest(context) {
   const { request, env } = context;
@@ -29,11 +29,7 @@ export async function onRequest(context) {
     sort: 'LAST_VOLUME_DESC',
   };
 
-  // A mapped category (e.g. "laptop" -> Laptops) narrows AliExpress's own
-  // matching before it ever reaches our filter below.
-  const mappedCategoryId = keywords ? categoryIdForKeyword(keywords) : undefined;
   if (categoryId) apiParams.category_ids = categoryId;
-  else if (mappedCategoryId) apiParams.category_ids = mappedCategoryId;
   if (keywords) apiParams.keywords = keywords;
 
   try {
@@ -56,7 +52,7 @@ export async function onRequest(context) {
     let products = responseRoot?.resp_result?.result?.products?.product || [];
 
     if (keywords) {
-      products = filterByRelevance(products, keywords).slice(0, Number(pageSize));
+      products = applyRelevance(products, keywords, Number(pageSize));
     }
 
     const mappedProducts = products.map(product => ({
