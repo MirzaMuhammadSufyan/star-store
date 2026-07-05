@@ -1,20 +1,22 @@
 import React from 'react';
-import { Search, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, X, Loader2 } from 'lucide-react';
 
-// Shortcut suggestions only — clicking one just fills the box and fires the
-// same real AliExpress search as typing would. Nothing here is a stand-in
-// for actual listings; every result on screen always comes from the
-// AliExpress affiliate API via /api/products/sync.
-const POPULAR_SEARCHES = [
-  'Laptops', 'Smartphones', 'Smart Watch', 'Wireless Earbuds',
-  'Bluetooth Speaker', 'Gaming Mouse', 'Mechanical Keyboard', 'Phone Case',
-  'Camera', 'Drone', 'Tablet', 'Power Bank', 'LED Lights', 'Backpack',
-  'Cycling Gear', 'VR Headset',
-];
+const SUGGEST_DEBOUNCE_MS = 350;
+const SUGGEST_COUNT = 6;
 
+// Suggestions are real, live AliExpress listings — not a canned term list.
+// As the user types, we hit the same /api/products/sync endpoint the full
+// search uses (small page_size) and show the actual matching products
+// (thumbnail, title, price). Clicking one goes straight to that real
+// product's detail page; nothing here is fabricated or hardcoded.
 const SearchBar = ({ value, onChange, onSubmit }) => {
   const [open, setOpen] = React.useState(false);
+  const [suggestions, setSuggestions] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
   const containerRef = React.useRef(null);
+  const abortRef = React.useRef(null);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const onClickOutside = (e) => {
@@ -24,18 +26,35 @@ const SearchBar = ({ value, onChange, onSubmit }) => {
     return () => document.removeEventListener('mousedown', onClickOutside);
   }, []);
 
-  const suggestions = React.useMemo(() => {
-    const q = value.trim().toLowerCase();
-    const pool = q
-      ? POPULAR_SEARCHES.filter((s) => s.toLowerCase().includes(q))
-      : POPULAR_SEARCHES;
-    return pool.slice(0, 8);
+  React.useEffect(() => {
+    const q = value.trim();
+    if (q.length < 2) return;
+
+    setLoading(true);
+    const t = setTimeout(async () => {
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+      try {
+        const res = await fetch(
+          `/api/products/sync?keywords=${encodeURIComponent(q)}&page_size=${SUGGEST_COUNT}`,
+          { signal: controller.signal },
+        );
+        const data = await res.json();
+        setSuggestions(data.success ? (data.products || []) : []);
+      } catch (err) {
+        if (err.name !== 'AbortError') setSuggestions([]);
+      } finally {
+        setLoading(false);
+      }
+    }, SUGGEST_DEBOUNCE_MS);
+
+    return () => clearTimeout(t);
   }, [value]);
 
-  const pick = (term) => {
-    onChange(term);
-    onSubmit(term);
+  const pickProduct = (product) => {
     setOpen(false);
+    navigate(`/product/${product.product_id}`);
   };
 
   const submitCurrent = () => {
@@ -59,7 +78,7 @@ const SearchBar = ({ value, onChange, onSubmit }) => {
         {value && (
           <button
             type="button"
-            onClick={() => { onChange(''); onSubmit(''); }}
+            onClick={() => { onChange(''); onSubmit(''); setSuggestions([]); }}
             className="absolute right-24 text-gray-400 hover:text-gray-700"
             aria-label="Clear search"
           >
@@ -75,25 +94,50 @@ const SearchBar = ({ value, onChange, onSubmit }) => {
         </button>
       </div>
 
-      {open && suggestions.length > 0 && (
+      {open && value.trim().length >= 2 && (
         <div className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-2xl shadow-lg z-30 overflow-hidden">
-          <p className="px-4 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
-            {value.trim() ? 'Suggestions' : 'Popular searches'}
-          </p>
-          <ul className="pb-2">
-            {suggestions.map((s) => (
-              <li key={s}>
+          <div className="flex items-center justify-between px-4 pt-3 pb-1">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+              Live results from AliExpress
+            </p>
+            {loading && <Loader2 size={13} className="text-amber-500 animate-spin" />}
+          </div>
+
+          {!loading && suggestions.length === 0 && (
+            <p className="px-4 py-4 text-sm text-gray-400">No matching products yet — press Search for the full catalog.</p>
+          )}
+
+          <ul className="pb-2 max-h-96 overflow-y-auto">
+            {suggestions.map((p) => (
+              <li key={p.product_id}>
                 <button
                   type="button"
-                  onClick={() => pick(s)}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-800 transition-colors text-left"
+                  onClick={() => pickProduct(p)}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-amber-50 transition-colors text-left"
                 >
-                  <Search size={14} className="text-gray-400" />
-                  {s}
+                  <img
+                    src={p.product_main_image_url}
+                    alt=""
+                    className="w-10 h-10 rounded-lg object-cover shrink-0 bg-gray-100"
+                  />
+                  <span className="min-w-0 flex-grow">
+                    <span className="block text-sm text-gray-800 truncate">{p.product_title}</span>
+                    <span className="block text-xs text-amber-700 font-semibold">${p.target_sale_price}</span>
+                  </span>
                 </button>
               </li>
             ))}
           </ul>
+
+          {suggestions.length > 0 && (
+            <button
+              type="button"
+              onClick={submitCurrent}
+              className="w-full border-t border-gray-100 px-4 py-2.5 text-sm font-semibold text-amber-700 hover:bg-amber-50 text-left"
+            >
+              See all results for "{value.trim()}"
+            </button>
+          )}
         </div>
       )}
     </div>
