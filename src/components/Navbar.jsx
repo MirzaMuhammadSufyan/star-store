@@ -14,6 +14,16 @@ const Navbar = ({ onFavOpen }) => {
   const location = useLocation();
   const [open, setOpen] = React.useState(false);
   const [shopOpen, setShopOpen] = React.useState(false);
+  const closeTimer = React.useRef(null);
+
+  const openShop = () => {
+    clearTimeout(closeTimer.current);
+    setShopOpen(true);
+  };
+  const scheduleCloseShop = () => {
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setShopOpen(false), 200);
+  };
 
   const links = [
     { label: 'Home',    path: '/' },
@@ -51,11 +61,11 @@ const Navbar = ({ onFavOpen }) => {
             path="/catalog"
             isActive={isActive('/catalog')}
             open={shopOpen}
-            onOpen={() => setShopOpen(true)}
-            onClose={() => setShopOpen(false)}
+            onOpen={openShop}
+            onClose={scheduleCloseShop}
           />
 
-          {links.filter(l => l.label !== 'Home').map(({ label, path }) => (
+          {links.filter(l => l.label !== 'Home' && l.label !== 'Shop').map(({ label, path }) => (
             <Link
               key={path}
               to={path}
@@ -108,7 +118,7 @@ const Navbar = ({ onFavOpen }) => {
         </div>
       </div>
 
-      <MegaMenu open={shopOpen} onClose={() => setShopOpen(false)} />
+      <MegaMenu open={shopOpen} onOpen={openShop} onClose={scheduleCloseShop} />
 
       {/* Mobile menu */}
       <AnimatePresence>

@@ -53,7 +53,7 @@ const COLUMNS = [
   },
 ];
 
-const MegaMenu = ({ open, onClose }) => {
+const MegaMenu = ({ open, onOpen, onClose }) => {
   return (
     <AnimatePresence>
       {open && (
@@ -62,6 +62,7 @@ const MegaMenu = ({ open, onClose }) => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.15 }}
+          onMouseEnter={onOpen}
           onMouseLeave={onClose}
           className="absolute top-full inset-x-0 bg-white border-b border-gray-200 shadow-lg z-40"
         >
