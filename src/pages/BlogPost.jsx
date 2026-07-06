@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 import { Calendar, User, ChevronLeft, Share2, Tag, ArrowRight, ExternalLink } from 'lucide-react';
 import { useBlogStore } from '../store/blogStore';
 import { useProductStore } from '../store/productStore';
@@ -72,21 +73,8 @@ export default function BlogPost() {
         </div>
 
         {/* Body */}
-        <article className="max-w-2xl mx-auto mb-20 space-y-5 text-[16px] leading-[1.85] text-gray-600">
-          <p>{post.content}</p>
-          <p>Our editors spend time with each product — testing real-world performance, battery life, and build quality — so you can make confident purchasing decisions without wasting money.</p>
-
-          <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
-            What Sets This Apart
-          </h2>
-          <p>The best consumer technology right now focuses on integration — devices that work together, conserve energy, and fit into daily life without friction.</p>
-
-          <ul className="list-disc list-inside space-y-2 text-gray-600 pl-2">
-            <li>AI-enhanced battery management</li>
-            <li>Sustainable manufacturing without compromising specs</li>
-            <li>Seamless cross-platform compatibility</li>
-            <li>Privacy-first biometric features</li>
-          </ul>
+        <article className="max-w-2xl mx-auto mb-20 space-y-5 text-[16px] leading-[1.85] text-gray-600 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-gray-900 [&_h1]:mt-10 [&_h1]:mb-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-gray-900 [&_h2]:mt-10 [&_h2]:mb-2 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-8 [&_h3]:mb-2 [&_h1]:font-serif [&_h2]:font-serif [&_h3]:font-serif [&_strong]:text-gray-900 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:list-inside [&_ul]:space-y-2 [&_ul]:pl-2 [&_a]:text-amber-700 [&_a]:font-medium [&_a]:hover:underline [&_code]:bg-gray-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-[14px] [&_pre]:bg-gray-900 [&_pre]:text-gray-100 [&_pre]:rounded-lg [&_pre]:p-4 [&_pre]:overflow-x-auto [&_pre_code]:bg-transparent [&_pre_code]:p-0">
+          <ReactMarkdown>{post.content}</ReactMarkdown>
 
           {post.category && (
             <p>
