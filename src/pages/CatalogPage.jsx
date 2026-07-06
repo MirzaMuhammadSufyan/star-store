@@ -30,16 +30,16 @@ function Sidebar({ categories, selectedCats, toggleCat, maxPrice, setMaxPrice, p
   const visibleCats = showAllCats ? categories.slice(0, 16) : categories.slice(0, CATS_VISIBLE);
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col h-full min-h-0 gap-6">
       {categories.length > 0 && (
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">Category</p>
-          <div className="space-y-1">
+        <div className="flex flex-col min-h-0 flex-1">
+          <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3 shrink-0">Category</p>
+          <div className="space-y-1 overflow-y-auto pr-2">
             {visibleCats.map(cat => (
               <label key={cat} className="flex items-center gap-3 cursor-pointer group py-1">
                 <input type="checkbox" checked={selectedCats.includes(cat)}
-                  onChange={() => toggleCat(cat)} className="w-4 h-4 accent-amber-600 rounded" />
-                <span className="text-[14px] text-gray-600 group-hover:text-gray-900 transition-colors truncate">{cat}</span>
+                  onChange={() => toggleCat(cat)} className="w-4 h-4 accent-amber-600 rounded shrink-0" />
+                <span className="text-[14px] text-gray-600 group-hover:text-gray-900 transition-colors break-words">{cat}</span>
               </label>
             ))}
           </div>
@@ -47,14 +47,14 @@ function Sidebar({ categories, selectedCats, toggleCat, maxPrice, setMaxPrice, p
             <button
               type="button"
               onClick={() => setShowAllCats(v => !v)}
-              className="mt-2 text-xs font-semibold text-amber-700 hover:text-amber-800 transition-colors"
+              className="mt-2 text-xs font-semibold text-amber-700 hover:text-amber-800 transition-colors shrink-0"
             >
               {showAllCats ? '- Show Less' : `+ Show More (${categories.length - CATS_VISIBLE})`}
             </button>
           )}
         </div>
       )}
-      <div>
+      <div className="shrink-0">
         <div className="flex items-center justify-between mb-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Max Price</p>
           <span className="text-xs font-semibold text-amber-700">${maxPrice ?? priceMax}</span>
@@ -64,7 +64,7 @@ function Sidebar({ categories, selectedCats, toggleCat, maxPrice, setMaxPrice, p
         <div className="flex justify-between text-xs text-gray-400 mt-1"><span>$0</span><span>${priceMax}</span></div>
       </div>
       {hasFilters && (
-        <button onClick={reset} className="w-full py-2 text-xs font-semibold text-red-500 border border-red-200 rounded hover:bg-red-50 transition-colors">
+        <button onClick={reset} className="shrink-0 w-full py-2 text-xs font-semibold text-red-500 border border-red-200 rounded hover:bg-red-50 transition-colors">
           Clear All Filters
         </button>
       )}
@@ -286,12 +286,12 @@ export default function CatalogPage() {
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex gap-6 items-start">
 
         {/* Sidebar */}
-        <aside className="hidden lg:flex flex-col w-56 shrink-0 py-6 sticky top-[188px] self-start">
-          <div className="bg-white border border-gray-200 rounded-xl flex flex-col shadow-sm">
+        <aside className="hidden lg:flex flex-col w-56 shrink-0 py-6 md:sticky md:top-24 max-h-[calc(100vh-120px)]">
+          <div className="bg-white border border-gray-200 rounded-xl flex flex-col shadow-sm overflow-hidden h-full">
             <div className="px-5 pt-5 pb-3 border-b border-gray-100 shrink-0">
               <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Filters</p>
             </div>
-            <div className="px-5 py-4">
+            <div className="px-5 py-4 flex-1 min-h-0">
               <Sidebar {...sidebarProps} />
             </div>
           </div>
@@ -331,7 +331,7 @@ export default function CatalogPage() {
 
           {/* Skeleton cards — shown only on first load when nothing is visible yet */}
           {syncLoading && visible.length === 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 mb-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-5">
               {Array.from({ length: 12 }).map((_, i) => (
                 <div key={i} className="bg-white border border-gray-100 rounded-xl overflow-hidden animate-pulse">
                   <div className="aspect-square bg-gray-200" />
@@ -370,7 +370,7 @@ export default function CatalogPage() {
               <button onClick={reset} className="mt-4 text-sm text-amber-700 hover:underline font-medium">Clear filters</button>
             </div>
           ) : view === 'grid' ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {visible.map((p, i) => (
                 <motion.div key={p.product_id || p.id || i}
                   initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
@@ -378,6 +378,31 @@ export default function CatalogPage() {
                   <ProductCard product={p} />
                 </motion.div>
               ))}
+
+              {/* Sentinel / bottom loader — spans full grid width so it never
+                  gets squeezed under the first column when few items match */}
+              <div ref={sentinelRef} className="col-span-full text-center py-8 flex flex-col items-center justify-center gap-2">
+                {syncLoading && visible.length > 0 && (
+                  <>
+                    <div className="flex items-center gap-1.5">
+                      {[0, 1, 2].map(i => (
+                        <span key={i} className="w-2 h-2 rounded-full bg-amber-400"
+                          style={{ animation: `bounce 1s ease-in-out ${i * 0.15}s infinite` }} />
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-400 tracking-wide">Loading more products</p>
+                  </>
+                )}
+                {noMorePages && (
+                  <p className="text-xs text-gray-400 tracking-wide">You've seen everything ✓</p>
+                )}
+              </div>
+
+              {visible.length > 0 && (
+                <p className="col-span-full text-center text-xs text-gray-400 pb-4">
+                  Showing {visible.length} of {filtered.length}
+                </p>
+              )}
             </div>
           ) : (
             <div className="flex flex-col gap-3">
@@ -462,30 +487,35 @@ export default function CatalogPage() {
             </div>
           )}
 
-          {/* Sentinel / bottom loader */}
-          <div ref={sentinelRef} className="mt-6 flex flex-col items-center justify-center pb-8 min-h-[60px] gap-2">
-            {syncLoading && visible.length > 0 && (
-              <>
-                <div className="flex items-center gap-1.5">
-                  {[0, 1, 2].map(i => (
-                    <span key={i} className="w-2 h-2 rounded-full bg-amber-400"
-                      style={{ animation: `bounce 1s ease-in-out ${i * 0.15}s infinite` }} />
-                  ))}
-                </div>
-                <p className="text-xs text-gray-400 tracking-wide">Loading more products</p>
-              </>
-            )}
-            {noMorePages && (
-              <p className="text-xs text-gray-400 tracking-wide">You've seen everything ✓</p>
-            )}
-          </div>
-          <style>{`@keyframes bounce{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-6px);opacity:1}}`}</style>
+          {/* Sentinel / bottom loader — grid view renders its own col-span-full
+              copy above so the indicator never gets squeezed under column 1 */}
+          {view !== 'grid' && (
+            <>
+              <div ref={sentinelRef} className="mt-6 flex flex-col items-center justify-center pb-8 min-h-[60px] gap-2">
+                {syncLoading && visible.length > 0 && (
+                  <>
+                    <div className="flex items-center gap-1.5">
+                      {[0, 1, 2].map(i => (
+                        <span key={i} className="w-2 h-2 rounded-full bg-amber-400"
+                          style={{ animation: `bounce 1s ease-in-out ${i * 0.15}s infinite` }} />
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-400 tracking-wide">Loading more products</p>
+                  </>
+                )}
+                {noMorePages && (
+                  <p className="text-xs text-gray-400 tracking-wide">You've seen everything ✓</p>
+                )}
+              </div>
 
-          {visible.length > 0 && (
-            <p className="text-center text-xs text-gray-400 pb-4">
-              Showing {visible.length} of {filtered.length}
-            </p>
+              {visible.length > 0 && (
+                <p className="text-center text-xs text-gray-400 pb-4">
+                  Showing {visible.length} of {filtered.length}
+                </p>
+              )}
+            </>
           )}
+          <style>{`@keyframes bounce{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-6px);opacity:1}}`}</style>
         </div>
       </div>
 
