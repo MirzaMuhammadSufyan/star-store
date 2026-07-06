@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Shield, FileText, Scale, Cookie, Mail, RotateCcw } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const content = {
   privacy: {
@@ -88,6 +89,11 @@ const LegalPage = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      <SEO
+        title={page.title}
+        description={page.text.slice(0, 155).trim()}
+        url={`/legal/${type || 'privacy'}`}
+      />
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 text-center">

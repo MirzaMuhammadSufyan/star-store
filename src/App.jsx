@@ -83,6 +83,9 @@ const AnimatedRoutes = () => {
           <Route path="/about"          element={<AboutPage />} />
           <Route path="/contact"        element={<ContactPage />} />
           <Route path="/legal/:type"    element={<LegalPage />} />
+          <Route path="/privacy-policy"       element={<Navigate to="/legal/privacy" replace />} />
+          <Route path="/terms-of-service"     element={<Navigate to="/legal/terms" replace />} />
+          <Route path="/affiliate-disclosure" element={<Navigate to="/legal/disclaimer" replace />} />
           <Route path="/go/:slug"       element={<RedirectPage />} />
           <Route path="/admin/login"    element={<AdminLogin />} />
           <Route

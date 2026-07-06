@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar, User, ArrowRight, ChevronRight, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useBlogStore } from '../store/blogStore';
+import SEO from '../components/SEO';
 
 export default function BlogArchive() {
   const { posts, categories, loading } = useBlogStore();
@@ -20,6 +21,11 @@ export default function BlogArchive() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
+      <SEO
+        title="The Journal"
+        description="In-depth reviews, buying guides, and tech stories from Star Store — for people who care about what they buy."
+        url="/blog"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
 
         {/* Header */}
@@ -39,10 +45,10 @@ export default function BlogArchive() {
             <button
               key={cat}
               onClick={() => setSelected(cat)}
-              className={`px-4 py-1.5 rounded text-sm font-medium transition-all ${
+              className={`rounded-full border-2 px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
                 selected === cat
-                  ? 'bg-gray-900 text-white'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-400'
+                  ? 'border-gray-900 bg-gray-900 text-white shadow-sm'
+                  : 'border-gray-200 bg-white text-gray-600 hover:-translate-y-0.5 hover:border-gray-300 hover:text-gray-900'
               }`}
             >
               {cat}
@@ -55,8 +61,9 @@ export default function BlogArchive() {
           <motion.article
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -4 }}
             transition={{ duration: 0.45 }}
-            className="group grid md:grid-cols-2 bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow"
+            className="group grid md:grid-cols-2 bg-white border border-gray-200 rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl"
           >
             <Link to={`/blog/${hero.id}`} className="block overflow-hidden aspect-[4/3] md:aspect-auto">
               <img src={hero.image} alt={hero.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -86,9 +93,10 @@ export default function BlogArchive() {
                 key={post.id}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -4 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06, duration: 0.4 }}
-                className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow flex flex-col"
+                className="group flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl"
               >
                 <Link to={`/blog/${post.id}`} className="block overflow-hidden aspect-[16/10]">
                   <img src={post.image} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />

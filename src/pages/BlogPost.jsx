@@ -6,6 +6,7 @@ import { useProductStore } from '../store/productStore';
 import { Button } from '../components/ui/Button';
 import { ArticleHero } from '../components/blog/ArticleHero';
 import { ArticleBody } from '../components/blog/ArticleBody';
+import SEO from '../components/SEO';
 
 export default function BlogPost() {
   const { id } = useParams();
@@ -34,8 +35,33 @@ export default function BlogPost() {
     </div>
   );
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image ? [post.image] : undefined,
+    datePublished: post.createdAt,
+    dateModified: post.createdAt,
+    author: { '@type': 'Organization', name: post.author || 'Star Store Editorial' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Star Store',
+      logo: { '@type': 'ImageObject', url: 'https://starstore.com/logo.png' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://starstore.com/blog/${post.id}` },
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title={post.title}
+        description={post.excerpt}
+        image={post.image}
+        url={`/blog/${post.id}`}
+        type="article"
+        structuredData={articleSchema}
+      />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ArticleHero post={post} onBack={() => navigate(-1)} />
         <ArticleBody post={post} />

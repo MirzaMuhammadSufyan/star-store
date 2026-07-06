@@ -6,7 +6,7 @@ const COLS = {
   Shop:    [{ l: 'Home', p: '/' }, { l: 'All Products', p: '/catalog' }, { l: 'New Arrivals', p: '/catalog?featured=true' }, { l: 'Best Sellers', p: '/catalog?sort=popular' }],
   Support: [{ l: 'Contact Us', p: '/contact' }, { l: 'Shipping Policy', p: '/legal/shipping' }, { l: 'Returns', p: '/legal/refunds' }, { l: 'Order Tracking', p: '/profile' }],
   Company: [{ l: 'About Us', p: '/about' }, { l: 'Journal', p: '/blog' }, { l: 'Partnerships', p: '/contact' }],
-  Legal:   [{ l: 'Privacy Policy', p: '/legal/privacy' }, { l: 'Terms', p: '/legal/terms' }, { l: 'Disclaimer', p: '/legal/disclaimer' }, { l: 'Cookies', p: '/legal/cookies' }],
+  Legal:   [{ l: 'Privacy Policy', p: '/legal/privacy' }, { l: 'Terms of Service', p: '/legal/terms' }, { l: 'Affiliate Disclosure', p: '/legal/disclaimer' }, { l: 'Cookies', p: '/legal/cookies' }],
 };
 
 export default function Footer() {

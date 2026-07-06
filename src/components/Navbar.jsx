@@ -58,8 +58,10 @@ const Navbar = ({ onFavOpen }) => {
           <nav className="hidden lg:flex items-center gap-8">
             <Link
               to="/"
-              className={`text-[15px] transition-colors ${
-                location.pathname === '/' ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'
+              className={`text-[15px] tracking-tight border-b-2 pb-1 transition-colors duration-200 ${
+                location.pathname === '/'
+                  ? 'text-gray-900 font-semibold border-amber-500'
+                  : 'text-gray-500 font-medium border-transparent hover:text-gray-900 hover:border-gray-300'
               }`}
             >
               Home
@@ -78,10 +80,10 @@ const Navbar = ({ onFavOpen }) => {
               <Link
                 key={path}
                 to={path}
-                className={`text-[15px] transition-colors ${
+                className={`text-[15px] tracking-tight border-b-2 pb-1 transition-colors duration-200 ${
                   isActive(path)
-                    ? 'text-gray-900 font-semibold'
-                    : 'text-gray-500 hover:text-gray-900'
+                    ? 'text-gray-900 font-semibold border-amber-500'
+                    : 'text-gray-500 font-medium border-transparent hover:text-gray-900 hover:border-gray-300'
                 }`}
               >
                 {label}
@@ -91,7 +93,7 @@ const Navbar = ({ onFavOpen }) => {
         </div>
 
         {/* Embedded search — centered between nav links and utility controls */}
-        <div className="hidden md:flex flex-1 max-w-sm mx-auto">
+        <div className="hidden md:flex flex-1 max-w-sm mx-auto py-2.5">
           <SearchBar
             compact
             value={searchValue}
