@@ -23,14 +23,19 @@ const SORT_OPTIONS = [
 const PER_PAGE = 12;
 
 // Stable component identity — must live OUTSIDE the page function.
+const CATS_VISIBLE = 6;
+
 function Sidebar({ categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset }) {
+  const [showAllCats, setShowAllCats] = useState(false);
+  const visibleCats = showAllCats ? categories.slice(0, 16) : categories.slice(0, CATS_VISIBLE);
+
   return (
     <div className="space-y-6">
       {categories.length > 0 && (
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">Category</p>
           <div className="space-y-1">
-            {categories.slice(0, 16).map(cat => (
+            {visibleCats.map(cat => (
               <label key={cat} className="flex items-center gap-3 cursor-pointer group py-1">
                 <input type="checkbox" checked={selectedCats.includes(cat)}
                   onChange={() => toggleCat(cat)} className="w-4 h-4 accent-amber-600 rounded" />
@@ -38,6 +43,15 @@ function Sidebar({ categories, selectedCats, toggleCat, maxPrice, setMaxPrice, p
               </label>
             ))}
           </div>
+          {categories.length > CATS_VISIBLE && (
+            <button
+              type="button"
+              onClick={() => setShowAllCats(v => !v)}
+              className="mt-2 text-xs font-semibold text-amber-700 hover:text-amber-800 transition-colors"
+            >
+              {showAllCats ? '- Show Less' : `+ Show More (${categories.length - CATS_VISIBLE})`}
+            </button>
+          )}
         </div>
       )}
       <div>

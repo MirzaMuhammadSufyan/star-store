@@ -53,6 +53,13 @@ const ProductCard = ({ product }) => {
             src={image} alt={title} loading="lazy"
             className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
           />
+          {/* Discount badge — corner of image with clean margin */}
+          {discount > 0 && (
+            <span className="absolute top-2 left-2 bg-red-500 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded leading-none z-10">
+              -{discount}%
+            </span>
+          )}
+
           {/* Favourite — top right over image */}
           <button
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggle(product); }}
@@ -70,16 +77,9 @@ const ProductCard = ({ product }) => {
         {/* Info */}
         <div className="p-2 sm:p-3 flex flex-col gap-1.5 flex-1">
 
-          {/* Discount badge — below image, not overlaying it */}
-          {discount > 0 && (
-            <span className="self-start bg-red-500 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded leading-none">
-              -{discount}%
-            </span>
-          )}
-
           {/* Title */}
           <Link to={productDetailUrl(product)} className="flex-1">
-            <p className="text-[11px] sm:text-[12px] text-gray-700 leading-snug line-clamp-2 hover:text-amber-700 transition-colors">
+            <p className="text-[11px] sm:text-[12px] text-gray-700 leading-snug line-clamp-2 min-h-[2.6em] hover:text-amber-700 transition-colors">
               {title}
             </p>
           </Link>
