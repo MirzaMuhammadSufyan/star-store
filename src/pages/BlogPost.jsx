@@ -11,7 +11,20 @@ export default function BlogPost() {
   const navigate = useNavigate();
   const post = useBlogStore((s) => s.posts.find((p) => p.id === id));
   const { products } = useProductStore();
-  const related = products.slice(0, 3);
+
+  // Prefer products whose category loosely matches this article's category —
+  // falls back to a generic slice so "Shop the Story" never renders empty.
+  const related = React.useMemo(() => {
+    if (!post) return [];
+    const cat = (post.category || '').toLowerCase();
+    const matched = cat
+      ? products.filter((p) => {
+          const pCat = (p.second_level_category_name || p.category || p.merchant || '').toLowerCase();
+          return pCat.includes(cat) || cat.includes(pCat);
+        })
+      : [];
+    return (matched.length > 0 ? matched : products).slice(0, 3);
+  }, [products, post]);
 
   if (!post) return (
     <div className="text-center py-32">
@@ -74,6 +87,16 @@ export default function BlogPost() {
             <li>Seamless cross-platform compatibility</li>
             <li>Privacy-first biometric features</li>
           </ul>
+
+          {post.category && (
+            <p>
+              Ready to see this in action? Browse our full, hand-picked{' '}
+              <Link to={`/catalog?cat=${encodeURIComponent(post.category)}`} className="text-amber-700 font-medium hover:underline">
+                {post.category} collection
+              </Link>{' '}
+              for verified deals from official stores.
+            </p>
+          )}
 
           {/* Tags */}
           <div className="pt-10 mt-10 border-t border-gray-200 flex flex-wrap gap-2">

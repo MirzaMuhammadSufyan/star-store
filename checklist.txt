@@ -1,0 +1,112 @@
+================================================================================
+STAR STORE — PRODUCTION READINESS & ADSENSE REGISTRATION CHECKLIST
+================================================================================
+
+This checklist tracks the remaining work required to take the storefront
+from its current state to a standard production deployment that is ready
+for Google AdSense registration. Items completed in code have been removed;
+what's left below either needs further QA/testing or requires action outside
+the codebase (content authoring, domain/DNS, Google account access).
+
+--------------------------------------------------------------------------------
+PHASE 1: TECHNICAL POLISH & LAYOUT ALIGNMENTS
+--------------------------------------------------------------------------------
+
+[ ] Full visual QA pass across all breakpoints (mobile / tablet / desktop)
+[ ] Cross-browser check (Chrome, Firefox, Safari, Edge) for layout drift
+[ ] Lighthouse performance/accessibility/SEO audit — target 90+ on all
+[ ] Image optimization pass (lazy-loading, compression, correct aspect ratios)
+[ ] Confirm no console errors/warnings on any core route
+
+  DONE:
+  - Footer support email verified correct (support@starstore.com).
+  - Search suggestion dropdown elevated (shadow-2xl, border-gray-100, z-50).
+  - Global section container margins confirmed consistent across every
+    routed page (max-w-7xl mx-auto px-4 sm:px-6 lg:px-8).
+
+--------------------------------------------------------------------------------
+PHASE 2: JOURNAL SYSTEM & EDITORIAL CONTENT METRICS
+--------------------------------------------------------------------------------
+
+[ ] Publish 15-25 long-form, high-value articles (target range, editorial
+    minimum bar for AdSense content-quality review)
+    >> ACTION NEEDED FROM YOU: posts live in Firestore (the `blogs`
+       collection), not in this repo, and this is original editorial
+       content — it has to be written/approved by a person, not generated
+       as filler. Use the Admin Dashboard's blog editor to add posts.
+[ ] Each article meets minimum word count and original-content standards
+    (same dependency as above)
+[ ] Category taxonomy finalized against real published post volume
+    (current categories: All, Reviews, Technology, Lifestyle, Guides)
+[ ] Author bios / editorial credibility elements in place
+[ ] Featured/hero article rotation logic reviewed once 15+ posts exist
+
+  DONE:
+  - Internal cross-linking from articles to products implemented:
+    BlogPost.jsx now matches "Shop the Story" related products to the
+    post's category (falls back to a generic set if nothing matches),
+    plus a contextual inline link to /catalog?cat=<category> in the body.
+  - Empty state formatted: BlogArchive's "No articles in this category
+    yet." now renders as a centered flex block with a document icon.
+
+--------------------------------------------------------------------------------
+PHASE 3: TRUST & LEGAL COMPLIANCE DOCUMENTATION
+--------------------------------------------------------------------------------
+
+[ ] Legal page copy reviewed/approved by you or counsel before launch —
+    the expanded Privacy/Terms/Disclaimer/Cookies/Shipping/Refunds text
+    in LegalPage.jsx is genuine, AdSense-appropriate boilerplate, but it
+    is still generic and should be tailored to your actual business
+    details (entity name, jurisdiction, data retention specifics) before
+    being treated as final.
+[ ] Cookie consent banner/mechanism implemented (required in EU/UK/some
+    US states — not yet built)
+[ ] Contact page verified with a working, monitored support inbox
+    (support@starstore.com / legal@starstore.com must actually be live)
+
+  DONE:
+  - Privacy Policy expanded with explicit Google AdSense cookie-tracking
+    disclosure, opt-out guidance, and affiliate-tracking-cookie language.
+  - Terms of Service, Cookie Policy, Shipping, and Refunds pages expanded
+    from placeholder text to real, specific clauses.
+  - Global affiliate disclaimer confirmed visible site-wide (Footer) and
+    added directly to ProductDetailPage next to the Buy button, linking
+    to the full /legal/disclaimer page.
+  - About page content reviewed — no misleading claims found.
+
+--------------------------------------------------------------------------------
+PHASE 4: FINAL CUSTOM DOMAIN LAUNCH ACTIONS
+--------------------------------------------------------------------------------
+
+[ ] Primary apex custom root domain purchased/confirmed
+    >> ACTION NEEDED FROM YOU: requires your domain registrar account.
+[ ] DNS + Cloudflare Worker route cut over from the testing subdomain
+    (currently deployed as the default *.workers.dev domain per
+    wrangler.jsonc — no custom `routes` entry configured yet) to the
+    production apex domain
+    >> ACTION NEEDED FROM YOU: requires Cloudflare dashboard access to
+       add the domain and a `routes` block to wrangler.jsonc.
+[ ] SSL certificate provisioned and verified on the custom domain
+    >> ACTION NEEDED FROM YOU: handled automatically by Cloudflare once
+       the domain is attached, but must be confirmed.
+[ ] 301 redirects configured from any legacy/testing URLs
+[ ] Sitemap submitted via Google Search Console
+    >> ACTION NEEDED FROM YOU: requires your Google Search Console
+       account/domain property verification.
+[ ] Google Search Console domain property verified end-to-end
+[ ] Submit site for Google AdSense review
+
+  DONE:
+  - public/robots.txt added, disallowing /admin/ and /adminpanel and
+    pointing to /sitemap.xml.
+  - public/sitemap.xml added covering all static routes (home, catalog,
+    blog index, about, contact, legal pages). NOTE: it uses a placeholder
+    domain (www.starstore.com) — update both files once the real apex
+    domain is live. Product and Journal post URLs are excluded because
+    they're created dynamically in Firestore; once the domain is final,
+    either add a small server-generated sitemap route or submit those
+    sections via Search Console's URL inspection tool individually.
+
+--------------------------------------------------------------------------------
+STATUS LEGEND:  [x] Complete    [ ] Pending    ">>" = requires your action
+--------------------------------------------------------------------------------

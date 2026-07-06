@@ -258,6 +258,12 @@ export default function ProductDetailPage() {
               </Button>
             </div>
 
+            <p className="text-xs text-gray-400 leading-relaxed">
+              As an affiliate, Star Store may earn a commission on qualifying purchases made through
+              the link above at no extra cost to you. See our{' '}
+              <Link to="/legal/disclaimer" className="text-amber-700 hover:underline">affiliate disclaimer</Link>.
+            </p>
+
             {/* Share */}
             <div className="relative">
               <button

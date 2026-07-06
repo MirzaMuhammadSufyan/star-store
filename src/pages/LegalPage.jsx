@@ -8,37 +8,76 @@ const content = {
     title: 'Privacy Policy',
     icon: Shield,
     updated: 'June 10, 2024',
-    text: `At Star Store, accessible from starstore.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Star Store and how we use it. We use Google AdSense, which uses cookies to serve ads based on a user's prior visits to our website. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites on the Internet.`,
+    text: `At Star Store, accessible from starstore.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document explains what information is collected and recorded by Star Store and how we use it. We use Google AdSense, a third-party advertising service, which uses cookies (including the DoubleClick DART cookie) to serve ads based on a user's prior visits to our website and other sites on the Internet. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites.`,
+    points: [
+      'Google, as a third-party vendor, uses cookies to serve ads on this site through Google AdSense.',
+      "Users may opt out of personalized advertising by visiting Google's Ads Settings, and third-party vendors may also be opted out via the Network Advertising Initiative opt-out page.",
+      'We collect standard log data (IP address, browser type, referring/exit pages, timestamps) for analytics and to keep the site secure — this data is not used to personally identify individual visitors.',
+      'Affiliate and analytics partners (including AliExpress affiliate tracking) may set their own cookies to attribute purchases; those third parties have their own privacy policies governing that data.',
+      'Users may request access to, correction of, or deletion of any personal data we hold by contacting us at the email below.',
+    ],
   },
   terms: {
     title: 'Terms of Service',
     icon: FileText,
     updated: 'May 15, 2024',
-    text: `By accessing this website, we assume you accept these terms and conditions. Do not continue to use Star Store if you do not agree to take all of the terms and conditions stated on this page. The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements.`,
+    text: `By accessing this website, you agree to be bound by these Terms of Service. Do not continue to use Star Store if you do not agree to all of the terms and conditions stated on this page. The following terminology applies to these Terms and Conditions, Privacy Statement, and Disclaimer Notice, and all related agreements.`,
+    points: [
+      'All content on this site (text, graphics, logos, and product imagery) is provided for informational purposes and remains the property of Star Store or its respective licensors.',
+      'Product prices, availability, and specifications shown here are sourced from third-party merchants and are subject to change without notice on the merchant\'s own site.',
+      'Star Store acts solely as a discovery and referral platform; the actual sale, fulfillment, and support of any product is handled entirely by the third-party merchant you are redirected to.',
+      'We reserve the right to modify or discontinue any part of the service at any time without prior notice.',
+      'Continued use of the site after changes to these Terms constitutes acceptance of the revised Terms.',
+    ],
   },
   disclaimer: {
     title: 'Legal Disclaimer',
     icon: Scale,
     updated: 'May 20, 2024',
-    text: `Star Store is a participant in several affiliate marketing programs, which means we may get paid commissions on editorially chosen products purchased through our links to retailer sites. We provide honest information about products, but we do not guarantee the accuracy of pricing or availability on third-party sites.`,
+    text: `Star Store is a participant in several affiliate marketing programs, which means we may earn commissions on editorially chosen products purchased through links to retailer sites such as AliExpress. This comes at no additional cost to you. We aim to provide honest, accurate information about the products we feature, but we do not guarantee the accuracy of pricing, stock availability, or shipping timelines listed on third-party sites.`,
+    points: [
+      'Every outbound "Buy" link on this site is a monetized affiliate link unless explicitly stated otherwise.',
+      'Editorial coverage and product selection are based on genuine research; affiliate relationships do not determine which products we choose to feature.',
+      'Star Store is not responsible for the accuracy of third-party product listings, order fulfillment, refunds, or customer service — these are handled entirely by the merchant.',
+      'This disclaimer applies site-wide, including all Journal articles, product pages, and category listings that contain outbound affiliate links.',
+    ],
   },
   cookies: {
     title: 'Cookie Policy',
     icon: Cookie,
     updated: 'June 10, 2024',
-    text: `We use cookies to help you navigate efficiently and perform certain functions. You will find detailed information about all cookies under each consent category below. The cookies that are categorized as "Necessary" are stored on your browser as they are essential for enabling the basic functionalities of the site.`,
+    text: `We use cookies to help you navigate the site efficiently and to perform certain functions, including remembering your preferences, tracking affiliate link attribution, and serving relevant advertising through Google AdSense. You will find detailed information about each cookie category below.`,
+    points: [
+      'Necessary cookies — required for core site functionality (session handling, saved/favourite items); cannot be disabled.',
+      'Advertising cookies — set by Google AdSense and its partners to serve and measure the performance of ads based on your browsing activity.',
+      'Analytics cookies — help us understand how visitors use the site so we can improve navigation and content.',
+      'Affiliate tracking cookies — attribute purchases made on merchant sites back to a referral from Star Store.',
+      'You can control or delete cookies at any time through your browser settings; disabling them may affect site functionality.',
+    ],
   },
   shipping: {
     title: 'Shipping Policy',
     icon: FileText,
     updated: 'Jan 05, 2024',
-    text: 'All orders are processed within 2-3 business days. Orders are not shipped or delivered on weekends or holidays. Shipping charges for your order will be calculated and displayed at checkout.',
+    text: 'Star Store does not ship products directly. All orders are placed and fulfilled by the third-party merchant you are redirected to at checkout, and shipping timelines, costs, and carriers are determined entirely by that merchant.',
+    points: [
+      'Estimated delivery windows are shown on the merchant\'s checkout page, not on Star Store.',
+      'Shipping charges, if any, are calculated and displayed by the merchant before you complete your purchase.',
+      'International orders may be subject to customs fees determined by the destination country and the merchant\'s shipping policy.',
+      'For shipment tracking or delays, please contact the merchant directly using the order confirmation they provide.',
+    ],
   },
   refunds: {
     title: 'Refunds & Returns',
     icon: RotateCcw,
     updated: 'Jan 05, 2024',
-    text: 'We have a 30-day return policy, which means you have 30 days after receiving your item to request a return. To be eligible for a return, your item must be in the same condition that you received it, unworn or unused, with tags, and in its original packaging.',
+    text: 'Because purchases are completed and fulfilled directly by third-party merchants, all refund and return requests are handled by that merchant under their own return policy, not by Star Store.',
+    points: [
+      'Review the specific merchant\'s return window and eligibility requirements before purchasing — these vary by store.',
+      'Items are typically eligible for return only if unused, unworn, and in original packaging, per the merchant\'s terms.',
+      'Star Store can assist by pointing you to the correct merchant support channel if you\'re unsure how to start a return.',
+      'Refunds, once approved by the merchant, are issued to your original payment method according to their processing timelines.',
+    ],
   },
 };
 
@@ -76,12 +115,9 @@ const LegalPage = () => {
 
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Detailed Guidelines</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              This is a placeholder for detailed legal text that would be specifically tailored to your business operations. For Google AdSense approval, it is essential that your Privacy Policy specifically mentions the use of cookies and data tracking for advertising purposes.
-            </p>
-            <ul className="space-y-2">
-              {['Data Collection Methods', 'Third-party sharing policies', 'User Rights and Data Protection', 'Contact information for legal inquiries'].map(item => (
-                <li key={item} className="flex items-start gap-3 text-gray-600">
+            <ul className="space-y-3">
+              {page.points.map(item => (
+                <li key={item} className="flex items-start gap-3 text-gray-600 leading-relaxed">
                   <span className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2 shrink-0" />
                   {item}
                 </li>
