@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
-import { Calendar, User, ChevronLeft, Share2, Tag, ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight, ExternalLink } from 'lucide-react';
 import { useBlogStore } from '../store/blogStore';
 import { useProductStore } from '../store/productStore';
 import { Button } from '../components/ui/Button';
+import { ArticleHero } from '../components/blog/ArticleHero';
+import { ArticleBody } from '../components/blog/ArticleBody';
 
 export default function BlogPost() {
   const { id } = useParams();
@@ -28,90 +28,32 @@ export default function BlogPost() {
   }, [products, post]);
 
   if (!post) return (
-    <div className="text-center py-32">
-      <p className="text-gray-400">Article not found.</p>
-      <Link to="/blog" className="mt-4 inline-block text-sm text-amber-700 hover:underline">← Back to Journal</Link>
+    <div className="py-32 text-center">
+      <p className="text-slate-400">Article not found.</p>
+      <Link to="/blog" className="mt-4 inline-block text-sm text-amber-600 hover:underline">← Back to Journal</Link>
     </div>
   );
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Back */}
-        <div className="py-5 border-b border-gray-200">
-          <button onClick={() => navigate(-1)} className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors">
-            <ChevronLeft size={16} /> Back to Journal
-          </button>
-        </div>
-
-        {/* Header */}
-        <motion.header
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="max-w-3xl mx-auto py-12 space-y-4"
-        >
-          <span className="text-xs uppercase tracking-widest text-amber-700 font-semibold">{post.category}</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-            {post.title}
-          </h1>
-          <p className="text-lg text-gray-500 leading-relaxed">{post.excerpt}</p>
-          <div className="flex flex-wrap items-center gap-5 text-sm text-gray-400 pt-3 border-t border-gray-200">
-            <span className="flex items-center gap-1.5"><User size={14} /> {post.author}</span>
-            <span className="flex items-center gap-1.5"><Calendar size={14} /> {post.date}</span>
-            <button onClick={() => { navigator.clipboard.writeText(window.location.href); alert('Link copied!'); }}
-              className="flex items-center gap-1.5 hover:text-gray-700 transition-colors ml-auto">
-              <Share2 size={14} /> Share
-            </button>
-          </div>
-        </motion.header>
-
-        {/* Hero image */}
-        <div className="w-full aspect-[21/9] overflow-hidden rounded-xl mb-12">
-          <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
-        </div>
-
-        {/* Body */}
-        <article className="max-w-2xl mx-auto mb-20 space-y-5 text-[16px] leading-[1.85] text-gray-600 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-gray-900 [&_h1]:mt-10 [&_h1]:mb-2 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-gray-900 [&_h2]:mt-10 [&_h2]:mb-2 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-900 [&_h3]:mt-8 [&_h3]:mb-2 [&_h1]:font-serif [&_h2]:font-serif [&_h3]:font-serif [&_strong]:text-gray-900 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:list-inside [&_ul]:space-y-2 [&_ul]:pl-2 [&_a]:text-amber-700 [&_a]:font-medium [&_a]:hover:underline [&_code]:bg-gray-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:text-[14px] [&_pre]:bg-gray-900 [&_pre]:text-gray-100 [&_pre]:rounded-lg [&_pre]:p-4 [&_pre]:overflow-x-auto [&_pre_code]:bg-transparent [&_pre_code]:p-0">
-          <ReactMarkdown>{post.content}</ReactMarkdown>
-
-          {post.category && (
-            <p>
-              Ready to see this in action? Browse our full, hand-picked{' '}
-              <Link to={`/catalog?cat=${encodeURIComponent(post.category)}`} className="text-amber-700 font-medium hover:underline">
-                {post.category} collection
-              </Link>{' '}
-              for verified deals from official stores.
-            </p>
-          )}
-
-          {/* Tags */}
-          <div className="pt-10 mt-10 border-t border-gray-200 flex flex-wrap gap-2">
-            {['Gadgets', 'Tech', 'Innovation', 'Review'].map(tag => (
-              <span key={tag} className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded text-xs text-gray-500 hover:border-amber-400 hover:text-amber-700 transition-colors cursor-pointer">
-                <Tag size={11} /> {tag}
-              </span>
-            ))}
-          </div>
-        </article>
+    <div className="min-h-screen bg-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <ArticleHero post={post} onBack={() => navigate(-1)} />
+        <ArticleBody post={post} />
 
         {/* Shop the Story */}
         {related.length > 0 && (
-          <section className="border-t border-gray-200 py-14">
-            <div className="flex items-center justify-between mb-8">
+          <section className="border-t border-slate-200 py-14">
+            <div className="mb-8 flex items-center justify-between">
               <div>
-                <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-1">Shop the Story</p>
-                <h2 className="text-2xl font-semibold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  Products You'll Love
-                </h2>
+                <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-amber-600">Shop the Story</p>
+                <h2 className="text-2xl font-bold text-slate-900">Products You'll Love</h2>
               </div>
               <Link to="/catalog">
                 <Button variant="secondary" size="sm" className="gap-1.5">Browse All <ArrowRight size={13} /></Button>
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
               {related.map((product) => {
                 const title   = product.product_title || product.title;
                 const image   = product.product_main_image_url || product.image;
@@ -119,16 +61,16 @@ export default function BlogPost() {
                 const buyLink = product.promotion_link || (product.slug ? `/go/${product.slug}` : '#');
                 const pid     = product.product_id || product.id;
                 return (
-                  <div key={pid} className="group bg-white border border-gray-200 rounded-lg overflow-hidden flex hover:shadow-md transition-shadow">
+                  <div key={pid} className="group flex overflow-hidden rounded-lg border border-slate-200 bg-white transition-shadow hover:shadow-md">
                     <Link to={`/product/${pid}`} className="w-24 shrink-0">
-                      <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={image} alt={title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                     </Link>
-                    <div className="p-4 flex flex-col justify-between flex-grow min-w-0">
+                    <div className="flex min-w-0 flex-grow flex-col justify-between p-4">
                       <Link to={`/product/${pid}`}>
-                        <h4 className="text-sm font-medium text-gray-800 line-clamp-2 hover:text-amber-700 transition-colors">{title}</h4>
+                        <h4 className="line-clamp-2 text-sm font-medium text-slate-800 transition-colors hover:text-amber-600">{title}</h4>
                       </Link>
                       <div className="mt-3 flex items-center justify-between">
-                        <span className="font-semibold text-gray-900 text-sm">${parseFloat(price || 0).toFixed(2)}</span>
+                        <span className="text-sm font-semibold text-slate-900">${parseFloat(price || 0).toFixed(2)}</span>
                         <a href={buyLink} target="_blank" rel="nofollow noopener">
                           <Button size="xs" variant="accent" className="gap-1">Buy <ExternalLink size={10} /></Button>
                         </a>
