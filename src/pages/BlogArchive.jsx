@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, User, ArrowRight, ChevronRight } from 'lucide-react';
+import { Calendar, User, ArrowRight, ChevronRight, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useBlogStore } from '../store/blogStore';
 
@@ -112,7 +112,10 @@ export default function BlogArchive() {
         )}
 
         {filtered.length === 0 && (
-          <p className="text-center text-gray-400 py-20 text-sm">No articles in this category yet.</p>
+          <div className="py-20 flex flex-col items-center justify-center text-center text-gray-400">
+            <FileText size={32} strokeWidth={1.5} className="mb-3 text-gray-300" />
+            <p className="text-sm">No articles in this category yet.</p>
+          </div>
         )}
       </div>
     </div>
