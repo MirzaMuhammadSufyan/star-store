@@ -65,7 +65,7 @@ const SearchBar = ({ value, onChange, onSubmit }) => {
   return (
     <div ref={containerRef} className="relative w-full">
       <div className="relative flex items-center">
-        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+        <Search size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
         <input
           type="text"
           value={value}
@@ -73,13 +73,13 @@ const SearchBar = ({ value, onChange, onSubmit }) => {
           onChange={(e) => { onChange(e.target.value); setOpen(true); }}
           onKeyDown={(e) => { if (e.key === 'Enter') submitCurrent(); if (e.key === 'Escape') setOpen(false); }}
           placeholder="Search for laptops, phones, gadgets…"
-          className="w-full h-11 pl-11 pr-28 text-sm leading-none border-2 border-gray-200 rounded-xl bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-500/15 transition-all"
+          className="w-full h-11 pl-12 pr-32 text-sm leading-none border-2 border-gray-200 rounded-xl bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-500/15 transition-all"
         />
         {value && (
           <button
             type="button"
             onClick={() => { onChange(''); onSubmit(''); setSuggestions([]); }}
-            className="absolute right-24 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
+            className="absolute right-28 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
             aria-label="Clear search"
           >
             <X size={16} />

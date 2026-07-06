@@ -309,7 +309,7 @@ export default function CatalogPage() {
                 {hasFilters && <span className="w-4 h-4 bg-amber-600 text-white text-[10px] rounded-full flex items-center justify-center font-bold">!</span>}
               </button>
               {hasFilters && (
-                <button onClick={reset} className="hidden lg:flex items-center gap-1.5 text-xs text-red-500 hover:underline">
+                <button onClick={reset} className="hidden lg:flex items-center gap-1.5 py-1 text-xs text-red-500 hover:underline">
                   <X size={12} /> Clear
                 </button>
               )}

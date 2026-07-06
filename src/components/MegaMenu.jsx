@@ -62,7 +62,7 @@ const MegaMenu = ({ open, onOpen, onClose }) => {
           transition={{ duration: 0.15 }}
           onMouseEnter={onOpen}
           onMouseLeave={onClose}
-          className="absolute top-full inset-x-0 bg-white border-b border-gray-200 shadow-lg z-40"
+          className="absolute top-full inset-x-0 shadow-2xl border border-gray-100/50 backdrop-blur-md bg-white/95 z-40"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-2 md:grid-cols-4 gap-8">
             {COLUMNS.map((col) => (
@@ -70,13 +70,13 @@ const MegaMenu = ({ open, onOpen, onClose }) => {
                 <h3 className="text-xs font-semibold uppercase tracking-wide text-amber-600 mb-3">
                   {col.heading}
                 </h3>
-                <ul className="space-y-2">
+                <ul className="space-y-2.5">
                   {col.items.map((item) => (
                     <li key={item.path}>
                       <Link
                         to={item.path}
                         onClick={onClose}
-                        className="text-[14px] text-gray-600 hover:text-gray-900 transition-colors"
+                        className="inline-block text-sm font-normal text-gray-600 hover:text-amber-600 transition-all hover:translate-x-0.5"
                       >
                         {item.label}
                       </Link>
