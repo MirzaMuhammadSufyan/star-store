@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Heart, LayoutDashboard, Menu, X } from 'lucide-react';
+import { Heart, LayoutDashboard, Menu, Search, X } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useFavouriteStore } from '../store/favouriteStore';
 import { Button } from './ui/Button';
 import MegaMenu, { MegaMenuTrigger } from './MegaMenu';
+import SearchBar from './SearchBar';
 
 const Navbar = ({ onFavOpen }) => {
   const { isAuthenticated, logout } = useAuthStore();
@@ -14,7 +15,15 @@ const Navbar = ({ onFavOpen }) => {
   const location = useLocation();
   const [open, setOpen] = React.useState(false);
   const [shopOpen, setShopOpen] = React.useState(false);
+  const [searchOpen, setSearchOpen] = React.useState(false);
+  const [searchValue, setSearchValue] = React.useState('');
   const closeTimer = React.useRef(null);
+
+  const submitSearch = (term) => {
+    const q = (term || '').trim();
+    navigate(q ? `/catalog?cat=${encodeURIComponent(q)}` : '/catalog');
+    setSearchOpen(false);
+  };
 
   const openShop = () => {
     clearTimeout(closeTimer.current);
@@ -38,50 +47,70 @@ const Navbar = ({ onFavOpen }) => {
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-gray-200 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-gradient-to-r after:from-amber-400 after:via-amber-500 after:to-amber-300">
-      <div className="max-w-7xl mx-auto pl-4 pr-5 sm:pl-6 sm:pr-8 lg:pl-8 lg:pr-10 flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto pl-4 pr-5 sm:pl-6 sm:pr-8 lg:pl-8 lg:pr-10 flex items-center gap-4 h-16">
 
-        {/* Logo */}
-        <Link to="/" className="text-[22px] font-bold text-gray-900 shrink-0" style={{ fontFamily: "'Playfair Display', serif" }}>
-          Star<span className="text-amber-600">Store</span>
-        </Link>
-
-        {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-8">
-          <Link
-            to="/"
-            className={`text-[15px] transition-colors ${
-              location.pathname === '/' ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'
-            }`}
-          >
-            Home
+        {/* Logo + desktop nav links */}
+        <div className="flex items-center gap-8 shrink-0">
+          <Link to="/" className="text-[22px] font-bold text-gray-900 shrink-0" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Star<span className="text-amber-600">Store</span>
           </Link>
 
-          <MegaMenuTrigger
-            label="Shop"
-            path="/catalog"
-            isActive={isActive('/catalog')}
-            open={shopOpen}
-            onOpen={openShop}
-            onClose={scheduleCloseShop}
-          />
-
-          {links.filter(l => l.label !== 'Home' && l.label !== 'Shop').map(({ label, path }) => (
+          <nav className="hidden lg:flex items-center gap-8">
             <Link
-              key={path}
-              to={path}
+              to="/"
               className={`text-[15px] transition-colors ${
-                isActive(path)
-                  ? 'text-gray-900 font-semibold'
-                  : 'text-gray-500 hover:text-gray-900'
+                location.pathname === '/' ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'
               }`}
             >
-              {label}
+              Home
             </Link>
-          ))}
-        </nav>
+
+            <MegaMenuTrigger
+              label="Shop"
+              path="/catalog"
+              isActive={isActive('/catalog')}
+              open={shopOpen}
+              onOpen={openShop}
+              onClose={scheduleCloseShop}
+            />
+
+            {links.filter(l => l.label !== 'Home' && l.label !== 'Shop').map(({ label, path }) => (
+              <Link
+                key={path}
+                to={path}
+                className={`text-[15px] transition-colors ${
+                  isActive(path)
+                    ? 'text-gray-900 font-semibold'
+                    : 'text-gray-500 hover:text-gray-900'
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        {/* Embedded search — centered between nav links and utility controls */}
+        <div className="hidden md:flex flex-1 max-w-sm mx-auto">
+          <SearchBar
+            compact
+            value={searchValue}
+            onChange={setSearchValue}
+            onSubmit={submitSearch}
+          />
+        </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 ml-auto md:ml-0">
+          {/* Mobile search toggle */}
+          <button
+            onClick={() => setSearchOpen(v => !v)}
+            className="md:hidden w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900 transition-colors"
+            aria-label="Toggle search"
+          >
+            {searchOpen ? <X size={20} /> : <Search size={20} strokeWidth={1.75} />}
+          </button>
+
           {/* Favourites button */}
           <button
             onClick={onFavOpen}
@@ -117,6 +146,27 @@ const Navbar = ({ onFavOpen }) => {
           </button>
         </div>
       </div>
+
+      {/* Mobile search — stacks flush beneath the navbar line */}
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden overflow-hidden bg-white border-b border-gray-200"
+          >
+            <div className="px-4 py-3">
+              <SearchBar
+                compact
+                value={searchValue}
+                onChange={setSearchValue}
+                onSubmit={submitSearch}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <MegaMenu open={shopOpen} onOpen={openShop} onClose={scheduleCloseShop} />
 

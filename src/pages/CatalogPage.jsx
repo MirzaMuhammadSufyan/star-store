@@ -11,7 +11,6 @@ import { useProductStore } from '../store/productStore';
 import { useFavouriteStore } from '../store/favouriteStore';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/Button';
-import SearchBar from '../components/SearchBar';
 
 const SORT_OPTIONS = [
   { label: 'Default',           value: 'default'    },
@@ -118,25 +117,6 @@ export default function CatalogPage() {
     setPage(1);
     syncFromAliExpress(kw, 1);
   }, [searchParams.get('cat')]); // eslint-disable-line
-
-  // ── Runs a real AliExpress search for the given term ──────────────────────
-  // Only fired by an explicit submit (Enter / Search button / picking a
-  // suggestion from the dropdown) — never by `search` changing as-you-type.
-  // Typing alone must only filter the products already loaded (see `filtered`
-  // below); it must not itself trigger a live refetch that swaps out the
-  // catalog's product list out from under the user.
-  const runSearch = useCallback((term) => {
-    const q = (term || '').trim() || 'tech';
-    if (q === aliKwRef.current) return;
-    aliKwRef.current = q;
-    setAliKeyword(q);
-    setAliPage(1);
-    aliPageRef.current = 1;
-    setNoMorePages(false);
-    noMoreRef.current = false;
-    setPage(1);
-    syncFromAliExpress(q, 1);
-  }, [syncFromAliExpress]);
 
   // ── Scroll-to-top visibility ─────────────────────────────────────────────────
   useEffect(() => {
@@ -255,7 +235,7 @@ export default function CatalogPage() {
 
       {/* ── Sticky header ───────────────────────────────────────────────────── */}
       <div className="bg-white border-b border-gray-200 sticky top-16 z-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between gap-4">
             {/* Title + count */}
             <div className="flex items-center gap-3 min-w-0">
@@ -269,15 +249,6 @@ export default function CatalogPage() {
                 <Loader2 size={14} className="text-amber-500 animate-spin shrink-0" />
               )}
             </div>
-          </div>
-
-          {/* Search */}
-          <div className="max-w-2xl">
-            <SearchBar
-              value={search}
-              onChange={(v) => { setSearch(v); setPage(1); }}
-              onSubmit={runSearch}
-            />
           </div>
         </div>
       </div>

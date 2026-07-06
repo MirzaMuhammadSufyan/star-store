@@ -10,7 +10,7 @@ const SUGGEST_COUNT = 6;
 // search uses (small page_size) and show the actual matching products
 // (thumbnail, title, price). Clicking one goes straight to that real
 // product's detail page; nothing here is fabricated or hardcoded.
-const SearchBar = ({ value, onChange, onSubmit }) => {
+const SearchBar = ({ value, onChange, onSubmit, compact = false }) => {
   const [open, setOpen] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -65,33 +65,39 @@ const SearchBar = ({ value, onChange, onSubmit }) => {
   return (
     <div ref={containerRef} className="relative w-full">
       <div className="relative flex items-center">
-        <Search size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+        <Search size={compact ? 15 : 18} className={`absolute ${compact ? 'left-3.5' : 'left-5'} top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none`} />
         <input
           type="text"
           value={value}
           onFocus={() => setOpen(true)}
           onChange={(e) => { onChange(e.target.value); setOpen(true); }}
           onKeyDown={(e) => { if (e.key === 'Enter') submitCurrent(); if (e.key === 'Escape') setOpen(false); }}
-          placeholder="Search for laptops, phones, gadgets…"
-          className="w-full h-11 pl-12 pr-32 text-sm leading-none border-2 border-gray-200 rounded-xl bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-500/15 transition-all"
+          placeholder={compact ? 'Search products…' : 'Search for laptops, phones, gadgets…'}
+          className={
+            compact
+              ? 'w-full h-9 pl-9 pr-9 text-sm leading-none border border-gray-200 rounded-lg bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/15 transition-all'
+              : 'w-full h-11 pl-12 pr-32 text-sm leading-none border-2 border-gray-200 rounded-xl bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-amber-500 focus:ring-4 focus:ring-amber-500/15 transition-all'
+          }
         />
         {value && (
           <button
             type="button"
             onClick={() => { onChange(''); onSubmit(''); setSuggestions([]); }}
-            className="absolute right-28 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
+            className={`absolute ${compact ? 'right-3' : 'right-28'} top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700`}
             aria-label="Clear search"
           >
-            <X size={16} />
+            <X size={compact ? 14 : 16} />
           </button>
         )}
-        <button
-          type="button"
-          onClick={submitCurrent}
-          className="absolute right-1.5 top-1/2 -translate-y-1/2 h-8 px-4 flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-lg transition-colors"
-        >
-          <Search size={14} /> Search
-        </button>
+        {!compact && (
+          <button
+            type="button"
+            onClick={submitCurrent}
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 h-8 px-4 flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-lg transition-colors"
+          >
+            <Search size={14} /> Search
+          </button>
+        )}
       </div>
 
       {open && value.trim().length >= 2 && (
