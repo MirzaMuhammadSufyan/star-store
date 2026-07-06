@@ -89,7 +89,6 @@ export default function CatalogPage() {
   const [aliKeyword,   setAliKeyword]   = useState('');
   const [noMorePages,  setNoMorePages]  = useState(false);
 
-  const productsRef  = useRef(null);
   const sentinelRef  = useRef(null);
   // Refs that store latest values without being in effect deps
   const aliPageRef   = useRef(1);
@@ -141,11 +140,9 @@ export default function CatalogPage() {
 
   // ── Scroll-to-top visibility ─────────────────────────────────────────────────
   useEffect(() => {
-    const el = productsRef.current;
-    if (!el) return;
-    const onScroll = () => setShowTop(el.scrollTop > 400);
-    el.addEventListener('scroll', onScroll, { passive: true });
-    return () => el.removeEventListener('scroll', onScroll);
+    const onScroll = () => setShowTop(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   // ── Derived lists ────────────────────────────────────────────────────────────
@@ -218,29 +215,27 @@ export default function CatalogPage() {
   // ── Scroll-based infinite load ───────────────────────────────────────────────
   // IntersectionObserver only fires on state change (enter/exit) so it misses
   // repeated triggers when sentinel stays in view after page increments.
-  // A scroll listener on the container reliably detects "near bottom" every time.
+  // A scroll listener on the window reliably detects "near bottom" every time —
+  // scrolling authority lives on the main document, not an inner container.
   useEffect(() => {
-    const container = productsRef.current;
-    if (!container) return;
-
     const check = () => {
-      const { scrollTop, scrollHeight, clientHeight } = container;
-      if (scrollHeight - scrollTop - clientHeight < 600) loadNext();
+      const { scrollY, innerHeight } = window;
+      const scrollHeight = document.documentElement.scrollHeight;
+      if (scrollHeight - scrollY - innerHeight < 600) loadNext();
     };
 
-    container.addEventListener('scroll', check, { passive: true });
-    // Also check immediately in case content already fills the container
+    window.addEventListener('scroll', check, { passive: true });
+    // Also check immediately in case content already fills the viewport
     check();
-    return () => container.removeEventListener('scroll', check);
+    return () => window.removeEventListener('scroll', check);
   }, [loadNext]);
 
   // ── Re-trigger when new products arrive (may still be near bottom) ───────────
   useEffect(() => {
     if (filtered.length === 0) return;
-    const container = productsRef.current;
-    if (!container) return;
-    const { scrollTop, scrollHeight, clientHeight } = container;
-    if (scrollHeight - scrollTop - clientHeight < 600) loadNext();
+    const { scrollY, innerHeight } = window;
+    const scrollHeight = document.documentElement.scrollHeight;
+    if (scrollHeight - scrollY - innerHeight < 600) loadNext();
   }, [filtered.length]); // eslint-disable-line
 
   const toggleCat = useCallback((cat) => {
@@ -254,8 +249,6 @@ export default function CatalogPage() {
 
   const hasFilters = !!(search || selectedCats.length || maxPrice || sort !== 'default');
   const sidebarProps = { categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset };
-
-  const COLS_H = 'calc(100vh - 64px - 58px)';
 
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col">
@@ -289,24 +282,23 @@ export default function CatalogPage() {
         </div>
       </div>
 
-      {/* ── Two-column area — each column scrolls independently ─────────────── */}
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex gap-6 flex-grow"
-        style={{ height: COLS_H }}>
+      {/* ── Two-column area — page itself is the only scroller ───────────────── */}
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex gap-6 items-start">
 
         {/* Sidebar */}
-        <aside className="hidden lg:flex flex-col w-56 shrink-0 py-6">
-          <div className="bg-white border border-gray-200 rounded-xl flex flex-col overflow-hidden h-full shadow-sm">
+        <aside className="hidden lg:flex flex-col w-56 shrink-0 py-6 sticky top-[188px] self-start">
+          <div className="bg-white border border-gray-200 rounded-xl flex flex-col shadow-sm">
             <div className="px-5 pt-5 pb-3 border-b border-gray-100 shrink-0">
               <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Filters</p>
             </div>
-            <div className="flex-grow overflow-y-auto px-5 py-4 scrollbar-thin">
+            <div className="px-5 py-4">
               <Sidebar {...sidebarProps} />
             </div>
           </div>
         </aside>
 
         {/* Products */}
-        <div ref={productsRef} className="flex-grow min-w-0 overflow-y-auto py-6 pr-1">
+        <div className="flex-grow min-w-0 py-6 pr-1">
 
           {/* Toolbar */}
           <div className="flex items-center justify-between gap-3 mb-5">
@@ -524,7 +516,7 @@ export default function CatalogPage() {
           <motion.button
             initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.2 }}
-            onClick={() => productsRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-gray-900 text-white shadow-lg flex items-center justify-center hover:bg-amber-600 transition-colors"
             aria-label="Scroll to top"
           >
