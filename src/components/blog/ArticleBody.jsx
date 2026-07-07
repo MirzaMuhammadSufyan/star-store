@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
+import DOMPurify from 'dompurify';
 import { Tag } from 'lucide-react';
 import { CodeBlock } from './CodeBlock';
 
@@ -23,28 +24,42 @@ const PROSE_CLASSES = [
   '[&_hr]:my-10 [&_hr]:border-slate-200',
 ].join(' ');
 
+// Rich-text posts from the WYSIWYG editor are stored as HTML; older posts
+// are Markdown strings. Detect an HTML tag to decide how to render.
+const looksLikeHtml = (content) => /<\/?[a-z][\s\S]*>/i.test(content || '');
+
 export function ArticleBody({ post }) {
+  const content = post.content || '';
+  const tags = post.tags?.length ? post.tags : ['Gadgets', 'Tech', 'Innovation', 'Review'];
+
   return (
     <article className="mx-auto mb-20 max-w-[720px]">
-      <div className={PROSE_CLASSES}>
-        <ReactMarkdown components={{ code: CodeBlock }}>{post.content}</ReactMarkdown>
+      {looksLikeHtml(content) ? (
+        <div
+          className={PROSE_CLASSES}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
+        />
+      ) : (
+        <div className={PROSE_CLASSES}>
+          <ReactMarkdown components={{ code: CodeBlock }}>{content}</ReactMarkdown>
+        </div>
+      )}
 
-        {post.category && (
-          <p className="mb-6">
-            Ready to see this in action? Browse our full, hand-picked{' '}
-            <Link
-              to={`/catalog?cat=${encodeURIComponent(post.category)}`}
-              className="font-medium text-amber-600 hover:underline"
-            >
-              {post.category} collection
-            </Link>{' '}
-            for verified deals from official stores.
-          </p>
-        )}
-      </div>
+      {post.category && (
+        <p className="mt-8 text-[17px] leading-[1.75] text-slate-700">
+          Ready to see this in action? Browse our full, hand-picked{' '}
+          <Link
+            to={`/catalog?cat=${encodeURIComponent(post.category)}`}
+            className="font-medium text-amber-600 underline decoration-amber-600/30 underline-offset-2 hover:decoration-amber-600"
+          >
+            {post.category} collection
+          </Link>{' '}
+          for verified deals from official stores.
+        </p>
+      )}
 
       <div className="mt-10 flex flex-wrap gap-2 border-t border-slate-200 pt-10">
-        {['Gadgets', 'Tech', 'Innovation', 'Review'].map((tag) => (
+        {tags.map((tag) => (
           <span
             key={tag}
             className="inline-flex cursor-pointer items-center gap-1.5 rounded border border-slate-200 px-3 py-1.5 text-xs text-slate-500 transition-colors hover:border-amber-400 hover:text-amber-600"

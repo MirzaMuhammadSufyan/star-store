@@ -8,7 +8,7 @@ import { useAuthStore } from '../store/authStore';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import ProductForm from '../components/ProductForm';
-import BlogForm from '../components/BlogForm';
+import CreatePostForm from '../components/blog/CreatePostForm';
 
 const TAB_BTN = 'px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-md transition-all';
 
@@ -435,7 +435,7 @@ const AdminDashboard = () => {
 
       <AnimatePresence>
         {isFormOpen && <ProductForm product={editingProduct} onClose={() => setIsFormOpen(false)} />}
-        {isBlogFormOpen && <BlogForm post={editingBlog} onClose={() => setIsBlogFormOpen(false)} />}
+        {isBlogFormOpen && <CreatePostForm post={editingBlog} onClose={() => setIsBlogFormOpen(false)} />}
       </AnimatePresence>
     </div>
   );
