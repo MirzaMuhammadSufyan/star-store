@@ -23,7 +23,7 @@ export function ArticleHero({ post, onBack }) {
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="mx-auto max-w-3xl space-y-5 py-12 sm:py-16"
+        className="mx-auto max-w-[720px] space-y-5 py-12 sm:py-16"
       >
         <span className="text-xs font-semibold uppercase tracking-widest text-amber-600">
           {post.category}
