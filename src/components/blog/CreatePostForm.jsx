@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion } from 'framer-motion';
-import { X, Check, Sparkles, Save, Tag as TagIcon } from 'lucide-react';
+import { X, Check, Sparkles, Save, Tag as TagIcon, ChevronDown } from 'lucide-react';
 import { useBlogStore } from '../../store/blogStore';
 import { createBlogPost, updateBlogPost } from '../../services/blogService';
 import { Button } from '../ui/Button';
@@ -129,7 +129,7 @@ export default function CreatePostForm({ post, onClose }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 24, scale: 0.98 }}
         transition={{ duration: 0.25 }}
-        className="relative my-4 flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+        className="relative my-4 flex w-full max-w-7xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50/70 px-6 py-4 sm:px-8">
@@ -222,18 +222,24 @@ export default function CreatePostForm({ post, onClose }) {
 
             <div>
               <FieldLabel>Category</FieldLabel>
-              <select
-                {...register('category')}
-                className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
-              >
-                {categories
-                  .filter((c) => c !== 'All')
-                  .map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-              </select>
+              <div className="relative">
+                <select
+                  {...register('category')}
+                  className="w-full cursor-pointer appearance-none rounded-lg border border-gray-200 bg-white px-4 py-3 pr-10 text-[15px] text-gray-900 transition-all focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                >
+                  {categories
+                    .filter((c) => c !== 'All')
+                    .map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
+                </select>
+                <ChevronDown
+                  size={16}
+                  className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400"
+                />
+              </div>
             </div>
 
             <Input

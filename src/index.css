@@ -98,8 +98,92 @@
   color: #6b7280;
 }
 
-/* Tiptap / ProseMirror editor */
-.ProseMirror:focus { outline: none; }
+/* ============================================================
+   Tiptap / ProseMirror editor — clean, Medium/WordPress feel.
+   Base typography lives here (not Tailwind utilities) so the
+   dynamically-generated editor HTML is always styled. Dark,
+   monospaced treatment is reserved strictly for code.
+   ============================================================ */
+.ProseMirror {
+  min-height: 340px;
+  padding: 1.5rem 1.75rem;
+  background: #ffffff;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 1.0625rem;          /* 17px */
+  line-height: 1.75;
+  color: #334155;                /* slate-700 */
+  letter-spacing: -0.01em;
+}
+.ProseMirror:focus,
+.ProseMirror:focus-visible { outline: none; }
+
+.ProseMirror p { margin: 0 0 1rem; line-height: 1.75; color: #334155; }
+.ProseMirror > :first-child { margin-top: 0; }
+.ProseMirror > :last-child { margin-bottom: 0; }
+
+/* Sans-serif headings inside the editor (override the global serif) */
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #0f172a;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+.ProseMirror h1 { font-size: 1.875rem; font-weight: 800; margin: 1.75rem 0 0.75rem; }
+.ProseMirror h2 { font-size: 1.5rem;   font-weight: 700; margin: 1.5rem 0 0.75rem; }
+.ProseMirror h3 { font-size: 1.25rem;  font-weight: 700; margin: 1.25rem 0 0.5rem; }
+
+.ProseMirror ul,
+.ProseMirror ol { margin: 0 0 1rem; padding-left: 1.5rem; }
+.ProseMirror ul { list-style: disc; }
+.ProseMirror ol { list-style: decimal; }
+.ProseMirror li { margin-bottom: 0.375rem; }
+.ProseMirror li > p { margin: 0; }
+
+.ProseMirror strong { font-weight: 600; color: #0f172a; }
+.ProseMirror a {
+  color: #d97706;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ProseMirror blockquote {
+  margin: 1.25rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid #fcd34d;
+  color: #475569;
+  font-style: italic;
+}
+
+/* Inline code → subtle light pill */
+.ProseMirror :not(pre) > code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.3rem;
+  font-size: 0.875em;
+}
+/* Fenced code block → dark panel (the only dark/mono area) */
+.ProseMirror pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0;
+  border-radius: 0.65rem;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.ProseMirror pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
