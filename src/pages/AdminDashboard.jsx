@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap, FileText } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useBlogStore } from '../store/blogStore';
+import { deleteBlogPost } from '../services/blogService';
 import { useAnalyticsStore } from '../store/analyticsStore';
 import { useAuthStore } from '../store/authStore';
 import { Button } from '../components/ui/Button';
@@ -14,7 +15,7 @@ const TAB_BTN = 'px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-m
 
 const AdminDashboard = () => {
   const { dbProducts, deleteProduct, dbLoading: productsLoading } = useProductStore();
-  const { posts: blogPosts, deletePost: deleteBlogPost } = useBlogStore();
+  const { posts: blogPosts } = useBlogStore();
   const { clicks, getStats, fetchClicks } = useAnalyticsStore();
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
 
@@ -67,12 +68,14 @@ const AdminDashboard = () => {
 
   const handleImportOne = async (product) => {
     const { addProduct } = useProductStore.getState();
+    const link = product.promotion_link || '';
     await addProduct({
       title: product.product_title,
       price: product.target_sale_price,
       image: product.product_main_image_url,
       merchant: 'AliExpress',
-      promotion_link: product.promotion_link,
+      affiliateLink: link,
+      promotion_link: link,
       product_id: product.product_id,
       category: product.second_level_category_name || '',
       original_price: product.original_price,
@@ -245,6 +248,11 @@ const AdminDashboard = () => {
                           <div>
                             <p className="text-sm font-semibold text-gray-900 line-clamp-1">{post.title}</p>
                             <p className="text-xs text-gray-400 line-clamp-1 max-w-[200px]">{post.excerpt}</p>
+                            {post.status === 'draft' && (
+                              <span className="mt-1 inline-block text-[10px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
+                                Draft
+                              </span>
+                            )}
                           </div>
                         </div>
                       </td>

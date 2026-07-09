@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { db } from '../firebase';
+import { withNormalizedLinks } from '../utils/productLinks';
 import {
   collection,
   addDoc,
@@ -81,11 +82,15 @@ export const useProductStore = create((set, get) => ({
 
   addProduct: async (product) => {
     try {
-      const slug = (product.title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const normalized = withNormalizedLinks(product);
+      const slug = (normalized.title || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
       await addDoc(collection(db, 'products'), {
-        ...product,
+        ...normalized,
         slug,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       });
     } catch (error) {
       console.error('Error adding product:', error);
@@ -94,7 +99,7 @@ export const useProductStore = create((set, get) => ({
 
   updateProduct: async (id, updatedProduct) => {
     try {
-      await updateDoc(doc(db, 'products', String(id)), updatedProduct);
+      await updateDoc(doc(db, 'products', String(id)), withNormalizedLinks(updatedProduct));
     } catch (error) {
       console.error('Error updating product:', error);
     }

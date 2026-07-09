@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Star, Heart } from 'lucide-react';
+import { Star, Heart, ExternalLink } from 'lucide-react';
 import { useAnalyticsStore } from '../store/analyticsStore';
 import { useFavouriteStore } from '../store/favouriteStore';
 import { productDetailUrl } from '../utils/productUrl';
+import { getBuyLink } from '../utils/productLinks';
 
 const ProductCard = ({ product }) => {
   const logClick  = useAnalyticsStore((s) => s.logClick);
@@ -15,7 +16,7 @@ const ProductCard = ({ product }) => {
   const origPrice = product.original_price;
   const rating    = product.evaluate_rate || product.rating || '4.8';
   const merchant  = product.merchant || 'AliExpress';
-  const buyLink   = product.promotion_link || (product.slug ? `/go/${product.slug}` : '#');
+  const buyLink   = getBuyLink(product);
   const pid       = product.product_id || product.id;
   const fav       = isFavourite(product);
 
@@ -28,9 +29,13 @@ const ProductCard = ({ product }) => {
   const handleBuy = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (product.promotion_link) {
+    if (buyLink && buyLink !== '#') {
       logClick(pid, merchant);
-      window.open(buyLink, '_blank', 'noopener,noreferrer');
+      if (buyLink.startsWith('http')) {
+        window.open(buyLink, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = buyLink;
+      }
     }
   };
 
@@ -111,9 +116,9 @@ const ProductCard = ({ product }) => {
             <button
               onClick={handleBuy}
               className="shrink-0 w-8 h-8 bg-amber-500 hover:bg-amber-600 text-white rounded-full flex items-center justify-center transition-colors shadow-sm"
-              aria-label="Buy now"
+              aria-label="Buy on partner store"
             >
-              <ShoppingCart size={14} />
+              <ExternalLink size={14} />
             </button>
           </div>
         </div>

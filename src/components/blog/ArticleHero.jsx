@@ -1,13 +1,11 @@
 import React from 'react';
-import { Calendar, ChevronLeft, Share2, User } from 'lucide-react';
+import { Calendar, ChevronLeft, Clock, Share2, User } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { estimateReadingTime } from '../../utils/blogUtils';
 
-/**
- * Title block + hero image for an article. Title uses the app's sans
- * typeface (Inter) rather than the site-wide Playfair serif, matching
- * the bold, oversized editorial look requested for this template.
- */
 export function ArticleHero({ post, onBack }) {
+  const minutes = estimateReadingTime(post.content);
+
   return (
     <>
       <div className="border-b border-slate-200 py-5">
@@ -38,6 +36,9 @@ export function ArticleHero({ post, onBack }) {
           </span>
           <span className="flex items-center gap-1.5">
             <Calendar size={14} /> {post.date}
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Clock size={14} /> {minutes} min read
           </span>
           <button
             onClick={() => {

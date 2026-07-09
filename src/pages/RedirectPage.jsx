@@ -4,11 +4,12 @@ import { motion } from 'framer-motion';
 import { ShieldCheck, Loader2 } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useAnalyticsStore } from '../store/analyticsStore';
+import { getAffiliateLink } from '../utils/productLinks';
 
 const RedirectPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const product = useProductStore((state) => state.products.find(p => p.slug === slug));
+  const product = useProductStore((state) => state.products.find((p) => p.slug === slug));
   const logClick = useAnalyticsStore((state) => state.logClick);
 
   useEffect(() => {
@@ -17,10 +18,16 @@ const RedirectPage = () => {
       return () => clearTimeout(timeout);
     }
 
-    logClick(product.id, product.merchant);
+    const outbound = getAffiliateLink(product);
+    if (!outbound) {
+      const timeout = setTimeout(() => navigate(`/product/${product.id || product.product_id}`), 2000);
+      return () => clearTimeout(timeout);
+    }
+
+    logClick(product.id || product.product_id, product.merchant);
 
     const timer = setTimeout(() => {
-      window.location.href = product.affiliateLink;
+      window.location.href = outbound;
     }, 1500);
 
     return () => clearTimeout(timer);
@@ -29,8 +36,18 @@ const RedirectPage = () => {
   if (!product) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-6">
-        <h2 className="text-2xl font-bold dark:text-white mb-4">Product Not Found</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h2>
         <p className="text-gray-500">Redirecting you back to the store...</p>
+      </div>
+    );
+  }
+
+  const outbound = getAffiliateLink(product);
+  if (!outbound) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Link Unavailable</h2>
+        <p className="text-gray-500">This product has no affiliate link configured.</p>
       </div>
     );
   }
@@ -46,21 +63,23 @@ const RedirectPage = () => {
           <Loader2 className="mx-auto text-orange-500 animate-spin" size={48} />
           <ShieldCheck className="absolute inset-0 mx-auto text-orange-500 mt-3" size={24} />
         </div>
-        
+
         <div className="space-y-3">
-          <h2 className="text-2xl font-black dark:text-white">Secure Redirect</h2>
+          <h2 className="text-2xl font-black text-gray-900">Secure Redirect</h2>
           <p className="text-gray-500 leading-relaxed">
-            Redirecting you to our verified partner store <span className="text-orange-600 dark:text-orange-400 font-bold">{product.merchant}</span> for secure checkout.
+            Redirecting you to our verified partner store{' '}
+            <span className="text-orange-600 font-bold">{product.merchant || 'partner'}</span>{' '}
+            for secure checkout.
           </p>
         </div>
 
         <div className="pt-4 flex flex-col items-center gap-2">
           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Verifying Link Stability</span>
-          <div className="w-full h-1 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
-            <motion.div 
+          <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+            <motion.div
               initial={{ width: 0 }}
               animate={{ width: '100%' }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
+              transition={{ duration: 1.5, ease: 'easeInOut' }}
               className="h-full bg-orange-500"
             />
           </div>

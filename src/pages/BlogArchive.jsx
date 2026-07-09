@@ -1,16 +1,36 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, User, ArrowRight, ChevronRight, FileText } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useBlogStore } from '../store/blogStore';
+import { getPublishedPosts } from '../utils/blogUtils';
 import SEO from '../components/SEO';
 
 export default function BlogArchive() {
   const { posts, categories, loading } = useBlogStore();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tagFilter = searchParams.get('tag') || '';
   const [selected, setSelected] = React.useState('All');
 
-  const filtered = posts.filter(p => selected === 'All' || p.category === selected);
+  const published = React.useMemo(() => getPublishedPosts(posts), [posts]);
+
+  const filtered = React.useMemo(() => {
+    let list = published;
+    if (selected !== 'All') list = list.filter((p) => p.category === selected);
+    if (tagFilter) {
+      const tag = tagFilter.toLowerCase();
+      list = list.filter((p) => (p.tags || []).some((t) => t.toLowerCase() === tag));
+    }
+    return list;
+  }, [published, selected, tagFilter]);
+
   const [hero, ...rest] = filtered;
+
+  const clearTag = () => {
+    const next = new URLSearchParams(searchParams);
+    next.delete('tag');
+    setSearchParams(next, { replace: true });
+  };
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center py-32 gap-4">
@@ -22,13 +42,12 @@ export default function BlogArchive() {
   return (
     <div className="bg-gray-50 min-h-screen">
       <SEO
-        title="The Journal"
+        title={tagFilter ? `Articles tagged “${tagFilter}”` : 'The Journal'}
         description="In-depth reviews, buying guides, and tech stories from Star Store — for people who care about what they buy."
-        url="/blog"
+        url={tagFilter ? `/blog?tag=${encodeURIComponent(tagFilter)}` : '/blog'}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
 
-        {/* Header */}
         <div className="pb-8 border-b border-gray-200">
           <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-2">Star Store Editorial</p>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -37,11 +56,24 @@ export default function BlogArchive() {
           <p className="mt-3 text-gray-600 text-base max-w-xl">
             In-depth reviews, buying guides, and tech stories — for people who care about what they buy.
           </p>
+          {tagFilter && (
+            <div className="mt-4 flex items-center gap-2">
+              <span className="text-sm text-gray-500">
+                Showing tag: <strong className="text-gray-800">{tagFilter}</strong>
+              </span>
+              <button
+                type="button"
+                onClick={clearTag}
+                className="text-xs font-semibold text-amber-700 hover:underline"
+              >
+                Clear filter
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Category filter */}
         <div className="flex flex-wrap gap-2">
-          {categories.map(cat => (
+          {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelected(cat)}
@@ -56,7 +88,6 @@ export default function BlogArchive() {
           ))}
         </div>
 
-        {/* Hero article */}
         {hero && (
           <motion.article
             initial={{ opacity: 0, y: 14 }}
@@ -85,7 +116,6 @@ export default function BlogArchive() {
           </motion.article>
         )}
 
-        {/* Grid */}
         {rest.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {rest.map((post, i) => (
@@ -122,7 +152,9 @@ export default function BlogArchive() {
         {filtered.length === 0 && (
           <div className="py-20 flex flex-col items-center justify-center text-center text-gray-400">
             <FileText size={32} strokeWidth={1.5} className="mb-3 text-gray-300" />
-            <p className="text-sm">No articles in this category yet.</p>
+            <p className="text-sm">
+              {tagFilter ? `No published articles tagged “${tagFilter}”.` : 'No articles in this category yet.'}
+            </p>
           </div>
         )}
       </div>

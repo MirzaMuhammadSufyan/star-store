@@ -1,0 +1,45 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Set custom claim { admin: true } via Firebase Admin SDK, or add
+    // emails to the allowlist below when deploying rules.
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.admin == true ||
+        request.auth.token.email in [
+          'admin@starstore.com'
+        ]
+      );
+    }
+
+    function isPublishedBlog() {
+      return !('status' in resource.data) || resource.data.status == 'published';
+    }
+
+    function willBePublishedBlog() {
+      return !('status' in request.resource.data) || request.resource.data.status == 'published';
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /blogs/{blogId} {
+      allow read: if isPublishedBlog() || isAdmin();
+      allow create: if isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+    match /analytics/{eventId} {
+      allow read: if isAdmin();
+      // Public click logging from the storefront
+      allow create: if request.resource.data.keys().hasAll(['productId', 'merchant'])
+        && request.resource.data.productId is string
+        && request.resource.data.merchant is string;
+      allow update, delete: if isAdmin();
+    }
+  }
+}

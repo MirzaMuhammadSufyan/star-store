@@ -4,6 +4,7 @@ import { ArrowRight, ShieldCheck, RotateCcw, Truck, ChevronRight, ChevronLeft } 
 import { Link } from 'react-router-dom';
 import { useProductStore } from '../store/productStore';
 import { useBlogStore } from '../store/blogStore';
+import { getPublishedPosts } from '../utils/blogUtils';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/Button';
 
@@ -203,18 +204,17 @@ function ProductSkeleton() {
 export default function HomePage() {
   const { products, dbLoading, syncLoading, syncFromAliExpress } = useProductStore();
   const { posts } = useBlogStore();
+  const blogItems = React.useMemo(() => getPublishedPosts(posts).slice(0, 3), [posts]);
 
-  // If Firestore has no products, auto-fetch from AliExpress on mount
   useEffect(() => {
     if (!dbLoading && products.length === 0) {
       syncFromAliExpress('tech gadgets', 1);
     }
   }, [dbLoading]); // eslint-disable-line
 
-  const loading   = dbLoading || (syncLoading && products.length === 0);
-  const featured  = products.slice(0, 8);
-  const newest    = products.slice(0, 4);
-  const blogItems = posts.slice(0, 3);
+  const loading  = dbLoading || (syncLoading && products.length === 0);
+  const featured = products.slice(0, 8);
+  const newest   = products.slice(0, 4);
 
   return (
     <div className="bg-gray-50">

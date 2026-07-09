@@ -30,7 +30,7 @@ const looksLikeHtml = (content) => /<\/?[a-z][\s\S]*>/i.test(content || '');
 
 export function ArticleBody({ post }) {
   const content = post.content || '';
-  const tags = post.tags?.length ? post.tags : ['Gadgets', 'Tech', 'Innovation', 'Review'];
+  const tags = post.tags?.length ? post.tags : [];
 
   return (
     <article className="mx-auto mb-20 max-w-[720px]">
@@ -58,16 +58,19 @@ export function ArticleBody({ post }) {
         </p>
       )}
 
-      <div className="mt-10 flex flex-wrap gap-2 border-t border-slate-200 pt-10">
-        {tags.map((tag) => (
-          <span
-            key={tag}
-            className="inline-flex cursor-pointer items-center gap-1.5 rounded border border-slate-200 px-3 py-1.5 text-xs text-slate-500 transition-colors hover:border-amber-400 hover:text-amber-600"
-          >
-            <Tag size={11} /> {tag}
-          </span>
-        ))}
-      </div>
+      {tags.length > 0 && (
+        <div className="mt-10 flex flex-wrap gap-2 border-t border-slate-200 pt-10">
+          {tags.map((tag) => (
+            <Link
+              key={tag}
+              to={`/blog?tag=${encodeURIComponent(tag)}`}
+              className="inline-flex cursor-pointer items-center gap-1.5 rounded border border-slate-200 px-3 py-1.5 text-xs text-slate-500 transition-colors hover:border-amber-400 hover:text-amber-600"
+            >
+              <Tag size={11} /> {tag}
+            </Link>
+          ))}
+        </div>
+      )}
     </article>
   );
 }

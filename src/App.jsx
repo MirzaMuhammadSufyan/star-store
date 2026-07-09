@@ -18,6 +18,7 @@ const LegalPage         = lazy(() => import('./pages/LegalPage'));
 const RedirectPage      = lazy(() => import('./pages/RedirectPage'));
 const AdminLogin        = lazy(() => import('./pages/AdminLogin'));
 const AdminDashboard    = lazy(() => import('./pages/AdminDashboard'));
+const GiftFinder        = lazy(() => import('./pages/GiftFinder'));
 
 // Catches "Failed to fetch dynamically imported module" errors (stale deploy / network blip)
 // and reloads the page once to fetch the fresh chunk.
@@ -55,9 +56,11 @@ const ScrollToTop = () => {
 };
 
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuthStore();
+  const { isAuthenticated, isAdmin, loading } = useAuthStore();
   if (loading) return <div className="flex items-center justify-center h-[60vh] text-sm text-gray-400">Authenticating…</div>;
-  return isAuthenticated ? children : <Navigate to="/admin/login" replace />;
+  if (!isAuthenticated) return <Navigate to="/admin/login" replace />;
+  if (!isAdmin) return <Navigate to="/" replace />;
+  return children;
 };
 
 const AnimatedRoutes = () => {
@@ -82,6 +85,7 @@ const AnimatedRoutes = () => {
           <Route path="/profile"        element={<UserProfilePage />} />
           <Route path="/about"          element={<AboutPage />} />
           <Route path="/contact"        element={<ContactPage />} />
+          <Route path="/gift-finder"    element={<GiftFinder />} />
           <Route path="/legal/:type"    element={<LegalPage />} />
           <Route path="/privacy-policy"       element={<Navigate to="/legal/privacy" replace />} />
           <Route path="/terms-of-service"     element={<Navigate to="/legal/terms" replace />} />

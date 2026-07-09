@@ -8,6 +8,7 @@ import { useProductStore } from '../store/productStore';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { fetchProductDataFromUrl } from '../utils/parser';
+import { withNormalizedLinks } from '../utils/productLinks';
 
 const schema = z.object({
   title:         z.string().min(3, 'Title must be at least 3 characters'),
@@ -63,7 +64,7 @@ const ProductForm = ({ product, onClose }) => {
   const watchedLink  = watch('affiliateLink');
 
   const onSubmit = async (data) => {
-    const payload = {
+    const payload = withNormalizedLinks({
       title:         data.title,
       description:   data.description,
       price:         data.price,
@@ -71,7 +72,7 @@ const ProductForm = ({ product, onClose }) => {
       image:         data.image,
       category:      data.category,
       affiliateLink: data.affiliateLink,
-    };
+    });
     if (product) {
       await updateProduct(product.id, payload);
     } else {

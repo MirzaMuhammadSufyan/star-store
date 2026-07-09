@@ -9,7 +9,7 @@ import MegaMenu, { MegaMenuTrigger } from './MegaMenu';
 import SearchBar from './SearchBar';
 
 const Navbar = ({ onFavOpen }) => {
-  const { isAuthenticated, logout } = useAuthStore();
+  const { isAuthenticated, isAdmin, logout } = useAuthStore();
   const count = useFavouriteStore(s => s.count());
   const navigate = useNavigate();
   const location = useLocation();
@@ -128,7 +128,7 @@ const Navbar = ({ onFavOpen }) => {
           </button>
 
           <div className="hidden sm:flex items-center gap-1 pl-2 border-l border-gray-200">
-            {isAuthenticated ? (
+            {isAuthenticated && isAdmin ? (
               <>
                 <Link to="/admin/dashboard" className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900 transition-colors" title="Dashboard">
                   <LayoutDashboard size={18} strokeWidth={1.75} />
@@ -204,7 +204,7 @@ const Navbar = ({ onFavOpen }) => {
                 <Heart size={16} /> Saved Items {count > 0 && <span className="ml-auto text-xs bg-rose-500 text-white px-1.5 py-0.5 rounded-full font-bold">{count}</span>}
               </button>
               <div className="mt-2 pt-3 border-t border-gray-100 flex justify-end">
-                {isAuthenticated ? (
+                {isAuthenticated && isAdmin ? (
                   <Button variant="ghost" size="sm" onPointerUp={() => { logout(); navigate('/'); setOpen(false); }}>
                     Sign out
                   </Button>

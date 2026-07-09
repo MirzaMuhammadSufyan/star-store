@@ -9,17 +9,33 @@ import {
   signInWithEmailLink
 } from 'firebase/auth';
 
+const adminEmails = (import.meta.env.VITE_ADMIN_EMAILS || '')
+  .split(',')
+  .map((e) => e.trim().toLowerCase())
+  .filter(Boolean);
+
+async function resolveIsAdmin(user) {
+  if (!user) return false;
+  try {
+    const token = await user.getIdTokenResult();
+    if (token.claims.admin === true) return true;
+  } catch (_) {}
+  return adminEmails.includes((user.email || '').toLowerCase());
+}
+
 export const useAuthStore = create((set) => ({
   isAuthenticated: false,
+  isAdmin: false,
   user: null,
   loading: true,
 
   initialize: () => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        set({ isAuthenticated: true, user, loading: false });
+        const isAdmin = await resolveIsAdmin(user);
+        set({ isAuthenticated: true, isAdmin, user, loading: false });
       } else {
-        set({ isAuthenticated: false, user: null, loading: false });
+        set({ isAuthenticated: false, isAdmin: false, user: null, loading: false });
       }
     });
   },
@@ -76,5 +92,4 @@ export const useAuthStore = create((set) => ({
   },
 }));
 
-// Initialize the listener
 useAuthStore.getState().initialize();
