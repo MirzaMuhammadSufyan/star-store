@@ -9,7 +9,8 @@ service cloud.firestore {
       return request.auth != null && (
         request.auth.token.admin == true ||
         request.auth.token.email in [
-          'mirzamuhammadsufyanbagi@gmail.com'
+          'mirzamuhammadsufyanbagi@gmail.com',
+          'mirzamuhammadsufyanbaig@gmail.com'
         ]
       );
     }

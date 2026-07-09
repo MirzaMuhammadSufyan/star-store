@@ -18,6 +18,7 @@ import { EditorToolbar } from './EditorToolbar';
  * @param {string}   placeholder  - empty-state hint
  */
 export function RichTextEditor({ value = '', onChange, placeholder = 'Write your story…' }) {
+  const [sourceMode, setSourceMode] = React.useState(false);
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -43,16 +44,34 @@ export function RichTextEditor({ value = '', onChange, placeholder = 'Write your
     if (value !== current) {
       editor.commands.setContent(value || '', false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, editor]);
+
+  const sourcePreview = React.useMemo(
+    () =>
+      (value || '')
+        .replace(/></g, '>\n<')
+        .replace(/^\s+$/gm, '')
+        .trim(),
+    [value]
+  );
 
   return (
     <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-500/30">
-      <EditorToolbar editor={editor} />
+      <EditorToolbar
+        editor={editor}
+        sourceMode={sourceMode}
+        onToggleSourceMode={() => setSourceMode((prev) => !prev)}
+      />
       {/* Scrollable viewport: content grows to a comfortable cap, then
           scrolls internally so long articles never break the layout. */}
       <div className="max-h-[58vh] min-h-[340px] overflow-y-auto">
-        <EditorContent editor={editor} />
+        {sourceMode ? (
+          <pre className="h-full min-h-[340px] whitespace-pre-wrap bg-slate-900 p-4 font-mono text-sm leading-6 text-slate-100">
+            <code>{sourcePreview || '<!-- Start writing to generate HTML source -->'}</code>
+          </pre>
+        ) : (
+          <EditorContent editor={editor} />
+        )}
       </div>
     </div>
   );

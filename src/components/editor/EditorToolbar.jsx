@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Bold,
   Italic,
@@ -9,6 +8,7 @@ import {
   ListOrdered,
   Link as LinkIcon,
   Code2,
+  FileCode2,
   Undo2,
   Redo2,
 } from 'lucide-react';
@@ -23,7 +23,7 @@ function Divider() {
  * instance — every button maps to a chained command and reads its
  * active state straight from the editor, so it never holds local state.
  */
-export function EditorToolbar({ editor }) {
+export function EditorToolbar({ editor, sourceMode = false, onToggleSourceMode }) {
   if (!editor) return null;
 
   const setLink = () => {
@@ -106,6 +106,13 @@ export function EditorToolbar({ editor }) {
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
       >
         <Code2 size={16} />
+      </ToolbarButton>
+      <ToolbarButton
+        label="Code View"
+        isActive={sourceMode}
+        onClick={onToggleSourceMode}
+      >
+        <FileCode2 size={16} />
       </ToolbarButton>
 
       <Divider />
