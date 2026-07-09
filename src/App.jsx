@@ -56,10 +56,28 @@ const ScrollToTop = () => {
 };
 
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, isAdmin, loading } = useAuthStore();
+  const { isAuthenticated, isAdmin, loading, logout } = useAuthStore();
   if (loading) return <div className="flex items-center justify-center h-[60vh] text-sm text-gray-400">Authenticating…</div>;
   if (!isAuthenticated) return <Navigate to="/admin/login" replace />;
-  if (!isAdmin) return <Navigate to="/" replace />;
+  if (!isAdmin) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 px-4 text-center">
+        <p className="text-lg font-semibold text-gray-900">Access denied</p>
+        <p className="text-sm text-gray-500 max-w-md">
+          Your account is not on the admin allowlist. Add your email to{' '}
+          <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">VITE_ADMIN_EMAILS</code>{' '}
+          and rebuild, or ask for the Firebase <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">admin</code> custom claim.
+        </p>
+        <button
+          type="button"
+          onClick={() => logout()}
+          className="text-sm font-medium text-amber-700 hover:underline"
+        >
+          Sign out and try another account
+        </button>
+      </div>
+    );
+  }
   return children;
 };
 

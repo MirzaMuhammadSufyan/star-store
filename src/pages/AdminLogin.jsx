@@ -14,9 +14,13 @@ const loginSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters').optional().or(z.literal('')),
 });
 
+const NOT_ADMIN_MSG =
+  'This account signed in successfully but is not authorised for admin access. ' +
+  'Add your email to VITE_ADMIN_EMAILS and rebuild, or set the Firebase custom claim admin: true.';
+
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const { login, sendPasswordlessLink, completePasswordlessSignIn } = useAuthStore();
+  const { login, logout, sendPasswordlessLink, completePasswordlessSignIn, isAuthenticated, isAdmin, loading } = useAuthStore();
   const [error, setError]             = useState('');
   const [info, setInfo]               = useState('');
   const [loginMethod, setLoginMethod] = useState('password');
@@ -25,28 +29,56 @@ const AdminLogin = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  // Already signed in as admin — skip the form.
+  useEffect(() => {
+    if (!loading && isAuthenticated && isAdmin) {
+      navigate('/admin/dashboard', { replace: true });
+    }
+  }, [loading, isAuthenticated, isAdmin, navigate]);
+
   useEffect(() => {
     const handlePasswordless = async () => {
       const result = await completePasswordlessSignIn();
-      if (result.success)       navigate('/admin/dashboard');
-      else if (result.error)    setError(result.error);
+      if (result.success && result.isAdmin) {
+        navigate('/admin/dashboard', { replace: true });
+      } else if (result.success && !result.isAdmin) {
+        setError(NOT_ADMIN_MSG);
+        await logout();
+      } else if (result.error) {
+        setError(result.error);
+      }
     };
     handlePasswordless();
-  }, [completePasswordlessSignIn, navigate]);
+  }, [completePasswordlessSignIn, logout, navigate]);
 
   const onSubmit = async (data) => {
-    setError(''); setInfo('');
+    setError('');
+    setInfo('');
     if (loginMethod === 'password') {
       if (!data.password) { setError('Password is required'); return; }
       const result = await login(data.email, data.password);
-      if (result.success) navigate('/admin/dashboard');
-      else setError(result.error || 'Invalid email or password');
+      if (result.success && result.isAdmin) {
+        navigate('/admin/dashboard', { replace: true });
+      } else if (result.success && !result.isAdmin) {
+        setError(NOT_ADMIN_MSG);
+        await logout();
+      } else {
+        setError(result.error || 'Invalid email or password');
+      }
     } else {
       const result = await sendPasswordlessLink(data.email);
       if (result.success) setInfo('Sign-in link sent to your email!');
       else setError(result.error || 'Failed to send sign-in link');
     }
   };
+
+  if (loading) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="w-7 h-7 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen flex items-center justify-center px-4">
@@ -55,7 +87,6 @@ const AdminLogin = () => {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        {/* Logo area */}
         <div className="text-center mb-8">
           <div className="w-14 h-14 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-center mx-auto mb-4">
             <Lock size={26} className="text-amber-700" strokeWidth={1.75} />
@@ -65,11 +96,11 @@ const AdminLogin = () => {
         </div>
 
         <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm space-y-6">
-          {/* Method toggle */}
           <div className="flex bg-gray-100 p-1 rounded-lg border border-gray-200">
-            {['password', 'link'].map(m => (
+            {['password', 'link'].map((m) => (
               <button
                 key={m}
+                type="button"
                 onClick={() => setLoginMethod(m)}
                 className={`flex-1 py-2 rounded-md text-xs font-bold uppercase tracking-widest transition-all ${
                   loginMethod === m ? 'bg-white shadow text-gray-900' : 'text-gray-400 hover:text-gray-600'
@@ -82,8 +113,9 @@ const AdminLogin = () => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {error && (
-              <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-lg">
-                <AlertCircle size={15} /> {error}
+              <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-lg">
+                <AlertCircle size={15} className="shrink-0 mt-0.5" />
+                <span>{error}</span>
               </div>
             )}
             {info && (
