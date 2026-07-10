@@ -4,7 +4,7 @@ import { ArrowRight, ShieldCheck, RotateCcw, Truck, ChevronRight, ChevronLeft } 
 import { Link } from 'react-router-dom';
 import { useProductStore } from '../store/productStore';
 import { useBlogStore } from '../store/blogStore';
-import { getPublishedPosts } from '../utils/blogUtils';
+import { getPublishedPosts, resolveBlogImage } from '../utils/blogUtils';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/Button';
 
@@ -361,7 +361,7 @@ export default function HomePage() {
               <FadeUp key={post.id} delay={i * 0.06}>
                 <Link to={`/blog/${post.id}`} className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-all">
                   <div className="aspect-[16/10] overflow-hidden">
-                    <img src={post.image} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={resolveBlogImage(post)} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
                   <div className="p-5">
                     <span className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold">{post.category}</span>

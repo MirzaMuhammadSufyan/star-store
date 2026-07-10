@@ -8,7 +8,9 @@ import { Button } from '../components/ui/Button';
 import { ArticleHero } from '../components/blog/ArticleHero';
 import { ArticleBody } from '../components/blog/ArticleBody';
 import SEO from '../components/SEO';
-import { isPublished, getRelatedPosts } from '../utils/blogUtils';
+import { isPublished, getRelatedPosts, getRelatedProducts, resolveBlogImage } from '../utils/blogUtils';
+import { getArticleProductConfig } from '../utils/articleProductMap';
+import { isEditorialCategory } from '../utils/blogCategories';
 import { getBuyLink } from '../utils/productLinks';
 
 export default function BlogPost() {
@@ -21,17 +23,13 @@ export default function BlogPost() {
 
   const canView = post && (isPublished(post) || isAdmin);
 
-  const relatedProducts = React.useMemo(() => {
-    if (!post) return [];
-    const cat = (post.category || '').toLowerCase();
-    const matched = cat
-      ? products.filter((p) => {
-          const pCat = (p.second_level_category_name || p.category || p.merchant || '').toLowerCase();
-          return pCat.includes(cat) || cat.includes(pCat);
-        })
-      : [];
-    return (matched.length > 0 ? matched : products).slice(0, 3);
-  }, [products, post]);
+  const relatedProducts = React.useMemo(
+    () => getRelatedProducts(post, products, 3),
+    [products, post],
+  );
+
+  const coverImage = post ? resolveBlogImage(post) : '';
+  const productConfig = post ? getArticleProductConfig(post) : null;
 
   const relatedArticles = React.useMemo(
     () => (post ? getRelatedPosts(post, allPosts, 3) : []),
@@ -52,7 +50,7 @@ export default function BlogPost() {
     '@type': 'Article',
     headline: post.title,
     description: post.excerpt,
-    image: post.image ? [post.image] : undefined,
+    image: coverImage ? [coverImage] : undefined,
     datePublished: post.publishedAt || post.createdAt,
     dateModified: post.updatedAt || post.createdAt,
     author: { '@type': 'Organization', name: post.author || 'Star Store Editorial' },
@@ -69,7 +67,7 @@ export default function BlogPost() {
       <SEO
         title={post.title}
         description={post.excerpt}
-        image={post.image}
+        image={coverImage}
         url={`/blog/${post.id}`}
         type="article"
         structuredData={articleSchema}
@@ -96,7 +94,7 @@ export default function BlogPost() {
                 >
                   <div className="aspect-[16/10] overflow-hidden">
                     <img
-                      src={article.image}
+                      src={resolveBlogImage(article)}
                       alt={article.title}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
@@ -116,7 +114,7 @@ export default function BlogPost() {
           </section>
         )}
 
-        {relatedProducts.length > 0 && (
+        {relatedProducts.length > 0 && !isEditorialCategory(post.category) && (
           <section className="border-t border-slate-200 py-14">
             <div className="mb-8 flex items-center justify-between">
               <div>

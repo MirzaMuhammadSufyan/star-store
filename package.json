@@ -8,8 +8,14 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "vite build && wrangler deploy",
-    "deploy:rules": "firebase deploy --only firestore:rules"
+    "deploy": "node scripts/generate-prerender.mjs && vite build && wrangler deploy",
+    "deploy:rules": "firebase deploy --only firestore:rules",
+    "publish:article": "node scripts/publish-article.mjs",
+    "publish:all-articles": "node scripts/publish-all-articles.mjs",
+    "compress:blog-images": "node scripts/compress-blog-images.mjs",
+    "sync:blog-images": "node scripts/sync-blog-images.mjs",
+    "prerender": "node scripts/generate-prerender.mjs",
+    "prebuild": "node scripts/generate-prerender.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
@@ -45,13 +51,14 @@
     "@vitejs/plugin-react": "^6.0.2",
     "autoprefixer": "^10.5.0",
     "eslint": "^10.5.0",
-    "firebase-tools": "^14.9.0",
-    "wrangler": "^4.24.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
+    "firebase-admin": "^13.10.0",
+    "firebase-tools": "^14.9.0",
     "globals": "^17.6.0",
     "postcss": "^8.5.15",
     "tailwindcss": "^3.4.19",
-    "vite": "^8.0.16"
+    "vite": "^8.0.16",
+    "wrangler": "^4.24.0"
   }
 }

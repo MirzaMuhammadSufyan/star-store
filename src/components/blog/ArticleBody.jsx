@@ -4,6 +4,8 @@ import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
 import { Tag } from 'lucide-react';
 import { CodeBlock } from './CodeBlock';
+import { isEditorialCategory } from '../../utils/blogCategories';
+import { getArticleProductConfig } from '../../utils/articleProductMap';
 
 // Reading-optimised prose: comfortable 17px body with 1.75 line-height,
 // clear paragraph rhythm, and an elevated heading hierarchy. Colour is
@@ -31,6 +33,7 @@ const looksLikeHtml = (content) => /<\/?[a-z][\s\S]*>/i.test(content || '');
 export function ArticleBody({ post }) {
   const content = post.content || '';
   const tags = post.tags?.length ? post.tags : [];
+  const productConfig = getArticleProductConfig(post);
 
   return (
     <article className="mx-auto mb-20 max-w-[720px]">
@@ -45,18 +48,36 @@ export function ArticleBody({ post }) {
         </div>
       )}
 
-      {post.category && (
+      {post.category && isEditorialCategory(post.category) ? (
         <p className="mt-8 text-[17px] leading-[1.75] text-slate-700">
-          Ready to see this in action? Browse our full, hand-picked{' '}
+          Explore more perspectives in{' '}
           <Link
-            to={`/catalog?cat=${encodeURIComponent(post.category)}`}
+            to="/blog"
             className="font-medium text-amber-600 underline decoration-amber-600/30 underline-offset-2 hover:decoration-amber-600"
           >
-            {post.category} collection
-          </Link>{' '}
-          for verified deals from official stores.
+            The Journal
+          </Link>
+          , or return to the{' '}
+          <Link
+            to="/"
+            className="font-medium text-amber-600 underline decoration-amber-600/30 underline-offset-2 hover:decoration-amber-600"
+          >
+            storefront
+          </Link>
+          .
         </p>
-      )}
+      ) : post.category ? (
+        <p className="mt-8 text-[17px] leading-[1.75] text-slate-700">
+          Ready to shop for {productConfig.catalogSearch}? Browse our hand-picked{' '}
+          <Link
+            to={`/catalog?cat=${encodeURIComponent(productConfig.catalogSearch)}`}
+            className="font-medium text-amber-600 underline decoration-amber-600/30 underline-offset-2 hover:decoration-amber-600"
+          >
+            {productConfig.catalogSearch} deals
+          </Link>{' '}
+          — verified picks that match what this guide covers.
+        </p>
+      ) : null}
 
       {tags.length > 0 && (
         <div className="mt-10 flex flex-wrap gap-2 border-t border-slate-200 pt-10">

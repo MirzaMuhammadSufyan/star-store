@@ -5,7 +5,7 @@ import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 export const useBlogStore = create((set) => ({
   posts: [],
   loading: true,
-  categories: ['All', 'Reviews', 'Technology', 'Lifestyle', 'Guides'],
+  categories: ['All', 'Editorial', 'Reviews', 'Technology', 'Lifestyle', 'Guides'],
 
   fetchPosts: () => {
     const q = query(collection(db, 'blogs'), orderBy('createdAt', 'desc'));

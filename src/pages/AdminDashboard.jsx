@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap, FileText } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useBlogStore } from '../store/blogStore';
-import { deleteBlogPost } from '../services/blogService';
+import { deleteBlogPost, publishSeedArticle } from '../services/blogService';
+import { SEED_ARTICLES } from '../content/seedArticles';
 import { useAnalyticsStore } from '../store/analyticsStore';
 import { useAuthStore } from '../store/authStore';
 import { Button } from '../components/ui/Button';
@@ -85,6 +86,26 @@ const AdminDashboard = () => {
 
   const [importingAll, setImportingAll] = useState(false);
   const [importedIds,  setImportedIds]  = useState(new Set());
+  const [publishingSeed, setPublishingSeed] = useState(null);
+  const [seedMessage, setSeedMessage] = useState('');
+
+  const publishedSeedKeys = useMemo(
+    () => new Set(blogPosts.filter((p) => p.seedKey).map((p) => p.seedKey)),
+    [blogPosts],
+  );
+
+  const handlePublishSeed = async (seedKey) => {
+    setPublishingSeed(seedKey);
+    setSeedMessage('');
+    try {
+      const { id, created } = await publishSeedArticle(seedKey);
+      setSeedMessage(created ? `Published (id: ${id})` : `Updated existing article (id: ${id})`);
+    } catch (e) {
+      setSeedMessage(e.message || 'Failed to publish seed article');
+    } finally {
+      setPublishingSeed(null);
+    }
+  };
 
   const handleImportAll = async () => {
     if (!syncResults.length) return;
@@ -227,6 +248,50 @@ const AdminDashboard = () => {
 
         {/* ── Blogs ── */}
         {activeTab === 'blogs' && (
+          <div className="space-y-6">
+            <div className="bg-white border border-gray-200 rounded-lg p-5">
+              <div className="flex items-start gap-3 mb-4">
+                <div className="w-9 h-9 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center shrink-0">
+                  <FileText size={17} className="text-amber-700" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>Curated Editorials</h3>
+                  <p className="text-xs text-gray-400 mt-0.5">One-click publish for pre-written articles. Safe to run again — existing posts are updated, not duplicated.</p>
+                </div>
+              </div>
+              <div className="space-y-3">
+                {SEED_ARTICLES.map((seed) => {
+                  const isLive = publishedSeedKeys.has(seed.seedKey);
+                  const busy = publishingSeed === seed.seedKey;
+                  return (
+                    <div key={seed.seedKey} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-lg border border-gray-100 bg-gray-50 px-4 py-3">
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-gray-900 line-clamp-1">{seed.title}</p>
+                        <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{seed.excerpt}</p>
+                        <p className="text-[10px] uppercase tracking-wider text-amber-700 font-semibold mt-1">{seed.category}</p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        {isLive && (
+                          <span className="text-xs text-green-700 font-semibold px-2.5 py-1 bg-green-50 border border-green-200 rounded">Live</span>
+                        )}
+                        <Button
+                          size="sm"
+                          variant={isLive ? 'secondary' : 'accent'}
+                          disabled={busy}
+                          onClick={() => handlePublishSeed(seed.seedKey)}
+                        >
+                          {busy ? 'Publishing…' : isLive ? 'Update' : 'Publish'}
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              {seedMessage && (
+                <p className="mt-3 text-xs font-medium text-amber-800 bg-amber-50 border border-amber-200 rounded px-3 py-2">{seedMessage}</p>
+              )}
+            </div>
+
           <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
@@ -279,6 +344,7 @@ const AdminDashboard = () => {
                 </tbody>
               </table>
             </div>
+          </div>
           </div>
         )}
 

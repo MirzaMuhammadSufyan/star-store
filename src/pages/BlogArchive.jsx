@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Calendar, User, ArrowRight, ChevronRight, FileText } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useBlogStore } from '../store/blogStore';
-import { getPublishedPosts } from '../utils/blogUtils';
+import { getPublishedPosts, resolveBlogImage } from '../utils/blogUtils';
 import SEO from '../components/SEO';
 
 export default function BlogArchive() {
@@ -97,7 +97,7 @@ export default function BlogArchive() {
             className="group grid md:grid-cols-2 bg-white border border-gray-200 rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl"
           >
             <Link to={`/blog/${hero.id}`} className="block overflow-hidden aspect-[4/3] md:aspect-auto">
-              <img src={hero.image} alt={hero.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img src={resolveBlogImage(hero)} alt={hero.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
             </Link>
             <div className="p-8 md:p-10 flex flex-col justify-center gap-4">
               <span className="text-xs uppercase tracking-widest text-amber-700 font-semibold">Featured · {hero.category}</span>
@@ -129,7 +129,7 @@ export default function BlogArchive() {
                 className="group flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl"
               >
                 <Link to={`/blog/${post.id}`} className="block overflow-hidden aspect-[16/10]">
-                  <img src={post.image} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={resolveBlogImage(post)} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </Link>
                 <div className="p-5 flex flex-col flex-grow">
                   <span className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold">{post.category}</span>

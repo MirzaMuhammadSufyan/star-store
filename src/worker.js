@@ -68,6 +68,26 @@ export default {
       return scrapeHandler({ request, env, ctx });
     }
 
+    // Serve static prerender HTML to bots and simple scrapers (no JS execution).
+    const ua = request.headers.get('User-Agent') || '';
+    const isBot = /bot|crawl|spider|slurp|mediapartners|adsbot|bingpreview|facebookexternalhit|linkedinbot|twitterbot|whatsapp|telegram|preview|lighthouse|headless|wget|curl|python-requests|scrapy|wordcounter/i.test(ua);
+
+    if (isBot) {
+      if (path === '/') {
+        const home = await env.ASSETS.fetch(new URL('/prerender/index.html', request.url));
+        if (home.status === 200) return home;
+      }
+      if (path === '/blog') {
+        const archive = await env.ASSETS.fetch(new URL('/prerender/blog.html', request.url));
+        if (archive.status === 200) return archive;
+      }
+      const blogMatch = path.match(/^\/blog\/([a-zA-Z0-9]+)$/);
+      if (blogMatch) {
+        const article = await env.ASSETS.fetch(new URL(`/prerender/blog/${blogMatch[1]}.html`, request.url));
+        if (article.status === 200) return article;
+      }
+    }
+
     return env.ASSETS.fetch(request);
   },
 };

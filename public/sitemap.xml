@@ -1,73 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Static sitemap covering fixed routes only.
-
-  NOTE — action still required before this is production-correct:
-  1. Replace https://www.starstore.com below with the actual apex custom
-     domain once it is purchased and cut over from the workers.dev testing
-     subdomain (see checklist.txt, Phase 4).
-  2. Product (/product/:id) and Journal (/blog/:id) pages are stored in
-     Firestore and are created/edited at runtime, so their URLs can't be
-     enumerated in a static file like this one. Once the custom domain is
-     live, generate a dynamic sitemap (e.g. a small server/worker route that
-     queries Firestore and emits <url> entries for every product and post),
-     or submit those sections via Search Console's URL inspection tool
-     individually until that automation exists.
--->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://www.starstore.com/</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://www.starstore.com/catalog</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.starstore.com/blog</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.starstore.com/about</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://www.starstore.com/contact</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://www.starstore.com/legal/privacy</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://www.starstore.com/legal/terms</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://www.starstore.com/legal/disclaimer</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://www.starstore.com/legal/cookies</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://www.starstore.com/legal/shipping</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://www.starstore.com/legal/refunds</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/catalog</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/about</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/contact</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/legal/privacy</loc><changefreq>weekly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/legal/terms</loc><changefreq>weekly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/legal/disclaimer</loc><changefreq>weekly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/VPUQ1G6wR80b90QYB9gk</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/OTqMAndFI47k09KmAZcI</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/xaW54laeHNIBnqbyvuOI</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/YD17amCS2ccJXGHNwIbl</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/RZ7NTebT327Qen6htbjW</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/4jhsj8sLRzkYqNRuJ2t7</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/RVqSR0NCNg2dtsQqlr9r</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/VhSY2uOdyyTxw444TIfg</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/VQn6KzZJqhmhxmkSa1hG</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/PpY4jSHzvHjjG0uomu0b</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/uIYKOZuKgOuxhFxd5XWD</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/dxk87FGYkiM6T8TiYLIy</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/xK2kOpbkGs354GCkYBPu</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/RLmUHNvihJTPk3lQuWcT</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/3kME1gtjrRDp2fUTfa38</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/bE7VgpqbZkUokJ3UGgFc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/Y5xGOSiOxWDW1fcg5VXJ</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/VAzyjjm8t6T1G3bSDkyQ</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/r1tVQ3OBIG0NrdKSmjzq</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/erFHxOa6UO4ZoFyQGSM6</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/QBGD91Jmul2jSCWG5OAk</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/uF96ibOr4P5vBqQ0dHn4</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/5136ZSQkArSLmrXXknvq</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/R8u0Uu2UMP11vxECRTiP</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/9qDlS0DKhziHsZ8Un3CU</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/E3LKcnayyIj5MVAT7Z75</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/FZSEAJxPgUxVQn8qyrz8</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/wiKaMwouFQkIVAOA6Bpe</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/Nj1lyIb1umV9hJGWwA7k</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/lhvffgM53h14NX2Rgk0m</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/0J2P3cRPK5AS1nio67RW</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/IPyGYOOehQGLxCJghl7P</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/RnThPVJ3d2dEEDKZVFBw</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/NiGcSKKYf30ahRo8mpN0</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://star-store.mirzamuhammadsufyanbaig.workers.dev/blog/et6oKdCR5x6jSMfEqHbO</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>

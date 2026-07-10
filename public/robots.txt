@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /adminpanel
 
-Sitemap: https://www.starstore.com/sitemap.xml
+Sitemap: https://star-store.mirzamuhammadsufyanbaig.workers.dev/sitemap.xml

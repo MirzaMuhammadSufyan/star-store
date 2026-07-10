@@ -1,5 +1,6 @@
 import { db } from '../firebase';
-import { collection, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs } from 'firebase/firestore';
+import { getSeedArticle } from '../content/seedArticles';
 
 const BLOGS_COLLECTION = 'blogs';
 
@@ -11,7 +12,7 @@ const BLOGS_COLLECTION = 'blogs';
  */
 function toBlogDocument(form) {
   const cover = (form.coverImage || form.image || '').trim();
-  return {
+  const doc = {
     title: (form.title || '').trim(),
     excerpt: (form.excerpt || '').trim(),
     content: form.content || '',
@@ -22,6 +23,8 @@ function toBlogDocument(form) {
     tags: Array.isArray(form.tags) ? form.tags.map((t) => t.trim()).filter(Boolean) : [],
     status: form.status === 'published' ? 'published' : 'draft',
   };
+  if (form.seedKey) doc.seedKey = form.seedKey;
+  return doc;
 }
 
 /**
@@ -65,4 +68,31 @@ export async function updateBlogPost(id, form) {
 export async function deleteBlogPost(id) {
   await deleteDoc(doc(db, BLOGS_COLLECTION, id));
   return id;
+}
+
+/** Find an existing post created from a seed key (idempotent publishing). */
+export async function findPostBySeedKey(seedKey) {
+  const q = query(collection(db, BLOGS_COLLECTION), where('seedKey', '==', seedKey));
+  const snap = await getDocs(q);
+  if (snap.empty) return null;
+  const d = snap.docs[0];
+  return { id: d.id, ...d.data() };
+}
+
+/**
+ * Publish a curated seed article once. Re-publishing updates the existing doc.
+ * Returns `{ id, created: boolean }`.
+ */
+export async function publishSeedArticle(seedKey) {
+  const seed = getSeedArticle(seedKey);
+  if (!seed) throw new Error(`Unknown seed article: ${seedKey}`);
+
+  const existing = await findPostBySeedKey(seedKey);
+  if (existing) {
+    await updateBlogPost(existing.id, { ...seed, publishedAt: existing.publishedAt });
+    return { id: existing.id, created: false };
+  }
+
+  const id = await createBlogPost(seed);
+  return { id, created: true };
 }

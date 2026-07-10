@@ -1,10 +1,11 @@
 import React from 'react';
 import { Calendar, ChevronLeft, Clock, Share2, User } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { estimateReadingTime } from '../../utils/blogUtils';
+import { estimateReadingTime, resolveBlogImage } from '../../utils/blogUtils';
 
 export function ArticleHero({ post, onBack }) {
   const minutes = estimateReadingTime(post.content);
+  const coverImage = resolveBlogImage(post);
 
   return (
     <>
@@ -53,7 +54,19 @@ export function ArticleHero({ post, onBack }) {
       </motion.header>
 
       <div className="mx-auto mb-12 aspect-[21/9] w-full max-w-5xl overflow-hidden rounded-2xl">
-        <img src={post.image} alt={post.title} className="h-full w-full object-cover" />
+        {coverImage ? (
+          <img
+            src={coverImage}
+            alt={post.title}
+            className="h-full w-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-400">
+            No cover image
+          </div>
+        )}
       </div>
     </>
   );
