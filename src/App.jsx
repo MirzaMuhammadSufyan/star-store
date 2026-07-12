@@ -136,7 +136,7 @@ function App() {
       <div className="min-h-screen bg-white flex flex-col">
         <Navbar onFavOpen={() => setFavOpen(true)} />
         <FavouritesDrawer open={favOpen} onClose={() => setFavOpen(false)} />
-        <main className="flex-grow pt-16">
+        <main className="flex-grow pt-[4.5rem]">
           <ChunkErrorBoundary>
             <Suspense fallback={<div className="flex items-center justify-center h-[60vh]"><div className="w-7 h-7 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" /></div>}>
               <AnimatedRoutes />

@@ -45,25 +45,31 @@ const Navbar = ({ onFavOpen }) => {
   const isActive = (path) =>
     path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
 
+  const navLinkClass = (active) =>
+    [
+      'relative flex items-center text-[15px] leading-none tracking-tight transition-colors duration-200',
+      'after:absolute after:left-0 after:right-0 after:bottom-3 after:h-[2px] after:rounded-full after:transition-colors',
+      active
+        ? 'text-gray-900 font-semibold after:bg-amber-500'
+        : 'text-gray-700 font-medium after:bg-transparent hover:text-gray-900 hover:after:bg-gray-300',
+    ].join(' ');
+
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-gray-200 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-gradient-to-r after:from-amber-400 after:via-amber-500 after:to-amber-300">
-      <div className="max-w-7xl mx-auto pl-4 pr-5 sm:pl-6 sm:pr-8 lg:pl-8 lg:pr-10 flex items-center gap-4 h-16">
+    <header className="fixed top-0 inset-x-0 z-50 overflow-visible bg-white border-b border-gray-200 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-gradient-to-r after:from-amber-400 after:via-amber-500 after:to-amber-300">
+      <div className="max-w-7xl mx-auto pl-4 pr-5 sm:pl-6 sm:pr-8 lg:pl-8 lg:pr-10 flex items-center gap-4 h-[4.5rem]">
 
         {/* Logo + desktop nav links */}
-        <div className="flex items-center gap-8 shrink-0">
-          <Link to="/" className="text-[22px] font-bold text-gray-900 shrink-0" style={{ fontFamily: "'Playfair Display', serif" }}>
+        <div className="flex items-stretch gap-8 shrink-0 self-stretch">
+          <Link
+            to="/"
+            className="flex items-center text-[22px] font-bold leading-none text-gray-900 shrink-0"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
             Star<span className="text-amber-600">Store</span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-8">
-            <Link
-              to="/"
-              className={`text-[15px] tracking-tight border-b-2 pb-1 transition-colors duration-200 ${
-                location.pathname === '/'
-                  ? 'text-gray-900 font-semibold border-amber-500'
-                  : 'text-gray-500 font-medium border-transparent hover:text-gray-900 hover:border-gray-300'
-              }`}
-            >
+          <nav className="hidden lg:flex items-stretch gap-8">
+            <Link to="/" className={navLinkClass(location.pathname === '/')}>
               Home
             </Link>
 
@@ -74,26 +80,19 @@ const Navbar = ({ onFavOpen }) => {
               open={shopOpen}
               onOpen={openShop}
               onClose={scheduleCloseShop}
+              className={navLinkClass(isActive('/catalog'))}
             />
 
             {links.filter(l => l.label !== 'Home' && l.label !== 'Shop').map(({ label, path }) => (
-              <Link
-                key={path}
-                to={path}
-                className={`text-[15px] tracking-tight border-b-2 pb-1 transition-colors duration-200 ${
-                  isActive(path)
-                    ? 'text-gray-900 font-semibold border-amber-500'
-                    : 'text-gray-500 font-medium border-transparent hover:text-gray-900 hover:border-gray-300'
-                }`}
-              >
+              <Link key={path} to={path} className={navLinkClass(isActive(path))}>
                 {label}
               </Link>
             ))}
           </nav>
         </div>
 
-        {/* Embedded search — centered between nav links and utility controls */}
-        <div className="hidden md:flex flex-1 max-w-sm mx-auto py-2.5">
+        {/* Embedded search — vertically centered with room above/below the pill */}
+        <div className="hidden md:flex flex-1 max-w-sm mx-auto items-center self-stretch min-w-0">
           <SearchBar
             compact
             value={searchValue}
@@ -103,11 +102,11 @@ const Navbar = ({ onFavOpen }) => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2 ml-auto md:ml-0">
+        <div className="flex items-center gap-2 ml-auto md:ml-0 self-stretch">
           {/* Mobile search toggle */}
           <button
             onClick={() => setSearchOpen(v => !v)}
-            className="md:hidden w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900 transition-colors"
+            className="md:hidden w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors"
             aria-label="Toggle search"
           >
             {searchOpen ? <X size={20} /> : <Search size={20} strokeWidth={1.75} />}
@@ -116,7 +115,7 @@ const Navbar = ({ onFavOpen }) => {
           {/* Favourites button */}
           <button
             onClick={onFavOpen}
-            className="relative w-10 h-10 flex items-center justify-center text-gray-500 hover:text-rose-500 transition-colors"
+            className="relative w-10 h-10 flex items-center justify-center text-gray-600 hover:text-rose-500 transition-colors"
             aria-label="Saved items"
           >
             <Heart size={21} strokeWidth={1.75} />
@@ -130,7 +129,7 @@ const Navbar = ({ onFavOpen }) => {
           <div className="hidden sm:flex items-center gap-1 pl-2 border-l border-gray-200">
             {isAuthenticated && isAdmin ? (
               <>
-                <Link to="/admin/dashboard" className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900 transition-colors" title="Dashboard">
+                <Link to="/admin/dashboard" className="w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors" title="Dashboard">
                   <LayoutDashboard size={18} strokeWidth={1.75} />
                 </Link>
                 <Button variant="ghost" size="sm" onPointerUp={() => { logout(); navigate('/'); }}>
@@ -142,7 +141,7 @@ const Navbar = ({ onFavOpen }) => {
 
           <button
             onPointerUp={() => setOpen(!open)}
-            className="lg:hidden w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900"
+            className="lg:hidden w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900"
           >
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -190,7 +189,7 @@ const Navbar = ({ onFavOpen }) => {
                   className={`px-3 py-2.5 rounded text-[15px] transition-colors ${
                     isActive(path)
                       ? 'bg-gray-100 text-gray-900 font-medium'
-                      : 'text-gray-600 hover:bg-gray-50'
+                      : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
                   {label}

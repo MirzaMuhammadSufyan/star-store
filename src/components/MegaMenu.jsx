@@ -92,17 +92,21 @@ const MegaMenu = ({ open, onOpen, onClose }) => {
   );
 };
 
-export const MegaMenuTrigger = ({ label, path, isActive, onOpen, onClose, open }) => (
+export const MegaMenuTrigger = ({ label, path, isActive, onOpen, onClose, open, className }) => (
   <div
-    className="relative"
+    className="relative flex items-stretch"
     onMouseEnter={onOpen}
     onMouseLeave={onClose}
   >
     <Link
       to={path}
-      className={`flex items-center gap-1 text-[15px] transition-colors ${
-        isActive ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'
-      }`}
+      className={
+        className
+          ? `${className} gap-1`
+          : `flex items-center gap-1 text-[15px] leading-none transition-colors ${
+              isActive ? 'text-gray-900 font-semibold' : 'text-gray-700 hover:text-gray-900'
+            }`
+      }
     >
       {label}
       <ChevronDown size={14} strokeWidth={2} className={`transition-transform ${open ? 'rotate-180' : ''}`} />

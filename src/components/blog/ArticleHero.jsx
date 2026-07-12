@@ -29,10 +29,10 @@ export function ArticleHero({ post, onBack }) {
         <span className="text-xs font-semibold uppercase tracking-widest text-amber-600">
           {post.category}
         </span>
-        <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl">
+        <h1 className="article-prose text-4xl font-bold leading-[1.2] tracking-normal text-slate-900 sm:text-5xl">
           {post.title}
         </h1>
-        <p className="text-lg leading-relaxed text-slate-500">{post.excerpt}</p>
+        <p className="article-prose text-lg leading-relaxed text-slate-600">{post.excerpt}</p>
         <div className="flex flex-wrap items-center gap-5 border-t border-slate-200 pt-4 text-sm text-slate-400">
           <span className="flex items-center gap-1.5">
             <User size={14} />

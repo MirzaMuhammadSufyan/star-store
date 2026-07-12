@@ -7,23 +7,26 @@ import { CodeBlock } from './CodeBlock';
 import { isEditorialCategory } from '../../utils/blogCategories';
 import { getArticleProductConfig } from '../../utils/articleProductMap';
 
-// Reading-optimised prose: comfortable 17px body with 1.75 line-height,
-// clear paragraph rhythm, and an elevated heading hierarchy. Colour is
-// reserved for links only; emphasis uses weight, not hue.
+// Reading-optimised prose: Georgia (standard long-form reading face),
+// comfortable 18px body with 1.8 line-height. Colour is reserved for
+// links only; emphasis uses weight, not hue.
 const PROSE_CLASSES = [
-  'text-[17px] leading-[1.75] text-slate-700',
+  'article-prose text-[1.125rem] leading-[1.8] text-slate-800',
   '[&_p]:mb-6',
-  '[&_h1]:mt-14 [&_h1]:mb-4 [&_h1]:text-4xl [&_h1]:font-extrabold [&_h1]:tracking-tight [&_h1]:text-slate-900',
-  '[&_h2]:mt-14 [&_h2]:mb-4 [&_h2]:text-[1.75rem] [&_h2]:font-bold [&_h2]:tracking-tight [&_h2]:text-slate-900',
-  '[&_h3]:mt-10 [&_h3]:mb-3 [&_h3]:text-2xl [&_h3]:font-bold [&_h3]:text-slate-900',
+  '[&_h1]:mt-14 [&_h1]:mb-4 [&_h1]:text-[2rem] [&_h1]:font-bold [&_h1]:leading-snug [&_h1]:tracking-normal [&_h1]:text-slate-900',
+  '[&_h2]:mt-14 [&_h2]:mb-4 [&_h2]:text-[1.5rem] [&_h2]:font-bold [&_h2]:leading-snug [&_h2]:tracking-normal [&_h2]:text-slate-900',
+  '[&_h3]:mt-10 [&_h3]:mb-3 [&_h3]:text-[1.25rem] [&_h3]:font-bold [&_h3]:leading-snug [&_h3]:text-slate-900',
   '[&_h2+p]:mt-0 [&_h3+p]:mt-0',
-  '[&_strong]:font-semibold [&_strong]:text-slate-900',
+  '[&_strong]:font-bold [&_strong]:text-slate-900',
   '[&_ul]:my-6 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6 [&_ul]:marker:text-slate-400',
   '[&_ol]:my-6 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6 [&_ol]:marker:text-slate-400',
-  '[&_li]:pl-1.5 [&_li]:leading-[1.7]',
-  '[&_a]:font-medium [&_a]:text-amber-600 [&_a]:underline [&_a]:decoration-amber-600/30 [&_a]:underline-offset-2 [&_a:hover]:decoration-amber-600',
+  '[&_li]:pl-1.5 [&_li]:leading-[1.8]',
+  '[&_a]:font-medium [&_a]:text-amber-700 [&_a]:underline [&_a]:decoration-amber-700/30 [&_a]:underline-offset-2 [&_a:hover]:decoration-amber-700',
   '[&_blockquote]:my-6 [&_blockquote]:border-l-4 [&_blockquote]:border-amber-300 [&_blockquote]:pl-5 [&_blockquote]:italic [&_blockquote]:text-slate-600',
   '[&_hr]:my-10 [&_hr]:border-slate-200',
+  '[&_table]:my-8 [&_table]:w-full [&_table]:border-collapse [&_table]:text-[1rem]',
+  '[&_th]:border [&_th]:border-slate-200 [&_th]:bg-slate-50 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:font-bold',
+  '[&_td]:border [&_td]:border-slate-200 [&_td]:px-3 [&_td]:py-2',
 ].join(' ');
 
 // Rich-text posts from the WYSIWYG editor are stored as HTML; older posts
@@ -49,29 +52,29 @@ export function ArticleBody({ post }) {
       )}
 
       {post.category && isEditorialCategory(post.category) ? (
-        <p className="mt-8 text-[17px] leading-[1.75] text-slate-700">
+        <p className="article-prose mt-8 text-[1.125rem] leading-[1.8] text-slate-800">
           Explore more perspectives in{' '}
           <Link
             to="/blog"
-            className="font-medium text-amber-600 underline decoration-amber-600/30 underline-offset-2 hover:decoration-amber-600"
+            className="font-medium text-amber-700 underline decoration-amber-700/30 underline-offset-2 hover:decoration-amber-700"
           >
             The Journal
           </Link>
           , or return to the{' '}
           <Link
             to="/"
-            className="font-medium text-amber-600 underline decoration-amber-600/30 underline-offset-2 hover:decoration-amber-600"
+            className="font-medium text-amber-700 underline decoration-amber-700/30 underline-offset-2 hover:decoration-amber-700"
           >
             storefront
           </Link>
           .
         </p>
       ) : post.category ? (
-        <p className="mt-8 text-[17px] leading-[1.75] text-slate-700">
+        <p className="article-prose mt-8 text-[1.125rem] leading-[1.8] text-slate-800">
           Ready to shop for {productConfig.catalogSearch}? Browse our hand-picked{' '}
           <Link
             to={`/catalog?cat=${encodeURIComponent(productConfig.catalogSearch)}`}
-            className="font-medium text-amber-600 underline decoration-amber-600/30 underline-offset-2 hover:decoration-amber-600"
+            className="font-medium text-amber-700 underline decoration-amber-700/30 underline-offset-2 hover:decoration-amber-700"
           >
             {productConfig.catalogSearch} deals
           </Link>{' '}

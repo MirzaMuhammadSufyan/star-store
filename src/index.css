@@ -74,15 +74,30 @@
 
 /* Prose */
 .prose h2 {
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 2.5rem 0 1rem;
   color: #111827;
-  letter-spacing: -0.02em;
+  letter-spacing: normal;
 }
 .prose p  { margin-bottom: 1.5rem; line-height: 1.9; color: #374151; font-size: 1rem; }
 .prose li { line-height: 1.9; color: #374151; margin-bottom: 0.5rem; font-size: 1rem; }
+
+/* Journal articles — classic reading stack (overrides display Playfair) */
+.article-prose,
+.article-prose h1,
+.article-prose h2,
+.article-prose h3,
+.article-prose h4,
+.article-prose p,
+.article-prose li,
+.article-prose blockquote,
+.article-prose td,
+.article-prose th {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  letter-spacing: normal;
+}
 
 /* Readable body text utility — use on paragraphs in cards/pages */
 .body-text {
@@ -108,11 +123,11 @@
   min-height: 340px;
   padding: 1.5rem 1.75rem;
   background: #ffffff;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-size: 1.0625rem;          /* 17px */
-  line-height: 1.75;
-  color: #334155;                /* slate-700 */
-  letter-spacing: -0.01em;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 1.125rem;           /* 18px */
+  line-height: 1.8;
+  color: #1e293b;                /* slate-800 */
+  letter-spacing: normal;
 }
 .ProseMirror:focus,
 .ProseMirror:focus-visible { outline: none; }
@@ -121,14 +136,14 @@
 .ProseMirror > :first-child { margin-top: 0; }
 .ProseMirror > :last-child { margin-bottom: 0; }
 
-/* Sans-serif headings inside the editor (override the global serif) */
+/* Match published article headings (override global Playfair) */
 .ProseMirror h1,
 .ProseMirror h2,
 .ProseMirror h3 {
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
   color: #0f172a;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+  line-height: 1.3;
+  letter-spacing: normal;
 }
 .ProseMirror h1 { font-size: 1.875rem; font-weight: 800; margin: 1.75rem 0 0.75rem; }
 .ProseMirror h2 { font-size: 1.5rem;   font-weight: 700; margin: 1.5rem 0 0.75rem; }
