@@ -345,32 +345,32 @@ export default function HomePage() {
 
       {/* ── From the Journal ── */}
       {blogItems.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 border-t border-gray-200">
-          <div className="flex items-center justify-between mb-8">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-gray-200">
+          <div className="flex items-center justify-between mb-5">
             <div>
-              <p className="text-xs text-amber-700 uppercase tracking-wider font-semibold mb-1">Editorial</p>
-              <h2 className="text-2xl font-semibold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>From the Journal</h2>
+              <p className="text-[11px] text-amber-700 uppercase tracking-[0.12em] font-semibold mb-0.5">Editorial</p>
+              <h2 className="text-xl font-semibold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>From the Journal</h2>
             </div>
             <Link to="/blog">
               <Button variant="secondary" size="sm" className="gap-1.5">All Articles <ArrowRight size={14} /></Button>
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {blogItems.map((post, i) => (
-              <FadeUp key={post.id} delay={i * 0.06}>
-                <Link to={`/blog/${post.id}`} className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-all">
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img src={resolveBlogImage(post)} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <FadeUp key={post.id} delay={i * 0.05}>
+                <Link to={`/blog/${post.id}`} className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-amber-300 transition-colors">
+                  <div className="aspect-[16/9] overflow-hidden">
+                    <img src={resolveBlogImage(post)} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" />
                   </div>
-                  <div className="p-5">
-                    <span className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold">{post.category}</span>
-                    <h3 className="mt-2 text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-amber-700 transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <div className="p-3.5">
+                    <span className="text-[10px] uppercase tracking-[0.12em] text-amber-700 font-semibold">{post.category}</span>
+                    <h3 className="mt-1.5 text-[15px] font-semibold text-gray-900 line-clamp-2 group-hover:text-amber-800 transition-colors leading-snug" style={{ fontFamily: "'Playfair Display', serif" }}>
                       {post.title}
                     </h3>
-                    <p className="mt-2 text-sm text-gray-500 line-clamp-2 leading-relaxed">{post.excerpt}</p>
-                    <p className="mt-4 text-xs text-amber-700 font-medium flex items-center gap-1">
-                      Read more <ChevronRight size={13} />
+                    <p className="mt-1.5 text-[13px] text-gray-500 line-clamp-2 leading-relaxed">{post.excerpt}</p>
+                    <p className="mt-2.5 text-xs text-amber-700 font-medium flex items-center gap-0.5">
+                      Read <ChevronRight size={12} />
                     </p>
                   </div>
                 </Link>

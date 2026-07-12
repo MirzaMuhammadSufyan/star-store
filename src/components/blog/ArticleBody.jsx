@@ -7,30 +7,28 @@ import { CodeBlock } from './CodeBlock';
 import { isEditorialCategory } from '../../utils/blogCategories';
 import { getArticleProductConfig } from '../../utils/articleProductMap';
 
-// Reading-optimised prose: Georgia (standard long-form reading face),
-// comfortable 18px body with 1.8 line-height. Colour is reserved for
-// links only; emphasis uses weight, not hue.
+// Compact reading measure: Georgia at ~16.5px with tighter section rhythm
+// so long articles feel dense and scannable, not oversized.
 const PROSE_CLASSES = [
-  'article-prose text-[1.125rem] leading-[1.8] text-slate-800',
-  '[&_p]:mb-6',
-  '[&_h1]:mt-14 [&_h1]:mb-4 [&_h1]:text-[2rem] [&_h1]:font-bold [&_h1]:leading-snug [&_h1]:tracking-normal [&_h1]:text-slate-900',
-  '[&_h2]:mt-14 [&_h2]:mb-4 [&_h2]:text-[1.5rem] [&_h2]:font-bold [&_h2]:leading-snug [&_h2]:tracking-normal [&_h2]:text-slate-900',
-  '[&_h3]:mt-10 [&_h3]:mb-3 [&_h3]:text-[1.25rem] [&_h3]:font-bold [&_h3]:leading-snug [&_h3]:text-slate-900',
+  'article-prose text-[16.5px] leading-[1.7] text-stone-800',
+  '[&_p]:mb-4',
+  '[&_h1]:mt-8 [&_h1]:mb-3 [&_h1]:text-[1.35rem] [&_h1]:font-bold [&_h1]:leading-snug [&_h1]:text-stone-900',
+  '[&_h2]:mt-8 [&_h2]:mb-2.5 [&_h2]:text-[1.2rem] [&_h2]:font-bold [&_h2]:leading-snug [&_h2]:text-stone-900',
+  '[&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:text-[1.05rem] [&_h3]:font-bold [&_h3]:leading-snug [&_h3]:text-stone-900',
   '[&_h2+p]:mt-0 [&_h3+p]:mt-0',
-  '[&_strong]:font-bold [&_strong]:text-slate-900',
-  '[&_ul]:my-6 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-6 [&_ul]:marker:text-slate-400',
-  '[&_ol]:my-6 [&_ol]:list-decimal [&_ol]:space-y-2 [&_ol]:pl-6 [&_ol]:marker:text-slate-400',
-  '[&_li]:pl-1.5 [&_li]:leading-[1.8]',
+  '[&_strong]:font-bold [&_strong]:text-stone-900',
+  '[&_ul]:my-4 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5 [&_ul]:marker:text-stone-400',
+  '[&_ol]:my-4 [&_ol]:list-decimal [&_ol]:space-y-1.5 [&_ol]:pl-5 [&_ol]:marker:text-stone-400',
+  '[&_li]:pl-0.5 [&_li]:leading-[1.65]',
   '[&_a]:font-medium [&_a]:text-amber-700 [&_a]:underline [&_a]:decoration-amber-700/30 [&_a]:underline-offset-2 [&_a:hover]:decoration-amber-700',
-  '[&_blockquote]:my-6 [&_blockquote]:border-l-4 [&_blockquote]:border-amber-300 [&_blockquote]:pl-5 [&_blockquote]:italic [&_blockquote]:text-slate-600',
-  '[&_hr]:my-10 [&_hr]:border-slate-200',
-  '[&_table]:my-8 [&_table]:w-full [&_table]:border-collapse [&_table]:text-[1rem]',
-  '[&_th]:border [&_th]:border-slate-200 [&_th]:bg-slate-50 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:font-bold',
-  '[&_td]:border [&_td]:border-slate-200 [&_td]:px-3 [&_td]:py-2',
+  '[&_blockquote]:my-5 [&_blockquote]:border-l-[3px] [&_blockquote]:border-amber-300 [&_blockquote]:pl-4 [&_blockquote]:text-[15.5px] [&_blockquote]:italic [&_blockquote]:text-stone-600',
+  '[&_hr]:my-7 [&_hr]:border-stone-200',
+  '[&_img]:my-5 [&_img]:rounded-md',
+  '[&_table]:my-5 [&_table]:w-full [&_table]:border-collapse [&_table]:text-[14.5px]',
+  '[&_th]:border [&_th]:border-stone-200 [&_th]:bg-stone-50 [&_th]:px-2.5 [&_th]:py-1.5 [&_th]:text-left [&_th]:font-bold',
+  '[&_td]:border [&_td]:border-stone-200 [&_td]:px-2.5 [&_td]:py-1.5',
 ].join(' ');
 
-// Rich-text posts from the WYSIWYG editor are stored as HTML; older posts
-// are Markdown strings. Detect an HTML tag to decide how to render.
 const looksLikeHtml = (content) => /<\/?[a-z][\s\S]*>/i.test(content || '');
 
 export function ArticleBody({ post }) {
@@ -39,7 +37,7 @@ export function ArticleBody({ post }) {
   const productConfig = getArticleProductConfig(post);
 
   return (
-    <article className="mx-auto mb-20 max-w-[720px]">
+    <article className="mx-auto mb-10 max-w-[680px]">
       {looksLikeHtml(content) ? (
         <div
           className={PROSE_CLASSES}
@@ -52,45 +50,39 @@ export function ArticleBody({ post }) {
       )}
 
       {post.category && isEditorialCategory(post.category) ? (
-        <p className="article-prose mt-8 text-[1.125rem] leading-[1.8] text-slate-800">
-          Explore more perspectives in{' '}
-          <Link
-            to="/blog"
-            className="font-medium text-amber-700 underline decoration-amber-700/30 underline-offset-2 hover:decoration-amber-700"
-          >
+        <p className="article-prose mt-6 border-t border-stone-200 pt-5 text-[15px] leading-relaxed text-stone-700">
+          Explore more in{' '}
+          <Link to="/blog" className="font-medium text-amber-700 underline decoration-amber-700/30 underline-offset-2 hover:decoration-amber-700">
             The Journal
           </Link>
           , or return to the{' '}
-          <Link
-            to="/"
-            className="font-medium text-amber-700 underline decoration-amber-700/30 underline-offset-2 hover:decoration-amber-700"
-          >
+          <Link to="/" className="font-medium text-amber-700 underline decoration-amber-700/30 underline-offset-2 hover:decoration-amber-700">
             storefront
           </Link>
           .
         </p>
       ) : post.category ? (
-        <p className="article-prose mt-8 text-[1.125rem] leading-[1.8] text-slate-800">
-          Ready to shop for {productConfig.catalogSearch}? Browse our hand-picked{' '}
+        <p className="article-prose mt-6 border-t border-stone-200 pt-5 text-[15px] leading-relaxed text-stone-700">
+          Shopping for {productConfig.catalogSearch}? See our{' '}
           <Link
             to={`/catalog?cat=${encodeURIComponent(productConfig.catalogSearch)}`}
             className="font-medium text-amber-700 underline decoration-amber-700/30 underline-offset-2 hover:decoration-amber-700"
           >
-            {productConfig.catalogSearch} deals
-          </Link>{' '}
-          — verified picks that match what this guide covers.
+            {productConfig.catalogSearch} picks
+          </Link>
+          .
         </p>
       ) : null}
 
       {tags.length > 0 && (
-        <div className="mt-10 flex flex-wrap gap-2 border-t border-slate-200 pt-10">
+        <div className="mt-6 flex flex-wrap gap-1.5 border-t border-stone-200 pt-5">
           {tags.map((tag) => (
             <Link
               key={tag}
               to={`/blog?tag=${encodeURIComponent(tag)}`}
-              className="inline-flex cursor-pointer items-center gap-1.5 rounded border border-slate-200 px-3 py-1.5 text-xs text-slate-500 transition-colors hover:border-amber-400 hover:text-amber-600"
+              className="inline-flex items-center gap-1 rounded-md border border-stone-200 bg-stone-50 px-2 py-1 text-[11px] text-stone-600 transition-colors hover:border-amber-400 hover:text-amber-700"
             >
-              <Tag size={11} /> {tag}
+              <Tag size={10} /> {tag}
             </Link>
           ))}
         </div>
