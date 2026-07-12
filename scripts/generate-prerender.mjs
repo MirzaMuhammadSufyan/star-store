@@ -210,7 +210,9 @@ Sitemap: ${SITE_URL}/sitemap.xml
   console.log(`\nDone — ${published.length} articles prerendered, sitemap updated (${allUrls.length} URLs).`);
 }
 
-main().catch((err) => {
-  console.error(err.message || err);
-  process.exit(1);
-});
+main()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error(err.message || err);
+    process.exit(1);
+  });
