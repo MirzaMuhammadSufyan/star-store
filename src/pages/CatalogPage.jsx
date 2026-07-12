@@ -188,7 +188,7 @@ export default function CatalogPage() {
     <div className="bg-gray-50 min-h-screen flex flex-col">
 
       {/* ── Sticky header ───────────────────────────────────────────────────── */}
-      <div className="bg-white border-b border-gray-200 sticky top-16 z-20">
+      <div className="bg-white border-b border-gray-200 sticky top-[4.5rem] z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between gap-4">
             {/* Title + count */}
