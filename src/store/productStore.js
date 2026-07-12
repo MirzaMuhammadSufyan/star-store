@@ -13,6 +13,9 @@ import {
   orderBy
 } from 'firebase/firestore';
 
+/** Shared in-flight promise so article/home/catalog don't stampede the sync API. */
+let ensureCatalogPromise = null;
+
 export const useProductStore = create((set, get) => ({
   products:   [],
   dbProducts: [],
@@ -39,6 +42,12 @@ export const useProductStore = create((set, get) => ({
 
       if (data.success) {
         const newProducts = data.products || [];
+        // Never let an empty page-1 response wipe products already in memory
+        // (React Strict Mode / overlapping article+home syncs caused this).
+        if (pageNo === 1 && newProducts.length === 0 && get().apiProducts.length > 0) {
+          set({ syncLoading: false });
+          return [];
+        }
         // Page 1 (or new keyword search) replaces; subsequent pages append
         const existing = pageNo === 1 ? [] : get().apiProducts;
         // Deduplicate by product_id
@@ -60,6 +69,37 @@ export const useProductStore = create((set, get) => ({
       set({ error: error.message, syncLoading: false });
       return [];
     }
+  },
+
+  /**
+   * Guarantee live AliExpress products are in memory (for article sidebars,
+   * home, etc.). Shares one in-flight request and falls back to broad
+   * keywords when the article-specific query returns nothing.
+   */
+  ensureCatalogProducts: async (preferredKeywords = 'tech gadgets') => {
+    if (get().apiProducts.length > 0) return get().apiProducts;
+    if (ensureCatalogPromise) return ensureCatalogPromise;
+
+    ensureCatalogPromise = (async () => {
+      try {
+        const attempts = [
+          preferredKeywords,
+          'tech gadgets',
+          'electronics',
+          'laptop',
+        ].filter((kw, i, arr) => kw && arr.indexOf(kw) === i);
+
+        for (const kw of attempts) {
+          if (get().apiProducts.length > 0) break;
+          await get().syncFromAliExpress(kw, 1, 24);
+        }
+        return get().apiProducts;
+      } finally {
+        ensureCatalogPromise = null;
+      }
+    })();
+
+    return ensureCatalogPromise;
   },
 
   fetchProducts: () => {

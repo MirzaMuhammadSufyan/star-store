@@ -18,20 +18,34 @@ export default function BlogPost() {
   const { id } = useParams();
   const navigate = useNavigate();
   const allPosts = useBlogStore((s) => s.posts);
+  const blogsLoading = useBlogStore((s) => s.loading);
   const isAdmin = useAuthStore((s) => s.isAdmin);
   const post = allPosts.find((p) => p.id === id);
-  const { products, syncLoading, syncFromAliExpress } = useProductStore();
+  const {
+    products,
+    apiProducts,
+    syncLoading,
+    dbLoading,
+    ensureCatalogProducts,
+  } = useProductStore();
   const articleRef = React.useRef(null);
+  const [sidebarReady, setSidebarReady] = React.useState(() => apiProducts.length > 0);
 
   const canView = post && (isPublished(post) || isAdmin);
 
-  // Load store products for the sidebar when the catalog isn't already in memory
+  // Always hydrate live catalog products for the sidebar on direct article visits.
   React.useEffect(() => {
-    if (!post || products.length > 0) return;
+    if (!post || dbLoading) return;
+    let cancelled = false;
+    setSidebarReady(apiProducts.length > 0);
+
     const { catalogSearch } = getArticleProductConfig(post);
-    const kw = catalogSearch || post.category || 'tech gadgets';
-    syncFromAliExpress(kw, 1, 24);
-  }, [post?.id, products.length]); // eslint-disable-line react-hooks/exhaustive-deps
+    ensureCatalogProducts(catalogSearch || 'tech gadgets').finally(() => {
+      if (!cancelled) setSidebarReady(true);
+    });
+
+    return () => { cancelled = true; };
+  }, [post?.id, dbLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const relatedArticles = React.useMemo(
     () => (post ? getRelatedPosts(post, allPosts, 4) : []),
@@ -49,6 +63,16 @@ export default function BlogPost() {
 
   const coverImage = post ? resolveBlogImage(post) : '';
   const author = post ? resolveAuthor(post) : null;
+  const productsLoading = !sidebarReady || ((syncLoading || dbLoading) && relatedProducts.length === 0);
+
+  if (blogsLoading && !post) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-3 py-24">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-stone-200 border-t-amber-500" />
+        <p className="text-sm text-stone-500">Loading article…</p>
+      </div>
+    );
+  }
 
   if (!canView) {
     return (
@@ -115,7 +139,7 @@ export default function BlogPost() {
             <ArticleSidebar
               relatedArticles={relatedArticles}
               relatedProducts={relatedProducts}
-              productsLoading={syncLoading && products.length === 0}
+              productsLoading={productsLoading}
             />
           </div>
         </div>
