@@ -81,7 +81,7 @@ export default function BlogPost() {
         type="article"
         structuredData={articleSchema}
       />
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         {post.status === 'draft' && isAdmin && (
           <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs text-amber-800">
             Draft preview — only visible to admins.
