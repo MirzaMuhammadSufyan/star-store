@@ -44,6 +44,14 @@ If you never play fast-paced games, a quality 60–75Hz panel with good colour a
 
 **TN** — fast and cheap, poor colours and angles. Only consider for tight esports budgets.
 
+## HDR: Marketing vs Reality
+
+HDR (high dynamic range) branding appears on monitors across every price point, but the experience varies enormously. Entry-level "HDR400" certification often means little more than accepting an HDR signal — the panel frequently cannot produce the brightness or local dimming needed for a genuinely different picture compared to standard dynamic range. Meaningful HDR generally starts around HDR600 with local dimming zones, and the best experience comes from HDR1000-and-above panels or OLED displays with per-pixel light control.
+
+If HDR content — films, some games, photo editing — matters to you, budget for a panel that actually delivers the contrast rather than paying extra for a sticker. For office work and general productivity, HDR support is largely irrelevant and not worth prioritising over resolution or refresh rate.
+
+Windows' handling of HDR content outside full-screen apps has also improved but remains imperfect — desktop text and some app windows can look washed out with HDR toggled on system-wide. Many users leave HDR disabled by default and enable it manually for supported films and games, rather than running it constantly.
+
 ## Ergonomics and Connectivity
 
 Height adjustment, pivot, and VESA mount compatibility matter more than people expect. A monitor that sits too low causes neck strain within months.
@@ -116,15 +124,52 @@ OneDrive, iCloud, and Google Drive extend small SSDs but depend on internet acce
 - eMMC instead of SSD — avoid for primary laptops
 - "Upgradable to 16GB" without stating current soldered config — verify before purchase
 
+## Upgrading After Purchase
+
+Whether you can add RAM or storage later depends entirely on the model. Many mainstream and gaming laptops still include a spare RAM slot or M.2 storage slot, letting you add capacity for a fraction of what the manufacturer charges to configure it higher at checkout. Thin-and-light and premium ultraportables increasingly solder RAM to the motherboard, making the configuration you buy the configuration you keep for the laptop's life.
+
+Before purchasing, search the exact model number alongside "teardown" or "upgrade guide" to confirm what is actually replaceable. If a laptop supports later upgrades, buying the base RAM configuration and adding a stick yourself when needed is often cheaper than paying the manufacturer's markup for a higher spec at purchase — but only if you are comfortable opening the chassis or willing to pay a technician a modest fee to do it.
+
+Opening a laptop yourself typically voids nothing on most consumer models, but check your specific warranty terms first — a small number of manufacturers do restrict self-upgrades on certain lines. When in doubt, a local repair shop can usually perform a RAM or SSD swap for a modest labour fee, which still beats the manufacturer's built-to-order price difference on most machines.
+
 ## Practical Recommendations
 
-| Use case | RAM | Storage |
-|----------|-----|---------|
-| Web, email, streaming | 16GB | 512GB SSD |
-| Student / office | 16GB | 512GB–1TB SSD |
-| Developer | 32GB | 1TB SSD |
-| Photo / video | 32GB+ | 1TB+ SSD |
-| Gaming | 16–32GB | 1TB SSD |
+<table>
+  <thead>
+    <tr>
+      <th>Use case</th>
+      <th>RAM</th>
+      <th>Storage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Web, email, streaming</td>
+      <td>16GB</td>
+      <td>512GB SSD</td>
+    </tr>
+    <tr>
+      <td>Student / office</td>
+      <td>16GB</td>
+      <td>512GB–1TB SSD</td>
+    </tr>
+    <tr>
+      <td>Developer</td>
+      <td>32GB</td>
+      <td>1TB SSD</td>
+    </tr>
+    <tr>
+      <td>Photo / video</td>
+      <td>32GB+</td>
+      <td>1TB+ SSD</td>
+    </tr>
+    <tr>
+      <td>Gaming</td>
+      <td>16–32GB</td>
+      <td>1TB SSD</td>
+    </tr>
+  </tbody>
+</table>
 
 Buy the RAM and SSD you will need in year three, not year one. Laptops are harder to upgrade than desktops — capacity planning at checkout saves regret later.`,
   },
@@ -189,6 +234,12 @@ Change default admin passwords, enable WPA3 or WPA2-AES, and keep firmware updat
 
 Rebooting routers monthly is less necessary on modern gear but firmware updates matter for security patches.
 
+## Guest Networks and IoT Segmentation
+
+Smart plugs, cameras, and other IoT devices often have weaker security than phones and laptops, and a compromised smart bulb can become a foothold into your entire network if everything shares one flat Wi-Fi network. Most modern routers and mesh systems support a separate IoT or guest network specifically for these devices, keeping them isolated from computers, phones, and network storage.
+
+Setting this up takes a few minutes: create a second SSID, connect smart home devices to it instead of your main network, and confirm the router blocks cross-network communication if you do not need smart devices talking to your phone directly (some smart home hubs require exceptions — check your ecosystem's documentation). It is a small step that meaningfully reduces the blast radius if any single cheap device turns out to have poor security.
+
 ## Troubleshooting Checklist
 
 1. Test wired speed to router — confirm ISP delivery
@@ -242,6 +293,12 @@ A phone excellent for photos may overheat in 4K60 video or lack stabilisation fo
 Night modes brighten scenes impressively but can smear moving subjects. Portrait modes cut out hair imperfectly. HDR sometimes creates halos around high-contrast edges.
 
 These are software choices, not failures — but they explain why two phones at the same price shoot differently.
+
+## RAW Capture and Editing Flexibility
+
+Most phone photos are processed and compressed into JPEG or HEIF automatically, discarding data the sensor actually captured in exchange for a smaller file that looks good immediately. Shooting in RAW (or Apple's ProRAW, Android's DNG) keeps far more of that original sensor data, giving significantly more room to recover shadow detail, adjust white balance, and correct exposure after the fact without visible quality loss.
+
+The trade-off is file size — RAW images run five to ten times larger than compressed JPEGs — and the fact that unedited RAW files often look flatter and less impressive straight out of the camera, since none of the phone's automatic processing has been applied yet. RAW capture makes the most sense for people who plan to edit seriously in apps like Lightroom Mobile or Snapseed; casual shooters who post directly to social media rarely benefit enough to justify the storage cost.
 
 ## What to Look for When Shopping
 
@@ -321,6 +378,12 @@ If your TV's built-in OS is fast, updated, and includes every service you use, a
 
 Gaming consoles cover streaming apps too — convenient but power-hungry as dedicated streamers.
 
+## Remote Control Quality Matters More Than You'd Think
+
+Interface speed gets most of the attention in reviews, but the physical remote shapes daily experience just as much. Backlit buttons help in dark rooms; a dedicated volume rocker avoids fumbling through on-screen menus; and a "find my remote" feature saves genuine frustration once it slides under a sofa cushion for the third time. Voice search quality also varies significantly — some remotes handle natural phrases like "that new sci-fi show with the robots" while others require exact titles.
+
+Universal remote compatibility is worth checking too, since many households eventually want one remote controlling the TV, soundbar, and streaming device together. Devices that support HDMI-CEC can often be controlled through your TV remote directly, removing a remote from the coffee table clutter entirely — a small but genuinely useful convenience over years of daily use.
+
 ## Decision Checklist
 
 1. List must-have apps (regional services differ)
@@ -385,6 +448,14 @@ Configuration software lets you set DPI stages, remap buttons, and tune RGB. Onb
 
 Some players disable software entirely after initial setup for simplicity.
 
+## Cable Drag and Mouse Bungees
+
+For players who still prefer wired mice, cable drag — the friction and weight of the cable catching on the desk during fast movements — can undermine an otherwise excellent sensor. Paracord and other braided aftermarket cables reduce this compared to stiff stock cables, and a mouse bungee suspends the cable above the desk entirely, letting it glide freely rather than snagging mid-swipe.
+
+This sounds like a minor accessory, but competitive players often notice the difference immediately, since even small resistance changes muscle memory for flick shots and tracking. If you are testing whether wireless latency genuinely bothers you before spending on a premium wireless mouse, a cheap bungee and braided cable upgrade is a low-cost way to rule out cable drag as the real source of any perceived inconsistency.
+
+Mouse feet also degrade faster than most players expect, especially on textured cloth pads. Worn feet increase friction and make glides feel inconsistent even with a perfect sensor underneath. Replacement feet cost only a few pounds and are worth checking before assuming a mouse itself has developed a fault.
+
 ## Common Mistakes
 
 - Chasing maximum DPI instead of comfortable sensitivity
@@ -394,12 +465,32 @@ Some players disable software entirely after initial setup for simplicity.
 
 ## Quick Picks by Priority
 
-| Priority | Look for |
-|----------|----------|
-| FPS | Light weight, clean sensor, reliable wireless |
-| MOBA/MMO | Multiple side buttons, durable switches |
-| General gaming | Balanced shape, 2–3 DPI presets |
-| Office + play | Subtle design, quiet clicks |
+<table>
+  <thead>
+    <tr>
+      <th>Priority</th>
+      <th>Look for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>FPS</td>
+      <td>Light weight, clean sensor, reliable wireless</td>
+    </tr>
+    <tr>
+      <td>MOBA/MMO</td>
+      <td>Multiple side buttons, durable switches</td>
+    </tr>
+    <tr>
+      <td>General gaming</td>
+      <td>Balanced shape, 2–3 DPI presets</td>
+    </tr>
+    <tr>
+      <td>Office + play</td>
+      <td>Subtle design, quiet clicks</td>
+    </tr>
+  </tbody>
+</table>
 
 The right gaming mouse disappears in use. Shape and build quality beat spec sheet fireworks every time.`,
   },
@@ -449,6 +540,14 @@ Hardware encryption and fingerprint locks matter for confidential work travel. S
 
 NAS and cloud backup complement portable drives — not replace them.
 
+## RAID and Multi-Drive Enclosures
+
+For users with serious backup or capacity needs, multi-bay enclosures running RAID configurations offer redundancy that a single external drive cannot. RAID 1 mirrors data across two drives, so a single drive failure does not mean data loss — useful for photographers and videographers whose project files have no other copy. RAID 0 stripes data across drives for speed but offers zero redundancy, actually increasing failure risk since losing either drive loses everything.
+
+These setups add cost and complexity that most casual users do not need, but for anyone storing irreplaceable work — client deliverables, family archives, years of creative projects — a two-bay RAID 1 enclosure is a meaningfully safer default than a single drive, external or internal. Combine it with an offsite or cloud copy to satisfy the full 3-2-1 backup principle rather than treating RAID alone as a complete backup strategy.
+
+Enclosure quality matters as much as the drives inside it. A cheap enclosure with poor thermal design can throttle SSD speeds under sustained transfer or, worse, run hot enough to shorten drive lifespan. Read enclosure-specific reviews separately from drive reviews, since the same drive can perform noticeably differently depending on what housing it sits in.
+
 ## Reliability Expectations
 
 All drives fail eventually. SSDs wear with writes but rarely show warning signs. HDDs may click or slow before death.
@@ -457,13 +556,36 @@ Follow 3-2-1 backup: three copies, two media types, one offsite. No single exter
 
 ## Use Case Recommendations
 
-| Scenario | Recommendation |
-|----------|----------------|
-| Photo/video editing on the go | Portable SSD, USB-C |
-| PS5/Xbox game storage | Officially supported SSD models |
-| Time Machine / system backup | SSD for speed, HDD for bulk archives |
-| Long-term media vault at home | HDD in powered enclosure |
-| Travel documents | Small SSD with encryption |
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Recommendation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Photo/video editing on the go</td>
+      <td>Portable SSD, USB-C</td>
+    </tr>
+    <tr>
+      <td>PS5/Xbox game storage</td>
+      <td>Officially supported SSD models</td>
+    </tr>
+    <tr>
+      <td>Time Machine / system backup</td>
+      <td>SSD for speed, HDD for bulk archives</td>
+    </tr>
+    <tr>
+      <td>Long-term media vault at home</td>
+      <td>HDD in powered enclosure</td>
+    </tr>
+    <tr>
+      <td>Travel documents</td>
+      <td>Small SSD with encryption</td>
+    </tr>
+  </tbody>
+</table>
 
 Buy named brands from reputable sellers — counterfeit SSDs exist and fail catastrophically.
 
@@ -525,14 +647,42 @@ Tablets survive a day of lectures easily. Laptops vary widely. Build quality mat
 - **Tablet primary + lab/desktop access** for software-heavy courses on campus
 - **2-in-1 convertible** when you want one device that folds both ways
 
+## Accessory Costs Add Up
+
+Sticker price rarely reflects what students end up spending. A tablet marketed as a laptop replacement often needs a keyboard case, a stylus, and sometimes a separate charging adapter — accessories that can add £150–300 to the advertised price and are easy to overlook when comparing against an all-in-one laptop. Laptops carry their own hidden costs too: a mouse, a laptop bag, and occasionally a dock for multi-monitor setups at a desk.
+
+Before comparing sticker prices, list every accessory each option actually requires for your coursework and add it to the total. A laptop that looks £200 more expensive upfront can end up cheaper than a tablet once the keyboard case and stylus are included — and unlike loose tablet accessories, a laptop's keyboard and trackpad are built in and cannot be lost separately before an exam.
+
+Insurance and protection plans deserve a place in this comparison too. Campus life is hard on devices — spilled coffee, dropped bags, shared flats — and replacing a lost stylus or a cracked tablet screen without cover can wipe out any upfront savings within the first term. Check whether your device is covered under contents insurance before assuming it is not worth the extra premium.
+
 ## Decision Matrix
 
-| Your workload | Best fit |
-|---------------|----------|
-| Essays, research, humanities | Laptop or tablet+keyboard if LMS compatible |
-| Engineering, CS, data science | Laptop (often Windows/Linux) |
-| Heavy handwritten notes | Tablet + optional laptop access |
-| Design and illustration | Tablet with pen; verify app requirements |
+<table>
+  <thead>
+    <tr>
+      <th>Your workload</th>
+      <th>Best fit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Essays, research, humanities</td>
+      <td>Laptop or tablet+keyboard if LMS compatible</td>
+    </tr>
+    <tr>
+      <td>Engineering, CS, data science</td>
+      <td>Laptop (often Windows/Linux)</td>
+    </tr>
+    <tr>
+      <td>Heavy handwritten notes</td>
+      <td>Tablet + optional laptop access</td>
+    </tr>
+    <tr>
+      <td>Design and illustration</td>
+      <td>Tablet with pen; verify app requirements</td>
+    </tr>
+  </tbody>
+</table>
 
 Ask upper-year students in your program what they actually use during exams and projects — departmental reality beats generic advice.
 
@@ -590,15 +740,46 @@ Algorithms combine HR, movement, age, weight, and gender assumptions. Errors of 
 
 Select watches offer single-lead ECG snapshots and irregular rhythm alerts — regulated features on supported models. They catch some issues; they also generate false positives that require follow-up stress.
 
+## Battery Life and Charging Habits
+
+Battery life varies enormously by watch category and directly affects how useful the health data actually is. Smartwatches with always-on displays and deep app ecosystems often need daily charging, which creates gaps in overnight sleep tracking if you forget to top up before bed. Fitness-focused watches with simpler displays frequently last five to fourteen days, making continuous sleep and recovery tracking far more realistic without changing your routine.
+
+If sleep tracking matters to your goals, factor charging habits into your choice rather than only comparing sensor specifications. A watch with slightly less accurate sensors but a battery that survives a full week of nights will likely produce a more complete, useful dataset than a feature-rich watch that sits on a charger every other night and misses tracking exactly when you forget.
+
+Charging speed matters almost as much as total battery life. A watch that reaches a full day's charge in fifteen minutes fits neatly into a morning shower or breakfast routine, letting you maintain near-continuous tracking without a dedicated charging window. Slow chargers force an explicit choice between wearing the watch and topping it up, which is where tracking gaps most often creep in.
+
 ## Choosing a Watch for Fitness Goals
 
-| Goal | Prioritise |
-|------|------------|
-| Daily activity nudges | Comfort, battery, app ecosystem |
-| Running | GPS accuracy, battery in GPS mode |
-| Strength training | Easy manual lap marking, HR not critical |
-| Health monitoring | FDA-cleared features you actually need |
-| iPhone/Android sync | Platform match first |
+<table>
+  <thead>
+    <tr>
+      <th>Goal</th>
+      <th>Prioritise</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Daily activity nudges</td>
+      <td>Comfort, battery, app ecosystem</td>
+    </tr>
+    <tr>
+      <td>Running</td>
+      <td>GPS accuracy, battery in GPS mode</td>
+    </tr>
+    <tr>
+      <td>Strength training</td>
+      <td>Easy manual lap marking, HR not critical</td>
+    </tr>
+    <tr>
+      <td>Health monitoring</td>
+      <td>FDA-cleared features you actually need</td>
+    </tr>
+    <tr>
+      <td>iPhone/Android sync</td>
+      <td>Platform match first</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Healthy Expectations
 
@@ -677,6 +858,12 @@ Spreadsheet the five-year total before buying.
 
 Skip fax unless you truly still fax.
 
+## Wireless Printing Reliability
+
+Wireless printing sounds simple until a printer drops off the home network and refuses to reconnect without a full factory reset — a common complaint across both inkjet and laser categories, though budget models tend to suffer more. Printers that sit in sleep mode to save power sometimes take noticeably longer to wake and rejoin the network, adding delay before the first page prints.
+
+Wired Ethernet connections avoid this instability entirely and are worth prioritising for printers used daily in a home office, even if it means running a short cable to the router. For occasional household printing, Wi-Fi convenience usually outweighs the rare reconnection hassle, but reading recent reviews for connectivity complaints on your specific shortlisted model is worth the five minutes before buying.
+
 ## Reliability and Maintenance
 
 Consumer inkjets frustrate with paper jams and head cleaning cycles. Lasers weigh more but tolerate neglect better.
@@ -689,12 +876,32 @@ Cartridge waste accumulates. Tank systems and laser toner recycling programs red
 
 ## Quick Decision Guide
 
-| You print… | Consider |
-|------------|----------|
-| Rarely, black text only | Compact laser |
-| Photos and colour weekly | Tank inkjet or photo inkjet |
-| Hundreds of pages monthly | Mid-range laser MFP |
-| Almost never | Library or print shop — no ownership |
+<table>
+  <thead>
+    <tr>
+      <th>You print…</th>
+      <th>Consider</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Rarely, black text only</td>
+      <td>Compact laser</td>
+    </tr>
+    <tr>
+      <td>Photos and colour weekly</td>
+      <td>Tank inkjet or photo inkjet</td>
+    </tr>
+    <tr>
+      <td>Hundreds of pages monthly</td>
+      <td>Mid-range laser MFP</td>
+    </tr>
+    <tr>
+      <td>Almost never</td>
+      <td>Library or print shop — no ownership</td>
+    </tr>
+  </tbody>
+</table>
 
 The cheapest printer on the shelf is rarely the cheapest printer to own. Run the ink math before checkout and you will avoid the most common home office regret.`,
   },

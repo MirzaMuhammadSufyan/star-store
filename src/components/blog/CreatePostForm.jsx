@@ -5,30 +5,63 @@ import * as z from 'zod';
 import { motion } from 'framer-motion';
 import { X, Check, Sparkles, Save, Tag as TagIcon, ChevronDown, Upload, Loader2 } from 'lucide-react';
 import { push, ref as dbRef, set } from 'firebase/database';
-import { useBlogStore } from '../../store/blogStore';
 import { createBlogPost, updateBlogPost } from '../../services/blogService';
 import { realtimeDb } from '../../firebase';
+import { JOURNAL_CATEGORIES } from '../../utils/blogCategories';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { RichTextEditor } from '../editor/RichTextEditor';
 
-/** Strip tags to measure real, human-visible content length. */
-const plainTextLength = (html) => (html || '').replace(/<[^>]*>/g, '').trim().length;
+/** Strip tags to measure real, human-visible content. */
+const plainText = (html) => (html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+const countWords = (text = '') => text.trim().split(/\s+/).filter(Boolean).length;
+const contentWordCount = (html) => countWords(plainText(html));
 
-const schema = z.object({
-  title: z.string().min(5, 'Title must be at least 5 characters'),
-  excerpt: z.string().min(10, 'Excerpt must be at least 10 characters'),
-  content: z.string().refine((html) => plainTextLength(html) >= 20, 'Content must be at least 20 characters'),
-  coverImage: z.string().min(1, 'Cover image is required'),
-  coverImageRef: z.string().optional(),
-  category: z.string().min(2, 'Category is required'),
-  author: z.string().min(2, 'Author name is required'),
-  authorRole: z.string().optional(),
-  authorBio: z.string().optional(),
-  authorCredentials: z.string().optional(),
-  tags: z.array(z.string()).default([]),
-  status: z.enum(['draft', 'published']).default('draft'),
-});
+/** Drafts can be short; published posts need AdSense-quality length. */
+const DRAFT_MIN_WORDS = 50;
+const PUBLISH_MIN_WORDS = 300;
+const PUBLISH_EXCERPT_MIN = 80;
+
+const schema = z
+  .object({
+    title: z.string().min(8, 'Title must be at least 8 characters'),
+    excerpt: z.string().min(20, 'Excerpt must be at least 20 characters'),
+    content: z.string().min(1, 'Content is required'),
+    coverImage: z.string().min(1, 'Cover image is required'),
+    coverImageRef: z.string().optional(),
+    category: z
+      .string()
+      .refine((c) => JOURNAL_CATEGORIES.includes(c), 'Pick a Journal category'),
+    author: z.string().min(2, 'Author name is required'),
+    authorRole: z.string().optional(),
+    authorBio: z.string().optional(),
+    authorCredentials: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    status: z.enum(['draft', 'published']).default('draft'),
+  })
+  .superRefine((data, ctx) => {
+    const words = contentWordCount(data.content);
+    const isPublish = data.status === 'published';
+    const minWords = isPublish ? PUBLISH_MIN_WORDS : DRAFT_MIN_WORDS;
+
+    if (words < minWords) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['content'],
+        message: isPublish
+          ? `Published articles need at least ${PUBLISH_MIN_WORDS} words (currently ${words}).`
+          : `Drafts need at least ${DRAFT_MIN_WORDS} words (currently ${words}).`,
+      });
+    }
+
+    if (isPublish && (data.excerpt || '').trim().length < PUBLISH_EXCERPT_MIN) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['excerpt'],
+        message: `Published excerpts need at least ${PUBLISH_EXCERPT_MIN} characters.`,
+      });
+    }
+  });
 
 const FieldLabel = ({ children }) => (
   <label className="mb-1.5 block text-xs font-semibold uppercase tracking-widest text-gray-500">
@@ -36,14 +69,7 @@ const FieldLabel = ({ children }) => (
   </label>
 );
 
-const countWords = (text = '') =>
-  text
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean).length;
-
 export default function CreatePostForm({ post, onClose }) {
-  const { categories } = useBlogStore();
   const [tagDraft, setTagDraft] = React.useState('');
   const [isUploadingImage, setIsUploadingImage] = React.useState(false);
   const [uploadError, setUploadError] = React.useState('');
@@ -64,7 +90,9 @@ export default function CreatePostForm({ post, onClose }) {
       content: post?.content || '',
       coverImage: post?.coverImage || post?.image || '',
       coverImageRef: post?.coverImageRef || '',
-      category: post?.category || 'Technology',
+      category: post?.category && JOURNAL_CATEGORIES.includes(post.category)
+        ? post.category
+        : 'Guides',
       author: post?.author || '',
       authorRole: post?.authorRole || '',
       authorBio: post?.authorBio || '',
@@ -76,8 +104,9 @@ export default function CreatePostForm({ post, onClose }) {
 
   const titleValue = watch('title') || '';
   const excerptValue = watch('excerpt') || '';
+  const contentValue = watch('content') || '';
   const selectedCover = watch('coverImage') || '';
-
+  const bodyWords = contentWordCount(contentValue);
   const uploadCoverImage = async (file) => {
     if (!file) return;
     const isImage = file.type.startsWith('image/');
@@ -250,6 +279,19 @@ export default function CreatePostForm({ post, onClose }) {
                   />
                 )}
               />
+              <p className={`mt-1.5 text-xs ${
+                bodyWords >= PUBLISH_MIN_WORDS
+                  ? 'text-green-600'
+                  : bodyWords >= DRAFT_MIN_WORDS
+                    ? 'text-amber-700'
+                    : 'text-slate-400'
+              }`}>
+                {bodyWords} words
+                {' · '}
+                Draft min {DRAFT_MIN_WORDS}
+                {' · '}
+                Publish min {PUBLISH_MIN_WORDS}
+              </p>
               {errors.content && (
                 <p className="mt-1.5 text-xs font-medium text-red-500">{errors.content.message}</p>
               )}
@@ -327,9 +369,7 @@ export default function CreatePostForm({ post, onClose }) {
                   {...register('category')}
                   className="w-full cursor-pointer appearance-none rounded-lg border border-gray-200 bg-white px-4 py-3 pr-10 text-[15px] text-gray-900 transition-all focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
                 >
-                  {categories
-                    .filter((c) => c !== 'All')
-                    .map((cat) => (
+                  {JOURNAL_CATEGORIES.map((cat) => (
                       <option key={cat} value={cat}>
                         {cat}
                       </option>

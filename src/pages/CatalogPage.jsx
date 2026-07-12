@@ -1,9 +1,9 @@
-import React, {
-  useState, useMemo, useEffect, useCallback, useRef,
+import {
+  useState, useMemo, useEffect, useCallback,
 } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  SlidersHorizontal, Grid, List, X, ChevronDown, Loader2, ArrowUp,
+  SlidersHorizontal, Grid, List, X, ChevronDown, ArrowUp,
 } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Heart, Star } from 'lucide-react';
@@ -59,9 +59,18 @@ function Sidebar({ categories, selectedCats, toggleCat, maxPrice, setMaxPrice, p
           <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Max Price</p>
           <span className="text-xs font-semibold text-amber-700">${maxPrice ?? priceMax}</span>
         </div>
-        <input type="range" min={0} max={priceMax} step={50} value={maxPrice ?? priceMax}
-          onChange={e => setMaxPrice(parseInt(e.target.value))} className="w-full accent-amber-600" />
-        <div className="flex justify-between text-xs text-gray-400 mt-1"><span>$0</span><span>${priceMax}</span></div>
+        <label htmlFor="catalog-max-price" className="sr-only">Maximum price filter</label>
+        <input
+          id="catalog-max-price"
+          type="range"
+          min={0}
+          max={priceMax}
+          step={50}
+          value={maxPrice ?? priceMax}
+          onChange={e => setMaxPrice(parseInt(e.target.value))}
+          className="w-full accent-amber-600"
+        />
+        <div className="flex justify-between text-xs text-gray-500 mt-1"><span>$0</span><span>${priceMax}</span></div>
       </div>
       {hasFilters && (
         <button onClick={reset} className="shrink-0 w-full py-2 text-xs font-semibold text-red-500 border border-red-200 rounded hover:bg-red-50 transition-colors">
@@ -73,51 +82,30 @@ function Sidebar({ categories, selectedCats, toggleCat, maxPrice, setMaxPrice, p
 }
 
 export default function CatalogPage() {
-  const { products, loading, syncLoading, syncFromAliExpress } = useProductStore();
+  const { products, loading } = useProductStore();
   const { toggle, isFavourite } = useFavouriteStore();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [search,       setSearch]       = useState(() => searchParams.get('cat') || '');
+  const search = (() => {
+    const cat = searchParams.get('cat') || '';
+    return cat && cat !== 'tech' ? cat : '';
+  })();
+  const sort = searchParams.get('sort') || 'default';
+
   const [selectedCats, setSelectedCats] = useState([]);
   const [maxPrice,     setMaxPrice]     = useState(null);
-  const [sort,         setSort]         = useState('default');
   const [view,         setView]         = useState('grid');
   const [page,         setPage]         = useState(1);
   const [sidebarOpen,  setSidebarOpen]  = useState(false);
   const [showTop,      setShowTop]      = useState(false);
-  const [aliPage,      setAliPage]      = useState(1);
-  const [aliKeyword,   setAliKeyword]   = useState('');
-  const [noMorePages,  setNoMorePages]  = useState(false);
 
-  const sentinelRef  = useRef(null);
-  // Refs that store latest values without being in effect deps
-  const aliPageRef   = useRef(1);
-  const aliKwRef     = useRef('');
-  const noMoreRef    = useRef(false);
-  const syncRef      = useRef(false);
-  const fetchingRef  = useRef(false);
-  const filteredLen  = useRef(0);
-  const visibleLen   = useRef(0);
-
-  // Keep refs in sync with state / store
-  useEffect(() => { aliPageRef.current  = aliPage;      }, [aliPage]);
-  useEffect(() => { aliKwRef.current    = aliKeyword;   }, [aliKeyword]);
-  useEffect(() => { noMoreRef.current   = noMorePages;  }, [noMorePages]);
-  useEffect(() => { syncRef.current     = syncLoading;  }, [syncLoading]);
-
-  // ── Initial load + react to ?cat= param changes ─────────────────────────────
-  useEffect(() => {
-    const kw = searchParams.get('cat') || 'tech';
-    aliKwRef.current = kw;
-    setAliKeyword(kw);
-    setSearch(kw === 'tech' ? '' : kw);
-    setAliPage(1);
-    aliPageRef.current = 1;
-    setNoMorePages(false);
-    noMoreRef.current = false;
+  const setSort = (value) => {
+    const next = new URLSearchParams(searchParams);
+    if (value && value !== 'default') next.set('sort', value);
+    else next.delete('sort');
+    setSearchParams(next, { replace: true });
     setPage(1);
-    syncFromAliExpress(kw, 1);
-  }, [searchParams.get('cat')]); // eslint-disable-line
+  };
 
   // ── Scroll-to-top visibility ─────────────────────────────────────────────────
   useEffect(() => {
@@ -126,7 +114,7 @@ export default function CatalogPage() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // ── Derived lists ────────────────────────────────────────────────────────────
+  // ── Derived lists (Firestore catalog only — AliExpress sync is admin-only) ───
   const priceMax = useMemo(() => {
     if (!products?.length) return 2000;
     return Math.max(200, Math.ceil(
@@ -147,7 +135,8 @@ export default function CatalogPage() {
       const qWords = search.toLowerCase().trim().split(/\s+/).filter(Boolean);
       list = list.filter(p => {
         const title = (p.product_title || p.title || '').toLowerCase();
-        return qWords.every(w => title.includes(w));
+        const cat = (p.second_level_category_name || p.category || p.merchant || '').toLowerCase();
+        return qWords.every(w => title.includes(w) || cat.includes(w));
       });
     }
     if (selectedCats.length) {
@@ -158,66 +147,27 @@ export default function CatalogPage() {
     if (maxPrice) list = list.filter(p => parseFloat(p.target_sale_price || p.price || 0) <= maxPrice);
     if (sort === 'price_asc')  list.sort((a, b) => parseFloat(a.target_sale_price || a.price) - parseFloat(b.target_sale_price || b.price));
     if (sort === 'price_desc') list.sort((a, b) => parseFloat(b.target_sale_price || b.price) - parseFloat(a.target_sale_price || a.price));
-    if (sort === 'rating')     list.sort((a, b) => parseFloat(b.evaluate_rate || b.rating || 0) - parseFloat(a.evaluate_rate || a.rating || 0));
+    if (sort === 'rating' || sort === 'popular') {
+      list.sort((a, b) => parseFloat(b.evaluate_rate || b.rating || 0) - parseFloat(a.evaluate_rate || a.rating || 0));
+    }
     return list;
   }, [products, search, selectedCats, maxPrice, sort]);
 
   const visible = useMemo(() => filtered.slice(0, page * PER_PAGE), [filtered, page]);
+  const hasMore = visible.length < filtered.length;
 
-  // Update refs so callbacks read latest values without stale closures
-  filteredLen.current = filtered.length;
-  visibleLen.current  = visible.length;
-
-  // Core load function — called by both observer and the products-change effect
-  const loadNext = useCallback(async () => {
-    if (fetchingRef.current || noMoreRef.current || syncRef.current) return;
-    fetchingRef.current = true;
-
-    if (visibleLen.current < filteredLen.current) {
-      setPage(p => p + 1);
-      fetchingRef.current = false;
-    } else if (filteredLen.current > 0) {
-      const nextPage    = aliPageRef.current + 1;
-      const newProducts = await syncFromAliExpress(aliKwRef.current || 'tech', nextPage);
-      fetchingRef.current = false;
-      if (!newProducts || newProducts.length === 0) {
-        setNoMorePages(true);
-        noMoreRef.current = true;
-      } else {
-        aliPageRef.current = nextPage;
-        setAliPage(nextPage);
-        setPage(p => p + 1);
-      }
-    } else {
-      fetchingRef.current = false;
-    }
-  }, []); // eslint-disable-line
-
-  // ── Scroll-based infinite load ───────────────────────────────────────────────
-  // IntersectionObserver only fires on state change (enter/exit) so it misses
-  // repeated triggers when sentinel stays in view after page increments.
-  // A scroll listener on the window reliably detects "near bottom" every time —
-  // scrolling authority lives on the main document, not an inner container.
+  // ── Infinite scroll through local results ────────────────────────────────────
   useEffect(() => {
     const check = () => {
+      if (!hasMore) return;
       const { scrollY, innerHeight } = window;
       const scrollHeight = document.documentElement.scrollHeight;
-      if (scrollHeight - scrollY - innerHeight < 600) loadNext();
+      if (scrollHeight - scrollY - innerHeight < 600) setPage((p) => p + 1);
     };
-
     window.addEventListener('scroll', check, { passive: true });
-    // Also check immediately in case content already fills the viewport
     check();
     return () => window.removeEventListener('scroll', check);
-  }, [loadNext]);
-
-  // ── Re-trigger when new products arrive (may still be near bottom) ───────────
-  useEffect(() => {
-    if (filtered.length === 0) return;
-    const { scrollY, innerHeight } = window;
-    const scrollHeight = document.documentElement.scrollHeight;
-    if (scrollHeight - scrollY - innerHeight < 600) loadNext();
-  }, [filtered.length]); // eslint-disable-line
+  }, [hasMore, visible.length]);
 
   const toggleCat = useCallback((cat) => {
     setSelectedCats(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
@@ -225,8 +175,11 @@ export default function CatalogPage() {
   }, []);
 
   const reset = useCallback(() => {
-    setSearch(''); setSelectedCats([]); setMaxPrice(null); setSort('default'); setPage(1);
-  }, []);
+    setSelectedCats([]);
+    setMaxPrice(null);
+    setPage(1);
+    setSearchParams({}, { replace: true });
+  }, [setSearchParams]);
 
   const hasFilters = !!(search || selectedCats.length || maxPrice || sort !== 'default');
   const sidebarProps = { categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset };
@@ -243,12 +196,9 @@ export default function CatalogPage() {
               <h1 className="text-lg font-bold text-gray-900 shrink-0" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Product Catalog
               </h1>
-              <span className="hidden sm:inline text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
+              <span className="hidden sm:inline text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
                 {filtered.length} products
               </span>
-              {syncLoading && (
-                <Loader2 size={14} className="text-amber-500 animate-spin shrink-0" />
-              )}
             </div>
           </div>
         </div>
@@ -275,8 +225,12 @@ export default function CatalogPage() {
           {/* Toolbar */}
           <div className="flex items-center justify-between gap-3 mb-5">
             <div className="flex items-center gap-2">
-              <button onClick={() => setSidebarOpen(true)}
-                className="lg:hidden flex items-center gap-2 px-3 py-2 text-sm border border-gray-200 rounded bg-white text-gray-700 hover:bg-gray-50">
+              <button
+                type="button"
+                onClick={() => setSidebarOpen(true)}
+                aria-label="Open filters"
+                className="lg:hidden flex items-center gap-2 px-3 py-2 text-sm border border-gray-200 rounded bg-white text-gray-700 hover:bg-gray-50"
+              >
                 <SlidersHorizontal size={15} /> Filters
                 {hasFilters && <span className="w-4 h-4 bg-amber-600 text-white text-[10px] rounded-full flex items-center justify-center font-bold">!</span>}
               </button>
@@ -288,58 +242,44 @@ export default function CatalogPage() {
             </div>
             <div className="flex items-center gap-3 ml-auto">
               <div className="relative">
-                <select value={sort} onChange={e => setSort(e.target.value)}
+                <label htmlFor="catalog-sort" className="sr-only">Sort products</label>
+                <select id="catalog-sort" value={sort} onChange={e => setSort(e.target.value)}
                   className="appearance-none pl-3 pr-8 py-2 text-sm border border-gray-200 rounded bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500/40 cursor-pointer">
                   {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>
-                <ChevronDown size={13} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <ChevronDown size={13} className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" aria-hidden />
               </div>
               <div className="flex border border-gray-200 rounded overflow-hidden bg-white">
-                <button onClick={() => setView('grid')} className={`p-2 ${view === 'grid' ? 'bg-gray-900 text-white' : 'text-gray-400 hover:bg-gray-50'}`}><Grid size={16} /></button>
-                <button onClick={() => setView('list')} className={`p-2 ${view === 'list' ? 'bg-gray-900 text-white' : 'text-gray-400 hover:bg-gray-50'}`}><List size={16} /></button>
+                <button type="button" onClick={() => setView('grid')} aria-label="Grid view" aria-pressed={view === 'grid'} className={`p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center ${view === 'grid' ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-50'}`}><Grid size={16} /></button>
+                <button type="button" onClick={() => setView('list')} aria-label="List view" aria-pressed={view === 'list'} className={`p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center ${view === 'list' ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-50'}`}><List size={16} /></button>
               </div>
             </div>
           </div>
-
-          {/* Skeleton cards — shown only on first load when nothing is visible yet */}
-          {syncLoading && visible.length === 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-5">
-              {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className="bg-white border border-gray-100 rounded-xl overflow-hidden animate-pulse">
-                  <div className="aspect-square bg-gray-200" />
-                  <div className="p-2 sm:p-3 flex flex-col gap-2">
-                    <div className="h-2.5 bg-gray-200 rounded w-3/4" />
-                    <div className="h-2.5 bg-gray-200 rounded w-1/2" />
-                    <div className="h-3 bg-gray-200 rounded w-1/3 mt-1" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
 
           {/* Filter chips */}
           {selectedCats.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-5">
               {selectedCats.map(cat => (
                 <span key={cat} className="inline-flex items-center gap-1 px-3 py-1 bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-full font-medium">
-                  {cat} <button onClick={() => toggleCat(cat)}><X size={12} /></button>
+                  {cat}
+                  <button type="button" onClick={() => toggleCat(cat)} aria-label={`Remove ${cat} filter`}>
+                    <X size={12} />
+                  </button>
                 </span>
               ))}
             </div>
           )}
 
-          {/* Products */}
           {loading ? (
             <div className="flex flex-col items-center justify-center py-24 bg-white border border-gray-200 rounded-xl">
               <div className="w-8 h-8 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin mb-4" />
               <p className="text-sm text-gray-500">Loading products…</p>
             </div>
-          ) : visible.length === 0 && !syncLoading ? (
+          ) : visible.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 bg-white border border-gray-200 rounded-xl">
-              <p className="text-2xl mb-2">🔍</p>
               <p className="text-gray-900 font-semibold">No products found</p>
-              <p className="text-sm text-gray-500 mt-1">Try different keywords or adjust filters.</p>
-              <button onClick={reset} className="mt-4 text-sm text-amber-700 hover:underline font-medium">Clear filters</button>
+              <p className="text-sm text-gray-500 mt-1">Try different keywords or adjust filters. Import products from Admin → Sync.</p>
+              <button type="button" onClick={reset} className="mt-4 text-sm text-amber-700 hover:underline font-medium">Clear filters</button>
             </div>
           ) : view === 'grid' ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -350,31 +290,9 @@ export default function CatalogPage() {
                   <ProductCard product={p} />
                 </motion.div>
               ))}
-
-              {/* Sentinel / bottom loader — spans full grid width so it never
-                  gets squeezed under the first column when few items match */}
-              <div ref={sentinelRef} className="col-span-full text-center py-8 flex flex-col items-center justify-center gap-2">
-                {syncLoading && visible.length > 0 && (
-                  <>
-                    <div className="flex items-center gap-1.5">
-                      {[0, 1, 2].map(i => (
-                        <span key={i} className="w-2 h-2 rounded-full bg-amber-400"
-                          style={{ animation: `bounce 1s ease-in-out ${i * 0.15}s infinite` }} />
-                      ))}
-                    </div>
-                    <p className="text-xs text-gray-400 tracking-wide">Loading more products</p>
-                  </>
-                )}
-                {noMorePages && (
-                  <p className="text-xs text-gray-400 tracking-wide">You've seen everything ✓</p>
-                )}
-              </div>
-
-              {visible.length > 0 && (
-                <p className="col-span-full text-center text-xs text-gray-400 pb-4">
-                  Showing {visible.length} of {filtered.length}
-                </p>
-              )}
+              <p className="col-span-full text-center text-xs text-gray-500 pb-4">
+                Showing {visible.length} of {filtered.length}
+              </p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
@@ -400,15 +318,11 @@ export default function CatalogPage() {
                     transition={{ delay: i * 0.02 }}
                     className="bg-white border border-gray-200 rounded-xl hover:border-amber-400 hover:shadow-sm transition-all">
                     <div className="flex gap-4 p-4">
-                      {/* Clickable image */}
                       <Link to={`/product/${pid}`} className="relative shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-gray-50 block">
                         <img src={image} alt={title} className="w-full h-full object-contain" />
                       </Link>
-
-                      {/* Info */}
                       <div className="flex-grow min-w-0 flex flex-col justify-between">
                         <div>
-                          {/* Category + badges */}
                           <div className="flex items-center justify-between gap-2 mb-0.5">
                             <span className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold truncate">{category}</span>
                             <div className="flex items-center gap-1.5 shrink-0">
@@ -418,9 +332,10 @@ export default function CatalogPage() {
                                 </span>
                               )}
                               <button
+                                type="button"
                                 onClick={() => toggle(p)}
-                                className={`w-6 h-6 rounded-full flex items-center justify-center border transition-all duration-200 ${
-                                  fav ? 'bg-rose-500 border-rose-500 text-white' : 'bg-white border-gray-200 text-gray-400 hover:border-rose-400 hover:text-rose-500'
+                                className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-200 ${
+                                  fav ? 'bg-rose-500 border-rose-500 text-white' : 'bg-white border-gray-200 text-gray-500 hover:border-rose-400 hover:text-rose-500'
                                 }`}
                                 aria-label={fav ? 'Remove from saved' : 'Save'}
                               >
@@ -428,23 +343,19 @@ export default function CatalogPage() {
                               </button>
                             </div>
                           </div>
-
-                          {/* Clickable title */}
                           <Link to={`/product/${pid}`}>
-                            <h3 className="text-sm font-medium text-gray-900 leading-snug hover:text-amber-700 transition-colors mt-0.5">
+                            <h2 className="text-sm font-medium text-gray-900 leading-snug hover:text-amber-700 transition-colors mt-0.5">
                               {title}
-                            </h3>
+                            </h2>
                           </Link>
-
                           <div className="flex items-center gap-1 mt-1">
                             <Star size={11} className="fill-amber-400 text-amber-400" />
                             <span className="text-[10px] text-gray-500 font-medium">{rating}</span>
                           </div>
                         </div>
-
                         <div className="flex items-center justify-between mt-3">
                           <div>
-                            {origPrice && <p className="text-xs text-gray-400 line-through">${parseFloat(origPrice).toFixed(2)}</p>}
+                            {origPrice && <p className="text-xs text-gray-500 line-through">${parseFloat(origPrice).toFixed(2)}</p>}
                             <p className="text-base font-bold text-gray-900">${parseFloat(price || 0).toFixed(2)}</p>
                           </div>
                           <a
@@ -460,38 +371,11 @@ export default function CatalogPage() {
                   </motion.div>
                 );
               })}
+              <p className="text-center text-xs text-gray-500 pb-4 mt-2">
+                Showing {visible.length} of {filtered.length}
+              </p>
             </div>
           )}
-
-          {/* Sentinel / bottom loader — grid view renders its own col-span-full
-              copy above so the indicator never gets squeezed under column 1 */}
-          {view !== 'grid' && (
-            <>
-              <div ref={sentinelRef} className="mt-6 flex flex-col items-center justify-center pb-8 min-h-[60px] gap-2">
-                {syncLoading && visible.length > 0 && (
-                  <>
-                    <div className="flex items-center gap-1.5">
-                      {[0, 1, 2].map(i => (
-                        <span key={i} className="w-2 h-2 rounded-full bg-amber-400"
-                          style={{ animation: `bounce 1s ease-in-out ${i * 0.15}s infinite` }} />
-                      ))}
-                    </div>
-                    <p className="text-xs text-gray-400 tracking-wide">Loading more products</p>
-                  </>
-                )}
-                {noMorePages && (
-                  <p className="text-xs text-gray-400 tracking-wide">You've seen everything ✓</p>
-                )}
-              </div>
-
-              {visible.length > 0 && (
-                <p className="text-center text-xs text-gray-400 pb-4">
-                  Showing {visible.length} of {filtered.length}
-                </p>
-              )}
-            </>
-          )}
-          <style>{`@keyframes bounce{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-6px);opacity:1}}`}</style>
         </div>
       </div>
 
@@ -502,7 +386,7 @@ export default function CatalogPage() {
           <div className="absolute left-0 top-0 h-full w-72 bg-white shadow-xl flex flex-col">
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
               <p className="font-semibold text-gray-900">Filters</p>
-              <button onClick={() => setSidebarOpen(false)}><X size={20} className="text-gray-500" /></button>
+              <button type="button" aria-label="Close filters" onClick={() => setSidebarOpen(false)}><X size={20} className="text-gray-500" /></button>
             </div>
             <div className="flex-grow overflow-y-auto p-5">
               <Sidebar {...sidebarProps} />

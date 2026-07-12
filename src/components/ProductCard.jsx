@@ -41,11 +41,27 @@ const ProductCard = ({ product }) => {
   };
 
   const jsonLd = {
-    '@context': 'https://schema.org/', '@type': 'Product', name: title, image,
+    '@context': 'https://schema.org/',
+    '@type': 'Product',
+    name: title,
+    image,
     brand: { '@type': 'Brand', name: merchant },
-    offers: { '@type': 'Offer', url: `${window.location.origin}/product/${pid}`, priceCurrency: 'USD', price, availability: 'https://schema.org/InStock' },
-    aggregateRating: { '@type': 'AggregateRating', ratingValue: rating, reviewCount: '85' },
+    offers: {
+      '@type': 'Offer',
+      url: `${window.location.origin}/product/${pid}`,
+      priceCurrency: 'USD',
+      price: String(price ?? ''),
+      availability: 'https://schema.org/InStock',
+    },
   };
+  // Only include AggregateRating when the merchant provides a real rate —
+  // never invent review counts (hurts trust / rich-result eligibility).
+  if (product.evaluate_rate || product.rating) {
+    jsonLd.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: String(rating),
+    };
+  }
 
   return (
     <>

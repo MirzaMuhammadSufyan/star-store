@@ -89,62 +89,70 @@ export default function BlogArchive() {
         </div>
 
         {hero && (
-          <motion.article
+          <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             whileHover={{ y: -4 }}
             transition={{ duration: 0.45 }}
-            className="group grid md:grid-cols-2 bg-white border border-gray-200 rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl"
           >
-            <Link to={`/blog/${hero.id}`} className="block overflow-hidden aspect-[4/3] md:aspect-auto">
-              <img src={resolveBlogImage(hero)} alt={hero.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-            </Link>
-            <div className="p-8 md:p-10 flex flex-col justify-center gap-4">
-              <span className="text-xs uppercase tracking-widest text-amber-700 font-semibold">Featured · {hero.category}</span>
-              <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-                <Link to={`/blog/${hero.id}`} className="hover:text-amber-700 transition-colors">{hero.title}</Link>
-              </h2>
-              <p className="text-gray-500 leading-relaxed line-clamp-3">{hero.excerpt}</p>
-              <div className="flex items-center gap-4 text-xs text-gray-400">
-                <span className="flex items-center gap-1.5"><User size={12} /> {hero.author}</span>
-                <span className="flex items-center gap-1.5"><Calendar size={12} /> {hero.date}</span>
+            <Link
+              to={`/blog/${hero.id}`}
+              className="group grid md:grid-cols-2 bg-white border border-gray-200 rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+            >
+              <div className="overflow-hidden aspect-[4/3] md:aspect-auto">
+                <img src={resolveBlogImage(hero)} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
-              <Link to={`/blog/${hero.id}`} className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-900 hover:text-amber-700 transition-colors">
-                Read Article <ArrowRight size={14} />
-              </Link>
-            </div>
-          </motion.article>
+              <div className="p-8 md:p-10 flex flex-col justify-center gap-4">
+                <span className="text-xs uppercase tracking-widest text-amber-700 font-semibold">Featured · {hero.category}</span>
+                <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 leading-tight group-hover:text-amber-700 transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  {hero.title}
+                </h2>
+                <p className="text-gray-500 leading-relaxed line-clamp-3">{hero.excerpt}</p>
+                <div className="flex items-center gap-4 text-xs text-gray-400">
+                  <span className="flex items-center gap-1.5"><User size={12} /> {hero.author}</span>
+                  <span className="flex items-center gap-1.5"><Calendar size={12} /> {hero.date}</span>
+                </div>
+                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-900 group-hover:text-amber-700 transition-colors">
+                  Read Article <ArrowRight size={14} />
+                </span>
+              </div>
+            </Link>
+          </motion.div>
         )}
 
         {rest.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {rest.map((post, i) => (
-              <motion.article
+              <motion.div
                 key={post.id}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -4 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06, duration: 0.4 }}
-                className="group flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl"
               >
-                <Link to={`/blog/${post.id}`} className="block overflow-hidden aspect-[16/10]">
-                  <img src={resolveBlogImage(post)} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                </Link>
-                <div className="p-5 flex flex-col flex-grow">
-                  <span className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold">{post.category}</span>
-                  <h3 className="mt-2 text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-amber-700 transition-colors flex-grow" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    <Link to={`/blog/${post.id}`}>{post.title}</Link>
-                  </h3>
-                  <p className="mt-2 text-sm text-gray-500 line-clamp-3 leading-relaxed">{post.excerpt}</p>
-                  <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
-                    <span>{post.author} · {post.date}</span>
-                    <Link to={`/blog/${post.id}`} className="flex items-center gap-1 text-amber-700 font-medium hover:underline">
-                      Read <ChevronRight size={13} />
-                    </Link>
+                <Link
+                  to={`/blog/${post.id}`}
+                  className="group flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden transition-shadow duration-300 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                >
+                  <div className="overflow-hidden aspect-[16/10]">
+                    <img src={resolveBlogImage(post)} alt="" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
-                </div>
-              </motion.article>
+                  <div className="p-5 flex flex-col flex-grow">
+                    <span className="text-[10px] uppercase tracking-widest text-amber-700 font-semibold">{post.category}</span>
+                    <h3 className="mt-2 text-base font-semibold text-gray-900 line-clamp-2 group-hover:text-amber-700 transition-colors flex-grow" style={{ fontFamily: "'Playfair Display', serif" }}>
+                      {post.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-500 line-clamp-3 leading-relaxed">{post.excerpt}</p>
+                    <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
+                      <span>{post.author} · {post.date}</span>
+                      <span className="flex items-center gap-1 text-amber-700 font-medium">
+                        Read <ChevronRight size={13} />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
             ))}
           </div>
         )}

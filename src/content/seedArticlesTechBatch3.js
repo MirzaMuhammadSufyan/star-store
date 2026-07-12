@@ -103,13 +103,42 @@ Here is a practical comparison without fanboy noise.
 
 ## Quick Verdict by User Type
 
-| You are… | Best default | Why |
-|----------|--------------|-----|
-| Deep in Google Workspace | **Gemini** | Gmail, Docs, Drive integration |
-| General power user / plugins | **ChatGPT** | Broadest ecosystem and custom GPTs |
-| Long documents & careful writing | **Claude** | Large context, nuanced tone |
-| Developer | **Depends** | Test all three on your stack |
-| Privacy-conscious | **Paid tiers + policies** | Read data retention terms |
+<table>
+  <thead>
+    <tr>
+      <th>You are…</th>
+      <th>Best default</th>
+      <th>Why</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Deep in Google Workspace</td>
+      <td>**Gemini**</td>
+      <td>Gmail, Docs, Drive integration</td>
+    </tr>
+    <tr>
+      <td>General power user / plugins</td>
+      <td>**ChatGPT**</td>
+      <td>Broadest ecosystem and custom GPTs</td>
+    </tr>
+    <tr>
+      <td>Long documents & careful writing</td>
+      <td>**Claude**</td>
+      <td>Large context, nuanced tone</td>
+    </tr>
+    <tr>
+      <td>Developer</td>
+      <td>**Depends**</td>
+      <td>Test all three on your stack</td>
+    </tr>
+    <tr>
+      <td>Privacy-conscious</td>
+      <td>**Paid tiers + policies**</td>
+      <td>Read data retention terms</td>
+    </tr>
+  </tbody>
+</table>
 
 Many professionals keep two subscriptions: one for daily drafting, one for specialised tasks.
 
@@ -333,12 +362,32 @@ Here is an honest map of what works in 2026 and what income to expect if you sho
 
 ## Realistic Timeline
 
-| Month | Focus |
-|-------|--------|
-| 1 | Pick one path, publish proof of skill |
-| 2–3 | Daily outreach or publishing habit |
-| 4–6 | First repeat clients or traffic compounding |
-| 7–12 | Raise prices, add second income stream |
+<table>
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Focus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Pick one path, publish proof of skill</td>
+    </tr>
+    <tr>
+      <td>2–3</td>
+      <td>Daily outreach or publishing habit</td>
+    </tr>
+    <tr>
+      <td>4–6</td>
+      <td>First repeat clients or traffic compounding</td>
+    </tr>
+    <tr>
+      <td>7–12</td>
+      <td>Raise prices, add second income stream</td>
+    </tr>
+  </tbody>
+</table>
 
 Most people fail by switching paths every three weeks. Depth beats novelty.
 
@@ -588,12 +637,32 @@ Offer a simple lead magnet — checklist, starter guide — and place signup for
 
 ## Realistic Income Timeline
 
-| Period | Typical outcome |
-|--------|-----------------|
-| Months 1–3 | Little traffic, learning SEO |
-| Months 4–8 | First affiliate clicks, indexing gains |
-| Months 9–18 | Meaningful sessions if niche and consistency hold |
-| Year 2+ | Compound growth, raise ad tiers, diversify offers |
+<table>
+  <thead>
+    <tr>
+      <th>Period</th>
+      <th>Typical outcome</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Months 1–3</td>
+      <td>Little traffic, learning SEO</td>
+    </tr>
+    <tr>
+      <td>Months 4–8</td>
+      <td>First affiliate clicks, indexing gains</td>
+    </tr>
+    <tr>
+      <td>Months 9–18</td>
+      <td>Meaningful sessions if niche and consistency hold</td>
+    </tr>
+    <tr>
+      <td>Year 2+</td>
+      <td>Compound growth, raise ad tiers, diversify offers</td>
+    </tr>
+  </tbody>
+</table>
 
 Many blogs earn $0 for six months. That is normal, not failure — unless you quit at month two.
 

@@ -105,7 +105,7 @@ const LegalPage = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
             {page.title}
           </h1>
-          <p className="mt-3 text-sm text-gray-400">Last updated: {page.updated}</p>
+          <p className="mt-3 text-sm text-gray-500">Last updated: {page.updated}</p>
         </div>
       </div>
 

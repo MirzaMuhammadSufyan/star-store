@@ -135,6 +135,14 @@ A 65W dual-port charger might deliver 45W + 20W when both ports are used — or 
 
 Stick to reputable brands for anything above 20W. Poorly made chargers can lack proper thermal protection and over-voltage safeguards. Certification marks (UL, CE, FCC depending on region) are a baseline check, not a guarantee — but their absence is a red flag.
 
+## Troubleshooting Slow or No Charging
+
+If a device charges more slowly than expected, work through the stack methodically rather than assuming the charger is broken. Start with the cable — swap in one you know works at the required wattage, since damaged or underspecified cables are the single most common cause of slow charging. Next, test the same charger and cable on a different device to isolate whether the fault sits with the port, the device's battery management, or the power source itself.
+
+Charging can also slow down when a device is hot. Phones and laptops throttle input current as internal temperature rises, particularly during simultaneous fast charging and heavy use like gaming or video calls. Removing a thick case or letting the device cool for a few minutes often restores full speed.
+
+Old USB-A wall sockets built into hotel lamps or power strips frequently supply only 5W regardless of what your cable can carry — a common trap for travellers who assume any USB port charges at full speed. When in doubt, carry your own PD-certified charger rather than relying on unknown ports.
+
 ## Practical Shopping Checklist
 
 1. List every device you want to charge and its maximum wattage
@@ -198,6 +206,12 @@ Before buying, read:
 - Options to disable microphones or specific zones
 
 Cameras inside your home deserve stricter privacy settings than outdoor perimeter models. Use physical covers or scheduling when you are home.
+
+## Subscription Costs Over Time
+
+Sticker price rarely reflects total ownership cost. A £60 camera with a £5-per-month cloud plan costs roughly £120 in its first year alone, and that recurring fee typically continues for as long as you own the device. Before buying, check what happens if you cancel: some brands lock recorded footage behind the subscription entirely, while others let you keep local clips but disable smart alerts like person or package detection.
+
+Multi-camera households should also compare bundled plans against per-camera pricing — many providers offer a single subscription covering an entire property, which becomes far cheaper than paying per device once you own three or more cameras. Factor this into your five-year cost comparison, not just the checkout price.
 
 ## Smart Home Integration
 
@@ -269,6 +283,16 @@ Include cases, storage expansion, subscriptions, and replacement cycles. A cheap
 
 Cloud storage, app subscriptions, and proprietary accessories belong in your budget math upfront.
 
+## Financing and Buy-Now-Pay-Later Traps
+
+Buy-now-pay-later services make expensive gear feel affordable by splitting the cost into small instalments — but they can also encourage spending beyond your actual budget ceiling. Missed payments frequently trigger high interest or fees that erase any discount you thought you were getting, and multiple concurrent plans across different retailers make it easy to lose track of total monthly commitments.
+
+If you do use financing, treat it as a cash-flow tool for a purchase you had already budgeted for — not a way to justify buying something you could not otherwise afford. Compare the total repayment amount against the sticker price before committing, and check whether paying in full up front unlocks a discount that financing forfeits.
+
+Store credit cards tied to specific retailers deserve the same scrutiny: promotional zero-interest periods often convert to high standard rates retroactively if the balance is not cleared in full by the deadline.
+
+A simpler alternative for planned purchases is a dedicated savings pot funded a few months ahead of the sale you are targeting. It costs nothing in fees, removes the temptation to overspend into a repayment plan, and still lets you take advantage of seasonal discounts without owing anyone afterward.
+
 ## Red Flags on Ultra-Cheap Listings
 
 - No verifiable brand or impossible specs for the price
@@ -334,6 +358,16 @@ Professional reviewers who disclose testing methodology add context that star av
 - Specs that exceed physics for the price (impossible battery life, capacity)
 - Identical product sold under dozens of random brand names
 
+## Platform-Specific Patterns Worth Knowing
+
+Fake review tactics differ by platform. On large marketplaces, sellers sometimes exploit "review merging," where an established listing with genuine reviews is repurposed for an entirely different product — check that photos and specific details in reviews actually match what you are buying. On social-media-driven storefronts, be wary of reviews that read like influencer captions rather than customer feedback; these are sometimes seeded by the brand itself before launch.
+
+Marketplaces with return-and-reorder loopholes occasionally show inflated ratings from buyers who received free or discounted units in exchange for a five-star review — a practice most platforms formally ban but struggle to police at scale. If a product has an unusually high proportion of reviews mentioning it was received "for free" or "at a discount for my honest opinion," treat the rating with extra scepticism, even though the disclosure itself is technically compliant.
+
+Finally, watch review timing relative to price changes. A sudden ratings jump right after a price drop can reflect genuine satisfaction — or a coordinated push timed to a promotional campaign.
+
+It also helps to remember that even genuine reviewers rate products against their own expectations, not yours. A budget gadget with mediocre build quality can still earn five stars from someone who only compared it to nothing at all. Read a handful of critical reviews specifically to understand what the product is being judged against before trusting the average score in isolation.
+
 ## Tools That Help
 
 Review analysis browser extensions and third-party scanners flag statistical anomalies. None are perfect, but they speed up screening on popular marketplaces.
@@ -385,6 +419,18 @@ Alternating sit and stand is healthy; standing all day is not automatically bett
 ## Breaks Beat Perfect Equipment
 
 No chair fixes eight hours without movement. Stand, walk, stretch hips and wrists hourly. Micro-breaks improve focus and reduce injury risk more than marginal chair upgrades.
+
+## Common Mistakes People Make
+
+The most frequent ergonomic mistake is treating a laptop as a complete workstation. Typing directly on a laptop keyboard forces the neck downward for hours, regardless of how good the chair is — an external keyboard and raised screen fix this in one afternoon for relatively little money.
+
+A second common mistake is optimising posture while sitting still, then ignoring movement entirely. The body was not designed for any single position held for eight hours, no matter how "correct" that position is. People with genuinely well-configured desks still develop stiffness if they never get up.
+
+Finally, many remote workers copy office ergonomics without accounting for a mixed-use space. A dining chair borrowed for work needs cushions or lumbar support it was never designed with, and a kitchen table is usually too high for typing without shoulder elevation. Match adjustments to the furniture you actually have, rather than assuming office-grade equipment is the only solution.
+
+Discomfort that appears suddenly, rather than gradually, is worth taking seriously rather than working through. Sharp wrist pain, numbness in the fingers, or persistent headaches are signals to change your setup immediately and consider a professional opinion — ergonomic adjustments prevent most issues, but they are not a substitute for medical advice once symptoms are already present.
+
+Revisit your setup whenever your work changes meaningfully — a new monitor, a different desk, or simply months of accumulated small compromises can quietly shift posture back toward strain even after getting it right once.
 
 ## Budget Priority Order
 
@@ -441,6 +487,16 @@ Many airlines limit spare lithium batteries to 100Wh (~27,000 mAh at 3.7V) witho
 - Clear brand with recall history you can search
 
 Ultra-cheap unknown brands skip protection circuitry. Saving ten dollars is not worth thermal risk near your phone and hands.
+
+## Charging Multiple Devices at Once
+
+Splitting output across two or three ports divides the power bank's total wattage, not multiplies it. A 20W power bank charging a phone and a pair of earbuds simultaneously might deliver only 12W to the phone and 5W to the earbuds — noticeably slower than charging either device alone. Check the manual for simultaneous-use wattage figures rather than assuming each port performs at its rated maximum independently.
+
+This matters most for travellers charging a phone and a laptop from the same bank overnight. If the laptop needs 45W and the bank can only deliver that on a single port at a time, plan to charge devices sequentially rather than together, or budget for a higher-capacity bank with genuinely independent high-wattage ports.
+
+Heat is the other side effect of drawing maximum output across multiple ports simultaneously. Power banks running hot for extended periods age their internal cells faster, gradually reducing real-world capacity over the following year. If you regularly charge multiple devices overnight, a slightly larger bank run at a lower sustained load will likely outlast a smaller one pushed to its limit nightly.
+
+Storing a power bank at very low or very high charge for extended periods also accelerates capacity loss. If you keep one in a bag for emergencies rather than daily use, topping it up to roughly half charge every few months preserves battery health far better than leaving it fully charged or fully drained in storage.
 
 ## Size vs Capacity Trade-off
 
@@ -507,6 +563,14 @@ Switch type matters less than keyboard angle, wrist position, and break habits. 
 
 Split keyboards and negative tilt deserve consideration before spending on premium switches alone.
 
+## Sound Dampening and Modding
+
+Mechanical keyboard enthusiasts often modify boards to change sound and feel — a hobby largely unavailable on sealed membrane units. Adding foam between the plate and PCB deepens the sound and removes hollow resonance. Lubricating switches and stabilisers reduces rattle on the larger keys like spacebar and shift. O-rings placed under keycaps shorten travel and soften the bottom-out sound for shared spaces.
+
+None of this is necessary to enjoy a mechanical keyboard — most boards feel great out of the box — but it explains part of the price premium and community enthusiasm around switches, keycap sets, and custom builds. If sound matters to you beyond the basic linear-versus-clicky choice, budget extra time for research rather than extra money; many effective mods cost under ten pounds in materials.
+
+Keycap material also shapes both sound and feel more than most buyers expect. PBT plastic resists shine and produces a deeper, more textured sound than the glossier ABS plastic common on stock keycaps, which tends to develop a slippery, high-pitched click as it wears. Swapping keycaps is one of the cheapest ways to meaningfully change how a board sounds and feels without touching a single switch.
+
 ## Who Should Buy Mechanical
 
 - Heavy typists who enjoy tactile feedback
@@ -572,6 +636,16 @@ Swollen batteries are hazardous — stop using the device and take it to a profe
 ## Accessories and Cables
 
 Cables, adapters, and old headphones qualify for e-waste streams too. Copper recovery is worthwhile at scale. Tangled drawer cables are a recycling bin trip waiting to happen.
+
+## What Happens to Recycled Materials
+
+Certified recyclers dismantle devices into material streams: circuit boards go to specialist smelters that recover gold, silver, palladium, and copper; batteries are processed separately for lithium and cobalt recovery; plastics and glass are sorted by type for reuse in new manufacturing. This recovery is genuinely valuable — a tonne of discarded smartphones contains far more gold per tonne than a tonne of mined ore.
+
+The catch is that this process only works when materials reach a certified facility rather than a landfill or an uncertified exporter. Illegally exported e-waste often ends up processed informally in facilities with minimal safety controls, where valuable materials are recovered crudely and hazardous residue is dumped locally. Choosing R2- or e-Stewards-certified recyclers is not just a compliance checkbox — it determines whether your old phone genuinely gets recycled responsibly or simply becomes someone else's environmental and health hazard.
+
+Manufacturer take-back programmes are worth checking first, since several major brands now operate their own certified recycling chains and occasionally offer store credit even for devices too damaged to resell. This removes the guesswork of vetting a third-party recycler entirely and keeps materials within a system the manufacturer is directly accountable for.
+
+Community collection events, often run by local councils or retailers around Earth Day or similar dates, are another low-effort option worth watching for — they typically accept a wider range of small electronics than curbside recycling and require no shipping or account setup on your part.
 
 ## Buying With Longevity in Mind
 
@@ -649,6 +723,12 @@ ANC helps **you** hear less noise. ENC (environmental noise cancellation) or bea
 Over-ear cups typically achieve stronger isolation and more comfortable long-session ANC. In-ear models win on portability and can perform remarkably well with a proper seal.
 
 Try different tip sizes before judging in-ear ANC quality.
+
+## Adaptive ANC and Wind Noise
+
+Newer headphones use adaptive ANC, which samples the environment continuously and adjusts cancellation strength in real time rather than applying a fixed profile. This helps in changeable environments — a train that alternates between tunnels and open track, for example — but adaptive systems can also introduce a faint pumping sensation as cancellation strength shifts.
+
+Wind remains ANC's most persistent weakness. Moving air across the microphone ports creates a low rumble that the system may mistake for genuine ambient noise and try to cancel, sometimes producing an audible whooshing artefact instead of silence. Manufacturers mitigate this with mesh covers and wind-detection algorithms that temporarily reduce ANC strength, but no current headphone fully eliminates wind noise on a blustery day. If you regularly walk or cycle outdoors, read reviews specifically for wind performance rather than assuming flagship ANC ratings transfer directly to outdoor use.
 
 ## Should You Pay Premium for ANC?
 

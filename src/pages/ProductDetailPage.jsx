@@ -225,7 +225,8 @@ export default function ProductDetailPage() {
                 {p.category || 'General'}
               </span>
               <span className="flex items-center gap-1 text-sm text-gray-600">
-                <Star size={14} className="fill-amber-400 text-amber-400" /> {p.rating} <span className="text-gray-400">(128 reviews)</span>
+                <Star size={14} className="fill-amber-400 text-amber-400" /> {p.rating}
+                <span className="text-gray-400">merchant rating</span>
               </span>
             </div>
 

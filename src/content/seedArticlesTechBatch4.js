@@ -91,12 +91,38 @@ Organised by job-to-be-done. Pin the sections that match your week.
 
 **Pick five tools maximum** for your role. Install nothing else for thirty days.
 
-| Role | Start with |
-|------|------------|
-| Student | Gemini or ChatGPT, Perplexity, Quizlet, Otter |
-| Developer | Codeium, Phind, GitHub docs, Remove.bg for assets |
-| Creator | CapCut, Canva, Claude for scripts, Ideogram |
-| Freelancer | Notion AI, Grammarly, Otter, Zapier |
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Start with</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Student</td>
+      <td>Gemini or ChatGPT, Perplexity, Quizlet, Otter</td>
+    </tr>
+    <tr>
+      <td>Developer</td>
+      <td>Codeium, Phind, GitHub docs, Remove.bg for assets</td>
+    </tr>
+    <tr>
+      <td>Creator</td>
+      <td>CapCut, Canva, Claude for scripts, Ideogram</td>
+    </tr>
+    <tr>
+      <td>Freelancer</td>
+      <td>Notion AI, Grammarly, Otter, Zapier</td>
+    </tr>
+  </tbody>
+</table>
+
+## Watch for Feature Downgrades Over Time
+
+Free tiers are not fixed contracts — companies routinely tighten limits, remove models, or push previously free features behind paywalls as they seek profitability. A tool that offered generous free usage at launch may quietly reduce daily limits months later, often with no announcement beyond a changelog few users read. This is not a reason to avoid free tools, but it means treating any specific tool as permanent is a mistake, especially for workflows you depend on professionally.
+
+Keep a rough shortlist of one or two alternatives for any free tool central to your work, so a sudden limit change does not stall a deadline. The tools on this list were chosen for a track record of remaining genuinely useful at the free tier, not just a good launch offer — but track records can change, so revisit your stack every few months rather than assuming today's free tier lasts forever.
 
 ## Free Tier Caveats
 
@@ -223,12 +249,32 @@ One link from a respected site in your niche beats fifty junk directories.
 
 ## Realistic Timeline
 
-| Month | Expectation |
-|-------|-------------|
-| 1–2 | Indexing, minimal traffic |
-| 3–6 | Long-tail rankings appear |
-| 6–12 | Compounding if niche and consistency hold |
-| 12+ | Backlinks and authority accelerate |
+<table>
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Expectation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1–2</td>
+      <td>Indexing, minimal traffic</td>
+    </tr>
+    <tr>
+      <td>3–6</td>
+      <td>Long-tail rankings appear</td>
+    </tr>
+    <tr>
+      <td>6–12</td>
+      <td>Compounding if niche and consistency hold</td>
+    </tr>
+    <tr>
+      <td>12+</td>
+      <td>Backlinks and authority accelerate</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Common Beginner Mistakes
 
@@ -354,13 +400,48 @@ Here are ideas that actually work in 2026 if you treat setup seriously.
 
 ## Ranking Effort vs Passivity
 
-| Idea | Upfront effort | Ongoing effort | Scalability |
-|------|----------------|----------------|-------------|
-| Affiliate blog | High | Medium | High |
-| Digital product | Medium | Low–medium | Medium |
-| POD | Medium | Medium | Medium |
-| Dividends | Capital only | Very low | Medium |
-| YouTube | High | Medium | High |
+<table>
+  <thead>
+    <tr>
+      <th>Idea</th>
+      <th>Upfront effort</th>
+      <th>Ongoing effort</th>
+      <th>Scalability</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Affiliate blog</td>
+      <td>High</td>
+      <td>Medium</td>
+      <td>High</td>
+    </tr>
+    <tr>
+      <td>Digital product</td>
+      <td>Medium</td>
+      <td>Low–medium</td>
+      <td>Medium</td>
+    </tr>
+    <tr>
+      <td>POD</td>
+      <td>Medium</td>
+      <td>Medium</td>
+      <td>Medium</td>
+    </tr>
+    <tr>
+      <td>Dividends</td>
+      <td>Capital only</td>
+      <td>Very low</td>
+      <td>Medium</td>
+    </tr>
+    <tr>
+      <td>YouTube</td>
+      <td>High</td>
+      <td>Medium</td>
+      <td>High</td>
+    </tr>
+  </tbody>
+</table>
 
 ## What Usually Fails
 
@@ -453,12 +534,40 @@ Before installing any extension:
 
 ## Suggested Bundles
 
-| Role | Core five |
-|------|-----------|
-| Student | OneTab, Grammarly, uBlock, Bitwarden, StayFocusd |
-| Remote worker | Workona, Grammarly, Zoom scheduler (if used), Bitwarden, Momentum |
-| Developer | JSON Viewer, React DevTools, Web Developer, ColorZilla, uBlock |
-| Marketer | Ahrefs or MozBar, Keywords Everywhere, Similarweb, Grammarly, OneTab |
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Core five</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Student</td>
+      <td>OneTab, Grammarly, uBlock, Bitwarden, StayFocusd</td>
+    </tr>
+    <tr>
+      <td>Remote worker</td>
+      <td>Workona, Grammarly, Zoom scheduler (if used), Bitwarden, Momentum</td>
+    </tr>
+    <tr>
+      <td>Developer</td>
+      <td>JSON Viewer, React DevTools, Web Developer, ColorZilla, uBlock</td>
+    </tr>
+    <tr>
+      <td>Marketer</td>
+      <td>Ahrefs or MozBar, Keywords Everywhere, Similarweb, Grammarly, OneTab</td>
+    </tr>
+  </tbody>
+</table>
+
+## Performance Cost of Running Too Many Extensions
+
+Every installed extension runs in the background of every tab you open, even ones with no relevant task to perform. A browser loaded with fifteen or twenty extensions can noticeably slow page loads and increase memory use, particularly on older laptops or machines already running multiple applications. Task Manager inside Chrome (Shift+Esc) shows memory and CPU use per extension — a useful five-minute audit if your browser feels sluggish.
+
+Beyond performance, each extension is also a security surface: a compromised or acquired extension can push a malicious update without you noticing, since most browsers auto-update extensions silently. Sticking to the smallest set you genuinely use, from established developers, reduces both slowdown and risk — the recommendations above were chosen partly because they come from maintained, reputable sources with large user bases keeping them accountable.
+
+It is also worth checking an extension's update history before installing. A tool that has not been updated in over a year may simply be feature-complete and stable — or it may be abandoned and quietly accumulating compatibility issues as Chrome itself changes. Reading the most recent reviews, not just the overall star rating, usually reveals which case you are dealing with.
 
 ## When Extensions Are Not Enough
 
@@ -593,16 +702,48 @@ Services like DeleteMe automate this for a fee.
 
 ## Privacy Checklist (Print This)
 
-| Task | Done? |
-|------|-------|
-| Password manager active | |
-| 2FA on email + bank | |
-| OS auto-updates on | |
-| Disk encryption on | |
-| uBlock or equivalent | |
-| VPN for travel Wi-Fi | |
-| Social profiles reviewed | |
-| Old accounts deleted | |
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Done?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Password manager active</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>2FA on email + bank</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>OS auto-updates on</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Disk encryption on</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>uBlock or equivalent</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>VPN for travel Wi-Fi</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Social profiles reviewed</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Old accounts deleted</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 ## Balanced Mindset
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Edit2, Search, BarChart3, TrendingUp, MousePointer2, Users, Zap, FileText } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
+import { Plus, Trash2, Edit2, Search, TrendingUp, MousePointer2, Users, Zap, FileText } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useBlogStore } from '../store/blogStore';
 import { deleteBlogPost, publishSeedArticle } from '../services/blogService';
@@ -8,7 +8,6 @@ import { SEED_ARTICLES } from '../content/seedArticles';
 import { useAnalyticsStore } from '../store/analyticsStore';
 import { useAuthStore } from '../store/authStore';
 import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
 import ProductForm from '../components/ProductForm';
 import CreatePostForm from '../components/blog/CreatePostForm';
 
@@ -369,11 +368,10 @@ const AdminDashboard = () => {
         {/* ── Analytics ── */}
         {activeTab === 'analytics' && (
           <div className="space-y-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {[
                 { label: 'Total Clicks',       val: totalClicks,                                      icon: MousePointer2 },
-                { label: 'Unique Merchants',   val: new Set(clicks.map(c => c.merchant)).size,        icon: TrendingUp    },
-                { label: 'Conv. Intent',       val: (totalClicks * 0.15).toFixed(0),                  icon: BarChart3     },
+                { label: 'Unique Merchants',   val: new Set(clicks.map(c => c.merchant).filter(Boolean)).size, icon: TrendingUp },
                 { label: 'Products Tracked',   val: filteredProducts.length,                           icon: Users         },
               ].map((s, i) => (
                 <div key={i} className="bg-white border border-gray-200 rounded-lg p-5">
@@ -386,7 +384,7 @@ const AdminDashboard = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6">
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-gray-900 mb-5 flex items-center gap-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                   <TrendingUp size={18} className="text-amber-600" /> Top Products by Clicks
@@ -406,17 +404,8 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   ))}
-                  {topProducts.length === 0 && <p className="text-gray-400 text-sm text-center py-8">No analytics data yet.</p>}
+                  {topProducts.length === 0 && <p className="text-gray-400 text-sm text-center py-8">No analytics data yet. Clicks are logged when visitors use Buy /go redirects (with analytics consent).</p>}
                 </div>
-              </div>
-
-              <div className="bg-amber-600 rounded-lg p-8 text-white relative overflow-hidden flex flex-col justify-center">
-                <div className="relative z-10 space-y-4">
-                  <h3 className="text-2xl font-bold leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>Optimization Report Ready.</h3>
-                  <p className="text-amber-100 text-base leading-relaxed">Based on the last 30 days, we recommend increasing coverage for <strong>Photography</strong> and <strong>Wearables</strong> to boost conversions by 24%.</p>
-                  <Button variant="secondary" className="w-fit text-gray-900">Generate Strategy PDF</Button>
-                </div>
-                <BarChart3 className="absolute -right-8 -bottom-8 w-48 h-48 opacity-10" />
               </div>
             </div>
           </div>

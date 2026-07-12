@@ -47,10 +47,10 @@ export function ArticleHero({ post, onBack }) {
           </span>
           <button
             onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
-              alert('Link copied!');
+              navigator.clipboard.writeText(window.location.href).catch(() => {});
             }}
             className="ml-auto flex items-center gap-1.5 transition-colors hover:text-slate-700"
+            aria-label="Copy link to article"
           >
             <Share2 size={14} /> Share
           </button>

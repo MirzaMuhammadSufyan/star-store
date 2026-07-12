@@ -13,7 +13,6 @@ const CatalogPage       = lazy(() => import('./pages/CatalogPage'));
 const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
 const BlogArchive       = lazy(() => import('./pages/BlogArchive'));
 const BlogPost          = lazy(() => import('./pages/BlogPost'));
-const UserProfilePage   = lazy(() => import('./pages/UserProfilePage'));
 const ContactPage       = lazy(() => import('./pages/ContactPage'));
 const AboutPage         = lazy(() => import('./pages/AboutPage'));
 const LegalPage         = lazy(() => import('./pages/LegalPage'));
@@ -102,7 +101,8 @@ const AnimatedRoutes = () => {
           <Route path="/product/:id"    element={<ProductDetailPage />} />
           <Route path="/blog"           element={<BlogArchive />} />
           <Route path="/blog/:id"       element={<BlogPost />} />
-          <Route path="/profile"        element={<UserProfilePage />} />
+          <Route path="/profile"        element={<Navigate to="/catalog" replace />} />
+          <Route path="/checkout"       element={<Navigate to="/catalog" replace />} />
           <Route path="/about"          element={<AboutPage />} />
           <Route path="/contact"        element={<ContactPage />} />
           <Route path="/gift-finder"    element={<GiftFinder />} />

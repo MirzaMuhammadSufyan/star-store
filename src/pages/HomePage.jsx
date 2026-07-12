@@ -202,17 +202,11 @@ function ProductSkeleton() {
 }
 
 export default function HomePage() {
-  const { products, dbLoading, syncLoading, syncFromAliExpress } = useProductStore();
+  const { products, dbLoading } = useProductStore();
   const { posts } = useBlogStore();
   const blogItems = React.useMemo(() => getPublishedPosts(posts).slice(0, 3), [posts]);
 
-  useEffect(() => {
-    if (!dbLoading && products.length === 0) {
-      syncFromAliExpress('tech gadgets', 1);
-    }
-  }, [dbLoading]); // eslint-disable-line
-
-  const loading  = dbLoading || (syncLoading && products.length === 0);
+  const loading  = dbLoading;
   const featured = products.slice(0, 8);
   const newest   = products.slice(0, 4);
 
