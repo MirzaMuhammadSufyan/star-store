@@ -16,15 +16,10 @@ export async function onRequest(context) {
     });
   }
 
-  if (!env.ALIEXPRESS_TRACKING_ID) {
-    return new Response(JSON.stringify({
-      error: 'ALIEXPRESS_TRACKING_ID is not configured',
-      hint: 'Run: npx wrangler secret put ALIEXPRESS_TRACKING_ID',
-    }), {
-      status: 500,
-      headers: { 'content-type': 'application/json' }
-    });
-  }
+  // Prefer the real affiliate tracking ID; fall back to "default" so the
+  // public catalog can still load product listings when the secret is unset.
+  // Commission attribution still needs: npx wrangler secret put ALIEXPRESS_TRACKING_ID
+  const trackingId = env.ALIEXPRESS_TRACKING_ID || 'default';
 
   const apiParams = {
     method: 'aliexpress.affiliate.product.query',
@@ -32,7 +27,7 @@ export async function onRequest(context) {
     page_size: pageSize,
     target_currency: 'USD',
     target_language: 'EN',
-    tracking_id: env.ALIEXPRESS_TRACKING_ID,
+    tracking_id: trackingId,
   };
 
   if (categoryId) {
