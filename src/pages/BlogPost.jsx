@@ -81,7 +81,7 @@ export default function BlogPost() {
         type="article"
         structuredData={articleSchema}
       />
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-10">
         {post.status === 'draft' && isAdmin && (
           <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs text-amber-800">
             Draft preview — only visible to admins.
@@ -92,7 +92,7 @@ export default function BlogPost() {
         <AuthorBio post={post} />
 
         {relatedArticles.length > 0 && (
-          <section className="mx-auto max-w-[680px] border-t border-stone-200 py-8">
+          <section className="border-t border-stone-200 py-8">
             <div className="mb-4 flex items-baseline justify-between gap-3">
               <h2 className="text-sm font-semibold uppercase tracking-[0.1em] text-stone-500">
                 Keep reading
@@ -133,7 +133,7 @@ export default function BlogPost() {
         )}
 
         {relatedProducts.length > 0 && !isEditorialCategory(post.category) && (
-          <section className="mx-auto max-w-[680px] border-t border-stone-200 py-8 pb-12">
+          <section className="border-t border-stone-200 py-8 pb-12">
             <div className="mb-4 flex items-center justify-between gap-3">
               <h2 className="text-sm font-semibold uppercase tracking-[0.1em] text-stone-500">
                 Shop the story

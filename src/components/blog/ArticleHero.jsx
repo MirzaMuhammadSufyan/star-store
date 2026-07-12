@@ -11,7 +11,7 @@ export function ArticleHero({ post, onBack }) {
   const author = resolveAuthor(post);
 
   return (
-    <div className="mx-auto max-w-[680px]">
+    <div>
       <div className="pt-5 pb-4">
         <button
           type="button"

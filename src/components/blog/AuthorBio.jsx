@@ -7,7 +7,7 @@ export function AuthorBio({ post }) {
 
   return (
     <aside
-      className="mx-auto mb-10 max-w-[680px] rounded-lg border border-stone-200 bg-stone-50/90 px-4 py-3.5 sm:px-5"
+      className="mb-10 rounded-lg border border-stone-200 bg-stone-50/90 px-4 py-3.5 sm:px-5"
       aria-label={`About the author, ${author.name}`}
     >
       <div className="flex items-start gap-3">

@@ -37,7 +37,7 @@ export function ArticleBody({ post }) {
   const productConfig = getArticleProductConfig(post);
 
   return (
-    <article className="mx-auto mb-10 max-w-[680px]">
+    <article className="mb-10">
       {looksLikeHtml(content) ? (
         <div
           className={PROSE_CLASSES}
