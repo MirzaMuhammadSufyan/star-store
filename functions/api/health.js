@@ -22,7 +22,11 @@ export async function onRequestGet(context) {
     }),
     {
       status: 200,
-      headers: { ...corsHeaders, 'content-type': 'application/json' },
+      headers: {
+        ...corsHeaders,
+        'content-type': 'application/json',
+        'cache-control': 'no-store',
+      },
     },
   );
 }
