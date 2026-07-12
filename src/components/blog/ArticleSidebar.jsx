@@ -4,23 +4,18 @@ import { Button } from '../ui/Button';
 import { resolveBlogImage, estimateReadingTime } from '../../utils/blogUtils';
 import { getBuyLink } from '../../utils/productLinks';
 
-export function ArticleSidebar({ relatedArticles, relatedProducts }) {
+export function ArticleSidebar({ relatedArticles, relatedProducts, productsLoading }) {
   const hasArticles = relatedArticles?.length > 0;
   const hasProducts = relatedProducts?.length > 0;
-  if (!hasArticles && !hasProducts) return null;
 
   return (
-    <aside className="space-y-6 lg:sticky lg:top-[5.25rem] lg:max-h-[calc(100vh-5.75rem)] lg:overflow-y-auto lg:pb-8 lg:pr-1">
-      {hasArticles && (
-        <section className="rounded-lg border border-stone-200 bg-white p-3.5">
-          <div className="mb-3 flex items-center justify-between gap-2">
-            <h2 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-stone-500">
-              More to read
-            </h2>
-            <Link to="/blog" className="text-[11px] font-medium text-amber-700 hover:underline">
-              Journal
-            </Link>
-          </div>
+    <aside className="space-y-5 lg:sticky lg:top-[6.75rem] lg:max-h-[calc(100vh-7.25rem)] lg:overflow-y-auto lg:pb-8 lg:pr-1">
+      {/* Journal */}
+      <section className="rounded-lg border border-stone-200 bg-white p-3.5">
+        <h2 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-stone-500">
+          More to read
+        </h2>
+        {hasArticles ? (
           <ul className="space-y-3">
             {relatedArticles.map((article) => (
               <li key={article.id}>
@@ -46,22 +41,23 @@ export function ArticleSidebar({ relatedArticles, relatedProducts }) {
               </li>
             ))}
           </ul>
-        </section>
-      )}
+        ) : (
+          <p className="text-[12px] text-stone-500">No related articles yet.</p>
+        )}
+        <Link
+          to="/blog"
+          className="mt-3.5 flex w-full items-center justify-center gap-1 rounded-md border border-stone-200 bg-stone-50 py-2 text-[12px] font-semibold text-stone-800 transition-colors hover:border-amber-400 hover:bg-amber-50 hover:text-amber-800"
+        >
+          Show more <ArrowRight size={12} />
+        </Link>
+      </section>
 
-      {hasProducts && (
-        <section className="rounded-lg border border-stone-200 bg-white p-3.5">
-          <div className="mb-3 flex items-center justify-between gap-2">
-            <h2 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-stone-500">
-              From the store
-            </h2>
-            <Link
-              to="/catalog"
-              className="inline-flex items-center gap-0.5 text-[11px] font-medium text-amber-700 hover:underline"
-            >
-              Shop <ArrowRight size={11} />
-            </Link>
-          </div>
+      {/* Store products */}
+      <section className="rounded-lg border border-stone-200 bg-white p-3.5">
+        <h2 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-stone-500">
+          From the store
+        </h2>
+        {hasProducts ? (
           <ul className="space-y-2.5">
             {relatedProducts.map((product) => {
               const title = product.product_title || product.title;
@@ -103,8 +99,18 @@ export function ArticleSidebar({ relatedArticles, relatedProducts }) {
               );
             })}
           </ul>
-        </section>
-      )}
+        ) : (
+          <p className="text-[12px] text-stone-500">
+            {productsLoading ? 'Loading products…' : 'No matching products yet.'}
+          </p>
+        )}
+        <Link
+          to="/catalog"
+          className="mt-3.5 flex w-full items-center justify-center gap-1 rounded-md border border-stone-200 bg-stone-50 py-2 text-[12px] font-semibold text-stone-800 transition-colors hover:border-amber-400 hover:bg-amber-50 hover:text-amber-800"
+        >
+          Show more <ArrowRight size={12} />
+        </Link>
+      </section>
     </aside>
   );
 }

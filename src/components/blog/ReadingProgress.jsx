@@ -1,8 +1,8 @@
 import React from 'react';
 
 /**
- * Fixed reading progress under the navbar.
- * Fills as the user scrolls the article, and supports click/drag scrubbing.
+ * Reading progress sits in its own strip BELOW the navbar + amber accent,
+ * so the two never visually merge. Knob is always visible and scrubbable.
  */
 export function ReadingProgress({ targetRef }) {
   const [progress, setProgress] = React.useState(0);
@@ -82,39 +82,42 @@ export function ReadingProgress({ targetRef }) {
     };
   }, [scrollToProgress]);
 
+  const knobLeft = `clamp(0px, calc(${progress}% - 7px), calc(100% - 14px))`;
+
   return (
     <div
-      className="fixed inset-x-0 top-[4.5rem] z-40"
+      className="fixed inset-x-0 top-[4.5rem] z-40 border-b border-stone-200 bg-[#fafaf8]"
       role="progressbar"
       aria-label="Reading progress"
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(progress)}
     >
-      <div
-        ref={trackRef}
-        className="group relative h-1.5 cursor-pointer bg-stone-200/90 transition-[height] hover:h-2.5"
-        onPointerDown={(e) => {
-          e.preventDefault();
-          dragging.current = true;
-          document.body.style.userSelect = 'none';
-          document.body.style.cursor = 'grabbing';
-          scrollToProgress(pctFromPointer(e.clientX));
-        }}
-        title="Drag or click to jump in the article"
-      >
+      {/* Clear gap under navbar amber stripe so the two lines never blend */}
+      <div className="h-1.5 w-full bg-[#fafaf8]" aria-hidden />
+      <div className="px-3 pb-2 sm:px-5 lg:px-6">
         <div
-          className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-500 to-amber-400 transition-[width] duration-75 ease-out"
-          style={{ width: `${progress}%` }}
-        />
-        <div
-          className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-white bg-amber-500 opacity-0 shadow-sm transition-opacity group-hover:opacity-100"
-          style={{ left: `calc(${progress}% - 6px)` }}
-          aria-hidden
-        />
-        <span className="pointer-events-none absolute right-3 top-3 rounded bg-stone-900/85 px-1.5 py-0.5 text-[10px] font-medium tabular-nums text-white opacity-0 transition-opacity group-hover:opacity-100 sm:right-5">
-          {Math.round(progress)}%
-        </span>
+          ref={trackRef}
+          className="relative h-1.5 cursor-pointer rounded-full bg-stone-200"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            dragging.current = true;
+            document.body.style.userSelect = 'none';
+            document.body.style.cursor = 'grabbing';
+            scrollToProgress(pctFromPointer(e.clientX));
+          }}
+          title="Drag or click to jump in the article"
+        >
+          <div
+            className="absolute inset-y-0 left-0 rounded-full bg-amber-500 transition-[width] duration-75 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+          <div
+            className="absolute top-1/2 z-10 h-3.5 w-3.5 -translate-y-1/2 rounded-full border-2 border-white bg-amber-500 shadow-[0_1px_3px_rgba(0,0,0,0.25)] pointer-events-none"
+            style={{ left: knobLeft }}
+            aria-hidden
+          />
+        </div>
       </div>
     </div>
   );
