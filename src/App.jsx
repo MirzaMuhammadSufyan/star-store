@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FavouritesDrawer from './components/FavouritesDrawer';
+import CookieConsent from './components/CookieConsent';
+import ConsentGatedScripts from './components/ConsentGatedScripts';
 import { useAuthStore } from './store/authStore';
 
 const HomePage          = lazy(() => import('./pages/HomePage'));
@@ -142,6 +144,8 @@ function App() {
           </ChunkErrorBoundary>
         </main>
         <Footer />
+        <CookieConsent />
+        <ConsentGatedScripts />
       </div>
     </Router>
   );

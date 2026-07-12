@@ -1,8 +1,5 @@
-import React from 'react';
 import { Helmet } from 'react-helmet-async';
-
-const SITE_NAME = 'Star Store';
-const SITE_URL = 'https://starstore.com';
+import { SITE_NAME, SITE_URL, absoluteUrl } from '../config/site';
 
 /**
  * Drops per-page <title>/meta tags plus an optional JSON-LD graph into
@@ -11,8 +8,11 @@ const SITE_URL = 'https://starstore.com';
  */
 export default function SEO({ title, description, image, url, type = 'website', structuredData }) {
   const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
-  const canonical = url ? `${SITE_URL}${url}` : SITE_URL;
+  const canonical = url ? absoluteUrl(url) : SITE_URL;
   const schemas = structuredData ? (Array.isArray(structuredData) ? structuredData : [structuredData]) : [];
+  const ogImage = image
+    ? (/^https?:\/\//i.test(image) ? image : absoluteUrl(image))
+    : undefined;
 
   return (
     <Helmet>
@@ -25,12 +25,12 @@ export default function SEO({ title, description, image, url, type = 'website', 
       <meta property="og:title" content={fullTitle} />
       {description && <meta property="og:description" content={description} />}
       <meta property="og:url" content={canonical} />
-      {image && <meta property="og:image" content={image} />}
+      {ogImage && <meta property="og:image" content={ogImage} />}
 
-      <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+      <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
       <meta name="twitter:title" content={fullTitle} />
       {description && <meta name="twitter:description" content={description} />}
-      {image && <meta name="twitter:image" content={image} />}
+      {ogImage && <meta name="twitter:image" content={ogImage} />}
 
       {schemas.map((schema, i) => (
         <script key={i} type="application/ld+json">

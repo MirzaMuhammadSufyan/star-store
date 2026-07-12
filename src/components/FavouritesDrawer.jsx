@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useFavouriteStore } from '../store/favouriteStore';
 import { Button } from './ui/Button';
 import { productDetailUrl } from '../utils/productUrl';
+import { getBuyLink } from '../utils/productLinks';
 
 export default function FavouritesDrawer({ open, onClose }) {
   const { items, remove, clear } = useFavouriteStore();
@@ -72,7 +73,7 @@ export default function FavouritesDrawer({ open, onClose }) {
                       const image    = product.product_main_image_url || product.image;
                       const price    = product.target_sale_price || product.price;
                       const merchant = product.second_level_category_name || product.merchant || 'Partner';
-                      const buyLink  = product.promotion_link || (product.slug ? `/go/${product.slug}` : '#');
+                      const buyLink  = getBuyLink(product);
 
                       return (
                         <motion.li
@@ -103,7 +104,11 @@ export default function FavouritesDrawer({ open, onClose }) {
                             <div className="flex items-center justify-between mt-2">
                               <p className="text-base font-bold text-gray-900">${parseFloat(price || 0).toFixed(2)}</p>
                               <div className="flex items-center gap-1.5">
-                                <a href={buyLink} target="_blank" rel="nofollow noopener">
+                                <a
+                                  href={buyLink}
+                                  target={buyLink.startsWith('http') ? '_blank' : undefined}
+                                  rel={buyLink.startsWith('http') ? 'nofollow noopener' : undefined}
+                                >
                                   <Button size="xs" variant="accent" className="gap-1">
                                     Buy <ExternalLink size={10} />
                                   </Button>

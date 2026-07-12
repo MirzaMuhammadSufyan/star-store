@@ -7,11 +7,13 @@ import { useAuthStore } from '../store/authStore';
 import { Button } from '../components/ui/Button';
 import { ArticleHero } from '../components/blog/ArticleHero';
 import { ArticleBody } from '../components/blog/ArticleBody';
+import { AuthorBio } from '../components/blog/AuthorBio';
 import SEO from '../components/SEO';
-import { isPublished, getRelatedPosts, getRelatedProducts, resolveBlogImage } from '../utils/blogUtils';
-import { getArticleProductConfig } from '../utils/articleProductMap';
+import { getRelatedPosts, getRelatedProducts, resolveBlogImage, isPublished } from '../utils/blogUtils';
 import { isEditorialCategory } from '../utils/blogCategories';
 import { getBuyLink } from '../utils/productLinks';
+import { absoluteUrl, SITE_NAME } from '../config/site';
+import { resolveAuthor } from '../content/authors';
 
 export default function BlogPost() {
   const { id } = useParams();
@@ -29,7 +31,7 @@ export default function BlogPost() {
   );
 
   const coverImage = post ? resolveBlogImage(post) : '';
-  const productConfig = post ? getArticleProductConfig(post) : null;
+  const author = post ? resolveAuthor(post) : null;
 
   const relatedArticles = React.useMemo(
     () => (post ? getRelatedPosts(post, allPosts, 3) : []),
@@ -50,16 +52,21 @@ export default function BlogPost() {
     '@type': 'Article',
     headline: post.title,
     description: post.excerpt,
-    image: coverImage ? [coverImage] : undefined,
+    image: coverImage ? [coverImage.startsWith('http') ? coverImage : absoluteUrl(coverImage)] : undefined,
     datePublished: post.publishedAt || post.createdAt,
     dateModified: post.updatedAt || post.createdAt,
-    author: { '@type': 'Organization', name: post.author || 'Star Store Editorial' },
+    author: {
+      '@type': 'Person',
+      name: author.name,
+      description: author.bio || undefined,
+      jobTitle: author.role || undefined,
+    },
     publisher: {
       '@type': 'Organization',
-      name: 'Star Store',
-      logo: { '@type': 'ImageObject', url: 'https://starstore.com/logo.png' },
+      name: SITE_NAME,
+      logo: { '@type': 'ImageObject', url: absoluteUrl('/logo.png') },
     },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://starstore.com/blog/${post.id}` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': absoluteUrl(`/blog/${post.id}`) },
   };
 
   return (
@@ -80,6 +87,7 @@ export default function BlogPost() {
         )}
         <ArticleHero post={post} onBack={() => navigate(-1)} />
         <ArticleBody post={post} />
+        <AuthorBio post={post} />
 
         {relatedArticles.length > 0 && (
           <section className="border-t border-slate-200 py-14">

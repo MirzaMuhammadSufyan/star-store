@@ -11,6 +11,7 @@ import { useProductStore } from '../store/productStore';
 import { useFavouriteStore } from '../store/favouriteStore';
 import ProductCard from '../components/ProductCard';
 import { Button } from '../components/ui/Button';
+import { getBuyLink } from '../utils/productLinks';
 
 const SORT_OPTIONS = [
   { label: 'Default',           value: 'default'    },
@@ -385,7 +386,7 @@ export default function CatalogPage() {
                 const rating    = p.evaluate_rate || p.rating || '4.8';
                 const merchant  = p.merchant || 'AliExpress';
                 const category  = p.second_level_category_name || p.category || merchant;
-                const buyLink   = p.promotion_link || (p.slug ? `/go/${p.slug}` : '#');
+                const buyLink   = getBuyLink(p);
                 const pid       = p.product_id || p.id;
                 const fav       = isFavourite(p);
                 const discount  = (() => {
@@ -446,7 +447,11 @@ export default function CatalogPage() {
                             {origPrice && <p className="text-xs text-gray-400 line-through">${parseFloat(origPrice).toFixed(2)}</p>}
                             <p className="text-base font-bold text-gray-900">${parseFloat(price || 0).toFixed(2)}</p>
                           </div>
-                          <a href={buyLink} target="_blank" rel="nofollow noopener">
+                          <a
+                            href={buyLink}
+                            target={buyLink.startsWith('http') ? '_blank' : undefined}
+                            rel={buyLink.startsWith('http') ? 'nofollow noopener' : undefined}
+                          >
                             <Button size="sm" variant="accent">Buy Now</Button>
                           </a>
                         </div>

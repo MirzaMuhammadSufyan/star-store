@@ -11,6 +11,7 @@ import { useFavouriteStore } from '../store/favouriteStore';
 import { Button } from '../components/ui/Button';
 import ProductCard from '../components/ProductCard';
 import { encodeProductParam, decodeProductParam } from '../utils/productUrl';
+import { getBuyLink } from '../utils/productLinks';
 
 export default function ProductDetailPage() {
   const { id }             = useParams();
@@ -104,7 +105,7 @@ export default function ProductDetailPage() {
     merchant:    raw.merchant || 'AliExpress',
     category:    raw.first_level_category_name || raw.second_level_category_name || raw.category || '',
     description: raw.description || '',
-    buyLink:     raw.promotion_link || (raw.slug ? `/go/${raw.slug}` : '#'),
+    buyLink:     getBuyLink(raw),
   };
 
   const gallery     = [p.image, ...(raw.product_small_image_urls || [])].filter(Boolean).filter((s, i, a) => a.indexOf(s) === i);
@@ -242,7 +243,17 @@ export default function ProductDetailPage() {
 
             {/* Action row */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href={p.buyLink} target="_blank" rel="nofollow noopener" onClick={() => logClick(p.id, p.merchant)} className="flex-grow">
+              <a
+                href={p.buyLink}
+                target={p.buyLink.startsWith('http') ? '_blank' : undefined}
+                rel={p.buyLink.startsWith('http') ? 'nofollow noopener' : undefined}
+                onClick={() => {
+                  if (p.buyLink.startsWith('http')) {
+                    logClick(p.id, p.merchant, { via: 'product-detail' });
+                  }
+                }}
+                className="flex-grow"
+              >
                 <Button size="lg" variant="accent" className="w-full gap-2">
                   Buy on {p.merchant} <ExternalLink size={16} />
                 </Button>

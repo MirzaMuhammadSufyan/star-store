@@ -2,10 +2,12 @@ import React from 'react';
 import { Calendar, ChevronLeft, Clock, Share2, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { estimateReadingTime, resolveBlogImage } from '../../utils/blogUtils';
+import { resolveAuthor } from '../../content/authors';
 
 export function ArticleHero({ post, onBack }) {
   const minutes = estimateReadingTime(post.content);
   const coverImage = resolveBlogImage(post);
+  const author = resolveAuthor(post);
 
   return (
     <>
@@ -33,7 +35,9 @@ export function ArticleHero({ post, onBack }) {
         <p className="text-lg leading-relaxed text-slate-500">{post.excerpt}</p>
         <div className="flex flex-wrap items-center gap-5 border-t border-slate-200 pt-4 text-sm text-slate-400">
           <span className="flex items-center gap-1.5">
-            <User size={14} /> {post.author}
+            <User size={14} />
+            <span className="text-slate-600 font-medium">{author.name}</span>
+            {author.role ? <span className="text-slate-400">· {author.role}</span> : null}
           </span>
           <span className="flex items-center gap-1.5">
             <Calendar size={14} /> {post.date}

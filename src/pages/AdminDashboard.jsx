@@ -29,6 +29,11 @@ const AdminDashboard = () => {
   const [syncKeywords,   setSyncKeywords]   = useState('');
   const [syncResults,    setSyncResults]    = useState([]);
   const [isSyncing,      setIsSyncing]      = useState(false);
+  const [importingAll, setImportingAll] = useState(false);
+  const [importedIds,  setImportedIds]  = useState(new Set());
+  const [publishingSeed, setPublishingSeed] = useState(null);
+  const [seedMessage, setSeedMessage] = useState('');
+  const [affiliateHealth, setAffiliateHealth] = useState(null);
 
   const stats = getStats();
   const totalClicks = clicks.length;
@@ -47,6 +52,24 @@ const AdminDashboard = () => {
     const unsub = fetchClicks();
     return () => { if (typeof unsub === 'function') unsub(); };
   }, [fetchClicks, isAuthenticated]);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    let cancelled = false;
+    fetch('/api/health')
+      .then((r) => r.json())
+      .then((data) => { if (!cancelled) setAffiliateHealth(data); })
+      .catch(() => {
+        if (!cancelled) {
+          setAffiliateHealth({
+            ok: false,
+            aliexpress: { appSecretConfigured: false, trackingIdConfigured: false },
+            hint: 'Could not reach /api/health — is the Worker running?',
+          });
+        }
+      });
+    return () => { cancelled = true; };
+  }, [isAuthenticated]);
 
   const topProducts = useMemo(() => {
     if (!Array.isArray(dbProducts)) return [];
@@ -83,11 +106,6 @@ const AdminDashboard = () => {
       evaluate_rate: product.evaluate_rate,
     });
   };
-
-  const [importingAll, setImportingAll] = useState(false);
-  const [importedIds,  setImportedIds]  = useState(new Set());
-  const [publishingSeed, setPublishingSeed] = useState(null);
-  const [seedMessage, setSeedMessage] = useState('');
 
   const publishedSeedKeys = useMemo(
     () => new Set(blogPosts.filter((p) => p.seedKey).map((p) => p.seedKey)),
@@ -412,6 +430,29 @@ const AdminDashboard = () => {
                 <h3 className="font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>AliExpress Product Sync</h3>
                 <p className="text-xs text-gray-400 mt-0.5">Search products on AliExpress, then import them to your store in bulk.</p>
               </div>
+
+              {affiliateHealth && (
+                <div className={`rounded-lg border px-3 py-2.5 text-xs ${
+                  affiliateHealth.ok
+                    ? 'border-green-200 bg-green-50 text-green-800'
+                    : 'border-amber-200 bg-amber-50 text-amber-900'
+                }`}>
+                  <p className="font-semibold mb-1">
+                    Affiliate Worker secrets: {affiliateHealth.ok ? 'Configured' : 'Incomplete'}
+                  </p>
+                  <ul className="space-y-0.5 text-[11px]">
+                    <li>ALIEXPRESS_APP_SECRET: {affiliateHealth.aliexpress?.appSecretConfigured ? '✓ set' : '✗ missing'}</li>
+                    <li>ALIEXPRESS_TRACKING_ID: {affiliateHealth.aliexpress?.trackingIdConfigured ? '✓ set' : '✗ missing'}</li>
+                  </ul>
+                  {!affiliateHealth.ok && affiliateHealth.hint && (
+                    <p className="mt-1.5 text-[11px] opacity-80">{affiliateHealth.hint}</p>
+                  )}
+                  <p className="mt-1.5 text-[11px] opacity-80">
+                    Buy buttons use masked <code className="bg-white/60 px-1 rounded">/go/:slug</code> redirects so clicks are logged before leaving for AliExpress.
+                  </p>
+                </div>
+              )}
+
               <div className="flex gap-3">
                 <div className="relative flex-grow">
                   <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />

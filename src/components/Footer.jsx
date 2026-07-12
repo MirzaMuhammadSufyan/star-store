@@ -1,6 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone } from 'lucide-react';
+import { useConsentStore } from '../store/consentStore';
 
 const COLS = {
   Shop:    [{ l: 'Home', p: '/' }, { l: 'All Products', p: '/catalog' }, { l: 'New Arrivals', p: '/catalog?featured=true' }, { l: 'Best Sellers', p: '/catalog?sort=popular' }],
@@ -10,6 +10,8 @@ const COLS = {
 };
 
 export default function Footer() {
+  const openManage = useConsentStore((s) => s.openManage);
+
   return (
     <footer className="bg-gray-900 text-gray-400 mt-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
@@ -45,7 +47,16 @@ export default function Footer() {
 
         <div className="pt-6 border-t border-gray-800 flex flex-col sm:flex-row justify-between gap-3 text-sm text-gray-600">
           <p>© {new Date().getFullYear()} Star Store. All rights reserved.</p>
-          <p>Affiliate Disclosure — We may earn from qualifying purchases.</p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <button
+              type="button"
+              onClick={openManage}
+              className="text-gray-500 hover:text-amber-400 transition-colors"
+            >
+              Cookie settings
+            </button>
+            <p>Affiliate Disclosure — We may earn from qualifying purchases.</p>
+          </div>
         </div>
       </div>
     </footer>

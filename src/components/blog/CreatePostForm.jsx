@@ -23,6 +23,9 @@ const schema = z.object({
   coverImageRef: z.string().optional(),
   category: z.string().min(2, 'Category is required'),
   author: z.string().min(2, 'Author name is required'),
+  authorRole: z.string().optional(),
+  authorBio: z.string().optional(),
+  authorCredentials: z.string().optional(),
   tags: z.array(z.string()).default([]),
   status: z.enum(['draft', 'published']).default('draft'),
 });
@@ -63,6 +66,9 @@ export default function CreatePostForm({ post, onClose }) {
       coverImageRef: post?.coverImageRef || '',
       category: post?.category || 'Technology',
       author: post?.author || '',
+      authorRole: post?.authorRole || '',
+      authorBio: post?.authorBio || '',
+      authorCredentials: post?.authorCredentials || '',
       tags: post?.tags || [],
       status: post?.status || 'draft',
     },
@@ -342,6 +348,29 @@ export default function CreatePostForm({ post, onClose }) {
               placeholder="Jane Doe"
               error={errors.author?.message}
             />
+            <Input
+              label="Author role"
+              {...register('authorRole')}
+              placeholder="e.g. Senior Tech Editor"
+            />
+            <div>
+              <FieldLabel>Author bio</FieldLabel>
+              <textarea
+                {...register('authorBio')}
+                rows={3}
+                placeholder="Short credibility bio shown under the article…"
+                className="w-full resize-none rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+              />
+            </div>
+            <div>
+              <FieldLabel>Author credentials</FieldLabel>
+              <textarea
+                {...register('authorCredentials')}
+                rows={2}
+                placeholder="Experience, expertise, or how you research this topic…"
+                className="w-full resize-none rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+              />
+            </div>
 
             <div>
               <FieldLabel>Excerpt</FieldLabel>

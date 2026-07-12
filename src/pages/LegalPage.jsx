@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Shield, FileText, Scale, Cookie, Mail, RotateCcw } from 'lucide-react';
 import SEO from '../components/SEO';
+import { SITE_URL } from '../config/site';
 
 const content = {
   privacy: {
     title: 'Privacy Policy',
     icon: Shield,
     updated: 'June 10, 2024',
-    text: `At Star Store, accessible from starstore.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document explains what information is collected and recorded by Star Store and how we use it. We use Google AdSense, a third-party advertising service, which uses cookies (including the DoubleClick DART cookie) to serve ads based on a user's prior visits to our website and other sites on the Internet. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites.`,
+    text: `At Star Store, accessible from ${SITE_URL}, one of our main priorities is the privacy of our visitors. This Privacy Policy document explains what information is collected and recorded by Star Store and how we use it. We use Google AdSense (when you consent to advertising cookies), a third-party advertising service, which uses cookies (including the DoubleClick DART cookie) to serve ads based on a user's prior visits to our website and other sites on the Internet. Google's use of advertising cookies enables it and its partners to serve ads to our users based on their visit to our sites and/or other sites.`,
     points: [
       'Google, as a third-party vendor, uses cookies to serve ads on this site through Google AdSense.',
       "Users may opt out of personalized advertising by visiting Google's Ads Settings, and third-party vendors may also be opted out via the Network Advertising Initiative opt-out page.",
@@ -46,14 +47,14 @@ const content = {
   cookies: {
     title: 'Cookie Policy',
     icon: Cookie,
-    updated: 'June 10, 2024',
-    text: `We use cookies to help you navigate the site efficiently and to perform certain functions, including remembering your preferences, tracking affiliate link attribution, and serving relevant advertising through Google AdSense. You will find detailed information about each cookie category below.`,
+    updated: 'July 12, 2026',
+    text: `We use cookies to help you navigate the site efficiently and to perform certain functions, including remembering your preferences, tracking affiliate link attribution, and (with your consent) serving relevant advertising through Google AdSense. You can Accept, Reject, or Manage non-essential cookies at any time using the cookie banner or the Cookie settings link in the site footer.`,
     points: [
-      'Necessary cookies — required for core site functionality (session handling, saved/favourite items); cannot be disabled.',
-      'Advertising cookies — set by Google AdSense and its partners to serve and measure the performance of ads based on your browsing activity.',
-      'Analytics cookies — help us understand how visitors use the site so we can improve navigation and content.',
-      'Affiliate tracking cookies — attribute purchases made on merchant sites back to a referral from Star Store.',
-      'You can control or delete cookies at any time through your browser settings; disabling them may affect site functionality.',
+      'Necessary cookies — required for core site functionality (consent memory, saved/favourite items); cannot be disabled.',
+      'Advertising cookies — set by Google AdSense and its partners only after you opt in via the cookie banner.',
+      'Analytics cookies — help us understand product-click performance; enabled only after you opt in.',
+      'Affiliate tracking cookies — used to attribute purchases on merchant sites when you choose to allow affiliate attribution.',
+      'You can reopen Cookie settings from the footer at any time, or control cookies through your browser; disabling necessary cookies may affect site functionality.',
     ],
   },
   shipping: {

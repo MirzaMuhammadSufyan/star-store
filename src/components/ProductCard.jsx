@@ -30,10 +30,11 @@ const ProductCard = ({ product }) => {
     e.preventDefault();
     e.stopPropagation();
     if (buyLink && buyLink !== '#') {
-      logClick(pid, merchant);
       if (buyLink.startsWith('http')) {
+        logClick(pid, merchant, { via: 'product-card' });
         window.open(buyLink, '_blank', 'noopener,noreferrer');
       } else {
+        // Masked /go/:slug — RedirectPage logs once after consent check.
         window.location.href = buyLink;
       }
     }

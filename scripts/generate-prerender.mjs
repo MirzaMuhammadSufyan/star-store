@@ -11,7 +11,11 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(__dirname, '../public/prerender');
-const SITE_URL = process.env.SITE_URL || 'https://star-store.mirzamuhammadsufyanbaig.workers.dev';
+const SITE_URL = (
+  process.env.SITE_URL ||
+  process.env.VITE_SITE_URL ||
+  'https://star-store.mirzamuhammadsufyanbaig.workers.dev'
+).replace(/\/$/, '');
 
 function loadEnvFile() {
   const envPath = resolve(__dirname, '../.env');

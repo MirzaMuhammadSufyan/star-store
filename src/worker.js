@@ -1,6 +1,7 @@
 import { onRequest as syncHandler } from '../functions/api/products/sync.js';
 import { onRequestGet as searchHandler } from '../functions/api/products/search.js';
 import { onRequestGet as detailHandler } from '../functions/api/products/detail.js';
+import { onRequestGet as healthHandler } from '../functions/api/health.js';
 import { onRequest as oauthCallbackHandler } from '../functions/oauth/callback.js';
 import { onRequest as scrapeHandler } from '../functions/scrape.js';
 import { corsHeaders } from '../functions/api/products/_utils.js';
@@ -16,6 +17,7 @@ const apiRoutes = {
   '/api/products/sync': syncHandler,
   '/api/products/search': searchHandler,
   '/api/products/detail': detailHandler,
+  '/api/health': healthHandler,
 };
 
 /** Per-route limits (requests per minute per IP). */

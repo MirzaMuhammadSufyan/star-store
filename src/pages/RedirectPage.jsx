@@ -1,53 +1,105 @@
-import React, { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Loader2 } from 'lucide-react';
 import { useProductStore } from '../store/productStore';
 import { useAnalyticsStore } from '../store/analyticsStore';
 import { getAffiliateLink } from '../utils/productLinks';
 
+function findProductBySlug(products, slug) {
+  if (!slug) return null;
+  const bySlug = products.find((p) => p.slug === slug);
+  if (bySlug) return bySlug;
+  if (slug.startsWith('id-')) {
+    const id = slug.slice(3);
+    return (
+      products.find(
+        (p) => String(p.product_id) === id || String(p.id) === id,
+      ) || null
+    );
+  }
+  return null;
+}
+
 const RedirectPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const product = useProductStore((state) => state.products.find((p) => p.slug === slug));
-  const logClick = useAnalyticsStore((state) => state.logClick);
+  const products = useProductStore((s) => s.products);
+  const dbLoading = useProductStore((s) => s.dbLoading);
+  const logClick = useAnalyticsStore((s) => s.logClick);
+  const started = useRef(false);
+
+  const product = findProductBySlug(products, slug);
+  const outbound = product ? getAffiliateLink(product) : '';
+
+  let status = 'loading';
+  if (!dbLoading) {
+    if (!product) status = 'missing';
+    else if (!outbound) status = 'no-link';
+    else status = 'redirecting';
+  }
 
   useEffect(() => {
+    if (dbLoading) return;
+
     if (!product) {
-      const timeout = setTimeout(() => navigate('/'), 2000);
+      const timeout = setTimeout(() => navigate('/'), 2200);
       return () => clearTimeout(timeout);
     }
 
-    const outbound = getAffiliateLink(product);
     if (!outbound) {
-      const timeout = setTimeout(() => navigate(`/product/${product.id || product.product_id}`), 2000);
+      const timeout = setTimeout(
+        () => navigate(`/product/${product.id || product.product_id}`),
+        2200,
+      );
       return () => clearTimeout(timeout);
     }
 
-    logClick(product.id || product.product_id, product.merchant);
+    if (started.current) return;
+    started.current = true;
+
+    logClick(product.id || product.product_id, product.merchant || 'AliExpress', {
+      slug,
+      via: 'go-redirect',
+    });
 
     const timer = setTimeout(() => {
       window.location.href = outbound;
-    }, 1500);
+    }, 1200);
 
     return () => clearTimeout(timer);
-  }, [product, navigate, logClick]);
+  }, [product, outbound, dbLoading, navigate, logClick, slug]);
 
-  if (!product) {
+  if (status === 'loading') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h2>
-        <p className="text-gray-500">Redirecting you back to the store...</p>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-6 gap-3">
+        <Loader2 className="text-amber-500 animate-spin" size={36} />
+        <p className="text-sm text-gray-500">Preparing secure redirect…</p>
       </div>
     );
   }
 
-  const outbound = getAffiliateLink(product);
-  if (!outbound) {
+  if (status === 'missing') {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h2>
+        <p className="text-gray-500 mb-4">Redirecting you back to the store...</p>
+        <Link to="/" className="text-sm text-amber-700 hover:underline">Go home now</Link>
+      </div>
+    );
+  }
+
+  if (status === 'no-link') {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Link Unavailable</h2>
-        <p className="text-gray-500">This product has no affiliate link configured.</p>
+        <p className="text-gray-500 mb-4">This product has no affiliate link configured.</p>
+        <Link
+          to={`/product/${product.id || product.product_id}`}
+          className="text-sm text-amber-700 hover:underline"
+        >
+          View product
+        </Link>
       </div>
     );
   }
@@ -74,12 +126,14 @@ const RedirectPage = () => {
         </div>
 
         <div className="pt-4 flex flex-col items-center gap-2">
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Verifying Link Stability</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+            Verifying Link Stability
+          </span>
           <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: '100%' }}
-              transition={{ duration: 1.5, ease: 'easeInOut' }}
+              transition={{ duration: 1.2, ease: 'easeInOut' }}
               className="h-full bg-orange-500"
             />
           </div>

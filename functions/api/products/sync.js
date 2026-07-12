@@ -16,13 +16,23 @@ export async function onRequest(context) {
     });
   }
 
+  if (!env.ALIEXPRESS_TRACKING_ID) {
+    return new Response(JSON.stringify({
+      error: 'ALIEXPRESS_TRACKING_ID is not configured',
+      hint: 'Run: npx wrangler secret put ALIEXPRESS_TRACKING_ID',
+    }), {
+      status: 500,
+      headers: { 'content-type': 'application/json' }
+    });
+  }
+
   const apiParams = {
     method: 'aliexpress.affiliate.product.query',
     page_no: pageNo,
     page_size: pageSize,
     target_currency: 'USD',
     target_language: 'EN',
-    tracking_id: env.ALIEXPRESS_TRACKING_ID || 'default',
+    tracking_id: env.ALIEXPRESS_TRACKING_ID,
   };
 
   if (categoryId) {

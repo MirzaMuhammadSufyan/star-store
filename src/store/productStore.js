@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { db } from '../firebase';
-import { withNormalizedLinks } from '../utils/productLinks';
+import { slugifyTitle, withNormalizedLinks } from '../utils/productLinks';
 import {
   collection,
   addDoc,
@@ -83,10 +83,9 @@ export const useProductStore = create((set, get) => ({
   addProduct: async (product) => {
     try {
       const normalized = withNormalizedLinks(product);
-      const slug = (normalized.title || '')
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
+      const baseSlug = slugifyTitle(normalized.title || normalized.product_title || 'product');
+      const pid = normalized.product_id || '';
+      const slug = normalized.slug || (pid ? `${baseSlug}-${pid}` : baseSlug) || `product-${Date.now()}`;
       await addDoc(collection(db, 'products'), {
         ...normalized,
         slug,

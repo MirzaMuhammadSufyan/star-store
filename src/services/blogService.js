@@ -20,6 +20,10 @@ function toBlogDocument(form) {
     image: cover,
     category: form.category || 'Uncategorized',
     author: (form.author || '').trim() || 'Star Store Editorial',
+    authorRole: (form.authorRole || '').trim(),
+    authorBio: (form.authorBio || '').trim(),
+    authorCredentials: (form.authorCredentials || '').trim(),
+    authorAvatar: (form.authorAvatar || '').trim(),
     tags: Array.isArray(form.tags) ? form.tags.map((t) => t.trim()).filter(Boolean) : [],
     status: form.status === 'published' ? 'published' : 'draft',
   };
