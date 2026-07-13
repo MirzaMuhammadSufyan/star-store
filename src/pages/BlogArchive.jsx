@@ -114,7 +114,7 @@ export default function BlogArchive() {
           >
             <Link
               to={`/blog/${hero.id}`}
-              className="group grid overflow-hidden rounded-lg border border-stone-200 bg-white transition-colors hover:border-amber-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)]"
+              className="group grid overflow-hidden rounded-lg border border-stone-200 bg-white shadow-card transition-all hover:border-amber-300 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)]"
             >
               <div className="aspect-[16/10] overflow-hidden bg-stone-100 md:aspect-auto md:min-h-[220px] md:max-h-[260px]">
                 <img
@@ -164,7 +164,7 @@ export default function BlogArchive() {
               >
                 <Link
                   to={`/blog/${post.id}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white transition-colors hover:border-amber-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                  className="group flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white shadow-card transition-all hover:border-amber-300 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
                 >
                   <div className="aspect-[16/9] overflow-hidden bg-stone-100">
                     <img

@@ -95,7 +95,7 @@ const AdminLogin = () => {
           <p className="text-sm text-gray-500 mt-1">Sign in to manage your store</p>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm space-y-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-card space-y-6">
           <div className="flex bg-gray-100 p-1 rounded-lg border border-gray-200">
             {['password', 'link'].map((m) => (
               <button

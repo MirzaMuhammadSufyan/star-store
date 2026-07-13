@@ -153,7 +153,7 @@ export default function ProductDetailPage() {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Breadcrumb */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-gray-200 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 text-sm text-gray-500">
           <button onClick={() => navigate(-1)} className="flex items-center gap-1 hover:text-gray-900 transition-colors">
             <ChevronLeft size={15} /> Back
@@ -170,7 +170,7 @@ export default function ProductDetailPage() {
           {/* Gallery */}
           <div className="space-y-3">
             <div
-              className="relative bg-white border border-gray-200 rounded-xl overflow-hidden cursor-zoom-in"
+              className="relative bg-white border border-gray-200 rounded-xl overflow-hidden cursor-zoom-in shadow-card"
               onClick={() => setLightbox(true)}
             >
               {discount > 0 && (
@@ -400,7 +400,7 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Tabs */}
-            <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
+            <div className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-card">
               <div className="flex border-b border-gray-200">
                 {TABS.map(tab => (
                   <button

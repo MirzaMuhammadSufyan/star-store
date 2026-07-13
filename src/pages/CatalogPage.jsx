@@ -244,7 +244,7 @@ export default function CatalogPage() {
     <div className="bg-gray-50 min-h-screen flex flex-col">
 
       {/* ── Sticky header ───────────────────────────────────────────────────── */}
-      <div className="bg-white border-b border-gray-200 sticky top-[4.5rem] z-20">
+      <div className="bg-white border-b border-gray-200 sticky top-[4.5rem] z-20 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between gap-4">
             {/* Title + count */}
@@ -268,7 +268,7 @@ export default function CatalogPage() {
 
         {/* Sidebar */}
         <aside className="hidden lg:flex flex-col w-56 shrink-0 py-6 md:sticky md:top-24 max-h-[calc(100vh-120px)]">
-          <div className="bg-white border border-gray-200 rounded-xl flex flex-col shadow-sm overflow-hidden h-full">
+          <div className="bg-white border border-gray-200 rounded-xl flex flex-col shadow-card overflow-hidden h-full">
             <div className="px-5 pt-5 pb-3 border-b border-gray-100 shrink-0">
               <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Filters</p>
             </div>
@@ -314,7 +314,7 @@ export default function CatalogPage() {
           {syncLoading && visible.length === 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-5">
               {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className="bg-white border border-gray-100 rounded-xl overflow-hidden animate-pulse">
+                <div key={i} className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-card animate-pulse">
                   <div className="aspect-square bg-gray-200" />
                   <div className="p-2 sm:p-3 flex flex-col gap-2">
                     <div className="h-2.5 bg-gray-200 rounded w-3/4" />
@@ -339,12 +339,12 @@ export default function CatalogPage() {
 
           {/* Products */}
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-24 bg-white border border-gray-200 rounded-xl">
+            <div className="flex flex-col items-center justify-center py-24 bg-white border border-gray-200 rounded-xl shadow-card">
               <div className="w-8 h-8 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin mb-4" />
               <p className="text-sm text-gray-500">Loading products…</p>
             </div>
           ) : visible.length === 0 && !syncLoading ? (
-            <div className="flex flex-col items-center justify-center py-24 bg-white border border-gray-200 rounded-xl">
+            <div className="flex flex-col items-center justify-center py-24 bg-white border border-gray-200 rounded-xl shadow-card">
               <p className="text-2xl mb-2">🔍</p>
               <p className="text-gray-900 font-semibold">No products found</p>
               <p className="text-sm text-gray-500 mt-1">Try different keywords or adjust filters.</p>
@@ -407,7 +407,7 @@ export default function CatalogPage() {
                   <motion.div key={pid || i}
                     initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.02 }}
-                    className="bg-white border border-gray-200 rounded-xl hover:border-amber-400 hover:shadow-sm transition-all">
+                    className="bg-white border border-gray-200 rounded-xl shadow-card hover:border-amber-400 hover:shadow-lift transition-all">
                     <div className="flex gap-4 p-4">
                       {/* Clickable image */}
                       <Link to={`/product/${pid}`} className="relative shrink-0 w-24 h-24 rounded-lg overflow-hidden bg-gray-50 block">

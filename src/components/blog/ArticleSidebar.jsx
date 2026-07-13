@@ -11,7 +11,7 @@ export function ArticleSidebar({ relatedArticles, relatedProducts, productsLoadi
   return (
     <aside className="space-y-5 lg:sticky lg:top-[6.75rem] lg:max-h-[calc(100vh-7.25rem)] lg:overflow-y-auto lg:pb-8 lg:pr-1">
       {/* Journal */}
-      <section className="rounded-lg border border-stone-200 bg-white p-3.5">
+      <section className="rounded-lg border border-stone-200 bg-white p-3.5 shadow-card">
         <h2 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-stone-500">
           More to read
         </h2>
@@ -53,7 +53,7 @@ export function ArticleSidebar({ relatedArticles, relatedProducts, productsLoadi
       </section>
 
       {/* Store products */}
-      <section className="rounded-lg border border-stone-200 bg-white p-3.5">
+      <section className="rounded-lg border border-stone-200 bg-white p-3.5 shadow-card">
         <h2 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-stone-500">
           From the store
         </h2>

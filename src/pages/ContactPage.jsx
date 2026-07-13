@@ -24,7 +24,7 @@ export default function ContactPage() {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-gray-200 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 text-center">
           <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-3">Get in Touch</p>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -47,7 +47,7 @@ export default function ContactPage() {
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.08 }}
-                className="bg-white border border-gray-200 rounded-lg p-5 flex items-start gap-4 hover:border-amber-300 transition-colors"
+                className="bg-white border border-gray-200 rounded-lg p-5 flex items-start gap-4 shadow-card hover:shadow-lift hover:border-amber-300 transition-all"
               >
                 <div className="w-10 h-10 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center shrink-0">
                   <Icon size={18} className="text-amber-700" strokeWidth={1.75} />
@@ -69,7 +69,7 @@ export default function ContactPage() {
 
           {/* Form */}
           <div className="lg:col-span-2">
-            <div className="bg-white border border-gray-200 rounded-lg p-6 md:p-8">
+            <div className="bg-white border border-gray-200 rounded-lg p-6 md:p-8 shadow-card">
               <AnimatePresence mode="wait">
                 {success ? (
                   <motion.div

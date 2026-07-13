@@ -190,7 +190,7 @@ function HeroSlider() {
 
 function ProductSkeleton() {
   return (
-    <div className="bg-white border border-gray-100 rounded-lg overflow-hidden animate-pulse">
+    <div className="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-card animate-pulse">
       <div className="aspect-square bg-gray-200" />
       <div className="p-3 space-y-2">
         <div className="h-3 bg-gray-200 rounded w-3/4" />
@@ -223,7 +223,7 @@ export default function HomePage() {
       <HeroSlider />
 
       {/* ── Perks bar ── */}
-      <section className="bg-white border-b border-gray-200">
+      <section className="bg-white border-b border-gray-200 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
             {PERKS.map(({ icon: Icon, label, desc }) => (
@@ -254,7 +254,7 @@ export default function HomePage() {
             <Link
               key={name}
               to={path}
-              className="group flex flex-col items-center gap-2 py-5 px-2 bg-white border border-gray-200 rounded-lg hover:border-amber-400 hover:bg-amber-50 transition-all text-center"
+              className="group flex flex-col items-center gap-2 py-5 px-2 bg-white border border-gray-200 rounded-lg shadow-card hover:shadow-lift hover:border-amber-400 hover:bg-amber-50 transition-all text-center"
             >
               <span className="text-2xl">{icon}</span>
               <span className="text-xs font-medium text-gray-700 group-hover:text-amber-700 transition-colors">{name}</span>
@@ -295,7 +295,7 @@ export default function HomePage() {
 
       {/* ── Promo banner ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="rounded-xl bg-amber-600 overflow-hidden relative">
+        <div className="rounded-xl bg-amber-600 overflow-hidden relative shadow-lift">
           <div className="absolute -right-16 -bottom-16 w-64 h-64 rounded-full bg-amber-500/40" />
           <div className="absolute -left-8 -top-8 w-32 h-32 rounded-full bg-amber-700/40" />
           <div className="relative p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-6">
@@ -359,7 +359,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {blogItems.map((post, i) => (
               <FadeUp key={post.id} delay={i * 0.05}>
-                <Link to={`/blog/${post.id}`} className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-amber-300 transition-colors">
+                <Link to={`/blog/${post.id}`} className="group block bg-white border border-gray-200 rounded-lg overflow-hidden shadow-card hover:shadow-lift hover:border-amber-300 transition-all">
                   <div className="aspect-[16/9] overflow-hidden">
                     <img src={resolveBlogImage(post)} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" />
                   </div>

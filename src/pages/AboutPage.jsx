@@ -21,7 +21,7 @@ export default function AboutPage() {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Page header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-gray-200 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 text-center">
           <FadeUp>
             <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-3">Our Story</p>
@@ -42,7 +42,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {VALUES.map((item, i) => (
               <FadeUp key={i} delay={i * 0.07}>
-                <div className="bg-white border border-gray-200 rounded-lg p-6 space-y-4 hover:border-amber-300 hover:shadow-sm transition-all">
+                <div className="bg-white border border-gray-200 rounded-lg p-6 space-y-4 shadow-card hover:border-amber-300 hover:shadow-lift transition-all">
                   <div className="w-10 h-10 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center">
                     <item.icon size={20} className="text-amber-700" strokeWidth={1.75} />
                   </div>
@@ -93,7 +93,7 @@ export default function AboutPage() {
         </section>
 
         {/* Stats */}
-        <section className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <section className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-card">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-gray-100">
             {[
               { num: '10K+', label: 'Monthly Users' },

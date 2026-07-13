@@ -71,7 +71,7 @@ export function ArticleHero({ post, onBack }) {
         </div>
       </motion.header>
 
-      <div className="mb-8 aspect-[16/9] overflow-hidden rounded-lg bg-stone-100 sm:mb-10">
+      <div className="mb-8 aspect-[16/9] overflow-hidden rounded-lg bg-stone-100 shadow-card sm:mb-10">
         {coverImage ? (
           <img
             src={coverImage}

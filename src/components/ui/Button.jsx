@@ -8,14 +8,14 @@ const Button = React.forwardRef(({ className, variant = 'primary', size = 'md', 
   const base = 'inline-flex items-center justify-center font-medium rounded transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50 disabled:opacity-40 disabled:pointer-events-none cursor-pointer select-none';
 
   const variants = {
-    primary:   'bg-gray-900 text-white hover:bg-gray-800',
-    secondary: 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:border-gray-300',
-    accent:    'bg-amber-600 text-white hover:bg-amber-700',
-    ghost:     'bg-transparent text-gray-700 border border-gray-200 hover:bg-gray-50',
-    danger:    'bg-red-50 text-red-600 border border-red-200 hover:bg-red-100',
+    primary:   'bg-gray-900 text-white hover:bg-gray-800 shadow-soft',
+    secondary: 'bg-white text-gray-700 border border-gray-200 shadow-soft hover:bg-gray-50 hover:border-gray-300 hover:shadow-card',
+    accent:    'bg-amber-600 text-white hover:bg-amber-700 shadow-soft',
+    ghost:     'bg-transparent text-gray-700 border border-gray-200 hover:bg-gray-50 hover:shadow-soft',
+    danger:    'bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 shadow-soft',
     /* compat aliases */
-    glass:     'bg-transparent text-gray-700 border border-gray-200 hover:bg-gray-50',
-    outline:   'bg-transparent text-gray-700 border border-gray-200 hover:bg-gray-50',
+    glass:     'bg-transparent text-gray-700 border border-gray-200 hover:bg-gray-50 hover:shadow-soft',
+    outline:   'bg-transparent text-gray-700 border border-gray-200 hover:bg-gray-50 hover:shadow-soft',
   };
 
   const sizes = {

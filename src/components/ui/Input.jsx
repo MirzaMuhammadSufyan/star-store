@@ -17,7 +17,7 @@ const Input = React.forwardRef(({ label, error, className, ...props }, ref) => {
       <input
         ref={ref}
         className={cn(
-          'w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-[15px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-400 transition-all',
+          'w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-[15px] text-gray-900 placeholder:text-gray-400 shadow-soft focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-400 focus:shadow-card transition-all',
           error && 'border-red-400 focus:ring-red-400/40',
           className
         )}

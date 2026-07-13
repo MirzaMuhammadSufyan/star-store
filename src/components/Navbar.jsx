@@ -55,7 +55,7 @@ const Navbar = ({ onFavOpen }) => {
     ].join(' ');
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 overflow-visible bg-white border-b border-gray-200 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-gradient-to-r after:from-amber-400 after:via-amber-500 after:to-amber-300">
+    <header className="fixed top-0 inset-x-0 z-50 overflow-visible bg-white border-b border-gray-200 shadow-nav after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-gradient-to-r after:from-amber-400 after:via-amber-500 after:to-amber-300">
       <div className="max-w-7xl mx-auto pl-4 pr-5 sm:pl-6 sm:pr-8 lg:pl-8 lg:pr-10 flex items-center gap-4 h-[4.5rem]">
 
         {/* Logo + desktop nav links */}

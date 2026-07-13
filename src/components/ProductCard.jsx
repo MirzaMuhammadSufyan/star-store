@@ -67,7 +67,7 @@ const ProductCard = ({ product }) => {
     <>
       <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
 
-      <div className="group bg-white border border-gray-100 rounded-xl overflow-hidden flex flex-col hover:shadow-lg hover:border-amber-300 transition-all duration-200 h-full">
+      <div className="group bg-white border border-gray-100 rounded-xl overflow-hidden flex flex-col shadow-card hover:shadow-lift hover:border-amber-300 transition-all duration-200 h-full">
 
         {/* Image */}
         <Link to={productDetailUrl(product)} className="relative block overflow-hidden bg-gray-50 aspect-square shrink-0">

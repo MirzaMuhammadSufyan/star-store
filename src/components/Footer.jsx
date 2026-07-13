@@ -13,7 +13,7 @@ export default function Footer() {
   const openManage = useConsentStore((s) => s.openManage);
 
   return (
-    <footer className="bg-gray-900 text-gray-400 mt-10">
+    <footer className="bg-gray-900 text-gray-400 mt-10 shadow-[0_-8px_24px_rgba(15,23,42,0.08)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
 

@@ -153,7 +153,7 @@ const AdminDashboard = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-gray-200 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <p className="text-xs text-amber-700 uppercase tracking-widest font-semibold mb-1">Management</p>
@@ -186,7 +186,7 @@ const AdminDashboard = () => {
 
         {/* ── Inventory ── */}
         {activeTab === 'inventory' && (
-          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-card">
             <div className="p-5 border-b border-gray-100">
               <div className="relative max-w-sm">
                 <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -266,7 +266,7 @@ const AdminDashboard = () => {
         {/* ── Blogs ── */}
         {activeTab === 'blogs' && (
           <div className="space-y-6">
-            <div className="bg-white border border-gray-200 rounded-lg p-5">
+            <div className="bg-white border border-gray-200 rounded-lg p-5 shadow-card">
               <div className="flex items-start gap-3 mb-4">
                 <div className="w-9 h-9 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center shrink-0">
                   <FileText size={17} className="text-amber-700" />
@@ -309,7 +309,7 @@ const AdminDashboard = () => {
               )}
             </div>
 
-          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-card">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="border-b border-gray-100 bg-gray-50">
@@ -374,7 +374,7 @@ const AdminDashboard = () => {
                 { label: 'Unique Merchants',   val: new Set(clicks.map(c => c.merchant).filter(Boolean)).size, icon: TrendingUp },
                 { label: 'Products Tracked',   val: filteredProducts.length,                           icon: Users         },
               ].map((s, i) => (
-                <div key={i} className="bg-white border border-gray-200 rounded-lg p-5">
+                <div key={i} className="bg-white border border-gray-200 rounded-lg p-5 shadow-card">
                   <div className="w-9 h-9 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center mb-3">
                     <s.icon size={17} className="text-amber-700" strokeWidth={1.75} />
                   </div>
@@ -385,7 +385,7 @@ const AdminDashboard = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-6">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-card">
                 <h3 className="font-bold text-gray-900 mb-5 flex items-center gap-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                   <TrendingUp size={18} className="text-amber-600" /> Top Products by Clicks
                 </h3>
@@ -413,7 +413,7 @@ const AdminDashboard = () => {
 
         {/* ── Sync ── */}
         {activeTab === 'sync' && (
-          <div className="bg-white border border-gray-200 rounded-lg">
+          <div className="bg-white border border-gray-200 rounded-lg shadow-card">
             <div className="p-5 border-b border-gray-100 space-y-4">
               <div>
                 <h3 className="font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>AliExpress Product Sync</h3>

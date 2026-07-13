@@ -96,7 +96,7 @@ const LegalPage = () => {
         url={`/legal/${type || 'privacy'}`}
       />
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-gray-200 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 text-center">
           <div className="w-12 h-12 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center mx-auto mb-4">
             <PageIcon size={22} className="text-amber-700" strokeWidth={1.75} />
@@ -113,7 +113,7 @@ const LegalPage = () => {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border border-gray-200 rounded-xl p-8 md:p-12 space-y-8"
+          className="bg-white border border-gray-200 rounded-xl p-8 md:p-12 space-y-8 shadow-card"
         >
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Overview</h2>
