@@ -22,7 +22,7 @@ export default function ContactPage() {
   const inputCls = 'w-full px-4 py-3 text-[15px] border border-gray-200 rounded bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/40 transition-all';
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-canvas min-h-screen">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 text-center">

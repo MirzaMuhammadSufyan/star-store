@@ -74,14 +74,14 @@ const AdminLogin = () => {
 
   if (loading) {
     return (
-      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="bg-canvas min-h-screen flex items-center justify-center">
         <div className="w-7 h-7 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen flex items-center justify-center px-4">
+    <div className="bg-canvas min-h-screen flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

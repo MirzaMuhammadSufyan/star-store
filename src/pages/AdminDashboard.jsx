@@ -136,7 +136,7 @@ const AdminDashboard = () => {
 
   if (productsLoading) {
     return (
-      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+      <div className="bg-canvas min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-10 h-10 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin mx-auto mb-4" />
           <p className="text-gray-500 text-sm">Loading Dashboard…</p>
@@ -151,7 +151,7 @@ const AdminDashboard = () => {
   const tdCls = 'py-4 px-4 text-[15px]';
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-canvas min-h-screen">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">

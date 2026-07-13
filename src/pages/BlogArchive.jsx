@@ -42,7 +42,7 @@ export default function BlogArchive() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f6f3]">
+    <div className="min-h-screen bg-canvas">
       <SEO
         title={tagFilter ? `Articles tagged “${tagFilter}”` : 'The Journal'}
         description="In-depth reviews, buying guides, and tech stories from Star Store — for people who care about what they buy."

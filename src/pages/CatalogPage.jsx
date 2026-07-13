@@ -241,7 +241,7 @@ export default function CatalogPage() {
   const sidebarProps = { categories, selectedCats, toggleCat, maxPrice, setMaxPrice, priceMax, hasFilters, reset };
 
   return (
-    <div className="bg-gray-50 min-h-screen flex flex-col">
+    <div className="bg-canvas min-h-screen flex flex-col">
 
       {/* ── Sticky header ───────────────────────────────────────────────────── */}
       <div className="bg-white border-b border-gray-200 sticky top-[4.5rem] z-20 shadow-soft">
@@ -314,7 +314,7 @@ export default function CatalogPage() {
           {syncLoading && visible.length === 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-5">
               {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-card animate-pulse">
+                <div key={i} className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-card animate-pulse">
                   <div className="aspect-square bg-gray-200" />
                   <div className="p-2 sm:p-3 flex flex-col gap-2">
                     <div className="h-2.5 bg-gray-200 rounded w-3/4" />

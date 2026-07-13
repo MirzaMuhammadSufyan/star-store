@@ -133,7 +133,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-white flex flex-col">
+      <div className="min-h-screen bg-canvas flex flex-col">
         <Navbar onFavOpen={() => setFavOpen(true)} />
         <FavouritesDrawer open={favOpen} onClose={() => setFavOpen(false)} />
         <main className="flex-grow pt-[4.5rem]">

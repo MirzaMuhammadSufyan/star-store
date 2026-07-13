@@ -19,7 +19,7 @@ const CHECKS = ['Verified Brands', '24/7 Monitoring', 'Safe Redirects', 'Expert 
 
 export default function AboutPage() {
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-canvas min-h-screen">
       {/* Page header */}
       <div className="bg-white border-b border-gray-200 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 text-center">

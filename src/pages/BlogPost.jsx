@@ -108,7 +108,7 @@ export default function BlogPost() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafaf8]">
+    <div className="min-h-screen bg-canvas">
       <SEO
         title={post.title}
         description={post.excerpt}

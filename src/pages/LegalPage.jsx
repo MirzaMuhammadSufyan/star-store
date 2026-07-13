@@ -89,7 +89,7 @@ const LegalPage = () => {
   const PageIcon = page.icon;
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-canvas min-h-screen">
       <SEO
         title={page.title}
         description={page.text.slice(0, 155).trim()}

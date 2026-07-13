@@ -190,7 +190,7 @@ function HeroSlider() {
 
 function ProductSkeleton() {
   return (
-    <div className="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-card animate-pulse">
+    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-card animate-pulse">
       <div className="aspect-square bg-gray-200" />
       <div className="p-3 space-y-2">
         <div className="h-3 bg-gray-200 rounded w-3/4" />
@@ -217,7 +217,7 @@ export default function HomePage() {
   const newest   = products.slice(0, 4);
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-canvas">
 
       {/* ── Hero Slider ── */}
       <HeroSlider />
