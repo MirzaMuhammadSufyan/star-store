@@ -6,8 +6,8 @@ import { corsHeaders } from './products/_utils.js';
  */
 export async function onRequestGet(context) {
   const { env } = context;
-  const appSecret = Boolean(env.ALIEXPRESS_APP_SECRET);
-  const trackingId = Boolean(env.ALIEXPRESS_TRACKING_ID);
+  const appSecret = Boolean(env.ALIEXPRESS_APP_SECRET && String(env.ALIEXPRESS_APP_SECRET).trim());
+  const trackingId = Boolean(env.ALIEXPRESS_TRACKING_ID && String(env.ALIEXPRESS_TRACKING_ID).trim());
 
   return new Response(
     JSON.stringify({

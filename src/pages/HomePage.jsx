@@ -356,19 +356,19 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
             {blogItems.map((post, i) => (
-              <FadeUp key={post.id} delay={i * 0.05}>
-                <Link to={`/blog/${post.id}`} className="group block bg-white border border-gray-200 rounded-lg overflow-hidden shadow-card hover:shadow-lift hover:border-amber-300 transition-all">
-                  <div className="aspect-[16/9] overflow-hidden">
+              <FadeUp key={post.id} delay={i * 0.05} className="h-full">
+                <Link to={`/blog/${post.id}`} className="group flex h-full flex-col bg-white border border-gray-200 rounded-lg overflow-hidden shadow-card hover:shadow-lift hover:border-amber-300 transition-all">
+                  <div className="aspect-[16/9] overflow-hidden shrink-0 bg-gray-100">
                     <img src={resolveBlogImage(post)} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" />
                   </div>
-                  <div className="p-3.5">
+                  <div className="p-3.5 flex flex-col flex-1 min-h-0">
                     <span className="text-[10px] uppercase tracking-[0.12em] text-amber-700 font-semibold">{post.category}</span>
-                    <h3 className="mt-1.5 text-[15px] font-semibold text-gray-900 line-clamp-2 group-hover:text-amber-800 transition-colors leading-snug" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    <h3 className="mt-1.5 text-[15px] font-semibold text-gray-900 line-clamp-2 min-h-[2.5em] group-hover:text-amber-800 transition-colors leading-snug" style={{ fontFamily: "'Playfair Display', serif" }}>
                       {post.title}
                     </h3>
-                    <p className="mt-1.5 text-[13px] text-gray-500 line-clamp-2 leading-relaxed">{post.excerpt}</p>
+                    <p className="mt-1.5 text-[13px] text-gray-500 line-clamp-2 leading-relaxed flex-1">{post.excerpt}</p>
                     <p className="mt-2.5 text-xs text-amber-700 font-medium flex items-center gap-0.5">
                       Read <ChevronRight size={12} />
                     </p>

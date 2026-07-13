@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useState, Component, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -7,6 +7,7 @@ import FavouritesDrawer from './components/FavouritesDrawer';
 import CookieConsent from './components/CookieConsent';
 import ConsentGatedScripts from './components/ConsentGatedScripts';
 import { useAuthStore } from './store/authStore';
+import AdminDashboard from './pages/AdminDashboard';
 
 const HomePage          = lazy(() => import('./pages/HomePage'));
 const CatalogPage       = lazy(() => import('./pages/CatalogPage'));
@@ -18,7 +19,6 @@ const AboutPage         = lazy(() => import('./pages/AboutPage'));
 const LegalPage         = lazy(() => import('./pages/LegalPage'));
 const RedirectPage      = lazy(() => import('./pages/RedirectPage'));
 const AdminLogin        = lazy(() => import('./pages/AdminLogin'));
-const AdminDashboard    = lazy(() => import('./pages/AdminDashboard'));
 const GiftFinder        = lazy(() => import('./pages/GiftFinder'));
 
 // Catches "Failed to fetch dynamically imported module" errors (stale deploy / network blip)
@@ -82,18 +82,34 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+const StripTrailingSlash = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (location.pathname.length > 1 && location.pathname.endsWith('/')) {
+      navigate(
+        { pathname: location.pathname.replace(/\/+$/, ''), search: location.search, hash: location.hash },
+        { replace: true },
+      );
+    }
+  }, [location.pathname, location.search, location.hash, navigate]);
+  return null;
+};
+
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
     <>
     <ScrollToTop />
-    <AnimatePresence mode="wait">
+    <StripTrailingSlash />
+    {/* initial={false} + sync: avoids blank main on hard refresh when auth/lazy remounts */}
+    <AnimatePresence mode="sync" initial={false}>
       <motion.div
         key={location.pathname}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
+        transition={{ duration: 0.2 }}
       >
         <Routes location={location}>
           <Route path="/"               element={<HomePage />} />
@@ -121,6 +137,7 @@ const AnimatedRoutes = () => {
             }
           />
           <Route path="/adminpanel"     element={<Navigate to="/admin/login" replace />} />
+          <Route path="*"               element={<Navigate to="/" replace />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

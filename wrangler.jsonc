@@ -6,6 +6,11 @@
   "observability": {
     "enabled": true
   },
+  // Tracking channel ID is not sensitive (AliExpress affiliate "default" channel).
+  // Keep APP_SECRET as a wrangler secret only.
+  "vars": {
+    "ALIEXPRESS_TRACKING_ID": "default"
+  },
   "assets": {
     "directory": "dist",
     "not_found_handling": "single-page-application",
