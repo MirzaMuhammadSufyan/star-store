@@ -20,23 +20,34 @@ export function resolveBlogImage(post) {
 }
 
 /** Match products by article keywords/tags instead of blog category name. */
-export function getRelatedProducts(post, products, limit = 3) {
+export function getRelatedProducts(post, products, limit = 12) {
   if (!post || !products?.length) return [];
 
-  const { keywords } = getArticleProductConfig(post);
-  const terms = keywords.map((k) => k.toLowerCase()).filter(Boolean);
+  const { keywords, catalogSearch } = getArticleProductConfig(post);
+  const terms = [...keywords, catalogSearch]
+    .map((k) => String(k || '').toLowerCase().trim())
+    .filter(Boolean);
+  // Prefer longer / more specific phrases first for scoring
+  const uniqueTerms = [...new Set(terms)].sort((a, b) => b.length - a.length);
 
   const scored = products.map((product) => {
     const title = (product.product_title || product.title || '').toLowerCase();
-    const category = (product.second_level_category_name || product.category || product.merchant || '').toLowerCase();
+    const category = (
+      product.second_level_category_name ||
+      product.first_level_category_name ||
+      product.category ||
+      product.merchant ||
+      ''
+    ).toLowerCase();
     let score = 0;
 
-    for (const term of terms) {
-      if (title.includes(term)) score += 4;
-      if (category.includes(term)) score += 2;
+    for (const term of uniqueTerms) {
+      if (title.includes(term)) score += 6;
+      if (category.includes(term)) score += 3;
       const words = term.split(/\s+/).filter((w) => w.length > 2);
       for (const word of words) {
         if (title.includes(word)) score += 1;
+        if (category.includes(word)) score += 0.5;
       }
     }
 
@@ -44,10 +55,10 @@ export function getRelatedProducts(post, products, limit = 3) {
   });
 
   scored.sort((a, b) => b.score - a.score);
-  const matched = scored.filter((s) => s.score > 0).map((s) => s.product);
-
-  if (matched.length >= limit) return matched.slice(0, limit);
-  return matched;
+  return scored
+    .filter((s) => s.score > 0)
+    .slice(0, Math.max(1, limit))
+    .map((s) => s.product);
 }
 
 /** Legacy posts without a status field are treated as published. */

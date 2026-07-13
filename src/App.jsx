@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import FavouritesDrawer from './components/FavouritesDrawer';
 import CookieConsent from './components/CookieConsent';
 import ConsentGatedScripts from './components/ConsentGatedScripts';
+import BackToTop from './components/BackToTop';
 import { useAuthStore } from './store/authStore';
 import AdminDashboard from './pages/AdminDashboard';
 
@@ -161,6 +162,7 @@ function App() {
           </ChunkErrorBoundary>
         </main>
         <Footer />
+        <BackToTop />
         <CookieConsent />
         <ConsentGatedScripts />
       </div>

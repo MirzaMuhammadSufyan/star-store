@@ -102,6 +102,52 @@ export const useProductStore = create((set, get) => ({
     return ensureCatalogPromise;
   },
 
+  /**
+   * Fetch products for an article topic and merge into the catalog without
+   * wiping existing items. Always runs so each article gets relevant picks.
+   */
+  fetchAndMergeProducts: async (keywords = 'tech gadgets', pageSize = 24) => {
+    const kw = (keywords || 'tech gadgets').trim();
+    if (!kw) return [];
+
+    set({ syncLoading: true, error: null });
+    try {
+      const url = `/api/products/sync?keywords=${encodeURIComponent(kw)}&page_no=1&page_size=${pageSize}`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        set({ syncLoading: false });
+        return [];
+      }
+
+      let data;
+      try { data = JSON.parse(await response.text()); }
+      catch { set({ syncLoading: false }); return []; }
+
+      if (!data.success) {
+        set({ error: data.error || 'Failed to sync products', syncLoading: false });
+        return [];
+      }
+
+      const newProducts = data.products || [];
+      const existing = get().apiProducts;
+      const merged = [...existing];
+      for (const p of newProducts) {
+        if (!merged.some((e) => String(e.product_id) === String(p.product_id))) {
+          merged.push(p);
+        }
+      }
+      set({
+        apiProducts: merged,
+        products: [...get().dbProducts, ...merged],
+        syncLoading: false,
+      });
+      return newProducts;
+    } catch (error) {
+      set({ error: error.message, syncLoading: false });
+      return [];
+    }
+  },
+
   fetchProducts: () => {
     set({ dbLoading: true, loading: true });
     const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));

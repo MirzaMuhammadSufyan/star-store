@@ -161,8 +161,16 @@ export function getArticleProductConfig(post) {
     };
   }
 
+  // Derive search terms from the title so unmapped articles still get relevant picks
+  const titleWords = String(post.title || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s+]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length > 3 && !['with', 'from', 'that', 'this', 'your', 'what', 'when', 'guide', 'best', 'complete', 'ultimate'].includes(w));
+
+  const catalogSearch = titleWords.slice(0, 3).join(' ') || 'tech gadgets';
   return {
-    catalogSearch: 'tech',
-    keywords: ['tech', 'gadget', 'electronics'],
+    catalogSearch,
+    keywords: titleWords.length ? titleWords.slice(0, 8) : ['tech', 'gadget', 'electronics'],
   };
 }

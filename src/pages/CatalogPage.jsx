@@ -1,9 +1,9 @@
 import React, {
   useState, useMemo, useEffect, useCallback, useRef,
 } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
-  SlidersHorizontal, Grid, List, X, ChevronDown, Loader2, ArrowUp,
+  SlidersHorizontal, Grid, List, X, ChevronDown, Loader2,
 } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Heart, Star } from 'lucide-react';
@@ -93,7 +93,6 @@ export default function CatalogPage() {
   const [view,         setView]         = useState('grid');
   const [page,         setPage]         = useState(1);
   const [sidebarOpen,  setSidebarOpen]  = useState(false);
-  const [showTop,      setShowTop]      = useState(false);
   const [aliPage,      setAliPage]      = useState(1);
   const [aliKeyword,   setAliKeyword]   = useState('');
   const [noMorePages,  setNoMorePages]  = useState(false);
@@ -127,13 +126,6 @@ export default function CatalogPage() {
     setPage(1);
     syncFromAliExpress(kw, 1);
   }, [searchParams.get('cat')]); // eslint-disable-line
-
-  // ── Scroll-to-top visibility ─────────────────────────────────────────────────
-  useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 400);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   // ── Derived lists ────────────────────────────────────────────────────────────
   const priceMax = useMemo(() => {
@@ -525,20 +517,6 @@ export default function CatalogPage() {
         </div>
       )}
 
-      {/* Scroll-to-top */}
-      <AnimatePresence>
-        {showTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.2 }}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-gray-900 text-white shadow-lg flex items-center justify-center hover:bg-amber-600 transition-colors"
-            aria-label="Scroll to top"
-          >
-            <ArrowUp size={18} />
-          </motion.button>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

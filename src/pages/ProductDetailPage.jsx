@@ -13,6 +13,32 @@ import ProductCard from '../components/ProductCard';
 import { encodeProductParam, decodeProductParam } from '../utils/productUrl';
 import { getBuyLink } from '../utils/productLinks';
 
+function normalizeProductImages(raw, mainImage) {
+  let small = raw?.product_small_image_urls;
+  if (small && !Array.isArray(small)) {
+    if (Array.isArray(small.string)) small = small.string;
+    else if (typeof small === 'object') small = Object.values(small).flat();
+    else small = [];
+  }
+  return [mainImage, ...(small || [])]
+    .filter(Boolean)
+    .filter((src, i, arr) => arr.indexOf(src) === i);
+}
+
+function GalleryKeyboard({ enabled, onPrev, onNext, onClose }) {
+  React.useEffect(() => {
+    if (!enabled) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'ArrowLeft') onPrev();
+      if (e.key === 'ArrowRight') onNext();
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [enabled, onPrev, onNext, onClose]);
+  return null;
+}
+
 export default function ProductDetailPage() {
   const { id }             = useParams();
   const navigate           = useNavigate();
@@ -41,6 +67,8 @@ export default function ProductDetailPage() {
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
+    setActiveImg(0);
+    setLightbox(false);
 
     // Shared link with embedded data — no fetch needed
     if (sharedData) { setRaw(sharedData); setFetching(false); return; }
@@ -108,11 +136,15 @@ export default function ProductDetailPage() {
     buyLink:     getBuyLink(raw),
   };
 
-  const gallery     = [p.image, ...(raw.product_small_image_urls || [])].filter(Boolean).filter((s, i, a) => a.indexOf(s) === i);
+  const gallery     = normalizeProductImages(raw, p.image);
   const discount    = p.origPrice > p.price ? Math.round(((p.origPrice - p.price) / p.origPrice) * 100) : 0;
   const displayOrig = p.origPrice || (p.price * 1.2);
   const related     = products.filter(r => (r.id || r.product_id) !== p.id).slice(0, 4);
   const fav         = isFavourite(raw);
+  const safeImg     = Math.min(activeImg, Math.max(0, gallery.length - 1));
+
+  const goPrev = () => setActiveImg((i) => (i - 1 + gallery.length) % gallery.length);
+  const goNext = () => setActiveImg((i) => (i + 1) % gallery.length);
 
   const sharePayload = encodeProductParam({
     id:          p.id,
@@ -152,6 +184,12 @@ export default function ProductDetailPage() {
 
   return (
     <div className="bg-canvas min-h-screen">
+      <GalleryKeyboard
+        enabled={gallery.length > 1}
+        onPrev={goPrev}
+        onNext={goNext}
+        onClose={() => setLightbox(false)}
+      />
       {/* Breadcrumb */}
       <div className="bg-white border-b border-gray-200 shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-2 text-sm text-gray-500">
@@ -167,54 +205,76 @@ export default function ProductDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
 
-          {/* Gallery */}
-          <div className="space-y-3">
-            <div
-              className="relative bg-white border border-gray-200 rounded-xl overflow-hidden cursor-zoom-in shadow-card"
-              onClick={() => setLightbox(true)}
-            >
-              {discount > 0 && (
-                <span className="absolute top-3 right-3 z-10 bg-red-500 text-white text-xs font-semibold px-2.5 py-1 rounded">
-                  -{discount}%
-                </span>
-              )}
-              {/* Favourite on gallery */}
-              <button
-                onClick={(e) => { e.stopPropagation(); toggle(raw); }}
-                className={`absolute top-3 left-3 z-10 w-10 h-10 rounded-full flex items-center justify-center shadow transition-all ${
-                  fav ? 'bg-rose-500 text-white' : 'bg-white text-gray-400 hover:text-rose-500 border border-gray-200'
-                }`}
-              >
-                <Heart size={18} className={fav ? 'fill-white' : ''} />
-              </button>
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={gallery[activeImg]}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  src={gallery[activeImg]}
-                  alt={p.title}
-                  className="w-full aspect-square object-cover"
-                />
-              </AnimatePresence>
-            </div>
+          {/* Gallery — modern multi-image viewer */}
+          <div className="flex flex-col-reverse gap-3 lg:flex-row lg:items-start">
             {gallery.length > 1 && (
-              <div className="grid grid-cols-5 gap-2">
-                {gallery.slice(0, 5).map((src, i) => (
+              <div className="flex gap-2 overflow-x-auto pb-1 lg:max-h-[min(520px,70vh)] lg:w-[4.5rem] lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden lg:pb-0 [scrollbar-width:thin]">
+                {gallery.map((src, i) => (
                   <button
-                    key={src}
+                    key={`${src}-${i}`}
+                    type="button"
                     onClick={() => setActiveImg(i)}
-                    className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
-                      activeImg === i ? 'border-amber-500' : 'border-gray-200 hover:border-amber-300'
+                    aria-label={`View image ${i + 1}`}
+                    className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 bg-white transition-all lg:h-[4.25rem] lg:w-[4.25rem] ${
+                      safeImg === i
+                        ? 'border-amber-500 ring-2 ring-amber-500/20'
+                        : 'border-gray-200 hover:border-amber-300'
                     }`}
                   >
-                    <img src={src} alt="" className="w-full h-full object-cover" />
+                    <img src={src} alt="" className="h-full w-full object-contain p-1" />
                   </button>
                 ))}
               </div>
             )}
+
+            <div className="relative min-w-0 flex-1">
+              <div
+                className="group relative cursor-zoom-in overflow-hidden rounded-xl border border-gray-200 bg-white shadow-card"
+                onClick={() => setLightbox(true)}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={gallery[safeImg] || p.image}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    src={gallery[safeImg] || p.image}
+                    alt={p.title}
+                    className="aspect-square w-full object-contain bg-gray-50 p-4 sm:p-6"
+                  />
+                </AnimatePresence>
+
+                {gallery.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      aria-label="Previous image"
+                      onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                      className="absolute left-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white/95 text-gray-700 shadow-soft opacity-100 transition hover:border-amber-400 hover:text-amber-800 sm:opacity-0 sm:group-hover:opacity-100"
+                    >
+                      <ChevronLeft size={18} />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Next image"
+                      onClick={(e) => { e.stopPropagation(); goNext(); }}
+                      className="absolute right-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-gray-200 bg-white/95 text-gray-700 shadow-soft opacity-100 transition hover:border-amber-400 hover:text-amber-800 sm:opacity-0 sm:group-hover:opacity-100"
+                    >
+                      <ChevronRight size={18} />
+                    </button>
+                    <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-gray-900/70 px-2.5 py-1 text-[11px] font-medium tabular-nums text-white">
+                      {safeImg + 1} / {gallery.length}
+                    </div>
+                  </>
+                )}
+              </div>
+              {gallery.length > 1 && (
+                <p className="mt-2 text-center text-[11px] text-gray-400">
+                  Click image to enlarge · use arrows to browse
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Info */}
@@ -235,10 +295,15 @@ export default function ProductDetailPage() {
               {p.title}
             </h1>
 
-            {/* Price */}
-            <div className="flex items-end gap-3 py-4 border-y border-gray-100">
+            {/* Price + discount (not on image) */}
+            <div className="flex items-end gap-3 py-4 border-y border-gray-100 flex-wrap">
               <span className="text-3xl font-bold text-gray-900">${p.price.toFixed(2)}</span>
               {discount > 0 && <span className="text-lg text-gray-400 line-through mb-0.5">${displayOrig.toFixed(2)}</span>}
+              {discount > 0 && (
+                <span className="mb-0.5 inline-flex items-center rounded bg-red-500 px-2 py-0.5 text-xs font-bold text-white">
+                  -{discount}%
+                </span>
+              )}
               {discount > 0 && <span className="text-sm font-semibold text-green-600 mb-0.5">Save {discount}%</span>}
             </div>
 
@@ -486,7 +551,31 @@ export default function ProductDetailPage() {
                 </button>
               </>
             )}
-            <img src={gallery[activeImg]} alt={p.title} onClick={e => e.stopPropagation()} className="max-w-full max-h-[85vh] object-contain rounded-lg" />
+            <img
+              src={gallery[safeImg] || p.image}
+              alt={p.title}
+              onClick={(e) => e.stopPropagation()}
+              className="max-h-[80vh] max-w-full rounded-lg object-contain"
+            />
+            {gallery.length > 1 && (
+              <div
+                className="absolute bottom-4 left-1/2 flex max-w-[90vw] -translate-x-1/2 gap-2 overflow-x-auto rounded-xl bg-black/40 p-2 backdrop-blur-sm"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {gallery.map((src, i) => (
+                  <button
+                    key={`lb-${src}-${i}`}
+                    type="button"
+                    onClick={() => setActiveImg(i)}
+                    className={`h-14 w-14 shrink-0 overflow-hidden rounded-lg border-2 ${
+                      safeImg === i ? 'border-amber-400' : 'border-transparent opacity-70 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={src} alt="" className="h-full w-full object-contain bg-white/10" />
+                  </button>
+                ))}
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
