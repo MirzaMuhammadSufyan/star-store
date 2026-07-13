@@ -98,7 +98,7 @@ async function fetchBlogs() {
 
   const email = process.env.FIREBASE_EMAIL;
   const password = process.env.FIREBASE_PASSWORD;
-  if (!email || !password) throw new Error('Set FIREBASE_EMAIL and FIREBASE_PASSWORD in .env');
+  if (!email || !password) return null;
 
   const app = initializeApp(firebaseConfig);
   await signInWithEmailAndPassword(getAuth(app), email, password);
@@ -110,6 +110,18 @@ async function main() {
   mkdirSync(resolve(OUT, 'blog'), { recursive: true });
 
   const blogs = await fetchBlogs();
+  // CI / Cloudflare builds often lack Firebase credentials. Keep committed
+  // prerender HTML + sitemap so `npm run build` still succeeds.
+  if (!blogs) {
+    const hasPrerender = existsSync(resolve(OUT, 'index.html'));
+    console.warn(
+      'Skipping prerender refresh: FIREBASE_EMAIL / FIREBASE_PASSWORD not set.' +
+        (hasPrerender
+          ? ' Using existing public/prerender and sitemap from the repo.'
+          : ' No existing prerender found — pages will rely on the SPA only.'),
+    );
+    return;
+  }
   const published = blogs.filter((b) => !b.status || b.status === 'published');
   const urls = [];
 
