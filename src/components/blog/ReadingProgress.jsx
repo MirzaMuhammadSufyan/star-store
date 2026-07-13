@@ -3,6 +3,8 @@ import React from 'react';
 /**
  * Reading progress sits in its own strip BELOW the navbar + amber accent,
  * so the two never visually merge. Knob is always visible and scrubbable.
+ *
+ * Progress is scoped to the article column only — footer / chrome are excluded.
  */
 export function ReadingProgress({ targetRef }) {
   const [progress, setProgress] = React.useState(0);
@@ -11,15 +13,26 @@ export function ReadingProgress({ targetRef }) {
 
   const getMetrics = React.useCallback(() => {
     const el = targetRef?.current;
-    if (!el) {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      return { start: 0, range: Math.max(1, docHeight), scrollTop };
-    }
-    const rect = el.getBoundingClientRect();
-    const start = window.scrollY + rect.top - window.innerHeight * 0.12;
-    const range = Math.max(1, el.offsetHeight - window.innerHeight * 0.35);
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+    // Until the article mounts, keep a neutral range (do NOT fall back to
+    // full document height — that incorrectly includes the site footer).
+    if (!el) {
+      return { start: 0, range: 1, scrollTop };
+    }
+
+    const articleTop = scrollTop + el.getBoundingClientRect().top;
+    const articleHeight = el.offsetHeight;
+    const viewHeight = window.innerHeight;
+
+    // 0% when the article top reaches the reading chrome (navbar + progress).
+    // 100% when the article bottom reaches the bottom of the viewport —
+    // i.e. the article is fully read, before the footer.
+    const chrome = 7 * 16; // ~4.5rem nav + progress strip
+    const start = articleTop - chrome;
+    const end = articleTop + articleHeight - viewHeight;
+    const range = Math.max(1, end - start);
+
     return { start, range, scrollTop };
   }, [targetRef]);
 
@@ -55,11 +68,21 @@ export function ReadingProgress({ targetRef }) {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
+
+    // Recalculate when article images / typography change height
+    const el = targetRef?.current;
+    let ro;
+    if (el && typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(onScroll);
+      ro.observe(el);
+    }
+
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
+      ro?.disconnect();
     };
-  }, [progressFromScroll]);
+  }, [progressFromScroll, targetRef]);
 
   React.useEffect(() => {
     const onMove = (e) => {

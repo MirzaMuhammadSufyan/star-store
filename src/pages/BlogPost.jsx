@@ -128,12 +128,12 @@ export default function BlogPost() {
           </div>
         )}
 
-        <div className="grid gap-8 pb-12 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_300px]">
-          <div ref={articleRef} className="min-w-0">
+        <div className="grid items-start gap-8 pb-12 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_300px]">
+          <article ref={articleRef} className="min-w-0">
             <ArticleHero post={post} onBack={() => navigate('/blog')} />
             <ArticleBody post={post} />
             <AuthorBio post={post} />
-          </div>
+          </article>
 
           <div className="min-w-0">
             <ArticleSidebar
