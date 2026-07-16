@@ -1,0 +1,147 @@
+{
+  "id": "ch-07",
+  "title": "Alphabetical Test",
+  "slug": "alphabetical-test",
+  "blurb": "Letter positions, order, and alphabet reasoning.",
+  "accent": "violet",
+  "theory": {
+    "intro": "In this test, questions are asked on the location and occurrence of the each alphabet.",
+    "sections": [
+      {
+        "title": "Worked examples",
+        "paragraphs": [
+          "Answer: The 10th letter of alphabet is 'J'.",
+          "Answer: Q."
+        ],
+        "examples": [
+          {
+            "stem": "Write down the 10th letter of the alphabet?",
+            "options": [],
+            "hint": "",
+            "explanation": ": ABCDEFGHIJKLMNOPQRSTUVWXYZ.",
+            "answer": ""
+          }
+        ]
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": 214,
+      "sourceNum": 1,
+      "question": "ASRQRPRQNRNQSRQRQS How many Q's are preceded by and succeeded by R?",
+      "options": [
+        "One",
+        "Two",
+        "Three",
+        "Four"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 215,
+      "sourceNum": 2,
+      "question": "Point out the fourth consonant after third vowel in the alphabets?",
+      "options": [
+        "M",
+        "N",
+        "L",
+        "K"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 216,
+      "sourceNum": 3,
+      "question": "Which letter is seven letters ahead of the letter which follows fourth letter from the right?",
+      "options": [
+        "J",
+        "O",
+        "N",
+        "H"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 217,
+      "sourceNum": 4,
+      "question": "Which letter is in the middle of the two letters—one is second from 'J' in the right side and the other is third from 'Q' in the left side?",
+      "options": [
+        "M",
+        "L",
+        "N",
+        "E"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 218,
+      "sourceNum": 5,
+      "question": "Which letter is three letters ahead of the letter which follows 'A' and precedes 'C'?",
+      "options": [
+        "E",
+        "D",
+        "F",
+        "G"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 219,
+      "sourceNum": 6,
+      "question": "Which letter precedes the letter which is 13th from D?",
+      "options": [
+        "P",
+        "R",
+        "Q",
+        "S"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 220,
+      "sourceNum": 7,
+      "question": "The total number of letters in between the two pairs of vowel 'EO' and 'OQ' are?",
+      "options": [
+        "9",
+        "12",
+        "10",
+        "11"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 221,
+      "sourceNum": 8,
+      "question": "Find the letter which is as far behind N in the alphabet as first E is behind the second S in the word. EXCOMMUNICATE?",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "Z"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 222,
+      "sourceNum": 9,
+      "question": "Find the letter which is as far ahead of M in the alphabet as the first O is behind the second E in the word. LABORIOUS?",
+      "options": [
+        "R",
+        "H",
+        "Q",
+        "O"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    }
+  ]
+}

@@ -1,0 +1,1072 @@
+{
+  "id": "ch-01",
+  "title": "Analogy Test (Type 1)",
+  "slug": "analogy-type-1",
+  "blurb": "Word relationships and verbal analogies.",
+  "accent": "amber",
+  "theory": {
+    "intro": "In this type of test, some relationship is shown in the first two objects or ideas. The same relationship exists between the next two objects and ideas. But, in the next two, only one is mentioned, and the other has to be chosen by the candidate out of the three or four suggested choices or has to suggest one most suitable choice from his own. Thus, the examinee should sense the exact relationship existing between the first two objects or ideas and apply the same to the next two. For example:",
+    "sections": [
+      {
+        "title": "Worked examples",
+        "paragraphs": [],
+        "examples": [
+          {
+            "stem": "Home is to man as nest is to?",
+            "options": [
+              "Animal",
+              "Snake",
+              "Fish",
+              "Bird"
+            ],
+            "hint": "If we read the relationship between first two objects i.e., home and man. We find that it is of residence and resident. The same relationship we should apply to 'Nest'. Nest is the residence of bird. Thus, answer (d) is the appropriate choice.",
+            "explanation": "",
+            "answer": "D"
+          }
+        ]
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": 1,
+      "sourceNum": 1,
+      "question": "'Head' is to 'Cap' as 'finger' is to?",
+      "options": [
+        "Nail",
+        "Ring",
+        "Thumb",
+        "Helmet"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 2,
+      "sourceNum": 2,
+      "question": "Drama is related to Director as magazine is to?",
+      "options": [
+        "Printer",
+        "Publisher",
+        "Editor",
+        "Reader"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 3,
+      "sourceNum": 3,
+      "question": "Water is related to Dam as trade is to?",
+      "options": [
+        "Money",
+        "Commerce",
+        "Goods",
+        "Shipping"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 4,
+      "sourceNum": 4,
+      "question": "Argument is related to Debate as fight is to?",
+      "options": [
+        "Contest",
+        "Quarrel",
+        "Friendship",
+        "Controversy"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 5,
+      "sourceNum": 5,
+      "question": "As bird is to Feather so is cat to?",
+      "options": [
+        "Paws",
+        "Fur",
+        "Feet",
+        "Hair"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 6,
+      "sourceNum": 6,
+      "question": "Year is to Month as week is to?",
+      "options": [
+        "Day",
+        "Hours",
+        "Minutes",
+        "Fortnight"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 7,
+      "sourceNum": 7,
+      "question": "As food is to Growth so is knowledge to?",
+      "options": [
+        "Wealth",
+        "Peace",
+        "Wisdom",
+        "Happiness"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 8,
+      "sourceNum": 8,
+      "question": "Handsome is to Beautiful as he is to?",
+      "options": [
+        "Lovely",
+        "Girl",
+        "Charming",
+        "She"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 9,
+      "sourceNum": 9,
+      "question": "Success is related to Hard work as failure is to?",
+      "options": [
+        "Industry",
+        "Roaming",
+        "Laziness",
+        "Waste of time"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 10,
+      "sourceNum": 10,
+      "question": "Poor is to Rich as pauper is to?",
+      "options": [
+        "Wealthy",
+        "Brave",
+        "Multi-millionaire",
+        "Soldier"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 11,
+      "sourceNum": 11,
+      "question": "Gold is to Ornaments as wood is to?",
+      "options": [
+        "Chair",
+        "Table",
+        "Desks",
+        "Furniture"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 12,
+      "sourceNum": 12,
+      "question": "Mule is to Pack as Ox is to?",
+      "options": [
+        "Yoke",
+        "Hoof",
+        "Neck",
+        "Horn"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 13,
+      "sourceNum": 13,
+      "question": "Statue is to Shape as song is to?",
+      "options": [
+        "Words",
+        "Melody",
+        "Beauty",
+        "Tune"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 14,
+      "sourceNum": 14,
+      "question": "Listen is to Hear as look is to?",
+      "options": [
+        "Watch",
+        "Observe",
+        "See",
+        "Notice"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 15,
+      "sourceNum": 15,
+      "question": "Time is to Watch as pressure is to?",
+      "options": [
+        "Barometer",
+        "Thermometer",
+        "Lactometer",
+        "Hydrometer"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 16,
+      "sourceNum": 16,
+      "question": "Coal is to Engine as wax is to?",
+      "options": [
+        "Lamp",
+        "Candle",
+        "Bulb",
+        "Thread"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 17,
+      "sourceNum": 17,
+      "question": "Blindness is to Eye as deafness is to?",
+      "options": [
+        "Brain",
+        "Head",
+        "Ear",
+        "Nose"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 18,
+      "sourceNum": 18,
+      "question": "Food is to Eat as water is to?",
+      "options": [
+        "Dirt",
+        "Drink",
+        "Fire",
+        "Wash"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 19,
+      "sourceNum": 19,
+      "question": "Carpenter is to Wood as tailor is to?",
+      "options": [
+        "Ship",
+        "Shop",
+        "Cloth",
+        "Machine"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 20,
+      "sourceNum": 20,
+      "question": "Road is to Car as sea is to?",
+      "options": [
+        "Cart",
+        "Cycle",
+        "Ship",
+        "Boat"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 21,
+      "sourceNum": 21,
+      "question": "Limb is to Body as branch is to?",
+      "options": [
+        "Building",
+        "Tree",
+        "Garden",
+        "Grass"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 22,
+      "sourceNum": 22,
+      "question": "General is to Soldier as Admiral is to?",
+      "options": [
+        "Captain",
+        "Sailor",
+        "Master",
+        "Player"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 23,
+      "sourceNum": 23,
+      "question": "Ice is to Melt as water is to?",
+      "options": [
+        "Dry",
+        "Wash",
+        "Evaporate",
+        "Flow"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 24,
+      "sourceNum": 24,
+      "question": "Milk is to White as sky is to?",
+      "options": [
+        "Red",
+        "Green",
+        "Blue",
+        "Black"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 25,
+      "sourceNum": 25,
+      "question": "Boot is to Foot as glove is to?",
+      "options": [
+        "Wool",
+        "Hand",
+        "Cotton",
+        "Cloth"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 26,
+      "sourceNum": 26,
+      "question": "Cow is to Calf as mother is to?",
+      "options": [
+        "Sister",
+        "Son",
+        "Daughter",
+        "Husband"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 27,
+      "sourceNum": 27,
+      "question": "Teacher is to Students as doctor is to?",
+      "options": [
+        "Patients",
+        "Medicine",
+        "Hospital",
+        "Drugs"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 28,
+      "sourceNum": 28,
+      "question": "Rich is to Poor as healthy is to?",
+      "options": [
+        "Weight",
+        "Height",
+        "Sick",
+        "Stout"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 29,
+      "sourceNum": 29,
+      "question": "Bird is to Nest as horse is to?",
+      "options": [
+        "Mare",
+        "Ride",
+        "Tanga",
+        "Stable"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 30,
+      "sourceNum": 30,
+      "question": "Petal is to Flower as arm is to?",
+      "options": [
+        "Toe",
+        "Body",
+        "Skin",
+        "Hand"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 31,
+      "sourceNum": 31,
+      "question": "Health is to Sickness as happiness is to?",
+      "options": [
+        "Sadness",
+        "Cheerfulness",
+        "Sweetness",
+        "Well-being"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 32,
+      "sourceNum": 32,
+      "question": "Refrigerator is to Cool as oven is to?",
+      "options": [
+        "Bake",
+        "Heat",
+        "Warm",
+        "Cook"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 33,
+      "sourceNum": 33,
+      "question": "Zoo is to Animals as aquarium is to?",
+      "options": [
+        "Bird",
+        "Animal",
+        "Fishes",
+        "Horse"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 34,
+      "sourceNum": 34,
+      "question": "Philosophy is to Philosopher as physics is to?",
+      "options": [
+        "Physique",
+        "Physical",
+        "Psychologist",
+        "Physicist"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 35,
+      "sourceNum": 35,
+      "question": "Paper is to Book as bricks is to?",
+      "options": [
+        "Building",
+        "Cement",
+        "Ground",
+        "Mason"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 36,
+      "sourceNum": 36,
+      "question": "Mare is to Horse as bitch is to?",
+      "options": [
+        "Ox",
+        "Dog",
+        "Pig",
+        "Bear"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 37,
+      "sourceNum": 37,
+      "question": "Escort is to Visitor as guide is to?",
+      "options": [
+        "Film",
+        "Child",
+        "Tourist",
+        "Student"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 38,
+      "sourceNum": 38,
+      "question": "'N' is to 'P' as 'S' is to?",
+      "options": [
+        "U",
+        "T",
+        "V",
+        "R"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 39,
+      "sourceNum": 39,
+      "question": "Flower is to Butterfly as dirt is to?",
+      "options": [
+        "Mosquito",
+        "Fly",
+        "Bugs",
+        "Rat"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 40,
+      "sourceNum": 40,
+      "question": "President is related to Republic as king is related to?",
+      "options": [
+        "Democracy",
+        "Dictatorship",
+        "Monarchy",
+        "Anarchy"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 41,
+      "sourceNum": 41,
+      "question": "Hot is related to Steam as cold is related to?",
+      "options": [
+        "Snow",
+        "Ice",
+        "Weather",
+        "Ice-cream"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 42,
+      "sourceNum": 42,
+      "question": "Dog is to Bark as cat is to?",
+      "options": [
+        "Bray",
+        "Mice",
+        "Mew",
+        "Cry"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 43,
+      "sourceNum": 43,
+      "question": "Foot is to Walk as nose is to?",
+      "options": [
+        "Breath",
+        "Smell",
+        "Work",
+        "Taste"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 44,
+      "sourceNum": 44,
+      "question": "A bird is to Feather as cat is to?",
+      "options": [
+        "Fur",
+        "Paws",
+        "Ears",
+        "Hair"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 45,
+      "sourceNum": 45,
+      "question": "Fan is to Cool as heater is to?",
+      "options": [
+        "Heat",
+        "Warm",
+        "Electricity",
+        "Light"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 46,
+      "sourceNum": 46,
+      "question": "Man is to Walk as train is to?",
+      "options": [
+        "Run",
+        "Track",
+        "Move",
+        "Transport"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 47,
+      "sourceNum": 47,
+      "question": "Mountain is to Cold as plain is to?",
+      "options": [
+        "Summer",
+        "Winter",
+        "Water",
+        "Hot"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 48,
+      "sourceNum": 48,
+      "question": "Apple is to Banana as carrot is to?",
+      "options": [
+        "Radish",
+        "Peach",
+        "Bean",
+        "Date"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 49,
+      "sourceNum": 49,
+      "question": "Donkey is to Horse as dog is to?",
+      "options": [
+        "Snake",
+        "Parrot",
+        "Lizard",
+        "Cat"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 50,
+      "sourceNum": 50,
+      "question": "Lizard is to Frog as parrot is to?",
+      "options": [
+        "Duck",
+        "Dog",
+        "Dove",
+        "Fish"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 51,
+      "sourceNum": 51,
+      "question": "Bismarck is to Disraeli as Hastings is to?",
+      "options": [
+        "Clive",
+        "Washington",
+        "Jeffreys",
+        "Duplex"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 52,
+      "sourceNum": 52,
+      "question": "High is to Low as up is to?",
+      "options": [
+        "Above",
+        "Down",
+        "Below",
+        "Surface"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 53,
+      "sourceNum": 53,
+      "question": "Bulb is to Light as pen is to?",
+      "options": [
+        "Write",
+        "Pencil",
+        "Ink",
+        "Paper"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 54,
+      "sourceNum": 54,
+      "question": "Hot is to Cold as Ailment is to?",
+      "options": [
+        "Hard",
+        "Yielding",
+        "Shift",
+        "Dull"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 55,
+      "sourceNum": 55,
+      "question": "Lion is to Cage as man is to?",
+      "options": [
+        "Marriage",
+        "Jail",
+        "Women",
+        "Child"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 56,
+      "sourceNum": 56,
+      "question": "Accept is to Reject as work is to?",
+      "options": [
+        "Rest",
+        "Play",
+        "Eat",
+        "Sleep"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 57,
+      "sourceNum": 57,
+      "question": "God is to Immortal as man is to?",
+      "options": [
+        "Woman",
+        "Life",
+        "Mortal",
+        "Death"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 58,
+      "sourceNum": 58,
+      "question": "Nose is to Breathe as mouth is to?",
+      "options": [
+        "Water",
+        "Food",
+        "Eat",
+        "Drink"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 59,
+      "sourceNum": 59,
+      "question": "As food is to Eating as newspaper is to?",
+      "options": [
+        "Paper",
+        "Reading",
+        "Print",
+        "Sale"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 60,
+      "sourceNum": 60,
+      "question": "Hard work is to success as treatment is to?",
+      "options": [
+        "Medicine",
+        "Cure",
+        "Disease",
+        "Curb"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 61,
+      "sourceNum": 61,
+      "question": "Honey is to Bee as milk is to?",
+      "options": [
+        "White",
+        "Health",
+        "Cow",
+        "None of these"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 62,
+      "sourceNum": 62,
+      "question": "Needle is to Sew as Pen is to?",
+      "options": [
+        "Paper",
+        "Student",
+        "Pencil",
+        "Write"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 63,
+      "sourceNum": 63,
+      "question": "Much is to More as little is to?",
+      "options": [
+        "Low",
+        "Less",
+        "Below",
+        "Down"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 64,
+      "sourceNum": 64,
+      "question": "Fair is to Fare as Hair is to?",
+      "options": [
+        "Hair",
+        "Dare",
+        "Hare",
+        "Heir"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 65,
+      "sourceNum": 65,
+      "question": "Tac to cat as Tar is to?",
+      "options": [
+        "Rat",
+        "Tore",
+        "More",
+        "Roar"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 66,
+      "sourceNum": 66,
+      "question": "Admission is to Admit as blood is to?",
+      "options": [
+        "Bleeding",
+        "Bleed",
+        "Blood-thirsty",
+        "Blood-comes"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 67,
+      "sourceNum": 67,
+      "question": "Knife is to Cut as pencil is to?",
+      "options": [
+        "Write",
+        "Fall",
+        "Run",
+        "Paper"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 68,
+      "sourceNum": 68,
+      "question": "Paddy is to Kharif as wheat is to?",
+      "options": [
+        "Summer",
+        "Winter",
+        "Rainfall",
+        "Rabi"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 69,
+      "sourceNum": 69,
+      "question": "Snow is to Mountain as crown is to?",
+      "options": [
+        "Peacock",
+        "King",
+        "Man",
+        "Peak"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 70,
+      "sourceNum": 70,
+      "question": "Water is to Well as coal is to?",
+      "options": [
+        "Hill",
+        "Pit",
+        "Mine",
+        "Miner"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 71,
+      "sourceNum": 71,
+      "question": "Bird is to Aves as man is to?",
+      "options": [
+        "Lizards",
+        "Homo-sapien",
+        "Apes",
+        "Mammals"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 72,
+      "sourceNum": 72,
+      "question": "Architect is to Building as goldsmith is to?",
+      "options": [
+        "Gold",
+        "Silver",
+        "Jewellery",
+        "Iron"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 73,
+      "sourceNum": 73,
+      "question": "Palm is to Finger as Foot is to?",
+      "options": [
+        "Thumb",
+        "Toe",
+        "Leg",
+        "Pulse"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 74,
+      "sourceNum": 74,
+      "question": "Politicians are to Crafty as Voters are to?",
+      "options": [
+        "Gullible",
+        "Corruption",
+        "Credible",
+        "Victim"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 75,
+      "sourceNum": 75,
+      "question": "Under is to Below as Apex is to?",
+      "options": [
+        "Top",
+        "Middle",
+        "Above",
+        "high"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 76,
+      "sourceNum": 76,
+      "question": "Smoke is to Pollution as war is to?",
+      "options": [
+        "Defeat",
+        "Victory",
+        "Death",
+        "Army"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 77,
+      "sourceNum": 77,
+      "question": "Newspaper is to Editor as film is to?",
+      "options": [
+        "Actor",
+        "Director",
+        "Producer",
+        "Story writer"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 78,
+      "sourceNum": 78,
+      "question": "Cobbler is to Shoes as mason is to?",
+      "options": [
+        "Wall",
+        "Wood",
+        "Iron",
+        "Silver"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 79,
+      "sourceNum": 79,
+      "question": "Grapes is to Wine as wheat is to?",
+      "options": [
+        "Bread",
+        "Wheat",
+        "Flour",
+        "Grain"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 80,
+      "sourceNum": 80,
+      "question": "Meat is to Vegetarian as liquor is to?",
+      "options": [
+        "Introvert",
+        "Save",
+        "Teetotaller",
+        "Irrational"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    }
+  ]
+}

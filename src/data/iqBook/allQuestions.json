@@ -1,0 +1,3110 @@
+[
+  {
+    "id": 1,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "'Head' is to 'Cap' as 'finger' is to?",
+    "options": [
+      "Nail",
+      "Ring",
+      "Thumb",
+      "Helmet"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 2,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Drama is related to Director as magazine is to?",
+    "options": [
+      "Printer",
+      "Publisher",
+      "Editor",
+      "Reader"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 3,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Water is related to Dam as trade is to?",
+    "options": [
+      "Money",
+      "Commerce",
+      "Goods",
+      "Shipping"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 4,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Argument is related to Debate as fight is to?",
+    "options": [
+      "Contest",
+      "Quarrel",
+      "Friendship",
+      "Controversy"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 5,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "As bird is to Feather so is cat to?",
+    "options": [
+      "Paws",
+      "Fur",
+      "Feet",
+      "Hair"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 6,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Year is to Month as week is to?",
+    "options": [
+      "Day",
+      "Hours",
+      "Minutes",
+      "Fortnight"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 7,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "As food is to Growth so is knowledge to?",
+    "options": [
+      "Wealth",
+      "Peace",
+      "Wisdom",
+      "Happiness"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 8,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Handsome is to Beautiful as he is to?",
+    "options": [
+      "Lovely",
+      "Girl",
+      "Charming",
+      "She"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 9,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Success is related to Hard work as failure is to?",
+    "options": [
+      "Industry",
+      "Roaming",
+      "Laziness",
+      "Waste of time"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 10,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Poor is to Rich as pauper is to?",
+    "options": [
+      "Wealthy",
+      "Brave",
+      "Multi-millionaire",
+      "Soldier"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 11,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Gold is to Ornaments as wood is to?",
+    "options": [
+      "Chair",
+      "Table",
+      "Desks",
+      "Furniture"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 12,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Mule is to Pack as Ox is to?",
+    "options": [
+      "Yoke",
+      "Hoof",
+      "Neck",
+      "Horn"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 13,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Statue is to Shape as song is to?",
+    "options": [
+      "Words",
+      "Melody",
+      "Beauty",
+      "Tune"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 14,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Listen is to Hear as look is to?",
+    "options": [
+      "Watch",
+      "Observe",
+      "See",
+      "Notice"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 15,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Time is to Watch as pressure is to?",
+    "options": [
+      "Barometer",
+      "Thermometer",
+      "Lactometer",
+      "Hydrometer"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 16,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Coal is to Engine as wax is to?",
+    "options": [
+      "Lamp",
+      "Candle",
+      "Bulb",
+      "Thread"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 17,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Blindness is to Eye as deafness is to?",
+    "options": [
+      "Brain",
+      "Head",
+      "Ear",
+      "Nose"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 18,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Food is to Eat as water is to?",
+    "options": [
+      "Dirt",
+      "Drink",
+      "Fire",
+      "Wash"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 19,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Carpenter is to Wood as tailor is to?",
+    "options": [
+      "Ship",
+      "Shop",
+      "Cloth",
+      "Machine"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 20,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Road is to Car as sea is to?",
+    "options": [
+      "Cart",
+      "Cycle",
+      "Ship",
+      "Boat"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 21,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Limb is to Body as branch is to?",
+    "options": [
+      "Building",
+      "Tree",
+      "Garden",
+      "Grass"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 22,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "General is to Soldier as Admiral is to?",
+    "options": [
+      "Captain",
+      "Sailor",
+      "Master",
+      "Player"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 23,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Ice is to Melt as water is to?",
+    "options": [
+      "Dry",
+      "Wash",
+      "Evaporate",
+      "Flow"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 24,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Milk is to White as sky is to?",
+    "options": [
+      "Red",
+      "Green",
+      "Blue",
+      "Black"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 25,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Boot is to Foot as glove is to?",
+    "options": [
+      "Wool",
+      "Hand",
+      "Cotton",
+      "Cloth"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 26,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Cow is to Calf as mother is to?",
+    "options": [
+      "Sister",
+      "Son",
+      "Daughter",
+      "Husband"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 27,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Teacher is to Students as doctor is to?",
+    "options": [
+      "Patients",
+      "Medicine",
+      "Hospital",
+      "Drugs"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 28,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Rich is to Poor as healthy is to?",
+    "options": [
+      "Weight",
+      "Height",
+      "Sick",
+      "Stout"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 29,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Bird is to Nest as horse is to?",
+    "options": [
+      "Mare",
+      "Ride",
+      "Tanga",
+      "Stable"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 30,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Petal is to Flower as arm is to?",
+    "options": [
+      "Toe",
+      "Body",
+      "Skin",
+      "Hand"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 31,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Health is to Sickness as happiness is to?",
+    "options": [
+      "Sadness",
+      "Cheerfulness",
+      "Sweetness",
+      "Well-being"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 32,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Refrigerator is to Cool as oven is to?",
+    "options": [
+      "Bake",
+      "Heat",
+      "Warm",
+      "Cook"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 33,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Zoo is to Animals as aquarium is to?",
+    "options": [
+      "Bird",
+      "Animal",
+      "Fishes",
+      "Horse"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 34,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Philosophy is to Philosopher as physics is to?",
+    "options": [
+      "Physique",
+      "Physical",
+      "Psychologist",
+      "Physicist"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 35,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Paper is to Book as bricks is to?",
+    "options": [
+      "Building",
+      "Cement",
+      "Ground",
+      "Mason"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 36,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Mare is to Horse as bitch is to?",
+    "options": [
+      "Ox",
+      "Dog",
+      "Pig",
+      "Bear"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 37,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Escort is to Visitor as guide is to?",
+    "options": [
+      "Film",
+      "Child",
+      "Tourist",
+      "Student"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 38,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "'N' is to 'P' as 'S' is to?",
+    "options": [
+      "U",
+      "T",
+      "V",
+      "R"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 39,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Flower is to Butterfly as dirt is to?",
+    "options": [
+      "Mosquito",
+      "Fly",
+      "Bugs",
+      "Rat"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 40,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "President is related to Republic as king is related to?",
+    "options": [
+      "Democracy",
+      "Dictatorship",
+      "Monarchy",
+      "Anarchy"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 41,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Hot is related to Steam as cold is related to?",
+    "options": [
+      "Snow",
+      "Ice",
+      "Weather",
+      "Ice-cream"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 42,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Dog is to Bark as cat is to?",
+    "options": [
+      "Bray",
+      "Mice",
+      "Mew",
+      "Cry"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 43,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Foot is to Walk as nose is to?",
+    "options": [
+      "Breath",
+      "Smell",
+      "Work",
+      "Taste"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 44,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "A bird is to Feather as cat is to?",
+    "options": [
+      "Fur",
+      "Paws",
+      "Ears",
+      "Hair"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 45,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Fan is to Cool as heater is to?",
+    "options": [
+      "Heat",
+      "Warm",
+      "Electricity",
+      "Light"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 46,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Man is to Walk as train is to?",
+    "options": [
+      "Run",
+      "Track",
+      "Move",
+      "Transport"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 47,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Mountain is to Cold as plain is to?",
+    "options": [
+      "Summer",
+      "Winter",
+      "Water",
+      "Hot"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 48,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Apple is to Banana as carrot is to?",
+    "options": [
+      "Radish",
+      "Peach",
+      "Bean",
+      "Date"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 49,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Donkey is to Horse as dog is to?",
+    "options": [
+      "Snake",
+      "Parrot",
+      "Lizard",
+      "Cat"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 50,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Lizard is to Frog as parrot is to?",
+    "options": [
+      "Duck",
+      "Dog",
+      "Dove",
+      "Fish"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 51,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Bismarck is to Disraeli as Hastings is to?",
+    "options": [
+      "Clive",
+      "Washington",
+      "Jeffreys",
+      "Duplex"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 52,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "High is to Low as up is to?",
+    "options": [
+      "Above",
+      "Down",
+      "Below",
+      "Surface"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 53,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Bulb is to Light as pen is to?",
+    "options": [
+      "Write",
+      "Pencil",
+      "Ink",
+      "Paper"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 54,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Hot is to Cold as Ailment is to?",
+    "options": [
+      "Hard",
+      "Yielding",
+      "Shift",
+      "Dull"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 55,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Lion is to Cage as man is to?",
+    "options": [
+      "Marriage",
+      "Jail",
+      "Women",
+      "Child"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 56,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Accept is to Reject as work is to?",
+    "options": [
+      "Rest",
+      "Play",
+      "Eat",
+      "Sleep"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 57,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "God is to Immortal as man is to?",
+    "options": [
+      "Woman",
+      "Life",
+      "Mortal",
+      "Death"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 58,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Nose is to Breathe as mouth is to?",
+    "options": [
+      "Water",
+      "Food",
+      "Eat",
+      "Drink"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 59,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "As food is to Eating as newspaper is to?",
+    "options": [
+      "Paper",
+      "Reading",
+      "Print",
+      "Sale"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 60,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Hard work is to success as treatment is to?",
+    "options": [
+      "Medicine",
+      "Cure",
+      "Disease",
+      "Curb"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 61,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Honey is to Bee as milk is to?",
+    "options": [
+      "White",
+      "Health",
+      "Cow",
+      "None of these"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 62,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Needle is to Sew as Pen is to?",
+    "options": [
+      "Paper",
+      "Student",
+      "Pencil",
+      "Write"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 63,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Much is to More as little is to?",
+    "options": [
+      "Low",
+      "Less",
+      "Below",
+      "Down"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 64,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Fair is to Fare as Hair is to?",
+    "options": [
+      "Hair",
+      "Dare",
+      "Hare",
+      "Heir"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 65,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Tac to cat as Tar is to?",
+    "options": [
+      "Rat",
+      "Tore",
+      "More",
+      "Roar"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 66,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Admission is to Admit as blood is to?",
+    "options": [
+      "Bleeding",
+      "Bleed",
+      "Blood-thirsty",
+      "Blood-comes"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 67,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Knife is to Cut as pencil is to?",
+    "options": [
+      "Write",
+      "Fall",
+      "Run",
+      "Paper"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 68,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Paddy is to Kharif as wheat is to?",
+    "options": [
+      "Summer",
+      "Winter",
+      "Rainfall",
+      "Rabi"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 69,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Snow is to Mountain as crown is to?",
+    "options": [
+      "Peacock",
+      "King",
+      "Man",
+      "Peak"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 70,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Water is to Well as coal is to?",
+    "options": [
+      "Hill",
+      "Pit",
+      "Mine",
+      "Miner"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 71,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Bird is to Aves as man is to?",
+    "options": [
+      "Lizards",
+      "Homo-sapien",
+      "Apes",
+      "Mammals"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 72,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Architect is to Building as goldsmith is to?",
+    "options": [
+      "Gold",
+      "Silver",
+      "Jewellery",
+      "Iron"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 73,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Palm is to Finger as Foot is to?",
+    "options": [
+      "Thumb",
+      "Toe",
+      "Leg",
+      "Pulse"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 74,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Politicians are to Crafty as Voters are to?",
+    "options": [
+      "Gullible",
+      "Corruption",
+      "Credible",
+      "Victim"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 75,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Under is to Below as Apex is to?",
+    "options": [
+      "Top",
+      "Middle",
+      "Above",
+      "high"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 76,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Smoke is to Pollution as war is to?",
+    "options": [
+      "Defeat",
+      "Victory",
+      "Death",
+      "Army"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 77,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Newspaper is to Editor as film is to?",
+    "options": [
+      "Actor",
+      "Director",
+      "Producer",
+      "Story writer"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 78,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Cobbler is to Shoes as mason is to?",
+    "options": [
+      "Wall",
+      "Wood",
+      "Iron",
+      "Silver"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 79,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Grapes is to Wine as wheat is to?",
+    "options": [
+      "Bread",
+      "Wheat",
+      "Flour",
+      "Grain"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 80,
+    "category": "Analogy Test (Type 1)",
+    "chapterId": "ch-01",
+    "question": "Meat is to Vegetarian as liquor is to?",
+    "options": [
+      "Introvert",
+      "Save",
+      "Teetotaller",
+      "Irrational"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 81,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Bread : Cake as?",
+    "options": [
+      "Pot : Pan",
+      "Poverty : Riches",
+      "Wheat : Chaff",
+      "Shirt : Tie"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 82,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Lahore : Punjab as?",
+    "options": [
+      "Pakistan : Hyderabad",
+      "Chittagong : Bangladesh",
+      "Peshawar : Khyber Pakhtunkhwa",
+      "Karachi : Pakistan"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 83,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Blacksmith : Hammer as?",
+    "options": [
+      "Soldier : Gun",
+      "Merchant : Scales",
+      "Carpenter : Saw",
+      "Clerk : Files"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 84,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Barometer : Hydrometer as?",
+    "options": [
+      "Mercury : Water",
+      "Cloudy : Sunny",
+      "Pressure : Humidity",
+      "Rain : Snow"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 85,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Marriage : Celebrate as?",
+    "options": [
+      "Defeat : Failure",
+      "Punish : Lament",
+      "Gloom : Despair",
+      "Condone : Punishment"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 86,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "January : Winter as?",
+    "options": [
+      "June : Summer",
+      "Summer : June",
+      "Spring : September",
+      "February : Autumn"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 87,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Family : Child as?",
+    "options": [
+      "Pound : Dollar",
+      "Pond : Fish",
+      "Bunch : Flower",
+      "Herd : Calf"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 88,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Inexperience : Errors as?",
+    "options": [
+      "Carelessness : Losses",
+      "Question : Solution",
+      "Dispute : Settlement",
+      "Case : Judgement"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 89,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Problem : Hypothesis as?",
+    "options": [
+      "Blunder : Inattention",
+      "Condition : Prognosis",
+      "Frugality : Training",
+      "Failure : Defeat"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 90,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Restrict : Encourage as?",
+    "options": [
+      "Loss : Despair",
+      "Profit : Efforts",
+      "Close : Open",
+      "End : Finish"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 91,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Lawyer : Court as?",
+    "options": [
+      "Business : Market",
+      "Labourer : Factory",
+      "Athletic : Olympics",
+      "Cow : Herd"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 92,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Propensity : Tendency as?",
+    "options": [
+      "Prologue : Epilogue",
+      "Master : Slave",
+      "Conduct : Immorality",
+      "Audacity : Impudence"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 93,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Brain : Neurology as?",
+    "options": [
+      "Body : Physiology",
+      "Entomology : Plants",
+      "Biology : Animal",
+      "Botany : Plants"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 94,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Mundane : Common as?",
+    "options": [
+      "Car : Cycle",
+      "Ubiquitous : Omnipresent",
+      "Water : Oxygen",
+      "Fear : Misfortune"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 95,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Latitude : Longitude as?",
+    "options": [
+      "Equator : Tropic of Cancer",
+      "Fluctuate : Flout",
+      "Preamble : Postscript",
+      "Length : Breadth"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 96,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Dubious : Indisputable as?",
+    "options": [
+      "Slander : Libel",
+      "Avaricious : Generous",
+      "Perspicacious : Tenacity",
+      "Painful : Helpful"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 97,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Corpulent : Skinny as?",
+    "options": [
+      "Courage : Lion",
+      "Tea : Kettle",
+      "Copious : Insufficient",
+      "Genius : Intelligence"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 98,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Dire : Grim as?",
+    "options": [
+      "Talking : Gossips",
+      "Lead : Pencil",
+      "Punitive : Miniature",
+      "Diabolic : Wicked"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 99,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Rotate : Gyrate as?",
+    "options": [
+      "Purity : Reject",
+      "Accolade : Criticism",
+      "Move : Freewheel",
+      "Absolve : Exonerate"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 100,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Correspondence : Clerk as?",
+    "options": [
+      "Office : Manager",
+      "Record : Archivist",
+      "Secretary : Stenographer",
+      "Audit : Press"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 101,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Picture : Frame as?",
+    "options": [
+      "Book : Cover",
+      "Radio : Recording",
+      "Cup : Saucer",
+      "Table : Floor"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 102,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Bacteria : Illness as?",
+    "options": [
+      "Milk : Curd",
+      "Bomb : Explosion",
+      "Health : Illness",
+      "Medicine : Cure"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 103,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Room : House as?",
+    "options": [
+      "Chair : Table",
+      "Apartment : Building",
+      "Refrigerator : Kitchen",
+      "Road : City"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 104,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Projectile : Trajectory as?",
+    "options": [
+      "Bullet : Weapon",
+      "Trade : Tariff",
+      "Satellite : Orbit",
+      "Rejection : Tragedy"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 105,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Sorrow : Death as?",
+    "options": [
+      "Laugh : Cry",
+      "Fear : Night",
+      "Hate : Smell",
+      "Happiness : Birth"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 106,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Setting : Stone as?",
+    "options": [
+      "Pen : Writing",
+      "Picture : Frame",
+      "Socket : Bulb",
+      "Pendulum : Clock"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 107,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Caucasian : Saxon as?",
+    "options": [
+      "Carriage : Horse",
+      "City : Horse",
+      "Fear : Darkness",
+      "White : Coloured"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 108,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Debate : Soliloquy as?",
+    "options": [
+      "Telephone : Dial",
+      "Crowd : Mob",
+      "Elucidate : Explanation",
+      "Group : Hermit"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 109,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Tepid : Hot as?",
+    "options": [
+      "Topic : Tumble",
+      "Bing : Bang",
+      "Pat : Slap",
+      "Worm : Cold"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 110,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Mace : Majesty as?",
+    "options": [
+      "Book : Knowledge",
+      "Diploma : Knowledge",
+      "Police : Security",
+      "King : Queen"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 111,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Vixen : Scold as?",
+    "options": [
+      "Bee : Sting",
+      "Simple : Irritate",
+      "Army : Won",
+      "Watch : Draw"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 112,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Cloth : Texture as?",
+    "options": [
+      "Wool : Terylene",
+      "Wood : Grain",
+      "Linen : Flax",
+      "Paper : Book"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 113,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Forecast : Happening as?",
+    "options": [
+      "Elucidate : Explanation",
+      "Disaster : Foretell",
+      "Analyze : Problem",
+      "Prophecy : Miracle"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 114,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Family : Child as?",
+    "options": [
+      "Baby : Father",
+      "Bird : Flock",
+      "Husband : Wife",
+      "Octopus : Tentacle"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 115,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Future : Hereafter as?",
+    "options": [
+      "Recapitulation : Repetition",
+      "Present : Past",
+      "Tomorrow : Yesterday",
+      "Prognosis : Diagnosis"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 116,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Court : Justice as?",
+    "options": [
+      "Doctor : Hospital",
+      "Auditor : Accuracy",
+      "Police : Government",
+      "Boss : Executive"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 117,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Necklace : Adornment as?",
+    "options": [
+      "Window : House",
+      "Bronze : Medal",
+      "Medal : Decoration",
+      "Scarf : Dress"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 118,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "School : Discipline as?",
+    "options": [
+      "School : Discipline",
+      "Undertrial : Punishment",
+      "Marks : Examination",
+      "Society : Conformity"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 119,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Modesty : Arrogance as?",
+    "options": [
+      "Beauty : Honesty",
+      "Cause : Effect",
+      "Woman : Child",
+      "Debility : Strength"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 120,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Tadpole : Frog as?",
+    "options": [
+      "Caterpillar : Butterfly",
+      "Husband : Wife",
+      "Frog : Fish",
+      "Goose : Dog"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 121,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Cat : Feline as?",
+    "options": [
+      "Bird : Vulpine",
+      "Horse : Equine",
+      "Bird : Vulture",
+      "Rat : Rabbit"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 122,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Finger : Hand as?",
+    "options": [
+      "Medicine : Tablets",
+      "Apple : Cart",
+      "Toe : Foot",
+      "Street : House"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 123,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Adversity : Happiness as?",
+    "options": [
+      "Fear : Danger",
+      "Misfortune : Misery",
+      "Nature : Creator",
+      "Vehemence : Serenity"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 124,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Octave : Binding as?",
+    "options": [
+      "Pica : Printing",
+      "Rural : Farmer",
+      "Day : Week",
+      "Book : Binding"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 125,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Classic : Greece as?",
+    "options": [
+      "Empire : Roman",
+      "France : Italy",
+      "Colonialism : Pakistan",
+      "Orthodox : Priest"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 126,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Rusticity : Urbanity as?",
+    "options": [
+      "Silk : Wool",
+      "Caution : Caring",
+      "Television : Video",
+      "Rust : Steal"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 127,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Famine : Hunger as?",
+    "options": [
+      "Fall : stream",
+      "Pessimism : Disorder",
+      "Stupidity : Allurement",
+      "Compound : Element"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 128,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Fuel : Fire as?",
+    "options": [
+      "Cold : Heat",
+      "Food : Man",
+      "Fire : Forest",
+      "Wood : Tree"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 129,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Hare : Tortoise as?",
+    "options": [
+      "Truth : Lie",
+      "Thesis : Essay",
+      "Telegram : Letter",
+      "Number : Words"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 130,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Skeleton : Body as?",
+    "options": [
+      "Letter : Contents",
+      "Law : Society",
+      "Printer : Press",
+      "Jury : Law"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 131,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Ointment : Burn as?",
+    "options": [
+      "Bread : Butter",
+      "Grief : Happiness",
+      "Tear : Consolation",
+      "Consolation : Grief"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 132,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Fiber : Fabric as?",
+    "options": [
+      "Average : Aggregate",
+      "Appurtenance : Object",
+      "Member : League",
+      "Obstinacy : Deadlock"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 133,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Hourglass : Clock as?",
+    "options": [
+      "Catapult : Cannon",
+      "Temple : Church",
+      "Acorn : Oak",
+      "Church : Priest"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 134,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Lust : Sex as?",
+    "options": [
+      "Friend : Foe",
+      "Lamp : Light",
+      "Dark : Bright",
+      "Anger : Pugnacity"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 135,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Pup : Bitch as?",
+    "options": [
+      "Pen : Pencil",
+      "Kitten : Cat",
+      "Horse : Stable",
+      "Ink : Inkpot"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 136,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Sodium : Salt as?",
+    "options": [
+      "Room : House",
+      "Water : Wine",
+      "Calcium : Marble",
+      "Lime : Limestone"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 137,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Tree : Forest as?",
+    "options": [
+      "Daisy : Meadow",
+      "Grass : Lawn",
+      "Frog : Pond",
+      "Rose : Flower"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 138,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Possess : Loss as?",
+    "options": [
+      "Hesitate : Advance",
+      "Cease : Recur",
+      "Continue : Desist",
+      "Production : Supply"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 139,
+    "category": "Analogy Test (Type 2)",
+    "chapterId": "ch-02",
+    "question": "Apprentice : Mechanic as?",
+    "options": [
+      "Doctor : Intern",
+      "Painter : Artist",
+      "Novice : Nun",
+      "Layman : Artist"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 140,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Academy, University, College?",
+    "options": [
+      "They mean the same thing",
+      "They deal with education of the students",
+      "They are all institutions",
+      "They are common places of worships"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 141,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Monkey, Ape, Chimpanzee?",
+    "options": [
+      "They are herbivorous animals",
+      "They are vertebrates",
+      "They are primates",
+      "They all live on trees"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 142,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "House, Apartment, Bungalow?",
+    "options": [
+      "These are all made of bricks and mortar",
+      "They are found in cities",
+      "They are dwelling places",
+      "These are the names of residences"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 143,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Fingerprints, Investigation, Post-mortem?",
+    "options": [
+      "They are terms connected with medical science",
+      "They are in alphabetic order",
+      "They are technical terms generally used for detecting crimes",
+      "It is a process used by crime-branch"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 144,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Thallophyta, Bryophyta, Pteridophyta?",
+    "options": [
+      "This is a classification of flowerless plants",
+      "These are botanical terms",
+      "These are the names of flowers",
+      "These are terms used in Botany"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 145,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Reticule, Hand-bag, Valise?",
+    "options": [
+      "They are synonyms",
+      "They are used for carrying small personal belongings",
+      "They are used by women only",
+      "They are the part of modern life"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 146,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Petal, Stamens, Stigma?",
+    "options": [
+      "They are the part of a flower",
+      "They are the part of a plant",
+      "They are concerned with pollination of flower",
+      "They are different kinds of leaves"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 147,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Falsehood, Misrepresentation, Deception?",
+    "options": [
+      "They are synonyms",
+      "They are all ungentlemanly acts",
+      "They are the modern way of expression",
+      "They are mostly used during elections"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 148,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Goat, Cow, Buffalo?",
+    "options": [
+      "They are all animals",
+      "They are found all over the world",
+      "They all give milk",
+      "They all have red, brown colour"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 149,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Seminar, Symposium, Workshop?",
+    "options": [
+      "They are various types of conferences of specialists for discussion",
+      "These activities have the same purpose that of solving a problem",
+      "These are various methods in which people meet",
+      "These are various methods adopted for teaching a group"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 150,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Turnip, Knol-kohl, Cabbage?",
+    "options": [
+      "They are all botanical things",
+      "They are all flowers",
+      "They are all vegetables",
+      "They are all common weeds"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 151,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Carbohydrates, Proteins, Fats?",
+    "options": [
+      "They are compounds of carbon",
+      "They are essential ingredients of a good diet",
+      "They are complex compounds",
+      "They are found in plants"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 152,
+    "category": "Analogy Test (Type 3)",
+    "chapterId": "ch-03",
+    "question": "Glucose, Fructose, Sucrose?",
+    "options": [
+      "They are important sugars",
+      "They are found in animal tissues",
+      "They are organic compounds",
+      "They are synthesised from Carbon and Hydrogen"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 153,
+    "category": "Series Test",
+    "chapterId": "ch-04",
+    "question": "7, 20, 58, 171,?",
+    "options": [
+      "509",
+      "513",
+      "510",
+      "None of the above"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 154,
+    "category": "Series Test",
+    "chapterId": "ch-04",
+    "question": "A, B, D, G,?",
+    "options": [
+      "K",
+      "L",
+      "M",
+      "None of the above"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 155,
+    "category": "Series Test",
+    "chapterId": "ch-04",
+    "question": "A, E, I,?",
+    "options": [
+      "M",
+      "N",
+      "K",
+      "L"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 156,
+    "category": "Series Test",
+    "chapterId": "ch-04",
+    "question": "2, 5, 9, 19, 37,?",
+    "options": [
+      "55",
+      "63",
+      "73",
+      "75"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 157,
+    "category": "Series Test",
+    "chapterId": "ch-04",
+    "question": "3, 5, 6, 10, 9, 15, 12,?",
+    "options": [
+      "16",
+      "18",
+      "20",
+      "24"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 158,
+    "category": "Series Test",
+    "chapterId": "ch-04",
+    "question": "58, 47, 36, 25, ?",
+    "options": [
+      "14",
+      "16",
+      "13",
+      "11"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 159,
+    "category": "Series Test",
+    "chapterId": "ch-04",
+    "question": "AZBBZCCCZDDD ?",
+    "options": [
+      "Z",
+      "E",
+      "D",
+      "F"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 160,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'COYKEH' (An outdoor Game)?",
+    "options": [
+      "MADRID",
+      "BERLIN",
+      "ROME",
+      "HOCKEY"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 161,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'DADRIM' (A city of Europe)?",
+    "options": [
+      "BERLIN",
+      "ROME",
+      "MADRID",
+      "HOCKEY"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 162,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'INLREB' (A city in Europe)?",
+    "options": [
+      "ROME",
+      "BERLIN",
+      "HOCKEY",
+      "MADRID"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 163,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'EORM' (A city in Europe)?",
+    "options": [
+      "ROME",
+      "HOCKEY",
+      "MADRID",
+      "BERLIN"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 164,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'TETLOB' (A type of container)?",
+    "options": [
+      "HOCKEY",
+      "MADRID",
+      "BERLIN",
+      "BOTTLE"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 165,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'GRENOA' (A name of Fruit)?",
+    "options": [
+      "MADRID",
+      "BERLIN",
+      "ORANGE",
+      "HOCKEY"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 166,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'BIRBAT' (A kind of Animal)?",
+    "options": [
+      "BERLIN",
+      "RABBIT",
+      "HOCKEY",
+      "MADRID"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 167,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'PEOPIG' (A kind of Bird)?",
+    "options": [
+      "PIGEON",
+      "HOCKEY",
+      "MADRID",
+      "BERLIN"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 168,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'HLAWE' (A kind of Fish)?",
+    "options": [
+      "HOCKEY",
+      "MADRID",
+      "BERLIN",
+      "WHALE"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 169,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'LTEVCROH' (A make of Car)?",
+    "options": [
+      "APRICOT",
+      "DRAWING",
+      "CHEVROLET",
+      "GLADSTONE"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 170,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'LDAGTESON' (Name of a Statesman)?",
+    "options": [
+      "DRAWING",
+      "GLADSTONE",
+      "CHEVROLET",
+      "APRICOT"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 171,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'CTORPAI' (A name of Fruit)?",
+    "options": [
+      "APRICOT",
+      "HOCKEY",
+      "MADRID",
+      "BERLIN"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 172,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'WINDRGA' (An Art)?",
+    "options": [
+      "HOCKEY",
+      "MADRID",
+      "BERLIN",
+      "DRAWING"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 173,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'EFLI' (A Good)?",
+    "options": [
+      "MADRID",
+      "BERLIN",
+      "FILE",
+      "HOCKEY"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 174,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'ECPRCTAI' (A Verb)?",
+    "options": [
+      "BERLIN",
+      "PRACTICE",
+      "HOCKEY",
+      "MADRID"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 175,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'ETATMESTN' (Concerns with Witness)?",
+    "options": [
+      "STATEMENT",
+      "CHEVROLET",
+      "GLADSTONE",
+      "APRICOT"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 176,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'VERPOT' (Status)?",
+    "options": [
+      "HOCKEY",
+      "MADRID",
+      "BERLIN",
+      "POVERTY"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 177,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'GULGEAG' (Tour)?",
+    "options": [
+      "MADRID",
+      "BERLIN",
+      "LUGGAGE",
+      "HOCKEY"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 178,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'RNTAI' (Means of Transport)?",
+    "options": [
+      "BERLIN",
+      "TRAIN",
+      "HOCKEY",
+      "MADRID"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 179,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'DWINOW' (A Fixture in House)?",
+    "options": [
+      "WINDOW",
+      "HOCKEY",
+      "MADRID",
+      "BERLIN"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 180,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'RMA'?",
+    "options": [
+      "ROME",
+      "WHALE",
+      "FILE",
+      "ARM"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 181,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'NIFD'?",
+    "options": [
+      "MADRID",
+      "BERLIN",
+      "FIND",
+      "HOCKEY"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 182,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'TGE'?",
+    "options": [
+      "FILE",
+      "GET",
+      "ROME",
+      "WHALE"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 183,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'UTP'?",
+    "options": [
+      "PUT",
+      "ROME",
+      "WHALE",
+      "FILE"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 184,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'ILHED'?",
+    "options": [
+      "HOCKEY",
+      "MADRID",
+      "BERLIN",
+      "KARACHI"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 185,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'SKED'?",
+    "options": [
+      "MADRID",
+      "BERLIN",
+      "DESK",
+      "HOCKEY"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 186,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'NPOOS'?",
+    "options": [
+      "BERLIN",
+      "SPOON",
+      "HOCKEY",
+      "MADRID"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 187,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'PLEPA'?",
+    "options": [
+      "APPLE",
+      "HOCKEY",
+      "MADRID",
+      "BERLIN"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 188,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'TIFLUEABD'?",
+    "options": [
+      "CHEVROLET",
+      "GLADSTONE",
+      "APRICOT",
+      "BEAUTIFUL"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 189,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'WLUNCKO'?",
+    "options": [
+      "MADRID",
+      "BERLIN",
+      "LUCKNOW",
+      "HOCKEY"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 190,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'VENRGOENMT'?",
+    "options": [
+      "PRACTICE",
+      "GOVERNMENT",
+      "CHEVROLET",
+      "GLADSTONE"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 191,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'EIGHTH'?",
+    "options": [
+      "HEIGHT",
+      "HOCKEY",
+      "MADRID",
+      "BERLIN"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 192,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "Unscramble 'LESPCSETAC'?",
+    "options": [
+      "CHEVROLET",
+      "GLADSTONE",
+      "PRACTICE",
+      "SPECTACLES"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 193,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "YNERGAM (Name of a Country)?",
+    "options": [
+      "E",
+      "R",
+      "Y",
+      "A"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 194,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "SUNIGLES (Concerns with Face)?",
+    "options": [
+      "U",
+      "S",
+      "I",
+      "E"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 195,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "YALAIMHA (Name of a Mountain)?",
+    "options": [
+      "Y",
+      "L",
+      "A",
+      "I"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 196,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "ENCOUANNENMT (Proclamation)?",
+    "options": [
+      "E",
+      "T",
+      "A",
+      "M"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 197,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "PETYREWRIT (Helps in writing various pages together)?",
+    "options": [
+      "P",
+      "T",
+      "R",
+      "E"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 198,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "YCRCDMEO (A type of System)?",
+    "options": [
+      "A",
+      "Y",
+      "O",
+      "C"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 199,
+    "category": "Jumbled Spelling Test",
+    "chapterId": "ch-05",
+    "question": "LIVETENTAN (A Cadre in Army)?",
+    "options": [
+      "T",
+      "E",
+      "I",
+      "N"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 200,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If GOLFER is coded as HNMEFQ, then HUNGER will coded as?",
+    "options": [
+      "ITOFFQ",
+      "IVOHFS",
+      "ITODFQ",
+      "TIDOQF"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 201,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If GOLFER is coded as TLOUVI, then POWER will be coded as?",
+    "options": [
+      "MNEVI",
+      "FGHVI",
+      "CLOVI",
+      "KLDVI"
+    ],
+    "answer": "D",
+    "answerVerified": true
+  },
+  {
+    "id": 202,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If GOLFER is coded as EOJFCR, then STUCK will be coded as?",
+    "options": [
+      "UTCWM",
+      "UTWCM",
+      "QTSCI",
+      "QTCIS"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 203,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If GOLFER is coded as IRPKKY, decode of HRVHK will be?",
+    "options": [
+      "FORTS",
+      "FORCE",
+      "FIRST",
+      "FEWER"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 204,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If HIGHLIGHT is coded as GJFKIJFIS, then LIMELIGHT will be coded as?",
+    "options": [
+      "KJKLKJFIS",
+      "KLJFKJFIS",
+      "KJLFKJFIS",
+      "JKFLKJFIS"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 205,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If Selfless is coded as SSELFLES, then BROKER written in that code as?",
+    "options": [
+      "KERBRO",
+      "REBROK",
+      "RBROKE",
+      "ERBKOR"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 206,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If PEKING is coded as ODJHME, the code for SIDNEY is?",
+    "options": [
+      "RHCMDX",
+      "DINSEY",
+      "NIDSEY",
+      "YENCIS"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 207,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If RETREAT is coded as TGVTGCV, the decoded for CFXCPEG stands for?",
+    "options": [
+      "ADMARCH",
+      "ADVANCE",
+      "ATTARAT",
+      "BATAPUR"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 208,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If FOUR is coded as 1234, FIVE is coded as 1567 and TEN is coded as 879. Then FURNITURE can be coded as?",
+    "options": [
+      "134958347",
+      "125849437",
+      "124557893",
+      "124958347"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 209,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If LACE is coded as 6543, DEEP is coded as 2338. Encode PALACE?",
+    "options": [
+      "586453",
+      "685534",
+      "856543",
+      "384556"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 210,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If RANGER is coded as REGNER, then TABLE will be coded as?",
+    "options": [
+      "TABLE",
+      "ELBAT",
+      "TELBET",
+      "TELBA"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 211,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If LIFE is coded as IFCB, then how will you code MERIT?",
+    "options": [
+      "JBQFR",
+      "JBOFR",
+      "JBOFQ",
+      "KBQFR"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 212,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If HIGHLIGHT is coded as GJFIKJFIS, then how will you code LIMELIGHT?",
+    "options": [
+      "KJFLKJFIS",
+      "KLJFKJSIS",
+      "KJLFKJFIS",
+      "JKELKJFIS"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 213,
+    "category": "Coding and Decoding Test",
+    "chapterId": "ch-06",
+    "question": "If ADOLESCENT is coded as 3517298246, then 398246 is decoded as?",
+    "options": [
+      "ASCENT",
+      "ASTENT",
+      "ABSENT",
+      "ABODEE"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 214,
+    "category": "Alphabetical Test",
+    "chapterId": "ch-07",
+    "question": "ASRQRPRQNRNQSRQRQS How many Q's are preceded by and succeeded by R?",
+    "options": [
+      "One",
+      "Two",
+      "Three",
+      "Four"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 215,
+    "category": "Alphabetical Test",
+    "chapterId": "ch-07",
+    "question": "Point out the fourth consonant after third vowel in the alphabets?",
+    "options": [
+      "M",
+      "N",
+      "L",
+      "K"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 216,
+    "category": "Alphabetical Test",
+    "chapterId": "ch-07",
+    "question": "Which letter is seven letters ahead of the letter which follows fourth letter from the right?",
+    "options": [
+      "J",
+      "O",
+      "N",
+      "H"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 217,
+    "category": "Alphabetical Test",
+    "chapterId": "ch-07",
+    "question": "Which letter is in the middle of the two letters—one is second from 'J' in the right side and the other is third from 'Q' in the left side?",
+    "options": [
+      "M",
+      "L",
+      "N",
+      "E"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 218,
+    "category": "Alphabetical Test",
+    "chapterId": "ch-07",
+    "question": "Which letter is three letters ahead of the letter which follows 'A' and precedes 'C'?",
+    "options": [
+      "E",
+      "D",
+      "F",
+      "G"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 219,
+    "category": "Alphabetical Test",
+    "chapterId": "ch-07",
+    "question": "Which letter precedes the letter which is 13th from D?",
+    "options": [
+      "P",
+      "R",
+      "Q",
+      "S"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  },
+  {
+    "id": 220,
+    "category": "Alphabetical Test",
+    "chapterId": "ch-07",
+    "question": "The total number of letters in between the two pairs of vowel 'EO' and 'OQ' are?",
+    "options": [
+      "9",
+      "12",
+      "10",
+      "11"
+    ],
+    "answer": "C",
+    "answerVerified": true
+  },
+  {
+    "id": 221,
+    "category": "Alphabetical Test",
+    "chapterId": "ch-07",
+    "question": "Find the letter which is as far behind N in the alphabet as first E is behind the second S in the word. EXCOMMUNICATE?",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "Z"
+    ],
+    "answer": "B",
+    "answerVerified": true
+  },
+  {
+    "id": 222,
+    "category": "Alphabetical Test",
+    "chapterId": "ch-07",
+    "question": "Find the letter which is as far ahead of M in the alphabet as the first O is behind the second E in the word. LABORIOUS?",
+    "options": [
+      "R",
+      "H",
+      "Q",
+      "O"
+    ],
+    "answer": "A",
+    "answerVerified": true
+  }
+]

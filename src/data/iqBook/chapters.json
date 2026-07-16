@@ -1,0 +1,92 @@
+{
+  "bookTitle": "IQ Practice Tests",
+  "source": "Dogar_IQ_Verbal_Part.docx",
+  "chapterCount": 7,
+  "totalQuestions": 222,
+  "chapters": [
+    {
+      "id": "ch-01",
+      "title": "Analogy Test (Type 1)",
+      "slug": "analogy-type-1",
+      "blurb": "Word relationships and verbal analogies.",
+      "accent": "amber",
+      "questionCount": 80,
+      "verifiedCount": 80,
+      "figureBased": false,
+      "keysOnly": false,
+      "file": "ch-01.json"
+    },
+    {
+      "id": "ch-02",
+      "title": "Analogy Test (Type 2)",
+      "slug": "analogy-type-2",
+      "blurb": "Paired analogies across purpose, cause, class, and more.",
+      "accent": "orange",
+      "questionCount": 59,
+      "verifiedCount": 59,
+      "figureBased": false,
+      "keysOnly": false,
+      "file": "ch-02.json"
+    },
+    {
+      "id": "ch-03",
+      "title": "Analogy Test (Type 3)",
+      "slug": "analogy-type-3",
+      "blurb": "Find what is common across a set of terms.",
+      "accent": "rose",
+      "questionCount": 13,
+      "verifiedCount": 13,
+      "figureBased": false,
+      "keysOnly": false,
+      "file": "ch-03.json"
+    },
+    {
+      "id": "ch-04",
+      "title": "Series Test",
+      "slug": "series-test",
+      "blurb": "Number and letter series completion.",
+      "accent": "sky",
+      "questionCount": 7,
+      "verifiedCount": 7,
+      "figureBased": false,
+      "keysOnly": false,
+      "file": "ch-04.json"
+    },
+    {
+      "id": "ch-05",
+      "title": "Jumbled Spelling Test",
+      "slug": "jumbled-spelling",
+      "blurb": "Unscramble letters into meaningful words.",
+      "accent": "teal",
+      "questionCount": 40,
+      "verifiedCount": 40,
+      "figureBased": false,
+      "keysOnly": false,
+      "file": "ch-05.json"
+    },
+    {
+      "id": "ch-06",
+      "title": "Coding and Decoding Test",
+      "slug": "coding-decoding",
+      "blurb": "Letter and word coding patterns.",
+      "accent": "emerald",
+      "questionCount": 14,
+      "verifiedCount": 14,
+      "figureBased": false,
+      "keysOnly": false,
+      "file": "ch-06.json"
+    },
+    {
+      "id": "ch-07",
+      "title": "Alphabetical Test",
+      "slug": "alphabetical-test",
+      "blurb": "Letter positions, order, and alphabet reasoning.",
+      "accent": "violet",
+      "questionCount": 9,
+      "verifiedCount": 9,
+      "figureBased": false,
+      "keysOnly": false,
+      "file": "ch-07.json"
+    }
+  ]
+}

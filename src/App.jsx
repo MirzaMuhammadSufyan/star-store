@@ -21,6 +21,7 @@ const LegalPage         = lazy(() => import('./pages/LegalPage'));
 const RedirectPage      = lazy(() => import('./pages/RedirectPage'));
 const AdminLogin        = lazy(() => import('./pages/AdminLogin'));
 const GiftFinder        = lazy(() => import('./pages/GiftFinder'));
+const IQTestPage        = lazy(() => import('./pages/IQTestPage'));
 
 // Catches "Failed to fetch dynamically imported module" errors (stale deploy / network blip)
 // and reloads the page once to fetch the fresh chunk.
@@ -99,6 +100,9 @@ const StripTrailingSlash = () => {
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+  // Keep exam fullscreen transitions calm (no outer page slide)
+  const isExamShell = /^\/iq-test\/[^/]+\/(take|results)$/.test(location.pathname);
+
   return (
     <>
     <ScrollToTop />
@@ -106,11 +110,12 @@ const AnimatedRoutes = () => {
     {/* initial={false} + sync: avoids blank main on hard refresh when auth/lazy remounts */}
     <AnimatePresence mode="sync" initial={false}>
       <motion.div
-        key={location.pathname}
-        initial={{ opacity: 0, y: 8 }}
+        key={isExamShell ? 'iq-exam' : location.pathname}
+        initial={isExamShell ? false : { opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0 }}
+        exit={isExamShell ? undefined : { opacity: 0 }}
         transition={{ duration: 0.2 }}
+        className={isExamShell ? 'h-full' : undefined}
       >
         <Routes location={location}>
           <Route path="/"               element={<HomePage />} />
@@ -123,6 +128,10 @@ const AnimatedRoutes = () => {
           <Route path="/about"          element={<AboutPage />} />
           <Route path="/contact"        element={<ContactPage />} />
           <Route path="/gift-finder"    element={<GiftFinder />} />
+          <Route path="/iq-test"            element={<IQTestPage />} />
+          <Route path="/iq-test/:slug"      element={<IQTestPage />} />
+          <Route path="/iq-test/:slug/take" element={<IQTestPage />} />
+          <Route path="/iq-test/:slug/results" element={<IQTestPage />} />
           <Route path="/legal/:type"    element={<LegalPage />} />
           <Route path="/privacy-policy"       element={<Navigate to="/legal/privacy" replace />} />
           <Route path="/terms-of-service"     element={<Navigate to="/legal/terms" replace />} />
@@ -146,26 +155,53 @@ const AnimatedRoutes = () => {
   );
 };
 
+function AppLayout({ favOpen, setFavOpen }) {
+  const { pathname } = useLocation();
+  const isExamMode = /^\/iq-test\/[^/]+\/(take|results)$/.test(pathname);
+
+  useEffect(() => {
+    document.body.style.overflow = isExamMode ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isExamMode]);
+
+  if (isExamMode) {
+    return (
+      <div className="h-dvh max-h-dvh overflow-hidden bg-canvas flex flex-col">
+        <ChunkErrorBoundary>
+          <Suspense fallback={<div className="flex-1 flex items-center justify-center"><div className="w-7 h-7 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" /></div>}>
+            <AnimatedRoutes />
+          </Suspense>
+        </ChunkErrorBoundary>
+        <ConsentGatedScripts />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-canvas flex flex-col">
+      <Navbar onFavOpen={() => setFavOpen(true)} />
+      <FavouritesDrawer open={favOpen} onClose={() => setFavOpen(false)} />
+      <main className="flex-grow pt-[4.5rem]">
+        <ChunkErrorBoundary>
+          <Suspense fallback={<div className="flex items-center justify-center h-[60vh]"><div className="w-7 h-7 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" /></div>}>
+            <AnimatedRoutes />
+          </Suspense>
+        </ChunkErrorBoundary>
+      </main>
+      <Footer />
+      <BackToTop />
+      <CookieConsent />
+      <ConsentGatedScripts />
+    </div>
+  );
+}
+
 function App() {
   const [favOpen, setFavOpen] = useState(false);
 
   return (
     <Router>
-      <div className="min-h-screen bg-canvas flex flex-col">
-        <Navbar onFavOpen={() => setFavOpen(true)} />
-        <FavouritesDrawer open={favOpen} onClose={() => setFavOpen(false)} />
-        <main className="flex-grow pt-[4.5rem]">
-          <ChunkErrorBoundary>
-            <Suspense fallback={<div className="flex items-center justify-center h-[60vh]"><div className="w-7 h-7 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" /></div>}>
-              <AnimatedRoutes />
-            </Suspense>
-          </ChunkErrorBoundary>
-        </main>
-        <Footer />
-        <BackToTop />
-        <CookieConsent />
-        <ConsentGatedScripts />
-      </div>
+      <AppLayout favOpen={favOpen} setFavOpen={setFavOpen} />
     </Router>
   );
 }

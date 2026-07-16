@@ -38,6 +38,7 @@ const Navbar = ({ onFavOpen }) => {
     { label: 'Home',    path: '/' },
     { label: 'Shop',    path: '/catalog' },
     { label: 'Journal', path: '/blog' },
+    { label: 'IQ Test', path: '/iq-test' },
     { label: 'About',   path: '/about' },
     { label: 'Contact', path: '/contact' },
   ];

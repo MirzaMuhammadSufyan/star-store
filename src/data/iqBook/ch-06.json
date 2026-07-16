@@ -1,0 +1,233 @@
+{
+  "id": "ch-06",
+  "title": "Coding and Decoding Test",
+  "slug": "coding-decoding",
+  "blurb": "Letter and word coding patterns.",
+  "accent": "emerald",
+  "theory": {
+    "intro": "This test is used in conveying the secret message etc. In this test, messages are conveyed in coded words and later on they are to be decoded in order to get some meaning. The coded values are given according to some set pattern or principle. The patterns are of different types. It is the common sense of the students to know the pattern. Some patterns are given below:",
+    "sections": [
+      {
+        "title": "Coding patterns",
+        "paragraphs": [
+          "EFMIJ = DELHI",
+          "MPOEPO = LONDON",
+          "NPTDPX = MOSCOW",
+          "Thus, coded word NPTDPX stands for MOSCOW.",
+          "ADVANCE",
+          "NEUTRAL",
+          "In the above case, A stands for N, D stands for E, U stands for V. Thus, E C A D stands for",
+          "E = L",
+          "C = A",
+          "A = T or N",
+          "D = E",
+          "Thus, ECAD stands for L A T E or LANE as the appropriate case may be.",
+          "A D O L E S C E N T",
+          "3 5 1 7 2 9 8 2 4 6",
+          "5177 = DOLL",
+          "398246 = ASCENT"
+        ],
+        "examples": [
+          {
+            "stem": "If EFMIJ stands for DELHI and MPOEPO stands for LONDON, what does NPTDPX stand for?",
+            "options": [],
+            "hint": "",
+            "explanation": "In the above example, each coded word stands for the previous word.",
+            "answer": ""
+          },
+          {
+            "stem": "If ADVANCE in code form stands for NEUTRAL. What will ECAD stand for?",
+            "options": [],
+            "hint": "",
+            "explanation": "Expressing the coded and decoded word as",
+            "answer": ""
+          }
+        ]
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": 200,
+      "sourceNum": 1,
+      "question": "If GOLFER is coded as HNMEFQ, then HUNGER will coded as?",
+      "options": [
+        "ITOFFQ",
+        "IVOHFS",
+        "ITODFQ",
+        "TIDOQF"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 201,
+      "sourceNum": 2,
+      "question": "If GOLFER is coded as TLOUVI, then POWER will be coded as?",
+      "options": [
+        "MNEVI",
+        "FGHVI",
+        "CLOVI",
+        "KLDVI"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 202,
+      "sourceNum": 3,
+      "question": "If GOLFER is coded as EOJFCR, then STUCK will be coded as?",
+      "options": [
+        "UTCWM",
+        "UTWCM",
+        "QTSCI",
+        "QTCIS"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 203,
+      "sourceNum": 4,
+      "question": "If GOLFER is coded as IRPKKY, decode of HRVHK will be?",
+      "options": [
+        "FORTS",
+        "FORCE",
+        "FIRST",
+        "FEWER"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 204,
+      "sourceNum": 5,
+      "question": "If HIGHLIGHT is coded as GJFKIJFIS, then LIMELIGHT will be coded as?",
+      "options": [
+        "KJKLKJFIS",
+        "KLJFKJFIS",
+        "KJLFKJFIS",
+        "JKFLKJFIS"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 205,
+      "sourceNum": 6,
+      "question": "If Selfless is coded as SSELFLES, then BROKER written in that code as?",
+      "options": [
+        "KERBRO",
+        "REBROK",
+        "RBROKE",
+        "ERBKOR"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 206,
+      "sourceNum": 7,
+      "question": "If PEKING is coded as ODJHME, the code for SIDNEY is?",
+      "options": [
+        "RHCMDX",
+        "DINSEY",
+        "NIDSEY",
+        "YENCIS"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 207,
+      "sourceNum": 8,
+      "question": "If RETREAT is coded as TGVTGCV, the decoded for CFXCPEG stands for?",
+      "options": [
+        "ADMARCH",
+        "ADVANCE",
+        "ATTARAT",
+        "BATAPUR"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 208,
+      "sourceNum": 10,
+      "question": "If FOUR is coded as 1234, FIVE is coded as 1567 and TEN is coded as 879. Then FURNITURE can be coded as?",
+      "options": [
+        "134958347",
+        "125849437",
+        "124557893",
+        "124958347"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 209,
+      "sourceNum": 11,
+      "question": "If LACE is coded as 6543, DEEP is coded as 2338. Encode PALACE?",
+      "options": [
+        "586453",
+        "685534",
+        "856543",
+        "384556"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 210,
+      "sourceNum": 12,
+      "question": "If RANGER is coded as REGNER, then TABLE will be coded as?",
+      "options": [
+        "TABLE",
+        "ELBAT",
+        "TELBET",
+        "TELBA"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 211,
+      "sourceNum": 13,
+      "question": "If LIFE is coded as IFCB, then how will you code MERIT?",
+      "options": [
+        "JBQFR",
+        "JBOFR",
+        "JBOFQ",
+        "KBQFR"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 212,
+      "sourceNum": 14,
+      "question": "If HIGHLIGHT is coded as GJFIKJFIS, then how will you code LIMELIGHT?",
+      "options": [
+        "KJFLKJFIS",
+        "KLJFKJSIS",
+        "KJLFKJFIS",
+        "JKELKJFIS"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 213,
+      "sourceNum": 15,
+      "question": "If ADOLESCENT is coded as 3517298246, then 398246 is decoded as?",
+      "options": [
+        "ASCENT",
+        "ASTENT",
+        "ABSENT",
+        "ABODEE"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    }
+  ]
+}

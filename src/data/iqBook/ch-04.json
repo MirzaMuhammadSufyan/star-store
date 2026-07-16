@@ -1,0 +1,132 @@
+{
+  "id": "ch-04",
+  "title": "Series Test",
+  "slug": "series-test",
+  "blurb": "Number and letter series completion.",
+  "accent": "sky",
+  "theory": {
+    "intro": "In this type, a number of digits, letter or symbol etc. are given which follow a particular sequence or order and after that some blank spaces are left. The examinee has to fill up those blanks, either by inserting the appropriate digit, letter or symbol himself or choosing from the given in the question itself.",
+    "sections": [
+      {
+        "title": "Worked examples",
+        "paragraphs": [
+          "10, 4, 12, 4, 14, 4, 16, 4, 18, 4, ..., ...",
+          "(Ans. 20, 4).",
+          "D, F, H, J, L, ..., ...",
+          "(Ans. N. P.)",
+          "2, 7, 14, 23, 34, 47, 62, ..., ...",
+          "Ans. 79 and 98."
+        ],
+        "examples": [
+          {
+            "stem": "Fill in the blank with an appropriate digits?",
+            "options": [],
+            "hint": "",
+            "explanation": "In the above series, 1st and the alternate items are increasing by two whereas the second item and subsequently alternate items are constant. Thus, the missing items can be 20, 4.",
+            "answer": ""
+          },
+          {
+            "stem": "Continue the series?",
+            "options": [],
+            "hint": "",
+            "explanation": "Alphabetical letters are used in the series in order behaving an alternate item. Thus, the next letters are N. P.",
+            "answer": ""
+          }
+        ]
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": 153,
+      "sourceNum": 1,
+      "question": "7, 20, 58, 171,?",
+      "options": [
+        "509",
+        "513",
+        "510",
+        "None of the above"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 154,
+      "sourceNum": 2,
+      "question": "A, B, D, G,?",
+      "options": [
+        "K",
+        "L",
+        "M",
+        "None of the above"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 155,
+      "sourceNum": 3,
+      "question": "A, E, I,?",
+      "options": [
+        "M",
+        "N",
+        "K",
+        "L"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 156,
+      "sourceNum": 4,
+      "question": "2, 5, 9, 19, 37,?",
+      "options": [
+        "55",
+        "63",
+        "73",
+        "75"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 157,
+      "sourceNum": 5,
+      "question": "3, 5, 6, 10, 9, 15, 12,?",
+      "options": [
+        "16",
+        "18",
+        "20",
+        "24"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 158,
+      "sourceNum": 6,
+      "question": "58, 47, 36, 25, ?",
+      "options": [
+        "14",
+        "16",
+        "13",
+        "11"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 159,
+      "sourceNum": 7,
+      "question": "AZBBZCCCZDDD ?",
+      "options": [
+        "Z",
+        "E",
+        "D",
+        "F"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    }
+  ]
+}

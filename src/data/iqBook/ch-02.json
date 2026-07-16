@@ -1,0 +1,925 @@
+{
+  "id": "ch-02",
+  "title": "Analogy Test (Type 2)",
+  "slug": "analogy-type-2",
+  "blurb": "Paired analogies across purpose, cause, class, and more.",
+  "accent": "orange",
+  "theory": {
+    "intro": "In this type of relationship, two words are given, which show relationship with one another, and other various alternatives will be given, the examinee has to choose the most appropriate other related two words. These relationships can be analyzed under different conditions, degrees, meanings, etc. Some of them are expressed as below:",
+    "sections": [
+      {
+        "title": "(A) Purpose relationship",
+        "paragraphs": [
+          "When two items or words have purpose with another, the analogy is said to be purposely related. e.g.,",
+          "Glove : Ball as",
+          "(a) Hook and Fish    (b) Weather and Winter    (c) Place and Home    (d) Stadium and Seats",
+          "In the above example, there exists a relationship of Glove and Ball. The purpose of glove is to help in catching the ball. A similar purpose relationship exists in Hook and Fish. The purpose of hook is to catch the fish. Thus, answer (a) is correct."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(B) Cause and effect relationship",
+        "paragraphs": [
+          "When two words are related in such a manner that one is the effect of another, it is said to be cause and effect relationship. For example:",
+          "Race : Fatigue as",
+          "(a) Art : Bug    (b) Smoking : Disease    (c) French : Athlete    (d) Running : Walking",
+          "In the above example, race is the cause whereas the effect is fatigue. Similar relationship exists between smoking and disease. So, answer (b) is correct."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(C) Class and constituent relationship",
+        "paragraphs": [
+          "When out of the two words expressing some sort of relationship and one word represents class and the other is constituent of the class, the relationship is said to be class-constituent relationship. For example:",
+          "Snake : Reptile as",
+          "(a) Patch : Thread    (b) Removal : Snow    (c) Cow : Animal    (d) Hand : Clock",
+          "In the above example, snake is the constituent and reptile is the class. Similarly, animal is the class and cow is one of the constituents of that class. So, answer (c) is correct."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(D) Part and whole relationship",
+        "paragraphs": [
+          "In this type of relationship, two words represent the part of a bigger thing. For example:",
+          "Lyric : Ode as",
+          "(a) Sky : Earth    (b) Head : Legs    (c) Bomb : Science    (d) Radio : Clock",
+          "In the above example, Lyric and Ode are the types of poems and similarly Head and Legs are the two parts of the body. Hence, answer (b) is correct."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(E) Sequence relationship",
+        "paragraphs": [
+          "In this type of relationship, two events occur in sequence. For example:",
+          "Spring : Summer as",
+          "(a) Sunday : Monday    (b) Thursday : Wednesday    (c) Tuesday : Friday    (d) Friday : Monday",
+          "In the above example, Summer comes after Spring and in the similar way Monday comes after Sunday, so answer (a) is correct."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(F) Place and event relationship",
+        "paragraphs": [
+          "In this type of relationship, a place and historic event or monument are expressed and accordingly certain choices are given. The examinee has to choose the best possible choice. For example:",
+          "Badshahi Mosque : Lahore as",
+          "(a) Red Square : Moscow    (b) Albany : New York    (c) Pakistan : Asia    (d) Pakistan : Bangladesh",
+          "In the above example, Lahore is a place whereas Badshahi Mosque is a place associated with Lahore. A similar relationship exists between Red Square and Moscow. Thus, answer (a) is correct."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(G) Association relationship",
+        "paragraphs": [
+          "In this type of relationship, two characteristics are associated with one another and on the same pattern certain other choices are given. The examinee has to choose the best possible alternate. For example:",
+          "Angel : Noble deeds",
+          "(a) Slippery : Unstable    (b) Ink : Writing    (c) Picture : Ground    (d) Book : Pages",
+          "In the above example, Angel is associated with Noble deeds. Similarly, Ink is associated with Writing. Thus, alternative (b) is the suitable choice."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(H) Action to object relationship",
+        "paragraphs": [
+          "In this type of relationship, action is associated with the object on which that action can be taken out of the various choices given. Candidate has to select the best suitable choice. For example:",
+          "Kick : Football as",
+          "(a) Bread : Slices    (b) Kill : Bomb    (c) Climate : Weather    (d) Smoke : Cigarette",
+          "In the above example, kick shows an action and football is the object of action. A similar relationship is available in smoke and cigarette. So, option (d) is correct.",
+          "This association can be expressed in the reverse order also. First the object is given",
+          "and secondly the action performed on the object is given. For example:",
+          "Bow : Shooting as",
+          "(a) Food : Sell    (b) Streak : Broil    (c) Wine : Pour    (d) Bruit : Paper",
+          "In the above example, the bow is an object and shooting is an action taken with the help of bow. Similarly, streak is an object whereas broil is an action taken on streak. Thus, answer (b) is correct."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(I) Synonym relationship",
+        "paragraphs": [
+          "When one word is synonym of another, the relationship is said to be synonym relationship out of the various possible alternative. For example:",
+          "Large : Enormous as",
+          "(a) Rogue : Roof    (b) Dirty : Unclean    (c) Purse : Kitchen    (d) Black : Brown",
+          "In the above example, large and enormous both mean huge and in the similar way dirty and unclean are the same. Thus, alternate (b) is correct."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(J) Antonym relationship",
+        "paragraphs": [
+          "When one word is antonym of another, the relationship expressed is known as antonym relationship. For example:",
+          "Adversity : Happiness as",
+          "(a) Boldness : Victory    (b) Fear : Misfortune    (c) Balance : Adversity    (d) Serenity : Vehemence",
+          "In the above example, adversity is antonym of happiness. The similar relationship lies with serenity and vehemence. Thus, (d) alternative is correct."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(K) Degree or stage relationship",
+        "paragraphs": [
+          "When two items are different stages of a particular behaviour, the relationship is said to be degree or stage relationship. For example:",
+          "Girl : Woman as",
+          "(a) Student : Teacher    (b) Black : White    (c) Infant : Child    (d) Bright : Genuine",
+          "In the above example, girl is the first stage of woman. Similarly infant is the first stage of child. Thus, alternate (c) is correct."
+        ],
+        "examples": []
+      },
+      {
+        "title": "(L) Grammatical relationship",
+        "paragraphs": [
+          "When two verbs, two nouns, two adverbs, etc. are given and in the alternative choice also the same type of relationship exists. This type of association is known as grammatical relationship. For example:",
+          "Walk : Climb as",
+          "(a) Garden : Gardener    (b) Ball : Eye    (c) Run : See    (d) Street : Store",
+          "and secondly the action performed on the object is given. For example:",
+          "Bow : Shooting as",
+          "(a) Food : Sell    (b) Streak : Broil    (c) Wine : Pour    (d) Bruit : Paper",
+          "In the above example, the bow is an object and shooting is an action taken with the help of bow. Similarly, streak is an object whereas broil is an action taken on streak. Thus, answer (b) is correct.",
+          "When one word is synonym of another, the relationship is said to be synonym relationship out of the various possible alternative. For example:",
+          "Large : Enormous as",
+          "(a) Rogue : Roof    (b) Dirty : Unclean    (c) Purse : Kitchen    (d) Black : Brown",
+          "In the above example, large and enormous both mean huge and in the similar way dirty and unclean are the same. Thus, alternate (b) is correct.",
+          "When one word is antonym of another, the relationship expressed is known as antonym relationship. For example:",
+          "Adversity : Happiness as",
+          "(a) Boldness : Victory    (b) Fear : Misfortune    (c) Balance : Adversity    (d) Serenity : Vehemence",
+          "In the above example, adversity is antonym of happiness. The similar relationship lies with serenity and vehemence. Thus, (d) alternative is correct.",
+          "When two items are different stages of a particular behaviour, the relationship is said to be degree or stage relationship. For example:",
+          "Girl : Woman as",
+          "(a) Student : Teacher    (b) Black : White    (c) Infant : Child    (d) Bright : Genuine",
+          "In the above example, girl is the first stage of woman. Similarly infant is the first stage of child. Thus, alternate (c) is correct.",
+          "When two verbs, two nouns, two adverbs, etc. are given and in the alternative choice also the same type of relationship exists. This type of association is known as grammatical relationship. For example:",
+          "Walk : Climb as",
+          "(a) Garden : Gardener    (b) Ball : Eye    (c) Run : See    (d) Street : Store",
+          "In the above example, walk and climb are both verbs. Similarly, in alternate (c) run and see are both verbs. Thus, answer (c) is the correct choice."
+        ],
+        "examples": []
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": 81,
+      "sourceNum": 1,
+      "question": "Bread : Cake as?",
+      "options": [
+        "Pot : Pan",
+        "Poverty : Riches",
+        "Wheat : Chaff",
+        "Shirt : Tie"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 82,
+      "sourceNum": 2,
+      "question": "Lahore : Punjab as?",
+      "options": [
+        "Pakistan : Hyderabad",
+        "Chittagong : Bangladesh",
+        "Peshawar : Khyber Pakhtunkhwa",
+        "Karachi : Pakistan"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 83,
+      "sourceNum": 3,
+      "question": "Blacksmith : Hammer as?",
+      "options": [
+        "Soldier : Gun",
+        "Merchant : Scales",
+        "Carpenter : Saw",
+        "Clerk : Files"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 84,
+      "sourceNum": 4,
+      "question": "Barometer : Hydrometer as?",
+      "options": [
+        "Mercury : Water",
+        "Cloudy : Sunny",
+        "Pressure : Humidity",
+        "Rain : Snow"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 85,
+      "sourceNum": 5,
+      "question": "Marriage : Celebrate as?",
+      "options": [
+        "Defeat : Failure",
+        "Punish : Lament",
+        "Gloom : Despair",
+        "Condone : Punishment"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 86,
+      "sourceNum": 6,
+      "question": "January : Winter as?",
+      "options": [
+        "June : Summer",
+        "Summer : June",
+        "Spring : September",
+        "February : Autumn"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 87,
+      "sourceNum": 7,
+      "question": "Family : Child as?",
+      "options": [
+        "Pound : Dollar",
+        "Pond : Fish",
+        "Bunch : Flower",
+        "Herd : Calf"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 88,
+      "sourceNum": 8,
+      "question": "Inexperience : Errors as?",
+      "options": [
+        "Carelessness : Losses",
+        "Question : Solution",
+        "Dispute : Settlement",
+        "Case : Judgement"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 89,
+      "sourceNum": 9,
+      "question": "Problem : Hypothesis as?",
+      "options": [
+        "Blunder : Inattention",
+        "Condition : Prognosis",
+        "Frugality : Training",
+        "Failure : Defeat"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 90,
+      "sourceNum": 10,
+      "question": "Restrict : Encourage as?",
+      "options": [
+        "Loss : Despair",
+        "Profit : Efforts",
+        "Close : Open",
+        "End : Finish"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 91,
+      "sourceNum": 12,
+      "question": "Lawyer : Court as?",
+      "options": [
+        "Business : Market",
+        "Labourer : Factory",
+        "Athletic : Olympics",
+        "Cow : Herd"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 92,
+      "sourceNum": 13,
+      "question": "Propensity : Tendency as?",
+      "options": [
+        "Prologue : Epilogue",
+        "Master : Slave",
+        "Conduct : Immorality",
+        "Audacity : Impudence"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 93,
+      "sourceNum": 14,
+      "question": "Brain : Neurology as?",
+      "options": [
+        "Body : Physiology",
+        "Entomology : Plants",
+        "Biology : Animal",
+        "Botany : Plants"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 94,
+      "sourceNum": 15,
+      "question": "Mundane : Common as?",
+      "options": [
+        "Car : Cycle",
+        "Ubiquitous : Omnipresent",
+        "Water : Oxygen",
+        "Fear : Misfortune"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 95,
+      "sourceNum": 16,
+      "question": "Latitude : Longitude as?",
+      "options": [
+        "Equator : Tropic of Cancer",
+        "Fluctuate : Flout",
+        "Preamble : Postscript",
+        "Length : Breadth"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 96,
+      "sourceNum": 17,
+      "question": "Dubious : Indisputable as?",
+      "options": [
+        "Slander : Libel",
+        "Avaricious : Generous",
+        "Perspicacious : Tenacity",
+        "Painful : Helpful"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 97,
+      "sourceNum": 18,
+      "question": "Corpulent : Skinny as?",
+      "options": [
+        "Courage : Lion",
+        "Tea : Kettle",
+        "Copious : Insufficient",
+        "Genius : Intelligence"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 98,
+      "sourceNum": 19,
+      "question": "Dire : Grim as?",
+      "options": [
+        "Talking : Gossips",
+        "Lead : Pencil",
+        "Punitive : Miniature",
+        "Diabolic : Wicked"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 99,
+      "sourceNum": 20,
+      "question": "Rotate : Gyrate as?",
+      "options": [
+        "Purity : Reject",
+        "Accolade : Criticism",
+        "Move : Freewheel",
+        "Absolve : Exonerate"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 100,
+      "sourceNum": 21,
+      "question": "Correspondence : Clerk as?",
+      "options": [
+        "Office : Manager",
+        "Record : Archivist",
+        "Secretary : Stenographer",
+        "Audit : Press"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 101,
+      "sourceNum": 22,
+      "question": "Picture : Frame as?",
+      "options": [
+        "Book : Cover",
+        "Radio : Recording",
+        "Cup : Saucer",
+        "Table : Floor"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 102,
+      "sourceNum": 23,
+      "question": "Bacteria : Illness as?",
+      "options": [
+        "Milk : Curd",
+        "Bomb : Explosion",
+        "Health : Illness",
+        "Medicine : Cure"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 103,
+      "sourceNum": 24,
+      "question": "Room : House as?",
+      "options": [
+        "Chair : Table",
+        "Apartment : Building",
+        "Refrigerator : Kitchen",
+        "Road : City"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 104,
+      "sourceNum": 25,
+      "question": "Projectile : Trajectory as?",
+      "options": [
+        "Bullet : Weapon",
+        "Trade : Tariff",
+        "Satellite : Orbit",
+        "Rejection : Tragedy"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 105,
+      "sourceNum": 26,
+      "question": "Sorrow : Death as?",
+      "options": [
+        "Laugh : Cry",
+        "Fear : Night",
+        "Hate : Smell",
+        "Happiness : Birth"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 106,
+      "sourceNum": 27,
+      "question": "Setting : Stone as?",
+      "options": [
+        "Pen : Writing",
+        "Picture : Frame",
+        "Socket : Bulb",
+        "Pendulum : Clock"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 107,
+      "sourceNum": 28,
+      "question": "Caucasian : Saxon as?",
+      "options": [
+        "Carriage : Horse",
+        "City : Horse",
+        "Fear : Darkness",
+        "White : Coloured"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 108,
+      "sourceNum": 29,
+      "question": "Debate : Soliloquy as?",
+      "options": [
+        "Telephone : Dial",
+        "Crowd : Mob",
+        "Elucidate : Explanation",
+        "Group : Hermit"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 109,
+      "sourceNum": 30,
+      "question": "Tepid : Hot as?",
+      "options": [
+        "Topic : Tumble",
+        "Bing : Bang",
+        "Pat : Slap",
+        "Worm : Cold"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 110,
+      "sourceNum": 31,
+      "question": "Mace : Majesty as?",
+      "options": [
+        "Book : Knowledge",
+        "Diploma : Knowledge",
+        "Police : Security",
+        "King : Queen"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 111,
+      "sourceNum": 32,
+      "question": "Vixen : Scold as?",
+      "options": [
+        "Bee : Sting",
+        "Simple : Irritate",
+        "Army : Won",
+        "Watch : Draw"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 112,
+      "sourceNum": 33,
+      "question": "Cloth : Texture as?",
+      "options": [
+        "Wool : Terylene",
+        "Wood : Grain",
+        "Linen : Flax",
+        "Paper : Book"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 113,
+      "sourceNum": 34,
+      "question": "Forecast : Happening as?",
+      "options": [
+        "Elucidate : Explanation",
+        "Disaster : Foretell",
+        "Analyze : Problem",
+        "Prophecy : Miracle"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 114,
+      "sourceNum": 35,
+      "question": "Family : Child as?",
+      "options": [
+        "Baby : Father",
+        "Bird : Flock",
+        "Husband : Wife",
+        "Octopus : Tentacle"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 115,
+      "sourceNum": 36,
+      "question": "Future : Hereafter as?",
+      "options": [
+        "Recapitulation : Repetition",
+        "Present : Past",
+        "Tomorrow : Yesterday",
+        "Prognosis : Diagnosis"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 116,
+      "sourceNum": 37,
+      "question": "Court : Justice as?",
+      "options": [
+        "Doctor : Hospital",
+        "Auditor : Accuracy",
+        "Police : Government",
+        "Boss : Executive"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 117,
+      "sourceNum": 38,
+      "question": "Necklace : Adornment as?",
+      "options": [
+        "Window : House",
+        "Bronze : Medal",
+        "Medal : Decoration",
+        "Scarf : Dress"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 118,
+      "sourceNum": 39,
+      "question": "School : Discipline as?",
+      "options": [
+        "School : Discipline",
+        "Undertrial : Punishment",
+        "Marks : Examination",
+        "Society : Conformity"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 119,
+      "sourceNum": 40,
+      "question": "Modesty : Arrogance as?",
+      "options": [
+        "Beauty : Honesty",
+        "Cause : Effect",
+        "Woman : Child",
+        "Debility : Strength"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 120,
+      "sourceNum": 41,
+      "question": "Tadpole : Frog as?",
+      "options": [
+        "Caterpillar : Butterfly",
+        "Husband : Wife",
+        "Frog : Fish",
+        "Goose : Dog"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 121,
+      "sourceNum": 42,
+      "question": "Cat : Feline as?",
+      "options": [
+        "Bird : Vulpine",
+        "Horse : Equine",
+        "Bird : Vulture",
+        "Rat : Rabbit"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 122,
+      "sourceNum": 43,
+      "question": "Finger : Hand as?",
+      "options": [
+        "Medicine : Tablets",
+        "Apple : Cart",
+        "Toe : Foot",
+        "Street : House"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 123,
+      "sourceNum": 44,
+      "question": "Adversity : Happiness as?",
+      "options": [
+        "Fear : Danger",
+        "Misfortune : Misery",
+        "Nature : Creator",
+        "Vehemence : Serenity"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 124,
+      "sourceNum": 45,
+      "question": "Octave : Binding as?",
+      "options": [
+        "Pica : Printing",
+        "Rural : Farmer",
+        "Day : Week",
+        "Book : Binding"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 125,
+      "sourceNum": 46,
+      "question": "Classic : Greece as?",
+      "options": [
+        "Empire : Roman",
+        "France : Italy",
+        "Colonialism : Pakistan",
+        "Orthodox : Priest"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 126,
+      "sourceNum": 47,
+      "question": "Rusticity : Urbanity as?",
+      "options": [
+        "Silk : Wool",
+        "Caution : Caring",
+        "Television : Video",
+        "Rust : Steal"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 127,
+      "sourceNum": 48,
+      "question": "Famine : Hunger as?",
+      "options": [
+        "Fall : stream",
+        "Pessimism : Disorder",
+        "Stupidity : Allurement",
+        "Compound : Element"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 128,
+      "sourceNum": 49,
+      "question": "Fuel : Fire as?",
+      "options": [
+        "Cold : Heat",
+        "Food : Man",
+        "Fire : Forest",
+        "Wood : Tree"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 129,
+      "sourceNum": 50,
+      "question": "Hare : Tortoise as?",
+      "options": [
+        "Truth : Lie",
+        "Thesis : Essay",
+        "Telegram : Letter",
+        "Number : Words"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 130,
+      "sourceNum": 51,
+      "question": "Skeleton : Body as?",
+      "options": [
+        "Letter : Contents",
+        "Law : Society",
+        "Printer : Press",
+        "Jury : Law"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 131,
+      "sourceNum": 52,
+      "question": "Ointment : Burn as?",
+      "options": [
+        "Bread : Butter",
+        "Grief : Happiness",
+        "Tear : Consolation",
+        "Consolation : Grief"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 132,
+      "sourceNum": 53,
+      "question": "Fiber : Fabric as?",
+      "options": [
+        "Average : Aggregate",
+        "Appurtenance : Object",
+        "Member : League",
+        "Obstinacy : Deadlock"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 133,
+      "sourceNum": 54,
+      "question": "Hourglass : Clock as?",
+      "options": [
+        "Catapult : Cannon",
+        "Temple : Church",
+        "Acorn : Oak",
+        "Church : Priest"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 134,
+      "sourceNum": 55,
+      "question": "Lust : Sex as?",
+      "options": [
+        "Friend : Foe",
+        "Lamp : Light",
+        "Dark : Bright",
+        "Anger : Pugnacity"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 135,
+      "sourceNum": 56,
+      "question": "Pup : Bitch as?",
+      "options": [
+        "Pen : Pencil",
+        "Kitten : Cat",
+        "Horse : Stable",
+        "Ink : Inkpot"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 136,
+      "sourceNum": 57,
+      "question": "Sodium : Salt as?",
+      "options": [
+        "Room : House",
+        "Water : Wine",
+        "Calcium : Marble",
+        "Lime : Limestone"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 137,
+      "sourceNum": 58,
+      "question": "Tree : Forest as?",
+      "options": [
+        "Daisy : Meadow",
+        "Grass : Lawn",
+        "Frog : Pond",
+        "Rose : Flower"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 138,
+      "sourceNum": 59,
+      "question": "Possess : Loss as?",
+      "options": [
+        "Hesitate : Advance",
+        "Cease : Recur",
+        "Continue : Desist",
+        "Production : Supply"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 139,
+      "sourceNum": 60,
+      "question": "Apprentice : Mechanic as?",
+      "options": [
+        "Doctor : Intern",
+        "Painter : Artist",
+        "Novice : Nun",
+        "Layman : Artist"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    }
+  ]
+}

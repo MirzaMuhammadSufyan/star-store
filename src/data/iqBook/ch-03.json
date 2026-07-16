@@ -1,0 +1,201 @@
+{
+  "id": "ch-03",
+  "title": "Analogy Test (Type 3)",
+  "slug": "analogy-type-3",
+  "blurb": "Find what is common across a set of terms.",
+  "accent": "rose",
+  "theory": {
+    "intro": "There are certain items associated with one another in different ways. We have to show our best alternate choice for one, which is more reasonable and an appropriate. For example:",
+    "sections": [
+      {
+        "title": "Worked examples",
+        "paragraphs": [],
+        "examples": [
+          {
+            "stem": "Libra, Pisces, Scorpio?",
+            "options": [
+              "They are Greek mythological gods",
+              "They are stars",
+              "They are planets",
+              "They are signs of Zodiac"
+            ],
+            "hint": "",
+            "explanation": "The above all the four solutions are related with the problem but alternate (d) is the most appropriate. Thus, (d) is the our best choice.",
+            "answer": "D"
+          }
+        ]
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": 140,
+      "sourceNum": 1,
+      "question": "Academy, University, College?",
+      "options": [
+        "They mean the same thing",
+        "They deal with education of the students",
+        "They are all institutions",
+        "They are common places of worships"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 141,
+      "sourceNum": 2,
+      "question": "Monkey, Ape, Chimpanzee?",
+      "options": [
+        "They are herbivorous animals",
+        "They are vertebrates",
+        "They are primates",
+        "They all live on trees"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 142,
+      "sourceNum": 3,
+      "question": "House, Apartment, Bungalow?",
+      "options": [
+        "These are all made of bricks and mortar",
+        "They are found in cities",
+        "They are dwelling places",
+        "These are the names of residences"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 143,
+      "sourceNum": 4,
+      "question": "Fingerprints, Investigation, Post-mortem?",
+      "options": [
+        "They are terms connected with medical science",
+        "They are in alphabetic order",
+        "They are technical terms generally used for detecting crimes",
+        "It is a process used by crime-branch"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 144,
+      "sourceNum": 5,
+      "question": "Thallophyta, Bryophyta, Pteridophyta?",
+      "options": [
+        "This is a classification of flowerless plants",
+        "These are botanical terms",
+        "These are the names of flowers",
+        "These are terms used in Botany"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 145,
+      "sourceNum": 6,
+      "question": "Reticule, Hand-bag, Valise?",
+      "options": [
+        "They are synonyms",
+        "They are used for carrying small personal belongings",
+        "They are used by women only",
+        "They are the part of modern life"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 146,
+      "sourceNum": 8,
+      "question": "Petal, Stamens, Stigma?",
+      "options": [
+        "They are the part of a flower",
+        "They are the part of a plant",
+        "They are concerned with pollination of flower",
+        "They are different kinds of leaves"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 147,
+      "sourceNum": 9,
+      "question": "Falsehood, Misrepresentation, Deception?",
+      "options": [
+        "They are synonyms",
+        "They are all ungentlemanly acts",
+        "They are the modern way of expression",
+        "They are mostly used during elections"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 148,
+      "sourceNum": 10,
+      "question": "Goat, Cow, Buffalo?",
+      "options": [
+        "They are all animals",
+        "They are found all over the world",
+        "They all give milk",
+        "They all have red, brown colour"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 149,
+      "sourceNum": 11,
+      "question": "Seminar, Symposium, Workshop?",
+      "options": [
+        "They are various types of conferences of specialists for discussion",
+        "These activities have the same purpose that of solving a problem",
+        "These are various methods in which people meet",
+        "These are various methods adopted for teaching a group"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 150,
+      "sourceNum": 12,
+      "question": "Turnip, Knol-kohl, Cabbage?",
+      "options": [
+        "They are all botanical things",
+        "They are all flowers",
+        "They are all vegetables",
+        "They are all common weeds"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 151,
+      "sourceNum": 13,
+      "question": "Carbohydrates, Proteins, Fats?",
+      "options": [
+        "They are compounds of carbon",
+        "They are essential ingredients of a good diet",
+        "They are complex compounds",
+        "They are found in plants"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 152,
+      "sourceNum": 15,
+      "question": "Glucose, Fructose, Sucrose?",
+      "options": [
+        "They are important sugars",
+        "They are found in animal tissues",
+        "They are organic compounds",
+        "They are synthesised from Carbon and Hydrogen"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    }
+  ]
+}

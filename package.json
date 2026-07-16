@@ -15,7 +15,8 @@
     "compress:blog-images": "node scripts/compress-blog-images.mjs",
     "sync:blog-images": "node scripts/sync-blog-images.mjs",
     "prerender": "node scripts/generate-prerender.mjs",
-    "prebuild": "node scripts/generate-prerender.mjs"
+    "prebuild": "node scripts/generate-prerender.mjs",
+    "iq:parse": "python3 scripts/parse-iq-verbal.py"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

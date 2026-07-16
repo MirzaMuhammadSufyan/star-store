@@ -1,0 +1,549 @@
+{
+  "id": "ch-05",
+  "title": "Jumbled Spelling Test",
+  "slug": "jumbled-spelling",
+  "blurb": "Unscramble letters into meaningful words.",
+  "accent": "teal",
+  "theory": {
+    "intro": "In this type of test, the spellings of the words are mixed up or jumbled up and the examinee is required to put the letters of the words in their correct order. Some examples are as follows:",
+    "sections": [
+      {
+        "title": "Worked examples",
+        "paragraphs": [
+          "(i) BSINOLEPRES (Knowing one's duty)",
+          "(ii) MIASTRR (A City of India)",
+          "(iii) MERIP (A kind of number)",
+          "(iv) NONGGIPP (An indoor game)",
+          "Ans.",
+          "(i) RESPONSIBLE",
+          "(ii) AMRITSAR",
+          "(iii) PRIME",
+          "(iv) PING PONG"
+        ],
+        "examples": []
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": 160,
+      "sourceNum": 1,
+      "question": "Unscramble 'COYKEH' (An outdoor Game)?",
+      "options": [
+        "MADRID",
+        "BERLIN",
+        "ROME",
+        "HOCKEY"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 161,
+      "sourceNum": 2,
+      "question": "Unscramble 'DADRIM' (A city of Europe)?",
+      "options": [
+        "BERLIN",
+        "ROME",
+        "MADRID",
+        "HOCKEY"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 162,
+      "sourceNum": 3,
+      "question": "Unscramble 'INLREB' (A city in Europe)?",
+      "options": [
+        "ROME",
+        "BERLIN",
+        "HOCKEY",
+        "MADRID"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 163,
+      "sourceNum": 4,
+      "question": "Unscramble 'EORM' (A city in Europe)?",
+      "options": [
+        "ROME",
+        "HOCKEY",
+        "MADRID",
+        "BERLIN"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 164,
+      "sourceNum": 5,
+      "question": "Unscramble 'TETLOB' (A type of container)?",
+      "options": [
+        "HOCKEY",
+        "MADRID",
+        "BERLIN",
+        "BOTTLE"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 165,
+      "sourceNum": 6,
+      "question": "Unscramble 'GRENOA' (A name of Fruit)?",
+      "options": [
+        "MADRID",
+        "BERLIN",
+        "ORANGE",
+        "HOCKEY"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 166,
+      "sourceNum": 7,
+      "question": "Unscramble 'BIRBAT' (A kind of Animal)?",
+      "options": [
+        "BERLIN",
+        "RABBIT",
+        "HOCKEY",
+        "MADRID"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 167,
+      "sourceNum": 8,
+      "question": "Unscramble 'PEOPIG' (A kind of Bird)?",
+      "options": [
+        "PIGEON",
+        "HOCKEY",
+        "MADRID",
+        "BERLIN"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 168,
+      "sourceNum": 9,
+      "question": "Unscramble 'HLAWE' (A kind of Fish)?",
+      "options": [
+        "HOCKEY",
+        "MADRID",
+        "BERLIN",
+        "WHALE"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 169,
+      "sourceNum": 10,
+      "question": "Unscramble 'LTEVCROH' (A make of Car)?",
+      "options": [
+        "APRICOT",
+        "DRAWING",
+        "CHEVROLET",
+        "GLADSTONE"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 170,
+      "sourceNum": 11,
+      "question": "Unscramble 'LDAGTESON' (Name of a Statesman)?",
+      "options": [
+        "DRAWING",
+        "GLADSTONE",
+        "CHEVROLET",
+        "APRICOT"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 171,
+      "sourceNum": 12,
+      "question": "Unscramble 'CTORPAI' (A name of Fruit)?",
+      "options": [
+        "APRICOT",
+        "HOCKEY",
+        "MADRID",
+        "BERLIN"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 172,
+      "sourceNum": 13,
+      "question": "Unscramble 'WINDRGA' (An Art)?",
+      "options": [
+        "HOCKEY",
+        "MADRID",
+        "BERLIN",
+        "DRAWING"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 173,
+      "sourceNum": 14,
+      "question": "Unscramble 'EFLI' (A Good)?",
+      "options": [
+        "MADRID",
+        "BERLIN",
+        "FILE",
+        "HOCKEY"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 174,
+      "sourceNum": 15,
+      "question": "Unscramble 'ECPRCTAI' (A Verb)?",
+      "options": [
+        "BERLIN",
+        "PRACTICE",
+        "HOCKEY",
+        "MADRID"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 175,
+      "sourceNum": 16,
+      "question": "Unscramble 'ETATMESTN' (Concerns with Witness)?",
+      "options": [
+        "STATEMENT",
+        "CHEVROLET",
+        "GLADSTONE",
+        "APRICOT"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 176,
+      "sourceNum": 17,
+      "question": "Unscramble 'VERPOT' (Status)?",
+      "options": [
+        "HOCKEY",
+        "MADRID",
+        "BERLIN",
+        "POVERTY"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 177,
+      "sourceNum": 18,
+      "question": "Unscramble 'GULGEAG' (Tour)?",
+      "options": [
+        "MADRID",
+        "BERLIN",
+        "LUGGAGE",
+        "HOCKEY"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 178,
+      "sourceNum": 19,
+      "question": "Unscramble 'RNTAI' (Means of Transport)?",
+      "options": [
+        "BERLIN",
+        "TRAIN",
+        "HOCKEY",
+        "MADRID"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 179,
+      "sourceNum": 20,
+      "question": "Unscramble 'DWINOW' (A Fixture in House)?",
+      "options": [
+        "WINDOW",
+        "HOCKEY",
+        "MADRID",
+        "BERLIN"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 180,
+      "sourceNum": 21,
+      "question": "Unscramble 'RMA'?",
+      "options": [
+        "ROME",
+        "WHALE",
+        "FILE",
+        "ARM"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 181,
+      "sourceNum": 22,
+      "question": "Unscramble 'NIFD'?",
+      "options": [
+        "MADRID",
+        "BERLIN",
+        "FIND",
+        "HOCKEY"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 182,
+      "sourceNum": 23,
+      "question": "Unscramble 'TGE'?",
+      "options": [
+        "FILE",
+        "GET",
+        "ROME",
+        "WHALE"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 183,
+      "sourceNum": 24,
+      "question": "Unscramble 'UTP'?",
+      "options": [
+        "PUT",
+        "ROME",
+        "WHALE",
+        "FILE"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 184,
+      "sourceNum": 25,
+      "question": "Unscramble 'ILHED'?",
+      "options": [
+        "HOCKEY",
+        "MADRID",
+        "BERLIN",
+        "KARACHI"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 185,
+      "sourceNum": 26,
+      "question": "Unscramble 'SKED'?",
+      "options": [
+        "MADRID",
+        "BERLIN",
+        "DESK",
+        "HOCKEY"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 186,
+      "sourceNum": 27,
+      "question": "Unscramble 'NPOOS'?",
+      "options": [
+        "BERLIN",
+        "SPOON",
+        "HOCKEY",
+        "MADRID"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 187,
+      "sourceNum": 28,
+      "question": "Unscramble 'PLEPA'?",
+      "options": [
+        "APPLE",
+        "HOCKEY",
+        "MADRID",
+        "BERLIN"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 188,
+      "sourceNum": 29,
+      "question": "Unscramble 'TIFLUEABD'?",
+      "options": [
+        "CHEVROLET",
+        "GLADSTONE",
+        "APRICOT",
+        "BEAUTIFUL"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 189,
+      "sourceNum": 30,
+      "question": "Unscramble 'WLUNCKO'?",
+      "options": [
+        "MADRID",
+        "BERLIN",
+        "LUCKNOW",
+        "HOCKEY"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 190,
+      "sourceNum": 31,
+      "question": "Unscramble 'VENRGOENMT'?",
+      "options": [
+        "PRACTICE",
+        "GOVERNMENT",
+        "CHEVROLET",
+        "GLADSTONE"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 191,
+      "sourceNum": 32,
+      "question": "Unscramble 'EIGHTH'?",
+      "options": [
+        "HEIGHT",
+        "HOCKEY",
+        "MADRID",
+        "BERLIN"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    },
+    {
+      "id": 192,
+      "sourceNum": 33,
+      "question": "Unscramble 'LESPCSETAC'?",
+      "options": [
+        "CHEVROLET",
+        "GLADSTONE",
+        "PRACTICE",
+        "SPECTACLES"
+      ],
+      "answer": "D",
+      "answerVerified": true
+    },
+    {
+      "id": 193,
+      "sourceNum": 34,
+      "question": "YNERGAM (Name of a Country)?",
+      "options": [
+        "E",
+        "R",
+        "Y",
+        "A"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 194,
+      "sourceNum": 35,
+      "question": "SUNIGLES (Concerns with Face)?",
+      "options": [
+        "U",
+        "S",
+        "I",
+        "E"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 195,
+      "sourceNum": 36,
+      "question": "YALAIMHA (Name of a Mountain)?",
+      "options": [
+        "Y",
+        "L",
+        "A",
+        "I"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 196,
+      "sourceNum": 37,
+      "question": "ENCOUANNENMT (Proclamation)?",
+      "options": [
+        "E",
+        "T",
+        "A",
+        "M"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 197,
+      "sourceNum": 38,
+      "question": "PETYREWRIT (Helps in writing various pages together)?",
+      "options": [
+        "P",
+        "T",
+        "R",
+        "E"
+      ],
+      "answer": "C",
+      "answerVerified": true
+    },
+    {
+      "id": 198,
+      "sourceNum": 39,
+      "question": "YCRCDMEO (A type of System)?",
+      "options": [
+        "A",
+        "Y",
+        "O",
+        "C"
+      ],
+      "answer": "B",
+      "answerVerified": true
+    },
+    {
+      "id": 199,
+      "sourceNum": 40,
+      "question": "LIVETENTAN (A Cadre in Army)?",
+      "options": [
+        "T",
+        "E",
+        "I",
+        "N"
+      ],
+      "answer": "A",
+      "answerVerified": true
+    }
+  ]
+}
