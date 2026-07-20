@@ -111,28 +111,24 @@ function ScoreRing({ value }) {
   );
 }
 
-function TheoryPanel({ theory, accent }) {
+function TheoryPanel({ theory }) {
   if (!theory || (!theory.intro && !theory.sections?.length)) return null;
   return (
-    <div className="space-y-5">
-      <div className="flex items-center gap-2">
-        <h2 className="text-sm font-bold uppercase tracking-[0.12em] text-gray-500">Theory</h2>
-        <span className={`h-px flex-1 bg-gradient-to-r ${accent.bar} opacity-40`} />
-      </div>
+    <div className="space-y-4">
       {theory.intro && (
-        <p className="text-[15px] text-gray-700 leading-relaxed">{theory.intro}</p>
+        <p className="text-sm text-gray-600 leading-relaxed">{theory.intro}</p>
       )}
       {theory.sections?.map((sec) => (
-        <div key={sec.title} className={`rounded-xl border border-gray-200 ${accent.soft} p-4 sm:p-5 space-y-3`}>
-          <h3 className="text-sm font-bold text-gray-900">{sec.title}</h3>
+        <div key={sec.title} className="space-y-2.5">
+          <h3 className="text-sm font-semibold text-gray-900">{sec.title}</h3>
           {sec.paragraphs?.map((para) => (
             <p key={para.slice(0, 48)} className="text-sm text-gray-600 leading-relaxed">{para}</p>
           ))}
           {sec.examples?.map((ex) => (
-            <div key={ex.stem} className="rounded-lg border border-gray-200 bg-white p-4 space-y-2">
-              <p className="text-sm font-semibold text-gray-900">{ex.stem}</p>
+            <div key={ex.stem} className="rounded-lg border border-gray-200 bg-gray-50/80 px-3.5 py-3 space-y-2">
+              <p className="text-sm font-medium text-gray-900">{ex.stem}</p>
               {ex.options?.length > 0 && (
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-sm text-gray-600">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm text-gray-600">
                   {ex.options.map((opt, i) => (
                     <li
                       key={opt}
@@ -145,7 +141,7 @@ function TheoryPanel({ theory, accent }) {
                 </ul>
               )}
               {ex.hint && (
-                <p className="text-xs text-gray-500 leading-relaxed border-t border-gray-100 pt-2">
+                <p className="text-xs text-gray-500 leading-relaxed border-t border-gray-200/80 pt-2">
                   <span className="font-semibold text-gray-700">Hint: </span>{ex.hint}
                 </p>
               )}
@@ -162,7 +158,58 @@ function TheoryPanel({ theory, accent }) {
   );
 }
 
-function QuestionPalette({ questions, answers, index, onJump, cols = 5 }) {
+function paletteButtonClass(chosen, answer, isCurrent) {
+  const isCorrect = chosen && chosen === answer;
+  const isWrong = chosen && chosen !== answer;
+  let cls = 'bg-white border-gray-200 text-gray-600 hover:border-gray-800';
+  if (isCorrect) cls = 'bg-emerald-50 border-emerald-500 text-emerald-900';
+  if (isWrong) cls = 'bg-red-50 border-red-500 text-red-900';
+  if (isCurrent) {
+    cls = [
+      isCorrect ? 'bg-emerald-50 border-emerald-500 text-emerald-900'
+        : isWrong ? 'bg-red-50 border-red-500 text-red-900'
+          : 'bg-white border-gray-900 text-gray-900',
+      'ring-2 ring-amber-400 ring-offset-1',
+    ].join(' ');
+  }
+  return cls;
+}
+
+function QuestionPalette({ questions, answers, index, onJump, cols = 5, layout = 'grid' }) {
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (layout !== 'scroll' || !scrollRef.current) return;
+    const currentBtn = scrollRef.current.querySelector('[aria-current="true"]');
+    currentBtn?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }, [index, layout, questions.length]);
+
+  if (layout === 'scroll') {
+    return (
+      <div
+        ref={scrollRef}
+        className="flex gap-1.5 overflow-x-auto overscroll-x-contain pb-0.5 -mx-0.5 px-0.5 snap-x snap-mandatory"
+      >
+        {questions.map((q, i) => {
+          const chosen = answers[q.id];
+          const isCurrent = i === index;
+          return (
+            <button
+              key={q.id}
+              type="button"
+              onPointerUp={() => onJump(i)}
+              aria-current={isCurrent ? 'true' : undefined}
+              title={`Question ${i + 1}${chosen ? ` · ${chosen}` : ' · unanswered'}`}
+              className={`relative h-9 w-9 shrink-0 snap-start rounded-md border text-xs font-semibold tabular-nums transition-colors ${paletteButtonClass(chosen, q.answer, isCurrent)}`}
+            >
+              {i + 1}
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
   return (
     <div
       className="grid gap-2 p-0.5"
@@ -171,21 +218,6 @@ function QuestionPalette({ questions, answers, index, onJump, cols = 5 }) {
       {questions.map((q, i) => {
         const chosen = answers[q.id];
         const isCurrent = i === index;
-        const isCorrect = chosen && chosen === q.answer;
-        const isWrong = chosen && chosen !== q.answer;
-
-        let cls = 'bg-white border-gray-200 text-gray-600 hover:border-gray-800';
-        if (isCorrect) cls = 'bg-emerald-50 border-emerald-500 text-emerald-900';
-        if (isWrong) cls = 'bg-red-50 border-red-500 text-red-900';
-        if (isCurrent) {
-          cls = [
-            isCorrect ? 'bg-emerald-50 border-emerald-500 text-emerald-900'
-              : isWrong ? 'bg-red-50 border-red-500 text-red-900'
-                : 'bg-white border-gray-900 text-gray-900',
-            'ring-2 ring-amber-400 ring-offset-1',
-          ].join(' ');
-        }
-
         return (
           <button
             key={q.id}
@@ -193,7 +225,7 @@ function QuestionPalette({ questions, answers, index, onJump, cols = 5 }) {
             onPointerUp={() => onJump(i)}
             aria-current={isCurrent ? 'true' : undefined}
             title={`Question ${i + 1}${chosen ? ` · ${chosen}` : ' · unanswered'}`}
-            className={`relative h-10 w-full rounded-lg border text-sm font-bold tabular-nums transition-colors ${cls}`}
+            className={`relative h-10 w-full rounded-md border text-sm font-semibold tabular-nums transition-colors ${paletteButtonClass(chosen, q.answer, isCurrent)}`}
           >
             {i + 1}
           </button>
@@ -203,18 +235,47 @@ function QuestionPalette({ questions, answers, index, onJump, cols = 5 }) {
   );
 }
 
-function ExamTimer({ remainingSec, durationSec, urgent, critical }) {
+function ExamTimer({ remainingSec, durationSec, urgent, critical, compact = false }) {
   const pct = durationSec ? Math.max(0, Math.min(100, (remainingSec / durationSec) * 100)) : 0;
+  const tone = critical
+    ? 'border-red-500 bg-red-50'
+    : urgent
+      ? 'border-amber-500 bg-amber-50'
+      : 'border-gray-900 bg-gray-900 text-white';
+  const timeTone = critical ? 'text-red-700 animate-pulse' : urgent ? 'text-amber-900' : 'text-white';
+
+  if (compact) {
+    return (
+      <div
+        className={['rounded-lg border px-3 py-1.5 flex items-center gap-2.5 min-w-0', tone].join(' ')}
+        aria-live="polite"
+      >
+        <Timer size={14} className={critical ? 'text-red-600 shrink-0' : urgent ? 'text-amber-700 shrink-0' : 'text-amber-400 shrink-0'} />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-baseline justify-between gap-2">
+            <span className={`text-[10px] font-bold uppercase tracking-[0.12em] ${critical || urgent ? 'opacity-70' : 'text-gray-400'}`}>
+              Time
+            </span>
+            <p className={['text-lg font-black tabular-nums leading-none tracking-tight', timeTone].join(' ')}>
+              {formatTime(remainingSec)}
+            </p>
+          </div>
+          <div className={`mt-1 h-0.5 rounded-full overflow-hidden ${critical || urgent ? 'bg-black/10' : 'bg-white/20'}`}>
+            <div
+              className={`h-full rounded-full transition-all duration-300 ${
+                critical ? 'bg-red-600' : urgent ? 'bg-amber-500' : 'bg-amber-400'
+              }`}
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
-      className={[
-        'rounded-xl border px-4 py-2.5 min-w-[10rem] sm:min-w-[13rem]',
-        critical
-          ? 'border-red-500 bg-red-50'
-          : urgent
-            ? 'border-amber-500 bg-amber-50'
-            : 'border-gray-900 bg-gray-900 text-white',
-      ].join(' ')}
+      className={['rounded-xl border px-4 py-2.5 min-w-[10rem] sm:min-w-[13rem]', tone].join(' ')}
       aria-live="polite"
     >
       <div className="flex items-center justify-between gap-2 mb-0.5">
@@ -223,10 +284,7 @@ function ExamTimer({ remainingSec, durationSec, urgent, critical }) {
         </span>
         <Timer size={14} className={critical ? 'text-red-600' : urgent ? 'text-amber-700' : 'text-amber-400'} />
       </div>
-      <p className={[
-        'text-3xl sm:text-[2.35rem] font-black tabular-nums leading-none tracking-tight',
-        critical ? 'text-red-700 animate-pulse' : urgent ? 'text-amber-900' : 'text-white',
-      ].join(' ')}>
+      <p className={['text-3xl sm:text-[2.35rem] font-black tabular-nums leading-none tracking-tight', timeTone].join(' ')}>
         {formatTime(remainingSec)}
       </p>
       <div className={`mt-2 h-1 rounded-full overflow-hidden ${critical || urgent ? 'bg-black/10' : 'bg-white/20'}`}>
@@ -424,7 +482,6 @@ export default function IQTestPage() {
     });
   };
 
-  const usedSec = durationSec ? Math.max(0, durationSec - remainingSec) : 0;
   const timerUrgent = remainingSec > 0 && remainingSec <= 60;
   const timerCritical = remainingSec > 0 && remainingSec <= 30;
 
@@ -457,76 +514,57 @@ export default function IQTestPage() {
     return (
       <div className="bg-canvas min-h-screen">
         <SEO title="IQ Practice Tests" description="Timed intelligence practice by chapter." url="/iq-test" />
-        <div className="relative overflow-hidden border-b border-gray-200/80 bg-white">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_100%_0%,_rgba(245,158,11,0.14),_transparent_55%),radial-gradient(ellipse_50%_40%_at_0%_100%,_rgba(14,165,233,0.08),_transparent_50%)] pointer-events-none" />
-          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10 md:pt-16 md:pb-12">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
-              className="max-w-2xl"
-            >
+
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <header className="mb-5 flex items-end justify-between gap-4 border-b border-gray-200 pb-4">
+            <div className="min-w-0">
               <h1
-                className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight"
+                className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 IQ Practice
               </h1>
-              <p className="mt-3 text-gray-600 text-lg leading-relaxed">
-                Timed chapter attempts with a live question map and locked answers.
+              <p className="mt-1 text-sm text-gray-500">
+                Timed chapter tests · pick an answer locks it
               </p>
-              <p className="mt-4 text-sm text-gray-500 tabular-nums">
-                {practiceChapters.length} chapters · {totalHubQuestions} questions
-              </p>
-            </motion.div>
-          </div>
-        </div>
+            </div>
+            <p className="shrink-0 text-xs text-gray-400 tabular-nums pb-0.5">
+              {practiceChapters.length} chapters · {totalHubQuestions} Qs
+            </p>
+          </header>
 
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
           {loadError && (
-            <p className="mb-4 text-sm text-red-700 bg-red-50 border border-red-100 rounded-xl px-4 py-3">{loadError}</p>
+            <p className="mb-4 text-sm text-red-700 bg-red-50 border border-red-100 rounded-lg px-3 py-2.5">{loadError}</p>
           )}
-          <div className="space-y-3">
+
+          <ul className="divide-y divide-gray-200 border border-gray-200 rounded-xl overflow-hidden bg-white">
             {practiceChapters.map((ch, i) => {
               const tone = ACCENT[accentFor(ch)] || ACCENT.amber;
               const dur = durationForCount(ch.questionCount);
               const s = slugFor(ch);
               return (
-                <motion.div
-                  key={ch.id}
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, delay: i * 0.045 }}
-                >
+                <li key={ch.id}>
                   <Link
                     to={`/iq-test/${s}`}
-                    className="group flex items-stretch gap-0 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-card hover:border-gray-300 hover:shadow-lift transition-all"
+                    className="group flex items-center gap-3 sm:gap-4 px-3.5 sm:px-4 py-3 hover:bg-gray-50 transition-colors"
                   >
-                    <div className={`w-1.5 shrink-0 bg-gradient-to-b ${tone.bar}`} />
-                    <div className="flex-1 min-w-0 flex items-center gap-4 sm:gap-6 px-4 sm:px-6 py-4 sm:py-5">
-                      <span className={`text-2xl sm:text-3xl font-bold tabular-nums tracking-tight ${tone.num}`} style={{ fontFamily: "'Playfair Display', serif" }}>
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <h2 className="text-base sm:text-lg font-semibold text-gray-900 leading-snug group-hover:text-gray-700">
-                          {ch.title}
-                        </h2>
-                        <p className="mt-0.5 text-sm text-gray-500 leading-relaxed line-clamp-1 sm:line-clamp-2">
-                          {blurbFor(ch)}
-                        </p>
-                        <p className="mt-2 text-xs text-gray-400 tabular-nums">
-                          {ch.questionCount} questions · {formatDurationLabel(dur)}
-                        </p>
-                      </div>
-                      <span className="shrink-0 w-9 h-9 rounded-full bg-gray-900 text-white flex items-center justify-center group-hover:bg-amber-600 transition-colors">
-                        <ArrowRight size={15} />
-                      </span>
+                    <span className={`w-8 shrink-0 text-sm font-bold tabular-nums ${tone.num}`}>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <h2 className="text-sm sm:text-[15px] font-semibold text-gray-900 leading-snug group-hover:text-amber-800">
+                        {ch.title}
+                      </h2>
+                      <p className="mt-0.5 text-xs text-gray-500 tabular-nums">
+                        {ch.questionCount} questions · {formatDurationLabel(dur)}
+                      </p>
                     </div>
+                    <ChevronRight size={16} className="shrink-0 text-gray-300 group-hover:text-gray-600 transition-colors" />
                   </Link>
-                </motion.div>
+                </li>
               );
             })}
-          </div>
+          </ul>
         </div>
       </div>
     );
@@ -537,113 +575,84 @@ export default function IQTestPage() {
     const qCount = total || chapterMeta?.questionCount || 0;
     const dur = durationSec || durationForCount(qCount);
     const pace = Math.round(dur / Math.max(qCount, 1));
+    const hasTheory = Boolean(chapterTheory && (chapterTheory.intro || chapterTheory.sections?.length));
 
     return (
-      <div className="relative min-h-screen bg-canvas overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_10%_0%,_rgba(245,158,11,0.1),_transparent_50%),radial-gradient(ellipse_50%_40%_at_90%_20%,_rgba(14,165,233,0.08),_transparent_45%)]" />
+      <div className="min-h-screen bg-canvas">
         <SEO title={`${chapterMeta?.title || 'Chapter'} · IQ Test`} description="Briefing and timed rules for this chapter." url={`/iq-test/${slug}`} />
 
-        <div className="relative border-b border-gray-200/80 bg-white/80 backdrop-blur-sm">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
-            <Link to="/iq-test" className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900">
-              <ChevronLeft size={16} /> All chapters
-            </Link>
-          </div>
-        </div>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-5 sm:py-7">
+          <Link
+            to="/iq-test"
+            className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-4"
+          >
+            <ChevronLeft size={15} /> Chapters
+          </Link>
 
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-8 md:py-12 space-y-6">
           {loading ? (
-            <div className="h-64 flex items-center justify-center">
-              <div className="w-8 h-8 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" />
+            <div className="h-40 flex items-center justify-center">
+              <div className="w-7 h-7 border-2 border-gray-200 border-t-amber-500 rounded-full animate-spin" />
             </div>
           ) : loadError ? (
-            <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-red-800 text-sm">{loadError}</div>
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800 text-sm">{loadError}</div>
           ) : (
-            <>
-              {chapterTheory && (
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35 }}
-                  className="rounded-2xl border border-gray-200 bg-white shadow-card overflow-hidden"
-                >
-                  <div className={`h-1 bg-gradient-to-r ${accent.bar}`} />
-                  <div className="p-6 sm:p-8 max-h-[min(70vh,42rem)] overflow-y-auto">
-                    <TheoryPanel theory={chapterTheory} accent={accent} />
-                  </div>
-                </motion.div>
-              )}
-
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.05 }}
-                className="rounded-2xl border border-gray-200 bg-white shadow-card overflow-hidden"
-              >
-                <div className={`h-1.5 bg-gradient-to-r ${accent.bar}`} />
-                <div className="p-6 sm:p-8 md:p-10">
-                  <p className={`inline-flex text-[11px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded border ${accent.badge}`}>
-                    Exercise · timed test
+            <div className="space-y-5">
+              <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
+                <div className={`h-1 bg-gradient-to-r ${accent.bar}`} />
+                <div className="p-4 sm:p-5">
+                  <h1
+                    className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight"
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    {chapterMeta.title}
+                  </h1>
+                  <p className="mt-1 text-sm text-gray-500 leading-relaxed">
+                    {blurbFor(chapterMeta)}
                   </p>
-                <h1
-                  className="mt-4 text-3xl md:text-4xl font-bold text-gray-900 tracking-tight"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  {chapterMeta.title}
-                </h1>
-                <p className="mt-3 text-gray-600 text-base md:text-lg leading-relaxed">
-                  {blurbFor(chapterMeta)}
-                </p>
 
-                <div className="mt-8 grid grid-cols-3 gap-4 sm:gap-8 border-y border-gray-100 py-5">
-                  {[
-                    { label: 'Questions', value: String(qCount) },
-                    { label: 'Duration', value: formatDurationLabel(dur) },
-                    { label: 'Pace', value: `~${pace}s` },
-                  ].map(({ label, value }) => (
-                    <div key={label} className="text-center sm:text-left">
-                      <p className="text-2xl sm:text-3xl font-bold text-gray-900 tabular-nums tracking-tight">{value}</p>
-                      <p className="mt-1 text-[11px] uppercase tracking-[0.12em] text-gray-400 font-semibold">{label}</p>
-                    </div>
-                  ))}
-                </div>
+                  <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 text-sm tabular-nums text-gray-700 border-y border-gray-100 py-3">
+                    <span><strong className="text-gray-900">{qCount}</strong> <span className="text-gray-400">questions</span></span>
+                    <span><strong className="text-gray-900">{formatDurationLabel(dur)}</strong> <span className="text-gray-400">duration</span></span>
+                    <span><strong className="text-gray-900">~{pace}s</strong> <span className="text-gray-400">per Q</span></span>
+                  </div>
 
-                <ol className="mt-8 space-y-3 text-sm text-gray-600">
-                  {[
-                    'Fullscreen exam — navbar and footer hide while you work.',
-                    'Jump any question from the map; first pick locks the answer.',
-                    'Submit anytime, or the timer finishes the attempt for you.',
-                  ].map((rule, i) => (
-                    <li key={rule} className="flex gap-3">
-                      <span className={`shrink-0 w-6 h-6 rounded-md text-xs font-bold flex items-center justify-center border ${accent.badge}`}>
-                        {i + 1}
-                      </span>
-                      <span className="leading-relaxed pt-0.5">{rule}</span>
-                    </li>
-                  ))}
-                </ol>
+                  <p className="mt-3 text-xs text-gray-500 leading-relaxed">
+                    First pick locks. Jump via the map. Timer submits if time runs out.
+                  </p>
 
-                <div className="mt-10 flex flex-wrap items-center gap-3">
-                  <Button
-                    variant="accent"
-                    size="lg"
-                    className="gap-2 min-w-[11rem]"
-                    disabled={!total}
-                    onPointerUp={() => navigate(`/iq-test/${slug}/take`)}
-                  >
-                    Start test <ArrowRight size={17} />
-                  </Button>
-                  <button
-                    type="button"
-                    onPointerUp={() => navigate('/iq-test')}
-                    className="text-sm font-medium text-gray-500 hover:text-gray-900 px-2 py-2"
-                  >
-                    Back to chapters
-                  </button>
+                  <div className="mt-4 flex flex-wrap items-center gap-2.5">
+                    <Button
+                      variant="accent"
+                      size="lg"
+                      className="gap-2"
+                      disabled={!total}
+                      onPointerUp={() => navigate(`/iq-test/${slug}/take`)}
+                    >
+                      Start test <ArrowRight size={16} />
+                    </Button>
+                    <button
+                      type="button"
+                      onPointerUp={() => navigate('/iq-test')}
+                      className="text-sm text-gray-500 hover:text-gray-900 px-2 py-2"
+                    >
+                      Back
+                    </button>
+                  </div>
                 </div>
-                </div>
-              </motion.div>
-            </>
+              </div>
+
+              {hasTheory && (
+                <details className="group rounded-xl border border-gray-200 bg-white open:shadow-sm">
+                  <summary className="cursor-pointer list-none flex items-center justify-between gap-3 px-4 sm:px-5 py-3.5 text-sm font-semibold text-gray-900 select-none [&::-webkit-details-marker]:hidden">
+                    <span>How this chapter works</span>
+                    <ChevronRight size={16} className="text-gray-400 transition-transform group-open:rotate-90 shrink-0" />
+                  </summary>
+                  <div className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-gray-100 pt-3.5">
+                    <TheoryPanel theory={chapterTheory} />
+                  </div>
+                </details>
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -664,50 +673,65 @@ export default function IQTestPage() {
       <div className="h-dvh max-h-dvh overflow-hidden bg-canvas flex flex-col">
         <SEO title={`Taking · ${chapterMeta?.title || 'IQ Test'}`} url={`/iq-test/${slug}/take`} />
 
-        <header className="shrink-0 border-b border-gray-200 bg-white z-20">
-          <div className="px-3 sm:px-5 py-2.5 flex items-center gap-3 sm:gap-4 justify-between">
-            <div className="min-w-0 hidden sm:block">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400 truncate">{chapterMeta?.title}</p>
-              <p className="text-base font-bold text-gray-900 tabular-nums leading-tight mt-0.5">
-                Question {index + 1}
-                <span className="text-gray-400 font-medium"> of {total}</span>
-              </p>
-              <p className="text-xs text-gray-500 mt-0.5 tabular-nums">{answeredCount} answered · {total - answeredCount} blank</p>
-            </div>
-            <div className="sm:hidden min-w-0">
-              <p className="text-sm font-bold text-gray-900 tabular-nums">Q{index + 1}/{total}</p>
-              <p className="text-xs text-gray-500 tabular-nums">{answeredCount} done</p>
-            </div>
-
-            <ExamTimer
-              remainingSec={remainingSec}
-              durationSec={durationSec}
-              urgent={timerUrgent}
-              critical={timerCritical}
-            />
-
-            <Button variant="accent" size="lg" className="gap-2 shrink-0" onPointerUp={() => finishTest(false)}>
-              <Flag size={16} />
-              <span className="hidden sm:inline">Submit</span>
-            </Button>
-          </div>
-          <div className="h-2 bg-gray-100">
-            <div className={`h-full bg-gradient-to-r ${accent.bar} transition-all duration-300`} style={{ width: `${progress}%` }} />
-          </div>
-        </header>
-
         <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_280px]">
-          <div className="min-h-0 min-w-0 flex flex-col p-3 sm:p-4 lg:p-5">
-            <div className="lg:hidden shrink-0 mb-3 rounded-xl border border-gray-200 bg-white p-3 overflow-y-auto max-h-[7rem]">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-gray-400">Map</p>
-                <p className="text-xs font-semibold text-gray-500 tabular-nums">{answeredCount}/{total}</p>
+          <div className="min-h-0 min-w-0 flex flex-col p-2 sm:p-4 lg:p-5 gap-2 sm:gap-3">
+            {/* Mobile top: compact timer + progress */}
+            <div className="lg:hidden shrink-0 flex items-center gap-2">
+              <div className="flex-1 min-w-0">
+                <ExamTimer
+                  remainingSec={remainingSec}
+                  durationSec={durationSec}
+                  urgent={timerUrgent}
+                  critical={timerCritical}
+                  compact
+                />
               </div>
-              <QuestionPalette questions={questions} answers={answers} index={index} onJump={goTo} cols={6} />
+              <div className="shrink-0 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-center min-w-[4.5rem]">
+                <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-gray-400 leading-none">Done</p>
+                <p className="mt-0.5 text-sm font-bold tabular-nums text-gray-900 leading-none">
+                  {answeredCount}<span className="text-gray-400 font-semibold">/{total}</span>
+                </p>
+              </div>
+            </div>
+
+            {/* Mobile question map: single-row horizontal scroll */}
+            <div className="lg:hidden shrink-0 rounded-xl border border-gray-200 bg-white px-2.5 py-2">
+              <div className="flex items-center justify-between gap-2 mb-1.5">
+                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-gray-400">Map</p>
+                <p className="text-[11px] font-semibold tabular-nums text-gray-500">Q{index + 1}/{total}</p>
+              </div>
+              <QuestionPalette
+                questions={questions}
+                answers={answers}
+                index={index}
+                onJump={goTo}
+                layout="scroll"
+              />
             </div>
 
             <div className="flex-1 min-h-0 rounded-xl border border-gray-200 bg-white shadow-card flex flex-col overflow-hidden">
-              <div className="flex-1 min-h-0 overflow-y-auto p-5 sm:p-7 lg:p-8">
+              <div className="shrink-0 px-3.5 sm:px-7 pt-3 sm:pt-5 pb-3 sm:pb-4 border-b border-gray-100">
+                <p className="text-xs text-gray-500 truncate">{chapterMeta?.title}</p>
+                <div className="mt-1 flex items-center justify-between gap-3">
+                  <p className="text-sm font-semibold text-gray-900 tabular-nums">
+                    Question {index + 1} <span className="text-gray-400 font-medium">of {total}</span>
+                  </p>
+                  {selected && (
+                    <span className={`text-xs font-bold px-2.5 py-1 rounded border shrink-0 ${
+                      selected === current.answer
+                        ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                        : 'bg-red-50 text-red-800 border-red-200'
+                    }`}>
+                      {selected === current.answer ? 'Correct' : 'Incorrect'}
+                    </span>
+                  )}
+                </div>
+                <div className="mt-2.5 sm:mt-3 h-1.5 rounded-full bg-gray-100 overflow-hidden">
+                  <div className={`h-full bg-gradient-to-r ${accent.bar} transition-all duration-300`} style={{ width: `${progress}%` }} />
+                </div>
+              </div>
+
+              <div className="flex-1 min-h-0 overflow-y-auto p-3.5 sm:p-7 lg:px-8">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={current.id}
@@ -716,24 +740,10 @@ export default function IQTestPage() {
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.22 }}
                   >
-                    <div className="flex items-center justify-between gap-3 mb-5">
-                      <span className={`text-[11px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded border ${accent.badge}`}>
-                        Question {index + 1}
-                      </span>
-                      {selected && (
-                        <span className={`text-xs font-bold px-2.5 py-1 rounded border ${
-                          selected === current.answer
-                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                            : 'bg-red-50 text-red-800 border-red-200'
-                        }`}>
-                          {selected === current.answer ? 'Correct' : 'Incorrect'}
-                        </span>
-                      )}
-                    </div>
-                    <h2 className="text-xl sm:text-2xl lg:text-[1.7rem] font-semibold text-gray-900 leading-snug mb-7">
+                    <h2 className="text-lg sm:text-2xl lg:text-[1.7rem] font-semibold text-gray-900 leading-snug">
                       {current.question}
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                       {current.options.map((opt, i) => {
                         const letter = LETTERS[i];
                         const locked = Boolean(answers[current.id]);
@@ -746,13 +756,13 @@ export default function IQTestPage() {
                             disabled={locked}
                             onPointerUp={() => pick(letter)}
                             className={[
-                              'w-full text-left rounded-xl border-2 px-4 py-4 md:py-5 flex items-start gap-3.5 transition-all min-h-[4.75rem]',
+                              'w-full text-left rounded-xl border-2 px-3.5 py-3 sm:px-4 sm:py-4 md:py-5 flex items-start gap-3 sm:gap-3.5 transition-all min-h-[3.75rem] sm:min-h-[4.75rem]',
                               optionClass(letter),
                               locked ? 'cursor-default' : 'cursor-pointer active:scale-[0.99]',
                             ].join(' ')}
                           >
                             <span className={[
-                              'w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 border',
+                              'w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 border',
                               isCorrect ? 'bg-emerald-600 text-white border-emerald-600'
                                 : isWrongPick ? 'bg-red-600 text-white border-red-600'
                                   : locked ? 'bg-gray-200 text-gray-500 border-gray-200'
@@ -760,9 +770,9 @@ export default function IQTestPage() {
                             ].join(' ')}>
                               {letter}
                             </span>
-                            <span className="flex-1 text-[15px] sm:text-base font-medium leading-snug pt-2">{opt}</span>
-                            {isCorrect && <Check size={18} className="text-emerald-600 mt-2 shrink-0" strokeWidth={2.5} />}
-                            {isWrongPick && <X size={18} className="text-red-600 mt-2 shrink-0" strokeWidth={2.5} />}
+                            <span className="flex-1 text-[15px] sm:text-base font-medium leading-snug pt-1.5 sm:pt-2">{opt}</span>
+                            {isCorrect && <Check size={18} className="text-emerald-600 mt-1.5 sm:mt-2 shrink-0" strokeWidth={2.5} />}
+                            {isWrongPick && <X size={18} className="text-red-600 mt-1.5 sm:mt-2 shrink-0" strokeWidth={2.5} />}
                           </button>
                         );
                       })}
@@ -771,59 +781,78 @@ export default function IQTestPage() {
                 </AnimatePresence>
               </div>
 
-              <div className="shrink-0 border-t border-gray-100 px-4 sm:px-6 py-3 flex items-center justify-between gap-2 bg-gray-50/90">
-                <Button variant="secondary" size="md" disabled={index === 0} onPointerUp={() => goTo(index - 1)} className="gap-1.5">
-                  <ChevronLeft size={17} /> Previous
-                </Button>
-                {index < total - 1 ? (
-                  <Button variant="primary" size="md" onPointerUp={() => goTo(index + 1)} className="gap-1.5">
+              <div className="shrink-0 border-t border-gray-200 px-3 sm:px-6 py-2.5 sm:py-3 bg-white space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    disabled={index === 0}
+                    onPointerUp={() => goTo(index - 1)}
+                    className="gap-1.5 flex-1 sm:flex-none bg-white border-gray-300 text-gray-900 hover:bg-gray-100 hover:border-gray-400"
+                  >
+                    <ChevronLeft size={17} />
+                    <span className="sm:hidden">Prev</span>
+                    <span className="hidden sm:inline">Previous</span>
+                  </Button>
+                  <Button
+                    variant="primary"
+                    size="md"
+                    disabled={index >= total - 1}
+                    onPointerUp={() => goTo(index + 1)}
+                    className="gap-1.5 flex-1 sm:flex-none"
+                  >
                     Next <ChevronRight size={17} />
                   </Button>
-                ) : (
-                  <Button variant="accent" size="md" onPointerUp={() => finishTest(false)} className="gap-1.5">
-                    <Flag size={15} /> Finish
+                </div>
+                <div className="lg:hidden flex gap-2">
+                  <Button
+                    variant="danger"
+                    size="md"
+                    className="flex-1"
+                    onPointerUp={() => navigate(`/iq-test/${slug}`)}
+                  >
+                    Give Up
                   </Button>
-                )}
+                  <Button variant="accent" size="md" className="flex-1 gap-1.5" onPointerUp={() => finishTest(false)}>
+                    <Flag size={15} /> Submit
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
 
           <aside className="hidden lg:flex min-h-0 flex-col border-l border-gray-200 bg-white">
             <div className="p-4 flex flex-col min-h-0 flex-1">
+              <div className="shrink-0 mb-4">
+                <ExamTimer
+                  remainingSec={remainingSec}
+                  durationSec={durationSec}
+                  urgent={timerUrgent}
+                  critical={timerCritical}
+                />
+              </div>
+
               <div className="flex items-center justify-between mb-3 shrink-0">
                 <h3 className="text-sm font-bold text-gray-900">Question map</h3>
-                <span className="text-sm font-bold tabular-nums text-gray-500">{answeredCount}/{total}</span>
+                <span className="text-xs font-semibold tabular-nums text-gray-400">{answeredCount}/{total}</span>
               </div>
 
               <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden pr-1">
                 <QuestionPalette questions={questions} answers={answers} index={index} onJump={goTo} cols={4} />
               </div>
 
-              <div className="shrink-0 pt-4 mt-3 border-t border-gray-100 space-y-3">
-                <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 text-[11px] font-semibold text-gray-500">
-                  <div className="flex items-center gap-1.5"><span className="w-3.5 h-3.5 rounded border border-gray-900 ring-1 ring-amber-400" /> Current</div>
-                  <div className="flex items-center gap-1.5"><span className="w-3.5 h-3.5 rounded border border-emerald-500 bg-emerald-50" /> Correct</div>
-                  <div className="flex items-center gap-1.5"><span className="w-3.5 h-3.5 rounded border border-red-500 bg-red-50" /> Wrong</div>
-                  <div className="flex items-center gap-1.5"><span className="w-3.5 h-3.5 rounded border border-gray-200 bg-white" /> Blank</div>
-                </div>
-
-                <div className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 space-y-1.5 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Blank left</span>
-                    <span className="font-bold tabular-nums text-gray-900">{total - answeredCount}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Time used</span>
-                    <span className="font-bold tabular-nums text-gray-900">{formatTime(usedSec)}</span>
-                  </div>
-                </div>
-
-                <Button variant="accent" size="lg" className="w-full gap-2" onPointerUp={() => finishTest(false)}>
-                  <Flag size={16} /> Submit test
+              <div className="shrink-0 pt-4 mt-3 border-t border-gray-200 flex gap-2">
+                <Button
+                  variant="danger"
+                  size="md"
+                  className="flex-1"
+                  onPointerUp={() => navigate(`/iq-test/${slug}`)}
+                >
+                  Give Up
                 </Button>
-                <button type="button" onPointerUp={() => navigate(`/iq-test/${slug}`)} className="w-full text-sm font-medium text-gray-400 hover:text-gray-700 py-1">
-                  Abort to briefing
-                </button>
+                <Button variant="accent" size="md" className="flex-1 gap-1.5" onPointerUp={() => finishTest(false)}>
+                  <Flag size={15} /> Submit
+                </Button>
               </div>
             </div>
           </aside>
